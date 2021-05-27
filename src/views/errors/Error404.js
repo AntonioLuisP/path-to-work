@@ -7,7 +7,7 @@ import {
   CRow
 } from '@coreui/react'
 
-const Error404 = () => {
+export default function Error404() {
   return (
     <div className="c-app c-default-layout flex-row align-items-center">
       <CContainer>
@@ -29,5 +29,3 @@ const Error404 = () => {
     </div>
   )
 }
-
-export default Error404

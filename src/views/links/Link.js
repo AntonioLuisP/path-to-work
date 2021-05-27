@@ -1,38 +1,34 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
-import TaskBoard from "../tasks/TaskBoard"
 import api from "../../services/api"
-import { DropdownMore } from '../../reusable/'
+import { DropdownMore } from '../../reusable'
 
 import {
   CCard,
-  CCardBody,
   CCardHeader,
   CCol,
   CRow,
 } from '@coreui/react'
 
-const Project = ({ match }) => {
+export default function Link({ match }) {
 
   const history = useHistory()
-  const [project, setProject] = useState([])
-  const [tasks, setTasks] = useState([])
+  const [link, setLink] = useState([])
 
   useEffect(() => {
-    api.get('project/' + match.params.id)
+    api.get('link/' + match.params.id)
       .then(response => {
         if (response.status === 200) {
-          setProject(response.data.project)
-          setTasks(response.data.tasks)
+          setLink(response.data.link)
         } else {
-          setProject([])
+          setLink([])
         }
       })
   }, [match.params.id])
 
   async function handleDelete(id) {
     try {
-      await api.delete(`/project/${id}`, {})
+      await api.delete(`/link/${id}`, {})
       history.push('/dashboard')
     } catch (error) {
       alert("Erro ao deletar o caso, tente novamente")
@@ -46,23 +42,19 @@ const Project = ({ match }) => {
         <CCol xs="12" sm="12" md="12">
           <CCard>
             <CCardHeader color="secondary">
-              {project.name}
+              {link.url}
               <div className="card-header-actions">
                 <DropdownMore
-                  editAction={() => history.push('/projects/' + project.id + '/edit')}
-                  deleteAction={() => handleDelete(project.id)}
+                  editAction={() => history.push('/links/' + link.id + '/edit')}
+                  deleteAction={() => handleDelete(link.id)}
                 />
               </div>
             </CCardHeader>
-            <CCardBody>
-              {project.description}
-            </CCardBody>
           </CCard>
         </CCol>
       </CRow>
-      <TaskBoard project={project.id} lista={tasks} />
     </>
   )
 }
 
-export default Project
+

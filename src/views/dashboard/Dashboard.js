@@ -1,12 +1,10 @@
 import React from 'react';
 import ProjectBoard from "../projects/ProjectBoard"
 
-const Dashboard = () => {
+export default function Dashboard() {
 
   return (
     <ProjectBoard />
   )
 
 }
-
-export default Dashboard

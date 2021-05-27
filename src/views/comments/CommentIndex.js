@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 import api from "../../services/api"
-import { TypeColorBadge } from '../../reusable/'
 
 import {
   CButton,
@@ -11,7 +10,6 @@ import {
   CInput,
   CPagination,
   CRow,
-  CSelect
 } from '@coreui/react'
 
 import {
@@ -23,7 +21,7 @@ import CIcon from '@coreui/icons-react'
 
 const style = { 'verticalAlign': 'middle', 'overflow': 'hidden' }
 
-const AnotationIndex = () => {
+export default function CommentIndex() {
 
   const history = useHistory()
 
@@ -38,20 +36,19 @@ const AnotationIndex = () => {
   const [pages, setPages] = useState()
 
   // list settings
-  const [anotations, setAnotations] = useState([])
+  const [comments, setComments] = useState([])
 
   // search settings
-  const [anotation, setAnotation] = useState('')
-  const [type, setType] = useState('')
+  const [comment, setComment] = useState('')
 
   useEffect(() => {
     currentPage !== page && setPage(currentPage)
     setUrl(location.search)
-    api.get('anotation' + url)
+    api.get('comment' + url)
       .then(response => {
         if (response.status === 200) {
           setPages(response.data.last_page)
-          setAnotations(response.data.data)
+          setComments(response.data.data)
         }
       })
   }, [currentPage, page, url, location.search])
@@ -59,19 +56,17 @@ const AnotationIndex = () => {
   const pageChange = newPage => {
     if (currentPage !== newPage) {
       history.push(
-        '/anotations?' +
+        '/comments?' +
         'page=' + newPage +
-        '&anotation=' + anotation +
-        '&type=' + type
+        '&comment=' + comment
       )
     }
   }
 
   const buscar = () => {
     history.push(
-      '/anotations?' +
-      'anotation=' + anotation +
-      '&type=' + type
+      '/comments?' +
+      'comment=' + comment
     )
   }
 
@@ -85,12 +80,7 @@ const AnotationIndex = () => {
                 <tr>
                   <th className="font-weight-bold" style={style}>
                     <div className="d-inline">
-                      Anotação
-                    </div>
-                  </th>
-                  <th className="font-weight-bold" style={style}>
-                    <div className="d-inline">
-                      Tipo
+                      Comentário
                     </div>
                   </th>
                   <th className="font-weight-bold" style={style}>
@@ -102,19 +92,12 @@ const AnotationIndex = () => {
                 <tr>
                   <th>
                     <CInput
-                      id="anotation-search"
+                      id="comment-search"
                       name="text-input"
-                      placeholder="Anotação"
-                      value={anotation}
-                      onChange={e => setAnotation(e.target.value)}
+                      placeholder="Comentário"
+                      value={comment}
+                      onChange={e => setComment(e.target.value)}
                     />
-                  </th>
-                  <th>
-                    <CSelect id="type-search" value={type} onChange={e => setType(e.target.value)} custom name="select">
-                      <option value="">Todos</option>
-                      <option value="Certeza">Certeza</option>
-                      <option value="Dúvida">Dúvida</option>
-                    </CSelect>
                   </th>
                   <th>
                     <CButton color="secondary" onClick={buscar}>
@@ -125,18 +108,15 @@ const AnotationIndex = () => {
               </thead>
               <tbody>
                 {
-                  anotations.map(anotation => (
-                    <tr key={anotation.id}>
-                      <td className="font-weight-bold">{anotation.anotation}</td>
-                      <td className="text-center">
-                        <TypeColorBadge type={anotation.type} />
-                      </td>
+                  comments.map(comment => (
+                    <tr key={comment.id}>
+                      <td className="font-weight-bold">{comment.comment}</td>
                       <td className="text-center">
                         <CButtonGroup>
-                          <CButton color="info" onClick={() => history.push('/anotations/' + anotation.id)}>
+                          <CButton color="info" onClick={() => history.push('/comments/' + comment.id)}>
                             <CIcon content={cilZoom} />
                           </CButton>
-                          <CButton color="warning" onClick={() => history.push('/anotations/' + anotation.id + '/edit')}>
+                          <CButton color="warning" onClick={() => history.push('/comments/' + comment.id + '/edit')}>
                             <CIcon content={cilPen} />
                           </CButton>
                         </CButtonGroup>
@@ -159,5 +139,3 @@ const AnotationIndex = () => {
     </CRow>
   )
 }
-
-export default AnotationIndex

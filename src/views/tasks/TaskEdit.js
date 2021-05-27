@@ -16,25 +16,21 @@ import {
   CInput,
   CLabel,
   CRow,
-  CSelect
 } from '@coreui/react'
 
-const AnotationEdit = ({ match }) => {
+export default function TaskEdit({ match }) {
+
   const history = useHistory()
 
   const [id, setId] = useState('')
-  const [anotation, setAnotation] = useState('')
-  const [type, setType] = useState('Certeza')
-  const [id_question, setId_question] = useState('')
+  const [question, setQuestion] = useState('')
 
   useEffect(() => {
-    api.get('anotation/' + match.params.id)
+    api.get('question/' + match.params.id)
       .then(response => {
         if (response.status === 200) {
-          setId(response.data.id)
-          setAnotation(response.data.anotation)
-          setType(response.data.type)
-          setId_question(response.data.id_question)
+          setId(response.data.question.id)
+          setQuestion(response.data.question.question)
         }
       })
   }, [match.params.id])
@@ -42,14 +38,13 @@ const AnotationEdit = ({ match }) => {
   async function handleEdit(e) {
     e.preventDefault();
     const data = {
-      anotation,
-      type,
+      question,
     }
     try {
-      await api.put('/anotation/' + id, data, {})
+      await api.put('/question/' + id, data, {})
         .then(response => {
           if (response.status === 200) {
-            history.push("/questions/" + id_question)
+            history.push("/questions/" + id)
           }
         })
     } catch (error) {
@@ -63,26 +58,22 @@ const AnotationEdit = ({ match }) => {
       <CCol xs="12" sm="12">
         <CCard>
           <CCardHeader>
-            <CCardTitle>Editar Anotação</CCardTitle>
+            <CCardTitle>Editar Questão</CCardTitle>
           </CCardHeader>
           <CForm onSubmit={handleEdit} className="form-horizontal">
             <CCardBody>
               <CFormGroup row>
                 <CCol md="12">
-                  <CLabel htmlFor="text-input">Anotação</CLabel>
+                  <CLabel htmlFor="text-input">Questão</CLabel>
                   <CInputGroup>
                     <CInput
                       id="text-input"
                       name="text-input"
-                      placeholder="Anotação"
-                      value={anotation}
-                      onChange={e => setAnotation(e.target.value)}
+                      placeholder="Questão"
+                      value={question}
+                      onChange={e => setQuestion(e.target.value)}
                     />
                     <CInputGroupAppend>
-                      <CSelect value={type} onChange={e => setType(e.target.value)} custom name="select" id="select">
-                        <option value="Certeza">Certeza</option>
-                        <option value="Dúvida">Dúvida</option>
-                      </CSelect>
                       <CButton type="submit" color="success">Salvar</CButton>
                     </CInputGroupAppend>
                     <CInputGroupAppend>
@@ -104,8 +95,3 @@ const AnotationEdit = ({ match }) => {
     </CRow>
   )
 }
-
-export default AnotationEdit
-
-
-

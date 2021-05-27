@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
-import AnotationBoard from "../anotations/AnotationBoard"
+import AnotationBoard from "../comments/CommentBoard"
 import api from "../../services/api"
-import { DropdownMore } from '../../reusable/'
+import { DropdownMore } from '../../reusable'
 
 import {
   CCard,
@@ -11,20 +11,20 @@ import {
   CRow,
 } from '@coreui/react'
 
-const Question = ({ match }) => {
+export default function Task({ match }) {
 
   const history = useHistory()
-  const [question, setQuestion] = useState([])
+  const [question, setName] = useState([])
   const [anotations, setAnotations] = useState([])
 
   useEffect(() => {
     api.get('question/' + match.params.id)
       .then(response => {
         if (response.status === 200) {
-          setQuestion(response.data.question)
+          setName(response.data.question)
           setAnotations(response.data.anotations)
         } else {
-          setQuestion([])
+          setName([])
         }
       })
   }, [match.params.id])
@@ -61,5 +61,3 @@ const Question = ({ match }) => {
     </>
   )
 }
-
-export default Question

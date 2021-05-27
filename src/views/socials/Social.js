@@ -1,37 +1,39 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
+import AnotationBoard from "../comments/CommentBoard"
 import api from "../../services/api"
-import { DropdownMore, TypeColorBadge } from '../../reusable/'
+import { DropdownMore } from '../../reusable'
 
 import {
   CCard,
   CCardHeader,
   CCol,
-  CRow
+  CRow,
 } from '@coreui/react'
 
-const Anotation = ({ match }) => {
-  const history = useHistory()
+const Question = ({ match }) => {
 
-  const [anotation, setAnotation] = useState([])
+  const history = useHistory()
+  const [question, setQuestion] = useState([])
+  const [anotations, setAnotations] = useState([])
 
   useEffect(() => {
-    api.get('anotation/' + match.params.id)
+    api.get('question/' + match.params.id)
       .then(response => {
         if (response.status === 200) {
-          setAnotation(response.data)
+          setQuestion(response.data.question)
+          setAnotations(response.data.anotations)
         } else {
-          setAnotation([])
+          setQuestion([])
         }
       })
   }, [match.params.id])
 
-
   async function handleDelete(id) {
     try {
-      await api.delete(`/anotation/${id}`, {})
+      await api.delete(`/question/${id}`, {})
       alert('apaguei')
-      history.push('/questions/' + anotation.id_question)
+      history.push('/projects/' + question.id_project)
     } catch (error) {
       alert("Erro ao deletar o caso, tente novamente")
       console.log(error)
@@ -44,20 +46,20 @@ const Anotation = ({ match }) => {
         <CCol xs="12" sm="12" md="12">
           <CCard>
             <CCardHeader color="secondary">
-              <TypeColorBadge type={anotation.type} />
-              {' '}{anotation.anotation}
+              {question.question}
               <div className="card-header-actions">
                 <DropdownMore
-                  editAction={() => history.push('/anotations/' + anotation.id + '/edit')}
-                  deleteAction={() => handleDelete(anotation.id)}
+                  editAction={() => history.push('/questions/' + question.id + '/edit')}
+                  deleteAction={() => handleDelete(question.id)}
                 />
               </div>
             </CCardHeader>
           </CCard>
         </CCol>
       </CRow>
+      <AnotationBoard question={question.id} lista={anotations} />
     </>
   )
 }
 
-export default Anotation
+export default Question

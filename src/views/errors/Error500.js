@@ -7,7 +7,7 @@ import {
   CRow
 } from '@coreui/react'
 
-const Error500 = () => {
+export default function Error500() {
   return (
     <div className="c-app c-default-layout flex-row align-items-center">
       <CContainer>
@@ -29,5 +29,3 @@ const Error500 = () => {
     </div>
   )
 }
-
-export default Error500
