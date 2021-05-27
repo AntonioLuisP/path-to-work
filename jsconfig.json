@@ -1,0 +1,6 @@
+{
+  "compilerOptions": {
+    "baseUrl": "."
+  },
+  "include": ["src", "Modal.js", "backup/charts", "backup/buttons", "backup/base", "backup/theme", "backup/widgets", "backup/icons", "backup/notifications", "backup/pages", "backup/data", "backup/QuestionCreate.js", "backup/AnotationCreate.js"]
+}
