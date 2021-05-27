@@ -23,6 +23,7 @@ const ProjectBoard = () => {
 
   const history = useHistory()
 
+  const [load, setLoad] = useState(true)
   const [name, setName] = useState('')
   const [notifications, setNotifications] = useState({})
   const [projects, setProjects] = useState([])
@@ -38,6 +39,7 @@ const ProjectBoard = () => {
 
   async function handleCreate(e) {
     e.preventDefault();
+    setLoad(false)
     const data = {
       name,
     }
@@ -56,6 +58,8 @@ const ProjectBoard = () => {
     } catch (error) {
       alert("erro")
       console.log(error)
+    } finally {
+      setLoad(true)
     }
   }
 
@@ -75,7 +79,11 @@ const ProjectBoard = () => {
                   onChange={e => setName(e.target.value)}
                 />
                 <CInputGroupAppend>
-                  <CButton type="submit" color="success">Adicionar</CButton>
+                  <CButton type="submit" color="success" disabled={!load}>
+                    {
+                      load ? 'Adicionar' : (<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"/>)
+                    }
+                  </CButton>
                 </CInputGroupAppend>
               </CInputGroup>
             </CCol>
