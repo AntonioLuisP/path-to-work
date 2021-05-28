@@ -96,7 +96,7 @@ export default function LinkBoard() {
         <CRow>
           {
             links.map(link => (
-              <CCol xs="12" sm="6" md="6" key={link.id}>
+              <CCol xs="12" sm="12" md="12" key={link.id}>
                 <CCard>
                   <CCardHeader color="secondary">
                     {link.url}
