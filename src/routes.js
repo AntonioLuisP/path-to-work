@@ -25,6 +25,8 @@ const Task = React.lazy(() => import('./views/tasks/Task'));
 const TaskEdit = React.lazy(() => import('./views/tasks/TaskEdit'));
 
 const CommentIndex = React.lazy(() => import('./views/comments/CommentIndex'));
+const Comment = React.lazy(() => import('./views/comments/Comment'));
+const CommentEdit = React.lazy(() => import('./views/comments/CommentEdit'));
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -53,6 +55,8 @@ const routes = [
   { path: '/tasks/:id/edit', exact: true, name: 'Editar', component: TaskEdit },
 
   { path: '/comments', exact: true, name: 'Comentários', component: CommentIndex },
+  { path: '/comments/:id', exact: true, name: 'Detalhes', component: Comment },
+  { path: '/comments/:id/edit', exact: true, name: 'Editar', component: CommentEdit },
 ];
 
 export default routes;

@@ -23,15 +23,15 @@ export default function CommentEdit({ match }) {
 
   const [id, setId] = useState('')
   const [comment, setComment] = useState('')
-  const [id_question, setId_question] = useState('')
+  const [id_task, setId_task] = useState('')
 
   useEffect(() => {
     api.get('comment/' + match.params.id)
       .then(response => {
         if (response.status === 200) {
           setId(response.data.id)
-          setComment(response.data.comment)
-          setId_question(response.data.id_question)
+          setComment(response.data.comment.comment)
+          setId_task(response.data.comment.id_task)
         }
       })
   }, [match.params.id])
@@ -45,7 +45,7 @@ export default function CommentEdit({ match }) {
       await api.put('/comment/' + id, data, {})
         .then(response => {
           if (response.status === 200) {
-            history.push("/questions/" + id_question)
+            history.push("/questions/" + id_task)
           }
         })
     } catch (error) {
@@ -59,18 +59,18 @@ export default function CommentEdit({ match }) {
       <CCol xs="12" sm="12">
         <CCard>
           <CCardHeader>
-            <CCardTitle>Editar Anotação</CCardTitle>
+            <CCardTitle>Editar Comentário</CCardTitle>
           </CCardHeader>
           <CForm onSubmit={handleEdit} className="form-horizontal">
             <CCardBody>
               <CFormGroup row>
                 <CCol md="12">
-                  <CLabel htmlFor="text-input">Anotação</CLabel>
+                  <CLabel htmlFor="text-input">Comentário</CLabel>
                   <CInputGroup>
                     <CInput
                       id="text-input"
                       name="text-input"
-                      placeholder="Anotação"
+                      placeholder="Comentário"
                       value={comment}
                       onChange={e => setComment(e.target.value)}
                     />

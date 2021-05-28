@@ -29,11 +29,11 @@ export default function LinkCreate() {
       url,
     }
     try {
-      await api.post('project', data, {})
+      await api.post('link', data, {})
         .then(response => {
           if (response.status === 200) {
             setId(response.data.id)
-            history.push("/projects/" + id)
+            history.push("/links/" + id)
           }
         })
     } catch (error) {

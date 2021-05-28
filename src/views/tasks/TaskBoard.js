@@ -22,32 +22,32 @@ export default function TaskBoard ({ project, lista }) {
 
   const history = useHistory()
 
-  const [question, setQuestion] = useState('')
+  const [name, setName] = useState('')
   const [id_project, setId_project] = useState('')
   const [notifications, setNotifications] = useState({})
 
   //lista
-  const [questions, setQuestions] = useState([])
+  const [tasks, setTasks] = useState([])
 
   useEffect(() => {
-    setQuestions(lista)
+    setTasks(lista)
     setId_project(project)
   }, [project, lista])
 
   async function handleCreate(e) {
     e.preventDefault();
     const data = {
-      question,
+      name,
       'id_project': id_project,
     }
     try {
-      await api.post('question', data, {})
+      await api.post('task', data, {})
         .then(response => {
           if (response.status === 200) {
-            setQuestions([...questions, response.data])
+            setTasks([...tasks, response.data])
             setNotifications({
-              header: 'Questão adicionada:',
-              body: response.data.question,
+              header: 'Tarefa adicionada:',
+              body: response.data.task,
               id: response.data.id,
             })
           }
@@ -63,7 +63,7 @@ export default function TaskBoard ({ project, lista }) {
       <ToasterNotification notificaton={notifications} />
       <CCol xs="12" sm="12" md="12">
         <CBreadcrumb className="border-0 c-subheader-nav">
-          <CBreadcrumbItem active>Nova Questão</CBreadcrumbItem>
+          <CBreadcrumbItem active>Nova Tarefa</CBreadcrumbItem>
         </CBreadcrumb>
         <CForm onSubmit={handleCreate} className="form-horizontal">
           <CFormGroup row>
@@ -72,9 +72,9 @@ export default function TaskBoard ({ project, lista }) {
                 <CInput
                   id="text-input"
                   name="text-input"
-                  placeholder="Questão"
-                  value={question}
-                  onChange={e => setQuestion(e.target.value)}
+                  placeholder="Tarefa"
+                  value={name}
+                  onChange={e => setName(e.target.value)}
                 />
                 <CInputGroupAppend>
                   <CButton type="submit" color="success">Salvar</CButton>
@@ -86,17 +86,17 @@ export default function TaskBoard ({ project, lista }) {
       </CCol>
       <CCol xs="12" sm="12" md="12">
         <CBreadcrumb className="border-0 c-subheader-nav">
-          <CBreadcrumbItem active>Questões</CBreadcrumbItem>
+          <CBreadcrumbItem active>Tarefas</CBreadcrumbItem>
         </CBreadcrumb>
         <CRow>
           {
-            questions.map(question => (
-              <CCol xs="12" sm="6" md="6" key={question.id}>
+            tasks.map(task => (
+              <CCol xs="12" sm="6" md="6" key={task.id}>
                 <CCard>
                   <CCardHeader>
-                    {question.question}
+                    {task.name}
                     <div className="card-header-actions">
-                      <SeeMore to={() => { history.push('/questions/' + question.id) }} />
+                      <SeeMore to={() => { history.push('/tasks/' + task.id) }} />
                     </div>
                   </CCardHeader>
                 </CCard>

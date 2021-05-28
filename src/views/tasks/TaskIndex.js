@@ -36,19 +36,19 @@ export default function TaskIndex() {
   const [pages, setPages] = useState()
 
   // list settings
-  const [questions, setQuestions] = useState([])
+  const [tasks, setTasks] = useState([])
 
   // search settings
-  const [question, setQuestion] = useState('')
+  const [name, setName] = useState('')
 
   useEffect(() => {
     currentPage !== page && setPage(currentPage)
     setUrl(location.search)
-    api.get('question' + url)
+    api.get('task' + url)
       .then(response => {
         if (response.status === 200) {
           setPages(response.data.last_page)
-          setQuestions(response.data.data)
+          setTasks(response.data.data)
         }
       })
   }, [currentPage, page, url, location.search])
@@ -56,17 +56,17 @@ export default function TaskIndex() {
   const pageChange = newPage => {
     if (currentPage !== newPage) {
       history.push(
-        '/questions?' +
+        '/tasks?' +
         'page=' + newPage +
-        '&question=' + question
+        '&name=' + name
       )
     }
   }
 
   const buscar = () => {
     history.push(
-      '/questions?' +
-      'question=' + question
+      '/tasks?' +
+      'name=' + name
     )
   }
 
@@ -80,7 +80,7 @@ export default function TaskIndex() {
                 <tr>
                   <th className="font-weight-bold" style={style}>
                     <div className="d-inline">
-                      Questão
+                      Tarefa
                     </div>
                   </th>
                   <th className="font-weight-bold" style={style}>
@@ -92,11 +92,11 @@ export default function TaskIndex() {
                 <tr>
                   <th>
                     <CInput
-                      id="question-search"
+                      id="task-search"
                       name="text-input"
-                      placeholder="Questão"
-                      value={question}
-                      onChange={e => setQuestion(e.target.value)}
+                      placeholder="Tarefa"
+                      value={name}
+                      onChange={e => setName(e.target.value)}
                     />
                   </th>
                   <th>
@@ -108,15 +108,15 @@ export default function TaskIndex() {
               </thead>
               <tbody>
                 {
-                  questions.map(question => (
-                    <tr key={question.id}>
-                      <td className="font-weight-bold">{question.question}</td>
+                  tasks.map(task => (
+                    <tr key={task.id}>
+                      <td className="font-weight-bold">{task.name}</td>
                       <td className="text-center">
                         <CButtonGroup>
-                          <CButton color="info" onClick={() => history.push('/questions/' + question.id)}>
+                          <CButton color="info" onClick={() => history.push('/tasks/' + task.id)}>
                             <CIcon content={cilZoom} />
                           </CButton>
-                          <CButton color="warning" onClick={() => history.push('/questions/' + question.id + '/edit')}>
+                          <CButton color="warning" onClick={() => history.push('/tasks/' + task.id + '/edit')}>
                             <CIcon content={cilPen} />
                           </CButton>
                         </CButtonGroup>

@@ -19,7 +19,7 @@ export default function Comment({ match }) {
     api.get('comment/' + match.params.id)
       .then(response => {
         if (response.status === 200) {
-          setComment(response.data)
+          setComment(response.data.comment)
         } else {
           setComment([])
         }

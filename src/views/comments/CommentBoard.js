@@ -46,7 +46,7 @@ export default function CommentBoard({ task, lista }) {
           if (response.status === 200) {
             setComments([...comments, response.data])
             setNotifications({
-              header: 'Comentário adicionado: ' + response.data.type,
+              header: 'Comentário adicionado: ',
               body: response.data.comment,
               id: response.data.id,
             })
@@ -73,7 +73,7 @@ export default function CommentBoard({ task, lista }) {
       <ToasterNotification notificaton={notifications} />
       <CCol xs="12" sm="12" md="12">
         <CBreadcrumb className="border-0 c-subheader-nav">
-          <CBreadcrumbItem active>Novo Comentário</CBreadcrumbItem>
+          <CBreadcrumbItem active>Comentar</CBreadcrumbItem>
         </CBreadcrumb>
         <CForm onSubmit={handleCreate} className="form-horizontal">
           <CFormGroup row>
@@ -82,7 +82,7 @@ export default function CommentBoard({ task, lista }) {
                 <CInput
                   id="text-input"
                   name="text-input"
-                  placeholder="Comentário"
+                  placeholder="Diga algo"
                   value={comment}
                   onChange={e => setComment(e.target.value)}
                 />

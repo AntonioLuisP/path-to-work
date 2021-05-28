@@ -21,7 +21,7 @@ import CIcon from '@coreui/icons-react'
 
 const style = { 'verticalAlign': 'middle', 'overflow': 'hidden' }
 
-const ProjectIndex = () => {
+export default function ProjectIndex() {
 
   const history = useHistory()
 
@@ -139,5 +139,3 @@ const ProjectIndex = () => {
     </CRow>
   )
 }
-
-export default ProjectIndex

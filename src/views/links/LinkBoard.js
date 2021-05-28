@@ -73,7 +73,7 @@ export default function LinkBoard() {
                 <CInput
                   id="text-input"
                   name="text-input"
-                  placeholder="Novo Link"
+                  placeholder="Link"
                   value={url}
                   onChange={e => setUrl(e.target.value)}
                 />

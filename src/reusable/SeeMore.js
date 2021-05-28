@@ -6,9 +6,9 @@ const SeeMore = ({ to }) => {
     <CLink
       onClick={to}
       rel="noreferrer noopener"
-      className="card-header-action"
+      className="card-header-action stretched-link"
     >
-      <small className="text-muted"> Ver </small>
+      <small className="text-muted"></small>
     </CLink>
 
   )

@@ -12,7 +12,7 @@ import {
   CRow,
 } from '@coreui/react'
 
-const Project = ({ match }) => {
+export default function Project({ match }) {
 
   const history = useHistory()
   const [project, setProject] = useState([])
@@ -64,5 +64,3 @@ const Project = ({ match }) => {
     </>
   )
 }
-
-export default Project

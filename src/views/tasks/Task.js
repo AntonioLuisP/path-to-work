@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
-import AnotationBoard from "../comments/CommentBoard"
+import CommentBoard from "../comments/CommentBoard"
 import api from "../../services/api"
 import { DropdownMore } from '../../reusable'
 
 import {
   CCard,
   CCardHeader,
+  CCardBody,
   CCol,
   CRow,
 } from '@coreui/react'
@@ -14,26 +15,26 @@ import {
 export default function Task({ match }) {
 
   const history = useHistory()
-  const [question, setName] = useState([])
-  const [anotations, setAnotations] = useState([])
+  const [task, setTask] = useState([])
+  const [comments, setComments] = useState([])
 
   useEffect(() => {
-    api.get('question/' + match.params.id)
+    api.get('task/' + match.params.id)
       .then(response => {
         if (response.status === 200) {
-          setName(response.data.question)
-          setAnotations(response.data.anotations)
+          setTask(response.data.task)
+          setComments(response.data.comments)
         } else {
-          setName([])
+          setTask([])
         }
       })
   }, [match.params.id])
 
   async function handleDelete(id) {
     try {
-      await api.delete(`/question/${id}`, {})
+      await api.delete(`/task/${id}`, {})
       alert('apaguei')
-      history.push('/projects/' + question.id_project)
+      history.push('/projects/' + task.id_project)
     } catch (error) {
       alert("Erro ao deletar o caso, tente novamente")
       console.log(error)
@@ -46,18 +47,21 @@ export default function Task({ match }) {
         <CCol xs="12" sm="12" md="12">
           <CCard>
             <CCardHeader color="secondary">
-              {question.question}
+              {task.name}
               <div className="card-header-actions">
                 <DropdownMore
-                  editAction={() => history.push('/questions/' + question.id + '/edit')}
-                  deleteAction={() => handleDelete(question.id)}
+                  editAction={() => history.push('/tasks/' + task.id + '/edit')}
+                  deleteAction={() => handleDelete(task.id)}
                 />
               </div>
             </CCardHeader>
+            <CCardBody>
+              {task.description} | {task.conclusion} | {task.limite_date}
+            </CCardBody>
           </CCard>
         </CCol>
       </CRow>
-      <AnotationBoard question={question.id} lista={anotations} />
+      <CommentBoard task={task.id} lista={comments} />
     </>
   )
 }

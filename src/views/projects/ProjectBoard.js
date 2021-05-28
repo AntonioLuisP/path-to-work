@@ -74,7 +74,7 @@ const ProjectBoard = () => {
                 <CInput
                   id="text-input"
                   name="text-input"
-                  placeholder="Novo Projeto"
+                  placeholder="Projeto"
                   value={name}
                   onChange={e => setName(e.target.value)}
                 />

@@ -7,15 +7,15 @@ import {
   CCol,
   CCard,
   CCardBody,
+  CCardFooter,
   CCardHeader,
   CCardTitle,
   CForm,
   CFormGroup,
-  CInputGroup,
-  CInputGroupAppend,
   CInput,
   CLabel,
   CRow,
+  CTextarea
 } from '@coreui/react'
 
 export default function TaskEdit({ match }) {
@@ -23,14 +23,16 @@ export default function TaskEdit({ match }) {
   const history = useHistory()
 
   const [id, setId] = useState('')
-  const [question, setQuestion] = useState('')
+  const [name, setName] = useState('')
+  const [description, setDescription] = useState('')
 
   useEffect(() => {
-    api.get('question/' + match.params.id)
+    api.get('task/' + match.params.id)
       .then(response => {
         if (response.status === 200) {
-          setId(response.data.question.id)
-          setQuestion(response.data.question.question)
+          setId(response.data.task.id)
+          setName(response.data.task.name)
+          setDescription(response.data.task.description)
         }
       })
   }, [match.params.id])
@@ -38,13 +40,14 @@ export default function TaskEdit({ match }) {
   async function handleEdit(e) {
     e.preventDefault();
     const data = {
-      question,
+      name,
+      description
     }
     try {
-      await api.put('/question/' + id, data, {})
+      await api.put('/task/' + id, data, {})
         .then(response => {
           if (response.status === 200) {
-            history.push("/questions/" + id)
+            history.push("/tasks/" + id)
           }
         })
     } catch (error) {
@@ -58,37 +61,51 @@ export default function TaskEdit({ match }) {
       <CCol xs="12" sm="12">
         <CCard>
           <CCardHeader>
-            <CCardTitle>Editar Questão</CCardTitle>
+            <CCardTitle>Editar Tarefa</CCardTitle>
           </CCardHeader>
           <CForm onSubmit={handleEdit} className="form-horizontal">
             <CCardBody>
               <CFormGroup row>
-                <CCol md="12">
-                  <CLabel htmlFor="text-input">Questão</CLabel>
-                  <CInputGroup>
-                    <CInput
-                      id="text-input"
-                      name="text-input"
-                      placeholder="Questão"
-                      value={question}
-                      onChange={e => setQuestion(e.target.value)}
-                    />
-                    <CInputGroupAppend>
-                      <CButton type="submit" color="success">Salvar</CButton>
-                    </CInputGroupAppend>
-                    <CInputGroupAppend>
-                      <CButton
-                        type="button"
-                        onClick={() => history.goBack()}
-                        color="secondary"
-                      >
-                        Cancelar
-                      </CButton>
-                    </CInputGroupAppend>
-                  </CInputGroup>
+                <CCol xs="12" md="12">
+                  <CLabel htmlFor="text-input">Nome</CLabel>
+                  <CInput
+                    id="text-input"
+                    name="text-input"
+                    placeholder="Nome"
+                    value={name}
+                    onChange={e => setName(e.target.value)}
+                  />
+                </CCol>
+              </CFormGroup>
+              <CFormGroup row>
+                <CCol xs="12" md="12">
+                  <CLabel htmlFor="textarea-input">Descrição</CLabel>
+                  <CTextarea
+                    name="textarea-input"
+                    id="textarea-input"
+                    rows="3"
+                    maxLength='500'
+                    placeholder="Descrição..."
+                    value={description}
+                    onChange={e => setDescription(e.target.value)}
+                  />
                 </CCol>
               </CFormGroup>
             </CCardBody>
+            <CCardFooter>
+              <CButton
+                type="submit"
+                color="success"
+              >
+                Salvar
+              </CButton>
+              <CButton
+                color="secondary"
+                onClick={() => history.goBack()}
+              >
+                Cancelar
+              </CButton>
+            </CCardFooter>
           </CForm>
         </CCard>
       </CCol>
