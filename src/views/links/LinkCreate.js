@@ -21,11 +21,13 @@ export default function LinkCreate() {
   const history = useHistory();
 
   const [id, setId] = useState('')
+  const [name, setName] = useState('')
   const [url, setUrl] = useState('')
 
   async function handleCreate(e) {
     e.preventDefault();
     const data = {
+      name,
       url,
     }
     try {
@@ -54,6 +56,18 @@ export default function LinkCreate() {
               <CFormGroup row>
                 <CCol xs="12" md="12">
                   <CLabel htmlFor="text-input">Nome</CLabel>
+                  <CInput
+                    id="text-input"
+                    name="text-input"
+                    placeholder="Nome"
+                    value={name}
+                    onChange={e => setName(e.target.value)}
+                  />
+                </CCol>
+              </CFormGroup>
+              <CFormGroup row>
+                <CCol xs="12" md="12">
+                  <CLabel htmlFor="text-input">URL</CLabel>
                   <CInput
                     id="text-input"
                     name="text-input"

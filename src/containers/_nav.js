@@ -1,7 +1,6 @@
 import React from 'react'
 import {
   cilCursor,
-  cilEducation,
   cilHome,
 } from '@coreui/icons'
 
@@ -36,9 +35,9 @@ const _nav = [
   },
   {
     _tag: 'CSidebarNavItem',
-    name: 'Projetos',
+    name: 'Todos Projetos',
     to: '/projects',
-    icon: <CIcon content={cilEducation} customClasses="c-sidebar-nav-icon" />,
+    icon: <CIcon content={cilCursor} customClasses="c-sidebar-nav-icon" />,
   },
 ]
 

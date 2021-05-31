@@ -20,6 +20,7 @@ import {
 
 // sidebar nav config
 import navigation from './_nav'
+import Items from './Items'
 
 const TheSidebar = () => {
   const dispatch = useDispatch()
@@ -53,7 +54,8 @@ const TheSidebar = () => {
             CSidebarNavItem,
             CSidebarNavTitle
           }}
-        />
+        />      
+      <Items />
       </CSidebarNav>
       <CSidebarMinimizer className="c-d-md-down-none" />
     </CSidebar>

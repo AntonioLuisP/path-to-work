@@ -42,7 +42,7 @@ export default function Link({ match }) {
         <CCol xs="12" sm="12" md="12">
           <CCard>
             <CCardHeader color="secondary">
-              {link.url}
+              {link.name}: {link.url}
               <div className="card-header-actions">
                 <DropdownMore
                   editAction={() => history.push('/links/' + link.id + '/edit')}

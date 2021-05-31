@@ -99,7 +99,7 @@ export default function LinkBoard() {
               <CCol xs="12" sm="12" md="12" key={link.id}>
                 <CCard>
                   <CCardHeader color="secondary">
-                    {link.url}
+                    {link.name}
                     <div className="card-header-actions">
                       <SeeMore to={() => history.push('/links/' + link.id)} />
                     </div>
