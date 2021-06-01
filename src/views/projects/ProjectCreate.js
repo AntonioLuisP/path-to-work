@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom';
 import api from "../../services/api"
+import { useDispatch } from 'react-redux'
+import { add } from '../../actions/projects'
 
 import {
   CButton,
@@ -21,7 +23,7 @@ import {
 const ProjectCreate = () => {
   const history = useHistory();
 
-  const [id, setId] = useState('')
+  const dispatch = useDispatch()
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
 
@@ -35,8 +37,8 @@ const ProjectCreate = () => {
       await api.post('project', data, {})
         .then(response => {
           if (response.status === 200) {
-            setId(response.data.id)
-            history.push("/projects/" + id)
+            console.log(response.data)
+            dispatch(add(response.data))
           }
         })
     } catch (error) {
