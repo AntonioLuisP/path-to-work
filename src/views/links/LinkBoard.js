@@ -80,7 +80,7 @@ export default function LinkBoard() {
                 <CInputGroupAppend>
                   <CButton type="submit" color="success" disabled={!load}>
                     {
-                      load ? 'Adicionar' : (<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" />)
+                      load ? 'Adicionar' : (<span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />)
                     }
                   </CButton>
                 </CInputGroupAppend>

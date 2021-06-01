@@ -10,6 +10,7 @@ const loading = (
 
 // Containers
 const TheLayout = React.lazy(() => import('./containers/TheLayout'));
+const Teste = React.lazy(() => import('./views/teste'));
 
 // Pages
 const Login = React.lazy(() => import('./views/auth/Login'));
@@ -24,6 +25,7 @@ class App extends Component {
       <HashRouter>
           <React.Suspense fallback={loading}>
             <Switch>
+              <Route path="/teste" name="Teste" render={props => <Teste {...props}/>} />  
               <Route exact path="/login" name="Login Page" render={props => <Login {...props}/>} />
               <Route exact path="/register" name="Register Page" render={props => <Register {...props}/>} />
               <Route exact path="/404" name="Page 404" render={props => <Error404 {...props}/>} />
