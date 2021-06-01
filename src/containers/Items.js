@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { fill } from '../actions/projects'
 import api from "../services/api"
 
 import {
@@ -12,16 +14,17 @@ import CIcon from '@coreui/icons-react'
 
 const Items = () => {
 
-    const [projects, setProjects] = useState([]);
+    const projects = useSelector(state => state.projects)
+    const dispatch = useDispatch()
 
     useEffect(() => {
         api.get('project')
             .then(response => {
                 if (response.status === 200) {
-                    setProjects(response.data.data)
+                    dispatch(fill(response.data.data))
                 }
             })
-    }, [])
+    }, [dispatch])
 
     return (
         <>

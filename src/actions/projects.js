@@ -4,3 +4,10 @@ export const add = (data) => {
         project: data
     }
 }
+
+export const fill = (list) => {
+    return {
+        type: 'FILL',
+        projects: list
+    }
+}

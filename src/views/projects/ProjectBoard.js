@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
 import { SeeMore, ToasterNotification } from '../../reusable'
+import { add } from '../../actions/projects'
 import api from "../../services/api"
 
 import {
@@ -22,20 +24,12 @@ import {
 const ProjectBoard = () => {
 
   const history = useHistory()
+  const projects = useSelector(state => state.projects)
+  const dispatch = useDispatch()
 
   const [load, setLoad] = useState(true)
   const [name, setName] = useState('')
   const [notifications, setNotifications] = useState({})
-  const [projects, setProjects] = useState([])
-
-  useEffect(() => {
-    api.get('project')
-      .then(response => {
-        if (response.status === 200) {
-          setProjects(response.data.data)
-        }
-      })
-  }, [])
 
   async function handleCreate(e) {
     e.preventDefault();
@@ -47,7 +41,7 @@ const ProjectBoard = () => {
       await api.post('project', data, {})
         .then(response => {
           if (response.status === 200) {
-            setProjects([...projects, response.data])
+            dispatch(add(response.data))
             setNotifications({
               header: 'Projeto adicionado:',
               body: response.data.name,

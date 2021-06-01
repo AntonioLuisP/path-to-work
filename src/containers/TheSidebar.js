@@ -16,7 +16,6 @@ import CIcon from '@coreui/icons-react'
 
 import {
   cilNotes,
-  cilEducation,
 } from '@coreui/icons'
 
 // sidebar nav config
@@ -56,19 +55,8 @@ const TheSidebar = () => {
             CSidebarNavItem,
             CSidebarNavTitle
           }}
-        />
-        <Items />
-        <CSidebarNavTitle>teste de criado</CSidebarNavTitle>
-        {
-          projects.map(project => (
-            <CSidebarNavItem
-              key={project.id}
-              name={project.name}
-              to={'/projects/' + project.id}
-              icon={<CIcon content={cilEducation} customClasses="c-sidebar-nav-icon" />}
-            />
-          ))
-        }
+        />      
+      <Items />
       </CSidebarNav>
       <CSidebarMinimizer className="c-d-md-down-none" />
     </CSidebar>

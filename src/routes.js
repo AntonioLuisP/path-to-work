@@ -3,6 +3,8 @@ import React from 'react';
 const Users = React.lazy(() => import('./views/users/Users'));
 const User = React.lazy(() => import('./views/users/User'));
 
+const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'));
+
 // const SocialIndex = React.lazy(() => import('./views/socials/SocialIndex'));
 // const SocialCreate = React.lazy(() => import('./views/socials/SocialCreate'));
 // const Social = React.lazy(() => import('./views/socials/Social'));
@@ -29,6 +31,7 @@ const CommentEdit = React.lazy(() => import('./views/comments/CommentEdit'));
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
+  { path: '/dashboard', exact: true, name: 'dashboard', component: Dashboard },
 
   { path: '/users', exact: true, name: 'Users', component: Users },
   { path: '/users/:id', exact: true, name: 'Detalhes', component: User },
