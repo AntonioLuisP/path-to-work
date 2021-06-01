@@ -1,7 +1,3 @@
-const initialState = {
-    sidebarShow: 'responsive'
-}
-
 const sidebarReducer = (state = { sidebarShow: 'responsive' }, { type, ...rest }) => {
     switch (type) {
         case 'set':
