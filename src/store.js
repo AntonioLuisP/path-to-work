@@ -1,17 +1,9 @@
 import { createStore } from 'redux'
 
-const initialState = {
-  sidebarShow: 'responsive'
-}
+import allReducers from './reducers';
 
-const changeState = (state = initialState, { type, ...rest }) => {
-  switch (type) {
-    case 'set':
-      return {...state, ...rest }
-    default:
-      return state
-  }
-}
-
-const store = createStore(changeState)
+const store = createStore(
+  allReducers,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()// optional just to see in the extension of redux on navegator
+)
 export default store
