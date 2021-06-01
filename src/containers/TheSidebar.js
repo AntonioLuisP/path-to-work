@@ -18,7 +18,6 @@ import {
   cilList,
 } from '@coreui/icons'
 
-
 import Items from './Items'
 
 const TheSidebar = () => {
