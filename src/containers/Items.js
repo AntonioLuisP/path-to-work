@@ -8,7 +8,7 @@ import {
 } from '@coreui/react'
 
 import {
-    cilEducation,
+    cilBriefcase,
 } from '@coreui/icons'
 
 import CIcon from '@coreui/icons-react'
@@ -35,7 +35,7 @@ const Items = () => {
                         key={project.id}
                         name={project.name}
                         to={'/projects/' + project.id}
-                        icon={<CIcon content={cilEducation} customClasses="c-sidebar-nav-icon" />}
+                        icon={<CIcon content={cilBriefcase} customClasses="c-sidebar-nav-icon" />}
                     />
                 ))
             }

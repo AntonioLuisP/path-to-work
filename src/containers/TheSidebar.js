@@ -8,6 +8,7 @@ import {
   CSidebarNavTitle,
   CSidebarMinimizer,
   CSidebarNavItem,
+  CSidebarNavDropdown
 } from '@coreui/react'
 
 import CIcon from '@coreui/icons-react'
@@ -51,12 +52,13 @@ const TheSidebar = () => {
           icon={<CIcon content={cilCursor} customClasses="c-sidebar-nav-icon" />}
         />
         <CSidebarNavTitle>Projetos</CSidebarNavTitle>
-        <CSidebarNavItem
+        <CSidebarNavDropdown
           name="Todos Projetos"
           to="/projects"
           icon={<CIcon content={cilList} customClasses="c-sidebar-nav-icon" />}
-        />
-        <Items />
+        >
+          <Items />
+        </CSidebarNavDropdown>
       </CSidebarNav>
       <CSidebarMinimizer className="c-d-md-down-none" />
     </CSidebar>
