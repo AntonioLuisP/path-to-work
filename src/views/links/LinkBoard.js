@@ -18,6 +18,12 @@ import {
   CRow,
 } from '@coreui/react'
 
+import {
+  cilPlus,
+} from '@coreui/icons'
+
+import CIcon from '@coreui/icons-react'
+
 export default function LinkBoard() {
 
   const history = useHistory()
@@ -92,8 +98,11 @@ export default function LinkBoard() {
       </CCol>
       <CCol xs="12" sm="12" md="12">
         <CBreadcrumb className="border-0 c-subheader-nav">
-          <CBreadcrumbItem active>Seus Links</CBreadcrumbItem>
+          <CBreadcrumbItem active>Seus Links {' '}</CBreadcrumbItem>
+          <CIcon content={cilPlus} />
         </CBreadcrumb>
+      </CCol>
+      <CCol xs="12" sm="12" md="12">
         <CListGroup accent>
           {
             links.map(link => (
