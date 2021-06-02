@@ -8,14 +8,14 @@ import {
   CBreadcrumb,
   CBreadcrumbItem,
   CButton,
-  CCard,
-  CCardHeader,
   CCol,
   CModal,
   CRow,
+  CWidgetIcon
 } from '@coreui/react'
 
 import {
+  cilBriefcase,
   cilPlus,
 } from '@coreui/icons'
 
@@ -49,14 +49,10 @@ export default function ProjectBoard() {
           {
             projects.map(project => (
               <CCol xs="12" sm="6" md="6" key={project.id}>
-                <CCard>
-                  <CCardHeader color="secondary">
-                    {project.name}
-                    <div className="card-header-actions">
-                      <SeeMore to={() => history.push('/projects/' + project.id)} />
-                    </div>
-                  </CCardHeader>
-                </CCard>
+                <CWidgetIcon header={project.name} text="Ver" color="info" iconPadding={false}>
+                  <CIcon width={24} content={cilBriefcase} />
+                  <SeeMore to={() => history.push('/projects/' + project.id)} />
+                </CWidgetIcon>
               </CCol>
             ))
           }

@@ -64,7 +64,7 @@ export default function LinkBoard() {
             links.map(link => (
               <CListGroupItem
                 key={link.id}
-                accent='secondary'
+                accent='info'
                 color='secondary'
               >
                 <a
