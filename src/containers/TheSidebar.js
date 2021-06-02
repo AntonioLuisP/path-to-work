@@ -17,6 +17,7 @@ import {
   cilCursor,
   cilHome,
   cilList,
+  cilContact,
 } from '@coreui/icons'
 
 import Items from './Items'
@@ -49,7 +50,7 @@ const TheSidebar = () => {
         <CSidebarNavItem
           name="Social"
           to="/social"
-          icon={<CIcon content={cilCursor} customClasses="c-sidebar-nav-icon" />}
+          icon={<CIcon content={cilContact} customClasses="c-sidebar-nav-icon" />}
         />
         <CSidebarNavTitle>Projetos</CSidebarNavTitle>
         <CSidebarNavDropdown

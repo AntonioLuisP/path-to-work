@@ -7,6 +7,14 @@ import {
   CDropdownToggle,
   CImg
 } from '@coreui/react'
+
+import {
+  cilAccountLogout,
+  cilBriefcase,
+  cilSettings,
+  cilUser,
+} from '@coreui/icons'
+
 import CIcon from '@coreui/icons-react'
 
 const TheHeaderDropdown = () => {
@@ -35,21 +43,21 @@ const TheHeaderDropdown = () => {
           <strong>Account</strong>
         </CDropdownItem>
         <CDropdownItem>
-          <CIcon name="cil-user" className="mfe-2" />Profile
+          <CIcon content={cilUser} className="mfe-2" />Profile
         </CDropdownItem>
         <CDropdownItem>
-          <CIcon name="cil-settings" className="mfe-2" />
+          <CIcon content={cilSettings} className="mfe-2" />
           Settings
         </CDropdownItem>
         <CDropdownItem>
-          <CIcon name="cil-file" className="mfe-2" />
+          <CIcon content={cilBriefcase} className="mfe-2" />
           Projects
           <CBadge color="primary" className="mfs-auto">42</CBadge>
         </CDropdownItem>
         <CDropdownItem divider />
         <CDropdownItem>
-          <CIcon name="cil-lock-locked" className="mfe-2" />
-          Lock Account
+          <CIcon content={cilAccountLogout} className="mfe-2" />
+          Logout
         </CDropdownItem>
       </CDropdownMenu>
     </CDropdown>
