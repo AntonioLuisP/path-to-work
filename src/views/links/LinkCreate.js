@@ -10,11 +10,10 @@ import {
   CModalBody,
   CModalFooter,
   CModalHeader,
-  CCardTitle,
+  CModalTitle,
   CForm,
   CFormGroup,
   CInput,
-  CLabel,
 } from '@coreui/react'
 
 export default function LinkCreate() {
@@ -54,13 +53,12 @@ export default function LinkCreate() {
   return (
     <>
       <CModalHeader closeButton>
-        <CCardTitle>Novo Link</CCardTitle>
+        <CModalTitle>Novo Link</CModalTitle>
       </CModalHeader >
       <CForm onSubmit={handleCreate} className="form-horizontal">
         <CModalBody>
           <CFormGroup row>
             <CCol xs="12" md="12">
-              <CLabel htmlFor="text-input">Nome</CLabel>
               <CInput
                 id="text-input"
                 name="text-input"
@@ -72,7 +70,6 @@ export default function LinkCreate() {
           </CFormGroup>
           <CFormGroup row>
             <CCol xs="12" md="12">
-              <CLabel htmlFor="text-input">URL</CLabel>
               <CInput
                 id="text-input"
                 name="text-input"

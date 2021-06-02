@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
-import { SeeMore, ToasterNotification } from '../../reusable'
-import { addProject } from '../../actions/projects'
-import api from "../../services/api"
+import { useSelector } from 'react-redux'
+import { SeeMore } from '../../reusable'
+import ProjectCreate from './ProjectCreate'
 
 import {
   CBreadcrumb,
@@ -12,80 +11,39 @@ import {
   CCard,
   CCardHeader,
   CCol,
-  CForm,
-  CFormGroup,
-  CInput,
-  CInputGroup,
-  CInputGroupAppend,
+  CModal,
   CRow,
 } from '@coreui/react'
 
-const ProjectBoard = () => {
+import {
+  cilPlus,
+} from '@coreui/icons'
+
+import CIcon from '@coreui/icons-react'
+
+export default function ProjectBoard() {
 
   const history = useHistory()
   const projects = useSelector(state => state.projects)
-  const dispatch = useDispatch()
 
-  const [load, setLoad] = useState(true)
-  const [name, setName] = useState('')
-  const [notifications, setNotifications] = useState({})
-
-  async function handleCreate(e) {
-    e.preventDefault();
-    setLoad(false)
-    const data = {
-      name,
-    }
-    try {
-      await api.post('project', data, {})
-        .then(response => {
-          if (response.status === 200) {
-            dispatch(addProject(response.data))
-            setNotifications({
-              header: 'Projeto adicionado:',
-              body: response.data.name,
-              id: response.data.id,
-            })
-          }
-        })
-    } catch (error) {
-      alert("erro")
-      console.log(error)
-    } finally {
-      setLoad(true)
-    }
-  }
+  const [modal, setModal] = useState(false)
 
   return (
     <CRow>
-      <ToasterNotification notificaton={notifications} />
-      <CCol xs="12" sm="12" md="12">
-        <CForm onSubmit={handleCreate} className="form-horizontal">
-          <CFormGroup row>
-            <CCol xl="12" md="12" sm="12">
-              <CInputGroup>
-                <CInput
-                  id="text-input"
-                  name="text-input"
-                  placeholder="Projeto"
-                  value={name}
-                  onChange={e => setName(e.target.value)}
-                />
-                <CInputGroupAppend>
-                  <CButton type="submit" color="success" disabled={!load}>
-                    {
-                      load ? 'Adicionar' : (<span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"/>)
-                    }
-                  </CButton>
-                </CInputGroupAppend>
-              </CInputGroup>
-            </CCol>
-          </CFormGroup>
-        </CForm>
-      </CCol>
       <CCol xs="12" sm="12" md="12">
         <CBreadcrumb className="border-0 c-subheader-nav">
           <CBreadcrumbItem active>Seus Projetos</CBreadcrumbItem>
+          <CButton
+            onClick={() => setModal(!modal)}
+          >
+            <CIcon content={cilPlus} />
+          </CButton>
+          <CModal
+            show={modal}
+            onClose={setModal}
+          >
+            <ProjectCreate />
+          </CModal>
         </CBreadcrumb>
         <CRow>
           {
@@ -107,5 +65,3 @@ const ProjectBoard = () => {
     </CRow>
   )
 }
-
-export default ProjectBoard
