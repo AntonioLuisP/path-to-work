@@ -1,17 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import Toasts from './Toasts'
+import { useSelector } from 'react-redux'
 
 import {
     CToaster,
 } from '@coreui/react'
 
-const ToasterNotification = ({ notificaton }) => {
+const ToasterNotification = () => {
 
-    const [toasts, setToasts] = useState([])
-
-    useEffect(() => {
-        setToasts([notificaton])
-    }, [notificaton])
+    const toasts = useSelector(state => state.notifications)
 
     return (
         <CToaster

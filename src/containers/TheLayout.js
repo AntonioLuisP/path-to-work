@@ -1,4 +1,5 @@
 import React from 'react'
+
 import {
   TheContent,
   TheSidebar,
@@ -6,17 +7,20 @@ import {
   TheHeader
 } from './index'
 
+import { ToasterNotification } from '../reusable'
+
 const TheLayout = () => {
 
   return (
     <div className="c-app c-default-layout">
-      <TheSidebar/>
+      <TheSidebar />
       <div className="c-wrapper">
-        <TheHeader/>
+        <TheHeader />
         <div className="c-body">
-          <TheContent/>
+          <ToasterNotification />
+          <TheContent />
         </div>
-        <TheFooter/>
+        <TheFooter />
       </div>
     </div>
   )
