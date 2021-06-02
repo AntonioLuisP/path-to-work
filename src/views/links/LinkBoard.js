@@ -11,7 +11,6 @@ import {
   CBreadcrumbItem,
   CButton,
   CCol,
-  CListGroup,
   CListGroupItem,
   CModal,
   CRow,
@@ -59,25 +58,22 @@ export default function LinkBoard() {
         </CBreadcrumb>
       </CCol>
       <CCol xs="12" sm="12" md="12">
-        <CListGroup accent>
-          {
-            links.map(link => (
-              <CListGroupItem
-                key={link.id}
-                accent='info'
-                color='secondary'
-              >
-                <a
-                  target='_blank'
-                  rel="noreferrer noopener"
-                  href={link.url} >
-                  {link.name !== null ? link.name : link.url}
-                </a>
-                <LinkMore to={() => history.push('/links/' + link.id)} />
-              </CListGroupItem>
-            ))
-          }
-        </CListGroup>
+        {
+          links.map(link => (
+            <CListGroupItem
+              key={link.id}
+              color='light'
+            >
+              <a
+                target='_blank'
+                rel="noreferrer noopener"
+                href={link.url} >
+                {link.name !== null ? link.name : link.url}
+              </a>
+              <LinkMore to={() => history.push('/links/' + link.id)} />
+            </CListGroupItem>
+          ))
+        }
       </CCol>
     </CRow>
   )
