@@ -99,9 +99,6 @@ const ProjectBoard = () => {
                       <SeeMore to={() => history.push('/projects/' + project.id)} />
                     </div>
                   </CCardHeader>
-                  <CCardBody>
-                    {project.description}
-                  </CCardBody>
                 </CCard>
               </CCol>
             ))
