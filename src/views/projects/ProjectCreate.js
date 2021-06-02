@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom';
 import api from "../../services/api"
 import { useDispatch } from 'react-redux'
-import { add } from '../../actions/projects'
+import { addProject } from '../../actions/projects'
 
 import {
   CButton,
@@ -38,7 +38,7 @@ const ProjectCreate = () => {
         .then(response => {
           if (response.status === 200) {
             console.log(response.data)
-            dispatch(add(response.data))
+            dispatch(addProject(response.data))
           }
         })
     } catch (error) {

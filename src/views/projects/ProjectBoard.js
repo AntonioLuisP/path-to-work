@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { SeeMore, ToasterNotification } from '../../reusable'
-import { add } from '../../actions/projects'
+import { addProject } from '../../actions/projects'
 import api from "../../services/api"
 
 import {
@@ -10,7 +10,6 @@ import {
   CBreadcrumbItem,
   CButton,
   CCard,
-  CCardBody,
   CCardHeader,
   CCol,
   CForm,
@@ -41,7 +40,7 @@ const ProjectBoard = () => {
       await api.post('project', data, {})
         .then(response => {
           if (response.status === 200) {
-            dispatch(add(response.data))
+            dispatch(addProject(response.data))
             setNotifications({
               header: 'Projeto adicionado:',
               body: response.data.name,

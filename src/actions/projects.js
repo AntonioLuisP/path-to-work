@@ -1,13 +1,13 @@
-export const add = (data) => {
+export const addProject = (data) => {
     return {
-        type: 'ADD',
+        type: 'ADD_PROJECT',
         project: data
     }
 }
 
-export const fill = (list) => {
+export const fillProjects = (list) => {
     return {
-        type: 'FILL',
+        type: 'FILL_PROJECTS',
         projects: list
     }
 }

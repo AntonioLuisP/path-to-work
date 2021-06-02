@@ -29,7 +29,6 @@ export default function LinkBoard() {
   const history = useHistory()
 
   const [load, setLoad] = useState(true)
-  const [name, setName] = useState('')
   const [url, setUrl] = useState('')
   const [notifications, setNotifications] = useState({})
   const [links, setLinks] = useState([])
