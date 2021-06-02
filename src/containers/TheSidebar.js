@@ -32,7 +32,10 @@ const TheSidebar = () => {
       show={show}
       onShowChange={(val) => dispatch({ type: 'set', sidebarShow: val })}
     >
-      <CSidebarBrand className="d-md-down-none text-center" >
+      <CSidebarBrand
+        to='/'
+        className="d-md-down-none text-center text-decoration-none"
+      >
         Path Work
       </CSidebarBrand>
       <CSidebarNav>
