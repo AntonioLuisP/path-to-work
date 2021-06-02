@@ -1,16 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react'
+import TaskCreate from '../views/tasks/TaskCreate'
+
 import {
+  CButton,
   CHeaderNav,
   CHeaderNavItem,
-  CHeaderNavLink,
-  CTooltip
+  CModal,
+  CTooltip,
 } from '@coreui/react'
+
 import CIcon from '@coreui/icons-react'
+
 import {
   cilPlus,
 } from '@coreui/icons'
 
 const TheHeaderPlus = () => {
+
+  const [modal, setModal] = useState(false)
+
   return (
     <CHeaderNav className="d-md-down-none mr-auto">
       <CHeaderNavItem className="px-3" >
@@ -18,10 +26,18 @@ const TheHeaderPlus = () => {
           content='Novo Projeto'
           placement='bottom'
         >
-          <CHeaderNavLink to="/projects/create">
+          <CButton
+            onClick={() => setModal(!modal)}
+          >
             <CIcon content={cilPlus} />
-          </CHeaderNavLink>
+          </CButton>
         </CTooltip>
+        <CModal
+          show={modal}
+          onClose={setModal}
+        >
+          <TaskCreate />
+        </CModal>
       </CHeaderNavItem>
     </CHeaderNav>
   )

@@ -54,7 +54,7 @@ const ProjectCreate = () => {
 
   return (
     <>
-      <CModalHeader>
+      <CModalHeader closeButton>
         <CModalTitle>Novo Projeto</CModalTitle>
       </CModalHeader>
       <CForm onSubmit={handleCreate} className="form-horizontal">

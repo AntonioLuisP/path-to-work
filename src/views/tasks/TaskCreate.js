@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
+import React, { useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { addNotification } from '../../actions/notifications'
 import api from "../../services/api"
 
 import {
   CButton,
   CCol,
-  CCard,
-  CCardBody,
-  CCardFooter,
-  CCardHeader,
-  CCardTitle,
+  CModalBody,
+  CModalFooter,
+  CModalHeader,
+  CModalTitle,
   CForm,
   CFormGroup,
   CInput,
@@ -19,23 +19,12 @@ import {
 
 export default function TaskCreate() {
 
-
-  const history = useHistory()
+  const dispatch = useDispatch()
+  const projects = useSelector(state => state.projects)
 
   const [load, setLoad] = useState(true)
   const [name, setName] = useState('')
   const [id_project, setId_project] = useState('')
-  const [projects, setProjects] = useState([])
-
-  useEffect(() => {
-    api.get('project')
-      .then(response => {
-        if (response.status === 200) {
-          setProjects(response.data.data)
-          setId_project(response.data.data[0].id)
-        }
-      })
-  }, [])
 
   async function handleCreate(e) {
     e.preventDefault();
@@ -48,26 +37,31 @@ export default function TaskCreate() {
       await api.post('task', data, {})
         .then(response => {
           if (response.status === 200) {
-            history.push('/tasks/' + response.data.id)
+            console.log(response.data)
+            dispatch(addNotification({
+              header: 'Tarefa adicionada:',
+              body: response.data.name,
+              id: response.data.id,
+            }))
           }
         })
     } catch (error) {
-      setLoad(true)
       alert("erro")
       console.log(error)
+    } finally {
+      setLoad(true)
     }
   }
 
   return (
-    <CCard>
-      <CCardHeader>
-        <CCardTitle>Nova Tarefa</CCardTitle>
-      </CCardHeader>
+    <>
+      <CModalHeader>
+        <CModalTitle>Nova Tarefa</CModalTitle>
+      </CModalHeader>
       <CForm onSubmit={handleCreate} className="form-horizontal">
-        <CCardBody>
+        <CModalBody>
           <CFormGroup row>
-            <CCol xs="6" md="6">
-              <CLabel htmlFor="text-input">Tarefa</CLabel>
+            <CCol xs="12" md="12">
               <CInput
                 id="text-input"
                 name="text-input"
@@ -76,7 +70,9 @@ export default function TaskCreate() {
                 onChange={e => setName(e.target.value)}
               />
             </CCol>
-            <CCol xs="6" md="6">
+          </CFormGroup>
+          <CFormGroup row>
+            <CCol xs="12" md="12">
               <CLabel htmlFor="text-input">Projeto</CLabel>
               <CSelect value={id_project} onChange={e => setId_project(e.target.value)} custom name="select" id="select">
                 {
@@ -87,19 +83,15 @@ export default function TaskCreate() {
               </CSelect>
             </CCol>
           </CFormGroup>
-        </CCardBody>
-        <CCardFooter>
-          <CButton
-            type="submit"
-            color="success"
-            disabled={!load}
-          >
+        </CModalBody>
+        <CModalFooter>
+          <CButton type="submit" color="success" disabled={!load}>
             {
-              load ? 'Salvar' : (<span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />)
+              load ? 'Adicionar' : (<span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />)
             }
           </CButton>
-        </CCardFooter>
+        </CModalFooter>
       </CForm>
-    </CCard>
+    </>
   )
 }
