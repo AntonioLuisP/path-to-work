@@ -7,7 +7,7 @@ import {
   TheHeader
 } from './index'
 
-import { ToasterNotification } from '../reusable'
+import { Modal, ToasterNotification } from '../reusable'
 
 const TheLayout = () => {
 
@@ -17,6 +17,7 @@ const TheLayout = () => {
       <div className="c-wrapper">
         <TheHeader />
         <div className="c-body">
+          <Modal />
           <ToasterNotification />
           <TheContent />
         </div>

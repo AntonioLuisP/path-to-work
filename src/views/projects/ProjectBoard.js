@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { SeeMore } from '../../reusable'
 import ProjectCreate from './ProjectCreate'
+import { modalAction } from '../../actions/modalAction'
 
 import {
   CBreadcrumb,
@@ -24,9 +25,16 @@ import CIcon from '@coreui/icons-react'
 export default function ProjectBoard() {
 
   const history = useHistory()
-  const projects = useSelector(state => state.projects)
+  const dispatch = useDispatch()
 
-  const [modal, setModal] = useState(false)
+  const projects = useSelector(state => state.projects)
+  const modal = useSelector(state => state.modal)
+
+  console.log(modal)
+  const toogleModal = () => {
+    const show = [true].includes(modal) ? false : true
+    dispatch(modalAction(show))
+}
 
   return (
     <CRow>
@@ -34,16 +42,10 @@ export default function ProjectBoard() {
         <CBreadcrumb className="border-0 c-subheader-nav">
           <CBreadcrumbItem active>Seus Projetos</CBreadcrumbItem>
           <CButton
-            onClick={() => setModal(!modal)}
+            onClick={toogleModal}
           >
             <CIcon content={cilPlus} />
           </CButton>
-          <CModal
-            show={modal}
-            onClose={setModal}
-          >
-            <ProjectCreate />
-          </CModal>
         </CBreadcrumb>
         <CRow>
           {
