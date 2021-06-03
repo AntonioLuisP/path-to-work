@@ -60,7 +60,7 @@ export default function Project({ match }) {
           </CCard>
         </CCol>
       </CRow>
-      <TaskBoard project={project.id} lista={tasks} />
+      <TaskBoard project={project} lista={tasks} />
     </>
   )
 }

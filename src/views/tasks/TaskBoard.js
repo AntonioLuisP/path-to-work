@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
-import { SeeMore, ToasterNotification } from '../../reusable'
-import api from "../../services/api"
+import { SeeMore } from '../../reusable'
+import TaskCreate from './TaskCreate'
 
 import {
   CButton,
@@ -10,83 +10,47 @@ import {
   CCard,
   CCardHeader,
   CCol,
-  CInput,
-  CInputGroup,
-  CInputGroupAppend,
-  CForm,
-  CFormGroup,
+  CModal,
   CRow,
 } from '@coreui/react'
 
-export default function TaskBoard ({ project, lista }) {
+import {
+  cilPlus,
+} from '@coreui/icons'
+
+import CIcon from '@coreui/icons-react'
+
+export default function TaskBoard(props) {
 
   const history = useHistory()
 
-  const [name, setName] = useState('')
-  const [id_project, setId_project] = useState('')
-  const [notifications, setNotifications] = useState({})
+  const [project, setProject] = useState('')
+  const [modal, setModal] = useState(false)
 
   //lista
   const [tasks, setTasks] = useState([])
 
   useEffect(() => {
-    setTasks(lista)
-    setId_project(project)
-  }, [project, lista])
-
-  async function handleCreate(e) {
-    e.preventDefault();
-    const data = {
-      name,
-      'id_project': id_project,
-    }
-    try {
-      await api.post('task', data, {})
-        .then(response => {
-          if (response.status === 200) {
-            setTasks([...tasks, response.data])
-            setNotifications({
-              header: 'Tarefa adicionada:',
-              body: response.data.task,
-              id: response.data.id,
-            })
-          }
-        })
-    } catch (error) {
-      alert("erro")
-      console.log(error)
-    }
-  }
+    setTasks(props.lista)
+    setProject(props.project)
+  }, [props.project, props.lista])
 
   return (
     <CRow>
-      <ToasterNotification notificaton={notifications} />
-      <CCol xs="12" sm="12" md="12">
-        <CBreadcrumb className="border-0 c-subheader-nav">
-          <CBreadcrumbItem active>Nova Tarefa</CBreadcrumbItem>
-        </CBreadcrumb>
-        <CForm onSubmit={handleCreate} className="form-horizontal">
-          <CFormGroup row>
-            <CCol xl="12" md="12" sm="12">
-              <CInputGroup>
-                <CInput
-                  id="text-input"
-                  name="text-input"
-                  placeholder="Tarefa"
-                  value={name}
-                  onChange={e => setName(e.target.value)}
-                />
-                <CInputGroupAppend>
-                  <CButton type="submit" color="success">Salvar</CButton>
-                </CInputGroupAppend>
-              </CInputGroup>
-            </CCol>
-          </CFormGroup>
-        </CForm>
-      </CCol>
       <CCol xs="12" sm="12" md="12">
         <CBreadcrumb className="border-0 c-subheader-nav">
           <CBreadcrumbItem active>Tarefas</CBreadcrumbItem>
+          <CButton
+            onClick={() => setModal(!modal)}
+          >
+            <CIcon content={cilPlus} />
+          </CButton>
+          <CModal
+            show={modal}
+            onClose={setModal}
+          >
+            <TaskCreate project={project} />
+          </CModal>
         </CBreadcrumb>
         <CRow>
           {
