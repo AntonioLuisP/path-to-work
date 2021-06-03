@@ -11,3 +11,11 @@ export const fillProjects = (list) => {
         projects: list
     }
 }
+
+export const editProject = (indice, data) => {
+    return {
+        type: 'EDIT_PROJECT',
+        incice: indice,
+        project: data
+    }
+}

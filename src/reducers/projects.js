@@ -4,6 +4,9 @@ const projectsReducer = (state = [], { type, ...rest }) => {
             return [...state, rest.project];
         case 'FILL_PROJECTS':
             return rest.projects;
+        case 'EDIT_PROJECT':
+            state[rest.incice] = rest.project
+            return state;
         default:
             return state
     }
