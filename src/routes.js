@@ -20,7 +20,7 @@ const ProjectCreate = React.lazy(() => import('./views/projects/ProjectCreate'))
 const Project = React.lazy(() => import('./views/projects/Project'));
 const ProjectEdit = React.lazy(() => import('./views/projects/ProjectEdit'));
 
-const TaskBoard = React.lazy(() => import('./views/tasks/TaskBoard'));
+const TaskIndex = React.lazy(() => import('./views/tasks/TaskIndex'));
 const TaskCreate = React.lazy(() => import('./views/tasks/TaskCreate'));
 const Task = React.lazy(() => import('./views/tasks/Task'));
 const TaskEdit = React.lazy(() => import('./views/tasks/TaskEdit'));
@@ -51,7 +51,7 @@ const routes = [
   { path: '/projects/:id', exact: true, name: 'Detalhes', component: Project },
   { path: '/projects/:id/edit', exact: true, name: 'Editar', component: ProjectEdit },
 
-  { path: '/tasks', exact: true, name: 'Tarefas', component: TaskBoard },
+  { path: '/tasks', exact: true, name: 'Tarefas', component: TaskIndex },
   { path: '/tasks/create', exact: true, name: 'Criar', component: TaskCreate },
   { path: '/tasks/:id', exact: true, name: 'Detalhes', component: Task },
   { path: '/tasks/:id/edit', exact: true, name: 'Editar', component: TaskEdit },
