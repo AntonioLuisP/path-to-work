@@ -18,6 +18,7 @@ import {
   cilHome,
   cilList,
   cilContact,
+  cilTask
 } from '@coreui/icons'
 
 import Items from './Items'
@@ -54,6 +55,12 @@ const TheSidebar = () => {
           name="Social"
           to="/social"
           icon={<CIcon content={cilContact} customClasses="c-sidebar-nav-icon" />}
+        />
+        <CSidebarNavTitle>Tarefa</CSidebarNavTitle>
+        <CSidebarNavItem
+          name="Tarefas"
+          to="/tasks"
+          icon={<CIcon content={cilTask} customClasses="c-sidebar-nav-icon" />}
         />
         <CSidebarNavTitle>Projetos</CSidebarNavTitle>
         <CSidebarNavDropdown
