@@ -24,6 +24,7 @@ const ProjectEdit = ({ match }) => {
 
   const dispatch = useDispatch()
 
+  const [load, setLoad] = useState(true)
   const [project, setProject] = useState({
     'id': '',
     'name': '',
@@ -41,6 +42,7 @@ const ProjectEdit = ({ match }) => {
 
   async function handleEdit(e) {
     e.preventDefault();
+    setLoad(false)
     const data = {
       'name': project.name,
       'description': project.description
@@ -60,6 +62,8 @@ const ProjectEdit = ({ match }) => {
     } catch (error) {
       alert("erro")
       console.log(error)
+    } finally {
+      setLoad(true)
     }
   }
 
@@ -100,11 +104,10 @@ const ProjectEdit = ({ match }) => {
               </CFormGroup>
             </CCardBody>
             <CCardFooter>
-              <CButton
-                type="submit"
-                color="success"
-              >
-                Salvar
+              <CButton type="submit" color="success" disabled={!load}>
+                {
+                  load ? 'Salvar' : (<span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />)
+                }
               </CButton>
             </CCardFooter>
           </CForm>

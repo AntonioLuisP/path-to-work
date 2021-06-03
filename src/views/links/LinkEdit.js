@@ -22,6 +22,7 @@ export default function LinkEdit({ match }) {
 
   const dispatch = useDispatch()
 
+  const [load, setLoad] = useState(true)
   const [link, setLink] = useState({
     'id': '',
     'name': '',
@@ -39,6 +40,7 @@ export default function LinkEdit({ match }) {
 
   async function handleEdit(e) {
     e.preventDefault();
+    setLoad(false)
     const data = {
       'name': link.name,
       'url': link.url
@@ -57,6 +59,8 @@ export default function LinkEdit({ match }) {
     } catch (error) {
       alert("erro")
       console.log(error)
+    } finally {
+      setLoad(true)
     }
   }
 
@@ -88,18 +92,15 @@ export default function LinkEdit({ match }) {
                     placeholder="Url"
                     value={link.url}
                     onChange={e => setLink({ ...link, 'url': e.target.value })}
-
-                    onChange={e => setLink(e.target.value)}
                   />
                 </CCol>
               </CFormGroup>
             </CCardBody>
             <CCardFooter>
-              <CButton
-                type="submit"
-                color="success"
-              >
-                Salvar
+              <CButton type="submit" color="success" disabled={!load}>
+                {
+                  load ? 'Salvar' : (<span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />)
+                }
               </CButton>
             </CCardFooter>
           </CForm>
