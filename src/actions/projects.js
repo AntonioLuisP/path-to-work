@@ -12,10 +12,9 @@ export const fillProjects = (list) => {
     }
 }
 
-export const editProject = (indice, data) => {
+export const editProject = (data) => {
     return {
         type: 'EDIT_PROJECT',
-        incice: indice,
         project: data
     }
 }

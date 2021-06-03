@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux'
 import api from "../../services/api"
+import { editProject } from 'src/actions/projects';
+import { addNotification } from '../../actions/notifications'
 
 import {
   CButton,
@@ -19,19 +21,20 @@ import {
 } from '@coreui/react'
 
 const ProjectEdit = ({ match }) => {
-  const history = useHistory()
 
-  const [id, setId] = useState('')
-  const [name, setName] = useState('')
-  const [description, setDescription] = useState('')
+  const dispatch = useDispatch()
+
+  const [project, setProject] = useState({
+    'id': '',
+    'name': '',
+    'description': '',
+  })
 
   useEffect(() => {
     api.get('project/' + match.params.id)
       .then(response => {
         if (response.status === 200) {
-          setId(response.data.project.id)
-          setName(response.data.project.name)
-          setDescription(response.data.project.description)
+          setProject(response.data.project)
         }
       })
   }, [match.params.id])
@@ -39,14 +42,19 @@ const ProjectEdit = ({ match }) => {
   async function handleEdit(e) {
     e.preventDefault();
     const data = {
-      name,
-      description,
+      'name': project.name,
+      'description': project.description
     }
     try {
-      await api.put('/project/' + id, data, {})
+      await api.put('/project/' + project.id, data, {})
         .then(response => {
           if (response.status === 200) {
-            history.push("/projects/" + id)
+            dispatch(editProject(project))
+            dispatch(addNotification({
+              header: 'Projeto Editado:',
+              body: project.name,
+              id: project.id,
+            }))
           }
         })
     } catch (error) {
@@ -71,8 +79,8 @@ const ProjectEdit = ({ match }) => {
                     id="text-input"
                     name="text-input"
                     placeholder="Nome"
-                    value={name}
-                    onChange={e => setName(e.target.value)}
+                    value={project.name}
+                    onChange={e => setProject({ ...project, 'name': e.target.value })}
                   />
                 </CCol>
               </CFormGroup>
@@ -85,8 +93,8 @@ const ProjectEdit = ({ match }) => {
                     rows="3"
                     maxLength='500'
                     placeholder="Descrição..."
-                    value={description}
-                    onChange={e => setDescription(e.target.value)}
+                    value={project.description}
+                    onChange={e => setProject({ ...project, 'description': e.target.value })}
                   />
                 </CCol>
               </CFormGroup>
@@ -97,12 +105,6 @@ const ProjectEdit = ({ match }) => {
                 color="success"
               >
                 Salvar
-              </CButton>
-              <CButton
-                color="secondary"
-                onClick={() => history.goBack()}
-              >
-                Cancelar
               </CButton>
             </CCardFooter>
           </CForm>

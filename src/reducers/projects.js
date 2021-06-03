@@ -5,8 +5,9 @@ const projectsReducer = (state = [], { type, ...rest }) => {
         case 'FILL_PROJECTS':
             return rest.projects;
         case 'EDIT_PROJECT':
-            state[rest.incice] = rest.project
-            return state;
+            const index = state.findIndex(project => (project.id) === rest.project.id)
+            state[index] = rest.project
+            return [...state];
         default:
             return state
     }
