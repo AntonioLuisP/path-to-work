@@ -11,7 +11,7 @@ const Modal = (props) => {
     const modal = useSelector(state => state.modal)
     const dispatch = useDispatch()
     const toogleModal = () => {
-        dispatch(modalAction(!modal.show, <></>))
+        dispatch(modalAction(<></>))
     }
 
     return (

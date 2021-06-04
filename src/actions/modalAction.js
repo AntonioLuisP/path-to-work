@@ -1,7 +1,6 @@
-export const modalAction = (show, data) => {
+export const modalAction = (data) => {
     return {
         type: 'MODAL',
-        show: show,
         component: data,
     }
 }

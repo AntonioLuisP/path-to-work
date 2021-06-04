@@ -31,7 +31,7 @@ export default function ProjectBoard() {
 
   console.log(modal)
   const toogleModal = () => {
-    dispatch(modalAction(!modal.show, <ProjectCreate />))
+    dispatch(modalAction(<ProjectCreate />))
   }
 
   return (
