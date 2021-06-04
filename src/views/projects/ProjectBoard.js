@@ -27,9 +27,7 @@ export default function ProjectBoard() {
   const dispatch = useDispatch()
 
   const projects = useSelector(state => state.projects)
-  const modal = useSelector(state => state.modal)
-
-  console.log(modal)
+  
   const toogleModal = () => {
     dispatch(modalAction(<ProjectCreate />))
   }

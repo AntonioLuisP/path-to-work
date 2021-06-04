@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { fillLinks } from '../../actions/links'
 import { useHistory } from 'react-router-dom'
 import { LinkMore } from '../../reusable'
 import api from "../../services/api"
 import LinkCreate from './LinkCreate'
+import { modalAction } from '../../actions/modalAction'
 
 import {
   CBreadcrumb,
@@ -12,7 +13,6 @@ import {
   CButton,
   CCol,
   CListGroupItem,
-  CModal,
   CRow,
 } from '@coreui/react'
 
@@ -25,10 +25,13 @@ import CIcon from '@coreui/icons-react'
 export default function LinkBoard() {
 
   const history = useHistory()
-  const links = useSelector(state => state.links)
   const dispatch = useDispatch()
 
-  const [modal, setModal] = useState(false)
+  const links = useSelector(state => state.links)
+
+  const toogleModal = () => {
+    dispatch(modalAction(<LinkCreate />))
+  }
 
   useEffect(() => {
     api.get('link')
@@ -45,16 +48,10 @@ export default function LinkBoard() {
         <CBreadcrumb className="border-0 c-subheader-nav">
           <CBreadcrumbItem active>Seus Links</CBreadcrumbItem>
           <CButton
-            onClick={() => setModal(!modal)}
+            onClick={toogleModal}
           >
             <CIcon content={cilPlus} />
           </CButton>
-          <CModal
-            show={modal}
-            onClose={setModal}
-          >
-            <LinkCreate />
-          </CModal>
         </CBreadcrumb>
       </CCol>
       <CCol xs="12" sm="12" md="12">
