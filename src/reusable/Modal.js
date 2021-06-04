@@ -1,5 +1,6 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { modalAction } from '../actions/modalAction'
 
 import {
     CModal,
@@ -8,12 +9,17 @@ import {
 const Modal = (props) => {
 
     const modal = useSelector(state => state.modal)
+    const dispatch = useDispatch()
+    const toogleModal = () => {
+        dispatch(modalAction(!modal.show, <></>))
+    }
 
     return (
         <CModal
-            show={modal}
+            show={modal.show}
+            onClose={toogleModal}
         >
-            teste
+            {modal.component}
         </CModal>
     )
 }

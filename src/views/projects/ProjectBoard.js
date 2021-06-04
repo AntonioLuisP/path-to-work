@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { SeeMore } from '../../reusable'
@@ -10,7 +10,6 @@ import {
   CBreadcrumbItem,
   CButton,
   CCol,
-  CModal,
   CRow,
   CWidgetIcon
 } from '@coreui/react'
@@ -32,9 +31,8 @@ export default function ProjectBoard() {
 
   console.log(modal)
   const toogleModal = () => {
-    const show = [true].includes(modal) ? false : true
-    dispatch(modalAction(show))
-}
+    dispatch(modalAction(!modal.show, <ProjectCreate />))
+  }
 
   return (
     <CRow>

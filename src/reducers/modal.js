@@ -1,7 +1,13 @@
-const modalReducer = (state = false, { type, ...rest }) => {
+const initialModal = {
+    'show': false,
+    'component': (<></>)
+}
+
+const modalReducer = (state = initialModal, { type, ...rest }) => {
     switch (type) {
         case 'MODAL':
-            return rest.modal
+            const component = rest.show ? rest.component : <></> 
+            return {'show': rest.show, 'component': component }
         default:
             return state
     }
