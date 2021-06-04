@@ -8,7 +8,7 @@ export const addTask = (data) => {
 export const fillTasks = (list) => {
     return {
         type: 'FILL_TASKS',
-        TASKs: list
+        tasks: list
     }
 }
 

@@ -25,23 +25,24 @@ export default function TaskCreate(props) {
   const [load, setLoad] = useState(true)
   const [task, setTask] = useState({
     'id': '',
-    'task': '',
+    'name': '',
     'id_project': '',
   })
-  const [project, setProject] = useState(props.project)
 
   useEffect(() => {
-    if (project === null && Object.keys(projects).length > 0){
-      setProject(project[0])
+    if (typeof props.project !== "undefined") {
+      setTask({ ...task, 'id_project': props.project.id })
+    } else if (Object.keys(projects).length > 0) {
+      setTask({ ...task, 'id_project': projects[0].id })
     }
-  }, [project, projects])
+  }, [props.project, projects])
 
   async function handleCreate(e) {
     e.preventDefault();
     setLoad(false)
     const data = {
       'name': task.name,
-      'id_project': project.id
+      'id_project': Number(task.id_project)
     }
     try {
       await api.post('task', data, {})
@@ -83,10 +84,15 @@ export default function TaskCreate(props) {
           <CFormGroup row>
             <CCol xs="12" md="12">
               <CLabel htmlFor="text-input">Projeto</CLabel>
-              <CSelect value={project} onChange={e => setProject(e.target.value)} custom name="select" id="select">
+              <CSelect
+                value={task.id_project}
+                onChange={e => setTask({ ...task, 'id_project': e.target.value })}
+                custom
+                name="select"
+                id="select">
                 {
                   projects.map(project => (
-                    <option key={project.id} value={project}>{project.name}</option>
+                    <option key={project.id} value={project.id}>{project.name}</option>
                   ))
                 }
               </CSelect>
