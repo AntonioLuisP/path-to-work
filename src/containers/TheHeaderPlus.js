@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { useDispatch } from 'react-redux'
+import { modalAction } from '../actions/modalAction'
 import TaskCreate from '../views/tasks/TaskCreate'
 
 import {
   CButton,
   CHeaderNav,
   CHeaderNavItem,
-  CModal,
   CTooltip,
 } from '@coreui/react'
 
@@ -17,27 +18,25 @@ import {
 
 const TheHeaderPlus = () => {
 
-  const [modal, setModal] = useState(false)
+  const dispatch = useDispatch()
+
+  const toogleModal = () => {
+    dispatch(modalAction(<TaskCreate />))
+  }
 
   return (
     <CHeaderNav className="d-md-down-none mr-auto">
       <CHeaderNavItem className="px-3" >
         <CTooltip
-          content='Novo Projeto'
+          content='Nova Tarefa'
           placement='bottom'
         >
           <CButton
-            onClick={() => setModal(!modal)}
+            onClick={toogleModal}
           >
             <CIcon content={cilPlus} />
           </CButton>
         </CTooltip>
-        <CModal
-          show={modal}
-          onClose={setModal}
-        >
-          <TaskCreate />
-        </CModal>
       </CHeaderNavItem>
     </CHeaderNav>
   )
