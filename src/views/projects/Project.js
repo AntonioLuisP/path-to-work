@@ -15,7 +15,7 @@ import {
 export default function Project({ match }) {
 
   const history = useHistory()
-  const [project, setProject] = useState([])
+  const [project, setProject] = useState({})
   const [tasks, setTasks] = useState([])
 
   useEffect(() => {

@@ -22,15 +22,18 @@ const ProjectCreate = () => {
   const dispatch = useDispatch()
 
   const [load, setLoad] = useState(true)
-  const [name, setName] = useState('')
-  const [description, setDescription] = useState('')
+  const [project, setProject] = useState({
+    'id': '',
+    'name': '',
+    'description': '',
+  })
 
   async function handleCreate(e) {
     e.preventDefault();
     setLoad(false)
     const data = {
-      name,
-      description,
+      'name': project.name,
+      'description': project.description
     }
     try {
       await api.post('project', data, {})
@@ -65,8 +68,8 @@ const ProjectCreate = () => {
                 id="text-input"
                 name="text-input"
                 placeholder="Nome"
-                value={name}
-                onChange={e => setName(e.target.value)}
+                value={project.name}
+                onChange={e => setProject({ ...project, 'name': e.target.value })}
               />
             </CCol>
           </CFormGroup>
@@ -78,8 +81,8 @@ const ProjectCreate = () => {
                 rows="3"
                 maxLength='500'
                 placeholder="Descrição..."
-                value={description}
-                onChange={e => setDescription(e.target.value)}
+                value={project.description}
+                onChange={e => setProject({ ...project, 'description': e.target.value })}
               />
             </CCol>
           </CFormGroup>
