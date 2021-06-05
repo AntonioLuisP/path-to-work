@@ -9,7 +9,7 @@ import {
   CModalBody,
   CModalFooter,
   CModalHeader,
-  CCardTitle,
+  CModalTitle,
   CForm,
   CFormGroup,
   CInput,
@@ -52,7 +52,7 @@ export default function LinkEdit(props) {
   return (
     <CForm onSubmit={handleEdit} className="form-horizontal">
       <CModalHeader>
-        <CCardTitle>Editar Link</CCardTitle>
+        <CModalTitle>Editar Link</CModalTitle>
       </CModalHeader>
       <CModalBody>
         <CFormGroup row>

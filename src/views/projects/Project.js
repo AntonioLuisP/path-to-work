@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import TaskBoard from "../tasks/TaskBoard"
 import api from "../../services/api"
 import { DropdownMore } from '../../reusable/'
+import ProjectEdit from './ProjectEdit'
+import { modalAction } from '../../actions/modalAction'
 
 import {
   CCard,
@@ -15,15 +17,19 @@ import {
 export default function Project({ match }) {
 
   const history = useHistory()
+  const dispatch = useDispatch()
+
   const [project, setProject] = useState({})
-  const [tasks, setTasks] = useState([])
+
+  const toogleModal = () => {
+    dispatch(modalAction(<ProjectEdit project={project} />))
+  }
 
   useEffect(() => {
     api.get('project/' + match.params.id)
       .then(response => {
         if (response.status === 200) {
           setProject(response.data.project)
-          setTasks(response.data.tasks)
         } else {
           setProject([])
         }
@@ -49,7 +55,7 @@ export default function Project({ match }) {
               {project.name}
               <div className="card-header-actions">
                 <DropdownMore
-                  editAction={() => history.push('/projects/' + project.id + '/edit')}
+                  editAction={() => toogleModal()}
                   deleteAction={() => handleDelete(project.id)}
                 />
               </div>
@@ -60,7 +66,6 @@ export default function Project({ match }) {
           </CCard>
         </CCol>
       </CRow>
-      <TaskBoard project={project} lista={tasks} />
     </>
   )
 }

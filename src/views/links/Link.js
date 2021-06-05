@@ -18,7 +18,7 @@ export default function Link({ match }) {
   const history = useHistory()
   const dispatch = useDispatch()
 
-  const [link, setLink] = useState([])
+  const [link, setLink] = useState({})
 
   const toogleModal = () => {
     dispatch(modalAction(<LinkEdit link={link} />))

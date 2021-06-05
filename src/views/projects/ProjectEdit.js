@@ -7,38 +7,22 @@ import { addNotification } from '../../actions/notifications'
 import {
   CButton,
   CCol,
-  CCard,
-  CCardBody,
-  CCardFooter,
-  CCardHeader,
-  CCardTitle,
+  CModalBody,
+  CModalFooter,
+  CModalHeader,
+  CModalTitle,
   CForm,
   CFormGroup,
   CTextarea,
   CInput,
-  CLabel,
-  CRow,
 } from '@coreui/react'
 
-const ProjectEdit = ({ match }) => {
+const ProjectEdit = (props) => {
 
   const dispatch = useDispatch()
 
   const [load, setLoad] = useState(true)
-  const [project, setProject] = useState({
-    'id': '',
-    'name': '',
-    'description': '',
-  })
-
-  useEffect(() => {
-    api.get('project/' + match.params.id)
-      .then(response => {
-        if (response.status === 200) {
-          setProject(response.data.project)
-        }
-      })
-  }, [match.params.id])
+  const [project, setProject] = useState(props.project)
 
   async function handleEdit(e) {
     e.preventDefault();
@@ -68,52 +52,44 @@ const ProjectEdit = ({ match }) => {
   }
 
   return (
-    <CRow>
-      <CCol xs="12" sm="12">
-        <CCard>
-          <CCardHeader>
-            <CCardTitle>Editar Projeto</CCardTitle>
-          </CCardHeader>
-          <CForm onSubmit={handleEdit} className="form-horizontal">
-            <CCardBody>
-              <CFormGroup row>
-                <CCol xs="12" md="12">
-                  <CLabel htmlFor="text-input">Nome</CLabel>
-                  <CInput
-                    id="text-input"
-                    name="text-input"
-                    placeholder="Nome"
-                    value={project.name}
-                    onChange={e => setProject({ ...project, 'name': e.target.value })}
-                  />
-                </CCol>
-              </CFormGroup>
-              <CFormGroup row>
-                <CCol xs="12" md="12">
-                  <CLabel htmlFor="textarea-input">Descrição</CLabel>
-                  <CTextarea
-                    name="textarea-input"
-                    id="textarea-input"
-                    rows="3"
-                    maxLength='500'
-                    placeholder="Descrição..."
-                    value={project.description}
-                    onChange={e => setProject({ ...project, 'description': e.target.value })}
-                  />
-                </CCol>
-              </CFormGroup>
-            </CCardBody>
-            <CCardFooter>
-              <CButton type="submit" color="success" disabled={!load}>
-                {
-                  load ? 'Salvar' : (<span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />)
-                }
-              </CButton>
-            </CCardFooter>
-          </CForm>
-        </CCard>
-      </CCol>
-    </CRow>
+    <CForm onSubmit={handleEdit} className="form-horizontal">
+      <CModalHeader>
+        <CModalTitle>Editar Projeto</CModalTitle>
+      </CModalHeader>
+      <CModalBody>
+        <CFormGroup row>
+          <CCol xs="12" md="12">
+            <CInput
+              id="text-input"
+              name="text-input"
+              placeholder="Nome"
+              value={project.name}
+              onChange={e => setProject({ ...project, 'name': e.target.value })}
+            />
+          </CCol>
+        </CFormGroup>
+        <CFormGroup row>
+          <CCol xs="12" md="12">
+            <CTextarea
+              name="textarea-input"
+              id="textarea-input"
+              rows="3"
+              maxLength='500'
+              placeholder="Descrição..."
+              value={project.description}
+              onChange={e => setProject({ ...project, 'description': e.target.value })}
+            />
+          </CCol>
+        </CFormGroup>
+      </CModalBody>
+      <CModalFooter>
+        <CButton type="submit" color="success" disabled={!load}>
+          {
+            load ? 'Salvar' : (<span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />)
+          }
+        </CButton>
+      </CModalFooter>
+    </CForm>
   )
 }
 
