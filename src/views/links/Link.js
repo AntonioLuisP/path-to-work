@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import api from "../../services/api"
 import { DropdownMore } from '../../reusable'
+import LinkEdit from './LinkEdit'
+import { modalAction } from '../../actions/modalAction'
 
 import {
   CCard,
@@ -13,7 +16,13 @@ import {
 export default function Link({ match }) {
 
   const history = useHistory()
+  const dispatch = useDispatch()
+
   const [link, setLink] = useState([])
+
+  const toogleModal = () => {
+    dispatch(modalAction(<LinkEdit link={link} />))
+  }
 
   useEffect(() => {
     api.get('link/' + match.params.id)
@@ -45,7 +54,7 @@ export default function Link({ match }) {
               {link.name}: {link.url}
               <div className="card-header-actions">
                 <DropdownMore
-                  editAction={() => history.push('/links/' + link.id + '/edit')}
+                  editAction={() => toogleModal()}
                   deleteAction={() => handleDelete(link.id)}
                 />
               </div>

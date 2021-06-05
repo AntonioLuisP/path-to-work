@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import api from "../../services/api"
 import { addNotification } from '../../actions/notifications'
@@ -6,37 +6,22 @@ import { addNotification } from '../../actions/notifications'
 import {
   CButton,
   CCol,
-  CCard,
-  CCardBody,
-  CCardFooter,
-  CCardHeader,
+  CModalBody,
+  CModalFooter,
+  CModalHeader,
   CCardTitle,
   CForm,
   CFormGroup,
   CInput,
   CLabel,
-  CRow,
 } from '@coreui/react'
 
-export default function LinkEdit({ match }) {
+export default function LinkEdit(props) {
 
   const dispatch = useDispatch()
 
   const [load, setLoad] = useState(true)
-  const [link, setLink] = useState({
-    'id': '',
-    'name': '',
-    'url': '',
-  })
-
-  useEffect(() => {
-    api.get('link/' + match.params.id)
-      .then(response => {
-        if (response.status === 200) {
-          setLink(response.data.link)
-        }
-      })
-  }, [match.params.id])
+  const [link, setLink] = useState(props.link)
 
   async function handleEdit(e) {
     e.preventDefault();
@@ -65,47 +50,42 @@ export default function LinkEdit({ match }) {
   }
 
   return (
-    <CRow>
-      <CCol xs="12" sm="12">
-        <CCard>
-          <CCardHeader>
-            <CCardTitle>Editar Link</CCardTitle>
-          </CCardHeader>
-          <CForm onSubmit={handleEdit} className="form-horizontal">
-            <CCardBody>
-              <CFormGroup row>
-                <CCol xs="12" md="12">
-                  <CInput
-                    id="text-input"
-                    name="text-input"
-                    placeholder="Nome"
-                    value={link.name}
-                    onChange={e => setLink({ ...link, 'name': e.target.value })} />
-                </CCol>
-              </CFormGroup>
-              <CFormGroup row>
-                <CCol xs="12" md="12">
-                  <CLabel htmlFor="text-input">Link</CLabel>
-                  <CInput
-                    id="text-input"
-                    name="text-input"
-                    placeholder="Url"
-                    value={link.url}
-                    onChange={e => setLink({ ...link, 'url': e.target.value })}
-                  />
-                </CCol>
-              </CFormGroup>
-            </CCardBody>
-            <CCardFooter>
-              <CButton type="submit" color="success" disabled={!load}>
-                {
-                  load ? 'Salvar' : (<span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />)
-                }
-              </CButton>
-            </CCardFooter>
-          </CForm>
-        </CCard>
-      </CCol>
-    </CRow>
+    <CForm onSubmit={handleEdit} className="form-horizontal">
+      <CModalHeader>
+        <CCardTitle>Editar Link</CCardTitle>
+      </CModalHeader>
+      <CModalBody>
+        <CFormGroup row>
+          <CCol xs="12" md="12">
+            <CInput
+              id="text-input"
+              name="text-input"
+              placeholder="Nome"
+              value={link.name}
+              onChange={e => setLink({ ...link, 'name': e.target.value })} />
+          </CCol>
+        </CFormGroup>
+        <CFormGroup row>
+          <CCol xs="12" md="12">
+            <CLabel htmlFor="text-input">Link</CLabel>
+            <CInput
+              id="text-input"
+              name="text-input"
+              placeholder="Url"
+              value={link.url}
+              onChange={e => setLink({ ...link, 'url': e.target.value })}
+            />
+          </CCol>
+        </CFormGroup>
+      </CModalBody>
+      <CModalFooter>
+        <CButton type="submit" color="success" disabled={!load}>
+          {
+            load ? 'Salvar' : (<span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />)
+          }
+        </CButton>
+      </CModalFooter>
+    </CForm>
+
   )
 }

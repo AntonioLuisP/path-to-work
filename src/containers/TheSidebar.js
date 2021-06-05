@@ -8,7 +8,6 @@ import {
   CSidebarNavTitle,
   CSidebarMinimizer,
   CSidebarNavItem,
-  CSidebarNavDropdown
 } from '@coreui/react'
 
 import CIcon from '@coreui/icons-react'
