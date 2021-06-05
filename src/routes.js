@@ -10,12 +10,12 @@ const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'));
 // const Social = React.lazy(() => import('./views/socials/Social'));
 // const SocialEdit = React.lazy(() => import('./views/socials/SocialEdit'));
 
-const LinkBoard = React.lazy(() => import('./views/links/LinkBoard'));
+const LinkIndex = React.lazy(() => import('./views/links/LinkIndex'));
 const LinkCreate = React.lazy(() => import('./views/links/LinkCreate'));
 const Link = React.lazy(() => import('./views/links/Link'));
 const LinkEdit = React.lazy(() => import('./views/links/LinkEdit'));
 
-const ProjectBoard = React.lazy(() => import('./views/projects/ProjectBoard'));
+const ProjectIndex = React.lazy(() => import('./views/projects/ProjectIndex'));
 const ProjectCreate = React.lazy(() => import('./views/projects/ProjectCreate'));
 const Project = React.lazy(() => import('./views/projects/Project'));
 const ProjectEdit = React.lazy(() => import('./views/projects/ProjectEdit'));
@@ -41,12 +41,12 @@ const routes = [
   // { path: '/social/:id', exact: true, name: 'Detalhes', component: Social },
   // { path: '/social/:id/edit', exact: true, name: 'Editar', component: SocialEdit },
 
-  { path: '/links', exact: true, name: 'Link', component: LinkBoard },
+  { path: '/links', exact: true, name: 'Link', component: LinkIndex },
   { path: '/links/create', exact: true, name: 'Criar', component: LinkCreate },
   { path: '/links/:id', exact: true, name: 'Detalhes', component: Link },
   { path: '/links/:id/edit', exact: true, name: 'Editar', component: LinkEdit },
 
-  { path: '/projects', exact: true, name: 'Projetos', component: ProjectBoard },
+  { path: '/projects', exact: true, name: 'Projetos', component: ProjectIndex },
   { path: '/projects/create', exact: true, name: 'Criar', component: ProjectCreate },
   { path: '/projects/:id', exact: true, name: 'Detalhes', component: Project },
   { path: '/projects/:id/edit', exact: true, name: 'Editar', component: ProjectEdit },

@@ -63,13 +63,12 @@ const TheSidebar = () => {
           icon={<CIcon content={cilTask} customClasses="c-sidebar-nav-icon" />}
         />
         <CSidebarNavTitle>Projetos</CSidebarNavTitle>
-        <CSidebarNavDropdown
+        <CSidebarNavItem
           name="Todos Projetos"
           to="/projects"
           icon={<CIcon content={cilList} customClasses="c-sidebar-nav-icon" />}
-        >
-          <Items />
-        </CSidebarNavDropdown>
+        />
+        <Items />
       </CSidebarNav>
       <CSidebarMinimizer className="c-d-md-down-none" />
     </CSidebar>

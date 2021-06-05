@@ -94,7 +94,7 @@ export default function LinkIndex() {
                     <CInput
                       id="link-search"
                       name="text-input"
-                      placeholder="Projeto"
+                      placeholder="Nome"
                       value={urlLink}
                       onChange={e => setUrlLink(e.target.value)}
                     />

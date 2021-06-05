@@ -1,7 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
+import { fillTasks } from '../../actions/tasks'
 import { SeeMore } from '../../reusable'
+import api from "../../services/api"
 import TaskCreate from './TaskCreate'
+import { modalAction } from '../../actions/modalAction'
 
 import {
   CButton,
@@ -10,7 +14,6 @@ import {
   CCard,
   CCardHeader,
   CCol,
-  CModal,
   CRow,
 } from '@coreui/react'
 
@@ -20,20 +23,25 @@ import {
 
 import CIcon from '@coreui/icons-react'
 
-export default function TaskBoard(props) {
+export default function TaskIndex(props) {
 
   const history = useHistory()
+  const dispatch = useDispatch()
 
-  const [project, setProject] = useState('')
-  const [modal, setModal] = useState(false)
+  const tasks = useSelector(state => state.tasks)
 
-  //lista
-  const [tasks, setTasks] = useState([])
+  const toogleModal = () => {
+    dispatch(modalAction(<TaskCreate />))
+  }
 
   useEffect(() => {
-    setTasks(props.lista)
-    setProject(props.project)
-  }, [props.project, props.lista])
+    api.get('task')
+      .then(response => {
+        if (response.status === 200) {
+          dispatch(fillTasks(response.data.data))
+        }
+      })
+  }, [dispatch])
 
   return (
     <CRow>
@@ -41,16 +49,10 @@ export default function TaskBoard(props) {
         <CBreadcrumb className="border-0 c-subheader-nav">
           <CBreadcrumbItem active>Tarefas</CBreadcrumbItem>
           <CButton
-            onClick={() => setModal(!modal)}
+            onClick={toogleModal}
           >
             <CIcon content={cilPlus} />
           </CButton>
-          <CModal
-            show={modal}
-            onClose={setModal}
-          >
-            <TaskCreate project={project} />
-          </CModal>
         </CBreadcrumb>
         <CRow>
           {
