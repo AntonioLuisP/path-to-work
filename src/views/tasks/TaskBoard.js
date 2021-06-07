@@ -28,7 +28,7 @@ export default function TaskBoard(props) {
   const tasks = useSelector(state => state.tasks)
 
   const toogleModal = () => {
-    dispatch(modalAction(<TaskCreate />))
+    dispatch(modalAction(<TaskCreate project={project} />))
   }
 
   useEffect(() => {

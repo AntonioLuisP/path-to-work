@@ -20,7 +20,7 @@ export default function Project({ match }) {
   const history = useHistory()
   const dispatch = useDispatch()
 
-  const [project, setProject] = useState()
+  const [project, setProject] = useState(null)
 
   const toogleModal = () => {
     dispatch(modalAction(<ProjectEdit project={project} />))
@@ -47,7 +47,7 @@ export default function Project({ match }) {
     }
   }
 
-  if (project === undefined) return (<Loading />)
+  if (project === null) return (<Loading />)
 
   return (
     <>

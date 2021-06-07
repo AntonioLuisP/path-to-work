@@ -24,16 +24,16 @@ export default function TaskCreate(props) {
 
   const [load, setLoad] = useState(true)
   const [task, setTask] = useState({
-    'id': '',
     'name': '',
     'id_project': '',
   })
+  console.log(task)
 
   useEffect(() => {
     if (typeof props.project !== "undefined") {
-      setTask({ ...task, 'id_project': props.project.id })
+      setTask(task => ({ ...task, 'id_project': props.project.id }))
     } else if (Object.keys(projects).length > 0) {
-      setTask({ ...task, 'id_project': projects[0].id })
+      setTask(task => ({ ...task, 'id_project': projects[0].id }))
     }
   }, [props.project, projects])
 
