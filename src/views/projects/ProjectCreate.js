@@ -17,13 +17,12 @@ import {
   CInput,
 } from '@coreui/react'
 
-const ProjectCreate = () => {
+export default function ProjectCreate() {
 
   const dispatch = useDispatch()
 
   const [load, setLoad] = useState(true)
   const [project, setProject] = useState({
-    'id': '',
     'name': '',
     'description': '',
   })
@@ -99,8 +98,3 @@ const ProjectCreate = () => {
 
   )
 }
-
-export default ProjectCreate
-
-
-

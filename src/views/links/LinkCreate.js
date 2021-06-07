@@ -23,7 +23,6 @@ export default function LinkCreate() {
   const [load, setLoad] = useState(true)
 
   const [link, setLink] = useState({
-    'id': '',
     'name': '',
     'url': '',
   })

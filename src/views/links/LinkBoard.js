@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { fillLinks } from '../../actions/links'
-import { useHistory } from 'react-router-dom'
-import { More } from '../../reusable'
+import { LinkComponent } from '../../components'
 import api from "../../services/api"
 import LinkCreate from './LinkCreate'
 import { modalAction } from '../../actions/modalAction'
@@ -12,7 +11,6 @@ import {
   CBreadcrumbItem,
   CButton,
   CCol,
-  CListGroupItem,
   CRow,
 } from '@coreui/react'
 
@@ -24,7 +22,6 @@ import CIcon from '@coreui/icons-react'
 
 export default function LinkBoard() {
 
-  const history = useHistory()
   const dispatch = useDispatch()
 
   const links = useSelector(state => state.links)
@@ -57,18 +54,7 @@ export default function LinkBoard() {
       <CCol xs="12" sm="12" md="12">
         {
           links.map(link => (
-            <CListGroupItem
-              key={link.id}
-              color='light'
-            >
-              <a
-                target='_blank'
-                rel="noreferrer noopener"
-                href={link.url} >
-                {link.name !== null ? link.name : link.url}
-              </a>
-              <More to={() => history.push('/links/' + link.id)} />
-            </CListGroupItem>
+            <LinkComponent key={link.id} link={link} />
           ))
         }
       </CCol>

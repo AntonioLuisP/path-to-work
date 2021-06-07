@@ -1,9 +1,8 @@
 import React from 'react'
-import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { SeeMore } from '../../reusable'
 import ProjectCreate from './ProjectCreate'
 import { modalAction } from '../../actions/modalAction'
+import { ProjectComponent } from '../../components'
 
 import {
   CBreadcrumb,
@@ -11,11 +10,9 @@ import {
   CButton,
   CCol,
   CRow,
-  CWidgetIcon
 } from '@coreui/react'
 
 import {
-  cilBriefcase,
   cilPlus,
 } from '@coreui/icons'
 
@@ -23,11 +20,10 @@ import CIcon from '@coreui/icons-react'
 
 export default function ProjectBoard() {
 
-  const history = useHistory()
   const dispatch = useDispatch()
 
   const projects = useSelector(state => state.projects)
-  
+
   const toogleModal = () => {
     dispatch(modalAction(<ProjectCreate />))
   }
@@ -46,12 +42,7 @@ export default function ProjectBoard() {
         <CRow>
           {
             projects.map(project => (
-              <CCol xs="12" sm="6" md="6" key={project.id}>
-                <CWidgetIcon header={project.name} text="Ver" color="info" iconPadding={false}>
-                  <CIcon width={24} content={cilBriefcase} />
-                  <SeeMore to={() => history.push('/projects/' + project.id)} />
-                </CWidgetIcon>
-              </CCol>
+              <ProjectComponent key={project.id} project={project} />
             ))
           }
         </CRow>
