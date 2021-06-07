@@ -47,9 +47,7 @@ export default function Project({ match }) {
     }
   }
 
-  if (project === undefined) {
-    return (<Loading />)
-  }
+  if (project === undefined) return (<Loading />)
 
   return (
     <>
