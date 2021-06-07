@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import api from "../../services/api"
-import { DropdownMore } from '../../reusable/'
+import { DropdownMore, Loading } from '../../reusable/'
 import ProjectEdit from './ProjectEdit'
 import { modalAction } from '../../actions/modalAction'
+import TaskBoard from '../tasks/TaskBoard'
 
 import {
   CCard,
@@ -19,7 +20,7 @@ export default function Project({ match }) {
   const history = useHistory()
   const dispatch = useDispatch()
 
-  const [project, setProject] = useState({})
+  const [project, setProject] = useState()
 
   const toogleModal = () => {
     dispatch(modalAction(<ProjectEdit project={project} />))
@@ -46,6 +47,10 @@ export default function Project({ match }) {
     }
   }
 
+  if (project === undefined) {
+    return (<Loading />)
+  }
+
   return (
     <>
       <CRow>
@@ -66,6 +71,7 @@ export default function Project({ match }) {
           </CCard>
         </CCol>
       </CRow>
+      <TaskBoard project={project} />
     </>
   )
 }

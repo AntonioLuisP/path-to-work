@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { fillTasks } from '../../actions/tasks'
-import { SeeMore } from '../../reusable'
+import { More } from '../../reusable'
 import api from "../../services/api"
 import TaskCreate from './TaskCreate'
 import { modalAction } from '../../actions/modalAction'
@@ -13,8 +13,10 @@ import {
   CBreadcrumbItem,
   CCard,
   CCardHeader,
+  CCardBody,
   CCol,
   CRow,
+  CSwitch
 } from '@coreui/react'
 
 import {
@@ -23,11 +25,13 @@ import {
 
 import CIcon from '@coreui/icons-react'
 
-export default function TaskIndex(props) {
+export default function TaskBoard(props) {
 
   const history = useHistory()
   const dispatch = useDispatch()
 
+  const project = props.project
+  console.log(project)
   const tasks = useSelector(state => state.tasks)
 
   const toogleModal = () => {
@@ -35,7 +39,7 @@ export default function TaskIndex(props) {
   }
 
   useEffect(() => {
-    api.get('task')
+    api.get('task/' + '?id_project=' + project.id)
       .then(response => {
         if (response.status === 200) {
           dispatch(fillTasks(response.data.data))
@@ -62,9 +66,13 @@ export default function TaskIndex(props) {
                   <CCardHeader>
                     {task.name}
                     <div className="card-header-actions">
-                      <SeeMore to={() => { history.push('/tasks/' + task.id) }} />
+                      <More to={() => { history.push('/tasks/' + task.id) }} />
+                      <CSwitch className={'float-right mb-0'} color={'success'} defaultChecked size={'sm'} tabIndex="0" />
                     </div>
                   </CCardHeader>
+                  <CCardBody>
+                    {task.description ? task.description : 'No description'}
+                  </CCardBody>
                 </CCard>
               </CCol>
             ))

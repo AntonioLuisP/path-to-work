@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { fillLinks } from '../../actions/links'
 import { useHistory } from 'react-router-dom'
-import { LinkMore } from '../../reusable'
+import { More } from '../../reusable'
 import api from "../../services/api"
 import LinkCreate from './LinkCreate'
 import { modalAction } from '../../actions/modalAction'
@@ -67,7 +67,7 @@ export default function LinkBoard() {
                 href={link.url} >
                 {link.name !== null ? link.name : link.url}
               </a>
-              <LinkMore to={() => history.push('/links/' + link.id)} />
+              <More to={() => history.push('/links/' + link.id)} />
             </CListGroupItem>
           ))
         }

@@ -1,7 +1,7 @@
 import React from 'react'
 import { CLink } from '@coreui/react'
 
-const LinkMore = ({ to }) => {
+const More = ({ to }) => {
   return (
     <CLink
       onClick={to}
@@ -12,4 +12,4 @@ const LinkMore = ({ to }) => {
   )
 }
 
-export default React.memo(LinkMore)
+export default React.memo(More)

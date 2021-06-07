@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
-import CommentBoard from "../comments/CommentBoard"
 import api from "../../services/api"
 import { DropdownMore } from '../../reusable'
 
@@ -15,15 +14,13 @@ import {
 export default function Task({ match }) {
 
   const history = useHistory()
-  const [task, setTask] = useState([])
-  const [comments, setComments] = useState([])
+  const [task, setTask] = useState({})
 
   useEffect(() => {
     api.get('task/' + match.params.id)
       .then(response => {
         if (response.status === 200) {
           setTask(response.data.task)
-          setComments(response.data.comments)
         } else {
           setTask([])
         }
@@ -61,7 +58,6 @@ export default function Task({ match }) {
           </CCard>
         </CCol>
       </CRow>
-      <CommentBoard task={task.id} lista={comments} />
     </>
   )
 }
