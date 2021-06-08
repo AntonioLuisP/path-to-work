@@ -1,123 +1,61 @@
-import React, { useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import api from "../../services/api"
-import { DropdownMore, ToasterNotification } from '../../reusable'
+import { fillComments } from '../../actions/comments'
+import { modalAction } from '../../actions/modalAction'
+import { CommentComponent } from '../../components'
+import CommentCreate from './CommentCreate'
 
 import {
   CBreadcrumb,
   CBreadcrumbItem,
   CButton,
-  CCard,
-  CCardHeader,
-  CCol,
-  CInput,
-  CInputGroup,
-  CInputGroupAppend,
-  CForm,
-  CFormGroup,
   CRow,
 } from '@coreui/react'
 
-export default function CommentBoard({ task, lista }) {
+import {
+  cilPlus,
+} from '@coreui/icons'
 
-  const history = useHistory()
+import CIcon from '@coreui/icons-react'
 
-  const [comment, setComment] = useState('')
-  const [id_task, setId_task] = useState('')
-  const [notifications, setNotifications] = useState({})
+export default function CommentBoard(props) {
 
-  //lista
-  const [comments, setComments] = useState([])
+  const dispatch = useDispatch()
+
+  const task = props.task
+  const comments = useSelector(state => state.comments)
+
+  const toogleModal = () => {
+    dispatch(modalAction(<CommentCreate task={task} />))
+  }
 
   useEffect(() => {
-    setComments(lista)
-    setId_task(task)
-  }, [task, lista])
-
-  async function handleCreate(e) {
-    e.preventDefault();
-    const data = {
-      comment,
-      'id_task': id_task,
-    }
-    try {
-      await api.post('comment', data, {})
-        .then(response => {
-          if (response.status === 200) {
-            setComments([...comments, response.data])
-            setNotifications({
-              header: 'Comentário adicionado: ',
-              body: response.data.comment,
-              id: response.data.id,
-            })
-          }
-        })
-    } catch (error) {
-      alert("erro")
-      console.log(error)
-    }
-  }
-
-  async function handleDelete(id) {
-    try {
-      await api.delete('/comment/' + id, {})
-      setComments(comments.filter(comment => comment.id !== id))
-    } catch (error) {
-      alert("Erro ao deletar o caso, tente novamente")
-      console.log(error)
-    }
-  }
+    api.get('comment/' + '?id_task=' + task.id)
+      .then(response => {
+        if (response.status === 200) {
+          dispatch(fillComments(response.data.data))
+        }
+      })
+  }, [task.id, dispatch])
 
   return (
-    <CRow>
-      <ToasterNotification notificaton={notifications} />
-      <CCol xs="12" sm="12" md="12">
-        <CBreadcrumb className="border-0 c-subheader-nav">
-          <CBreadcrumbItem active>Comentar</CBreadcrumbItem>
-        </CBreadcrumb>
-        <CForm onSubmit={handleCreate} className="form-horizontal">
-          <CFormGroup row>
-            <CCol xl="12" md="12" sm="12">
-              <CInputGroup>
-                <CInput
-                  id="text-input"
-                  name="text-input"
-                  placeholder="Diga algo"
-                  value={comment}
-                  onChange={e => setComment(e.target.value)}
-                />
-                <CInputGroupAppend>
-                  <CButton type="submit" color="success">Salvar</CButton>
-                </CInputGroupAppend>
-              </CInputGroup>
-            </CCol>
-          </CFormGroup>
-        </CForm>
-      </CCol>
-      <CCol xs="12" sm="12" md="12">
-        <CBreadcrumb className="border-0 c-subheader-nav">
-          <CBreadcrumbItem active>Comentários</CBreadcrumbItem>
-        </CBreadcrumb>
-        <CRow>
-          {
-            comments.map(comment => (
-              <CCol xs="12" sm="6" md="6" key={comment.id}>
-                <CCard>
-                  <CCardHeader>
-                    {comment.comment}
-                    <div className="card-header-actions">
-                      <DropdownMore
-                        editAction={() => history.push('/comments/' + comment.id + '/edit')}
-                        deleteAction={() => handleDelete(comment.id)}
-                      />
-                    </div>
-                  </CCardHeader>
-                </CCard>
-              </CCol>
-            ))
-          }
-        </CRow>
-      </CCol>
-    </CRow>
+    <>
+      <CBreadcrumb className="border-0 c-subheader-nav">
+        <CBreadcrumbItem active>Comentários</CBreadcrumbItem>
+        <CButton
+          onClick={toogleModal}
+        >
+          <CIcon content={cilPlus} />
+        </CButton>
+      </CBreadcrumb>
+      <CRow>
+        {
+          comments.map(comment => (
+            <CommentComponent key={comment.id} comment={comment} />
+          ))
+        }
+      </CRow>
+    </>
   )
 }
