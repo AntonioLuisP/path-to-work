@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import api from "../../services/api"
 import { DropdownMore, Loading } from '../../reusable/'
 import ProjectEdit from './ProjectEdit'
 import { modalAction } from '../../actions/modalAction'
 import TaskBoard from '../../components/TaskPage/TaskBoard'
+import { fillTasks } from '../../actions/tasks'
 
 import {
   CCard,
@@ -20,7 +21,9 @@ export default function Project({ match }) {
   const history = useHistory()
   const dispatch = useDispatch()
 
+  const [loading, setLoading] = useState(true)
   const [project, setProject] = useState(null)
+  const tasks = useSelector(state => state.tasks)
 
   const toogleModal = () => {
     dispatch(modalAction(<ProjectEdit project={project} />))
@@ -31,11 +34,13 @@ export default function Project({ match }) {
       .then(response => {
         if (response.status === 200) {
           setProject(response.data.project)
+          dispatch(fillTasks(response.data.tasks))
         } else {
           setProject([])
         }
+        setLoading(false)
       })
-  }, [match.params.id])
+  }, [match.params.id, dispatch])
 
   async function handleDelete(id) {
     try {
@@ -47,7 +52,7 @@ export default function Project({ match }) {
     }
   }
 
-  if (project === null) return (<Loading />)
+  if (loading) return (<Loading />)
 
   return (
     <>
@@ -69,7 +74,7 @@ export default function Project({ match }) {
           </CCard>
         </CCol>
       </CRow>
-      <TaskBoard project={project} />
+      <TaskBoard project={project} tasks={tasks} />
     </>
   )
 }

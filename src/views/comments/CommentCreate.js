@@ -23,10 +23,10 @@ export default function CommentCreate(props) {
   const [load, setLoad] = useState(true)
 
   const task = props.task
-  console.log(task)
 
   const [comment, setComment] = useState({
     'comment': '',
+    'id_task': '',
   })
 
   async function handleCreate(e) {
@@ -34,6 +34,7 @@ export default function CommentCreate(props) {
     setLoad(false)
     const data = {
       'comment': comment.comment,
+      'id_task': task.id,
     }
     try {
       await api.post('comment', data, {})
@@ -68,7 +69,7 @@ export default function CommentCreate(props) {
               name="text-input"
               placeholder="Diga algo"
               value={comment.comment}
-              onChange={e => setComment({ ...comment, 'comment': e.target.value })}
+              onChange={e => setComment(comment => ({ ...comment, 'comment': e.target.value }))}
             />
           </CCol>
         </CFormGroup>

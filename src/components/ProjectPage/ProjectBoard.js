@@ -1,44 +1,20 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
-import ProjectCreate from '../../views/projects/ProjectCreate'
-import { modalAction } from '../../actions/modalAction'
 import ProjectComponent from './ProjectComponent'
+import ProjectHeader from './ProjectHeader'
 
 import {
-  CBreadcrumb,
-  CBreadcrumbItem,
-  CButton,
   CCol,
   CRow,
 } from '@coreui/react'
 
-import {
-  cilPlus,
-} from '@coreui/icons'
-
-import CIcon from '@coreui/icons-react'
-
 export default function ProjectBoard(props) {
 
-  const dispatch = useDispatch()
-
   const projects = props.projects
-
-  const toogleModal = () => {
-    dispatch(modalAction(<ProjectCreate />))
-  }
 
   return (
     <CRow>
       <CCol xs="12" sm="12" md="12">
-        <CBreadcrumb className="border-0 c-subheader-nav">
-          <CBreadcrumbItem active>Seus Projetos</CBreadcrumbItem>
-          <CButton
-            onClick={toogleModal}
-          >
-            <CIcon content={cilPlus} />
-          </CButton>
-        </CBreadcrumb>
+        <ProjectHeader />
         <CRow>
           {
             projects.map(project => (
@@ -47,6 +23,6 @@ export default function ProjectBoard(props) {
           }
         </CRow>
       </CCol>
-    </CRow>
+    </CRow >
   )
 }

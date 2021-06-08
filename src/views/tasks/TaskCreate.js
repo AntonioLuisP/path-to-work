@@ -27,7 +27,6 @@ export default function TaskCreate(props) {
     'name': '',
     'id_project': '',
   })
-  console.log(task)
 
   useEffect(() => {
     if (typeof props.project !== "undefined") {
