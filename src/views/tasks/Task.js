@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import api from "../../services/api"
-import { TaskPrincipal } from '../../components/TaskPage'
-import { LinkBoard } from "../../components/LinkPage/"
+import TaskPrincipal from '../../components/TaskPage/TaskPrincipal'
+import LinkBoard from "../../components/LinkPage/LinkBoard"
 import { Loading } from '../../reusable'
 
 import {

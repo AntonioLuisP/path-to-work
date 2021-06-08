@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { ProjectBoard } from "../../components/ProjectPage"
-import { LinkBoard } from "../../components/LinkPage"
+import ProjectBoard from "../../components/ProjectPage/ProjectBoard"
+import LinkBoard from "../../components/LinkPage/LinkBoard"
 import api from "../../services/api"
 import { Loading } from '../../reusable/'
 import { fillLinks } from '../../actions/links'
