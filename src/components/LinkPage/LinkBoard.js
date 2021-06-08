@@ -1,8 +1,8 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import ProjectCreate from './ProjectCreate'
+import { useDispatch } from 'react-redux'
+import LinkComponent  from './LinkComponent'
+import LinkCreate from '../../views/links/LinkCreate'
 import { modalAction } from '../../actions/modalAction'
-import { ProjectComponent } from '../../components'
 
 import {
   CBreadcrumb,
@@ -18,34 +18,32 @@ import {
 
 import CIcon from '@coreui/icons-react'
 
-export default function ProjectBoard() {
+export default function LinkBoard(props) {
 
   const dispatch = useDispatch()
 
-  const projects = useSelector(state => state.projects)
-
+  const links = props.links
+  
   const toogleModal = () => {
-    dispatch(modalAction(<ProjectCreate />))
+    dispatch(modalAction(<LinkCreate />))
   }
 
   return (
     <CRow>
       <CCol xs="12" sm="12" md="12">
         <CBreadcrumb className="border-0 c-subheader-nav">
-          <CBreadcrumbItem active>Seus Projetos</CBreadcrumbItem>
+          <CBreadcrumbItem active>Seus Links</CBreadcrumbItem>
           <CButton
             onClick={toogleModal}
           >
             <CIcon content={cilPlus} />
           </CButton>
         </CBreadcrumb>
-        <CRow>
-          {
-            projects.map(project => (
-              <ProjectComponent key={project.id} project={project} />
-            ))
-          }
-        </CRow>
+        {
+          links.map(link => (
+            <LinkComponent key={link.id} link={link} />
+          ))
+        }
       </CCol>
     </CRow>
   )

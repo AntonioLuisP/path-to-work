@@ -2,9 +2,9 @@ import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { fillTasks } from '../../actions/tasks'
 import api from "../../services/api"
-import TaskCreate from './TaskCreate'
+import TaskCreate from '../../views/tasks/TaskCreate'
 import { modalAction } from '../../actions/modalAction'
-import { TaskComponent } from '../../components'
+import TaskComponent from './TaskComponent'
 
 import {
   CButton,

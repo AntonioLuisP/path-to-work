@@ -3,8 +3,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import api from "../../services/api"
 import { fillComments } from '../../actions/comments'
 import { modalAction } from '../../actions/modalAction'
-import { CommentComponent } from '../../components'
-import CommentCreate from './CommentCreate'
+import CommentComponent from './CommentComponent'
+import CommentCreate from '../../views/comments/CommentCreate'
 
 import {
   CBreadcrumb,

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import { More } from '../reusable'
-import api from "../services/api"
+import { More } from '../../reusable'
+import api from "../../services/api"
 
 import {
     CCard,

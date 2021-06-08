@@ -1,6 +1,6 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import { SeeMore } from '../reusable'
+import { SeeMore } from '../../reusable'
 
 import {
     CCol,

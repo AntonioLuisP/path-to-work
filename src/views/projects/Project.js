@@ -5,7 +5,7 @@ import api from "../../services/api"
 import { DropdownMore, Loading } from '../../reusable/'
 import ProjectEdit from './ProjectEdit'
 import { modalAction } from '../../actions/modalAction'
-import TaskBoard from '../tasks/TaskBoard'
+import { TaskBoard } from '../../components/TaskPage/'
 
 import {
   CCard,

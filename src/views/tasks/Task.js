@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-// import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import api from "../../services/api"
 import { TaskPrincipal } from '../../components/TaskPage'
-import LinkBoard from "../links/LinkBoard"
+import { LinkBoard } from "../../components/LinkPage/"
 import { Loading } from '../../reusable'
 
 import {
@@ -13,12 +13,12 @@ import {
   CListGroupItem,
   CRow,
 } from '@coreui/react'
-import CommentBoard from '../comments/CommentBoard'
+import CommentBoard from '../../components/CommentPage/CommentBoard'
 
 export default function Task({ match }) {
 
   const [task, setTask] = useState(null)
-  // const projects = useSelector(state => state.projects)
+  const links = useSelector(state => state.links)
   // const project = projects.find(project => project.id === task.id_project)
 
   useEffect(() => {
@@ -43,7 +43,7 @@ export default function Task({ match }) {
             <CommentBoard task={task} />
           </CCol>
           <CCol xs="12" sm="6" md="6">
-            <LinkBoard />
+            <LinkBoard links={links}/>
           </CCol>
         </CRow>
       </CCol>
