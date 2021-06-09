@@ -1,23 +1,18 @@
 import React from 'react'
 
 import {
-    CCard,
-    CCardHeader,
-    CCol,
+    CCallout
 } from '@coreui/react'
 
 export default function CommentComponent(props) {
 
     const comment = props.comment
-    
+
     return (
-        <CCol xs="12" sm="12" md="12" key={comment.id}>
-            <CCard>
-                <CCardHeader>
-                    {comment.comment}
-                </CCardHeader>
-            </CCard>
-        </CCol>
+        <CCallout color="info">
+            <p className="text-muted">Lubuck diz:</p>
+            <p className="text-justify">{comment.comment}</p>
+        </CCallout>
     )
 }
 

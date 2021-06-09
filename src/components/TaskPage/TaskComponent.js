@@ -8,7 +8,7 @@ import {
     CCardHeader,
     CCardBody,
     CCol,
-    CSwitch,
+    CInputCheckbox,
 } from '@coreui/react'
 
 export default function TaskComponent(props) {
@@ -26,7 +26,7 @@ export default function TaskComponent(props) {
             await api.put('/task/' + task.id, data, {})
                 .then(response => {
                     if (response.status === 200) {
-                        setTask(task=> ({...task, 'conclusion': data.conclusion}))
+                        setTask(task => ({ ...task, 'conclusion': data.conclusion }))
                     }
                 })
         } catch (error) {
@@ -41,14 +41,10 @@ export default function TaskComponent(props) {
                 <CCardHeader>
                     {task.name}
                     <div className="card-header-actions">
-                        <CSwitch
-                         className={'float-right mb-0'} 
-                         color={'success'}
-                         size={'sm'} 
-                         tabIndex="0" 
-                         checked={task.conclusion}
-                         onChange={handleConclusion}
-                         />
+                        <CInputCheckbox
+                            checked={task.conclusion}
+                            onChange={handleConclusion}
+                        />
                         <More to={() => { history.push('/tasks/' + task.id) }} />
                     </div>
                 </CCardHeader>

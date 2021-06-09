@@ -6,7 +6,7 @@ const TheFooter = () => {
   return (
     <CFooter fixed={false}>
       <div>
-        <a href="https://github.com/AntonioLuisP" target="_blank" rel="noopener noreferrer">Note Recomendation</a>
+        <a href="https://github.com/AntonioLuisP" target="_blank" rel="noopener noreferrer">Link Work</a>
 
       </div>
       <div className="mfs-auto">

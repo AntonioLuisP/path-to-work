@@ -36,7 +36,7 @@ const TheSidebar = () => {
         to='/'
         className="d-md-down-none text-center text-decoration-none"
       >
-        Path Work
+        Link Work
       </CSidebarBrand>
       <CSidebarNav>
         <CSidebarNavItem

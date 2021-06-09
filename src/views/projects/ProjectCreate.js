@@ -95,6 +95,5 @@ export default function ProjectCreate() {
         </CModalFooter>
       </CForm>
     </>
-
   )
 }

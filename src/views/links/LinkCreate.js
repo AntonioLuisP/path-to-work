@@ -55,41 +55,43 @@ export default function LinkCreate() {
   }
 
   return (
-    <CForm onSubmit={handleCreate} className="form-horizontal">
+    <>
       <CModalHeader closeButton>
         <CModalTitle>Novo Link</CModalTitle>
       </CModalHeader >
-      <CModalBody>
-        <CFormGroup row>
-          <CCol xs="12" md="12">
-            <CInput
-              id="text-input"
-              name="text-input"
-              placeholder="Nome"
-              value={link.name}
-              onChange={e => setLink({ ...link, 'name': e.target.value })}
-            />
-          </CCol>
-        </CFormGroup>
-        <CFormGroup row>
-          <CCol xs="12" md="12">
-            <CInput
-              id="text-input"
-              name="text-input"
-              placeholder="Url"
-              value={link.url}
-              onChange={e => setLink({ ...link, 'url': e.target.value })}
-            />
-          </CCol>
-        </CFormGroup>
-      </CModalBody>
-      <CModalFooter>
-        <CButton type="submit" color="success" disabled={!load}>
-          {
-            load ? 'Adicionar' : (<span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />)
-          }
-        </CButton>
-      </CModalFooter>
-    </CForm>
+      <CForm onSubmit={handleCreate} className="form-horizontal">
+        <CModalBody>
+          <CFormGroup row>
+            <CCol xs="12" md="12">
+              <CInput
+                id="text-input"
+                name="text-input"
+                placeholder="Nome"
+                value={link.name}
+                onChange={e => setLink({ ...link, 'name': e.target.value })}
+              />
+            </CCol>
+          </CFormGroup>
+          <CFormGroup row>
+            <CCol xs="12" md="12">
+              <CInput
+                id="text-input"
+                name="text-input"
+                placeholder="Url"
+                value={link.url}
+                onChange={e => setLink({ ...link, 'url': e.target.value })}
+              />
+            </CCol>
+          </CFormGroup>
+        </CModalBody>
+        <CModalFooter>
+          <CButton type="submit" color="success" disabled={!load}>
+            {
+              load ? 'Adicionar' : (<span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />)
+            }
+          </CButton>
+        </CModalFooter>
+      </CForm>
+    </>
   )
 }
