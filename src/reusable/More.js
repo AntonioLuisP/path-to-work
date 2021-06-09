@@ -6,8 +6,9 @@ const More = ({ to }) => {
     <CLink
       onClick={to}
       rel="noreferrer noopener"
+      className='float-right text-muted text-decoration-none'
     >
-      <p className="float-right text-muted">Ver</p>
+      Ver
     </CLink>
   )
 }

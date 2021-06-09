@@ -6,7 +6,9 @@ import TaskInfo from '../../components/TaskPage/TaskInfo'
 import LinkBoard from "../../components/LinkPage/LinkBoard"
 import { Loading } from '../../reusable'
 import { fillComments } from '../../actions/comments'
+import { fillTodos } from '../../actions/todos'
 import CommentBoard from '../../components/CommentPage/CommentBoard'
+import TodoBoard from '../../components/TodoPage/TodoBoard'
 
 import {
   CCol,
@@ -21,6 +23,7 @@ export default function Task({ match }) {
   const [task, setTask] = useState(null)
   const comments = useSelector(state => state.comments)
   const links = useSelector(state => state.links)
+  const todos = useSelector(state => state.todos)
   // const project = projects.find(project => project.id === task.id_project)
 
   useEffect(() => {
@@ -29,6 +32,7 @@ export default function Task({ match }) {
         if (response.status === 200) {
           setTask(response.data.task)
           dispatch(fillComments(response.data.comments))
+          dispatch(fillTodos(response.data.todos))
         } else {
           setTask([])
         }
@@ -44,7 +48,7 @@ export default function Task({ match }) {
         <TaskPrincipal task={task} />
         <CRow>
           <CCol xs="12" sm="6" md="6">
-            <CommentBoard task={task} comments={comments} />
+            <TodoBoard task={task} todos={todos} />
           </CCol>
           <CCol xs="12" sm="6" md="6">
             <LinkBoard links={links} />
@@ -53,6 +57,7 @@ export default function Task({ match }) {
       </CCol>
       <CCol xs="12" sm="3" md="3">
         <TaskInfo task={task} />
+        <CommentBoard task={task} comments={comments} />
       </CCol>
     </CRow>
   )
