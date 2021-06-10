@@ -3,8 +3,8 @@ import CommentComponent from './CommentComponent'
 import CommentHeader from './CommentHeader'
 
 import {
-  CCol,
-  CRow,
+  CCard,
+  CCardBody,
 } from '@coreui/react'
 
 export default function CommentBoard(props) {
@@ -15,15 +15,15 @@ export default function CommentBoard(props) {
   return (
     <>
       <CommentHeader task={task} />
-      <CRow>
-        <CCol>
-          {
+      <CCard>
+        <CCardBody height='80rm'>
+        {
             comments.map(comment => (
               <CommentComponent key={comment.id} comment={comment} />
             ))
           }
-        </CCol>
-      </CRow>
+        </CCardBody>
+      </CCard>
     </>
   )
 }

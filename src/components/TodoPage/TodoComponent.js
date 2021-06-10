@@ -1,13 +1,11 @@
 import React, { useState } from 'react'
 import api from "../../services/api"
-
-import {
-    CCard,
-    CCardHeader,
-    CInputCheckbox,
-} from '@coreui/react'
+import { More } from '../../reusable'
+import { useHistory } from 'react-router-dom'
 
 export default function TodoComponent(props) {
+
+    const history = useHistory()
 
     const [todo, setTodo] = useState(props.todo)
 
@@ -30,16 +28,16 @@ export default function TodoComponent(props) {
     }
 
     return (
-        <CCard>
-            <CCardHeader className='text-center'>
-                <CInputCheckbox
-                    checked={todo.conclusion}
-                    onChange={handleConclusion}
-                />
+        <tr>
+            <td width='5%'>
+                <input type='checkbox' checked={todo.conclusion} onChange={handleConclusion} />
+            </td>
+            <td width='90%' className='text-break text-justify'>
                 {todo.name}
-            </CCardHeader>
-        </CCard>
+            </td>
+            <td width='5%'>
+                <More to={() => { history.push('/todos/' + todo.id) }} />
+            </td>
+        </tr>
     )
 }
-
-

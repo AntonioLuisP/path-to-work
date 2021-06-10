@@ -1,5 +1,6 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import Items from './Items'
 
 import {
   CSidebar,
@@ -10,7 +11,6 @@ import {
   CSidebarNavItem,
 } from '@coreui/react'
 
-import CIcon from '@coreui/icons-react'
 
 import {
   cilCursor,
@@ -20,7 +20,7 @@ import {
   cilTask
 } from '@coreui/icons'
 
-import Items from './Items'
+import CIcon from '@coreui/icons-react'
 
 const TheSidebar = () => {
 

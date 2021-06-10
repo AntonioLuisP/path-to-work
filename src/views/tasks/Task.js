@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import api from "../../services/api"
 import TaskPrincipal from '../../components/TaskPage/TaskPrincipal'
-import TaskInfo from '../../components/TaskPage/TaskInfo'
+import TaskStatus from '../../components/TaskPage/TaskStatus'
 import LinkBoard from "../../components/LinkPage/LinkBoard"
 import { Loading } from '../../reusable'
 import { fillComments } from '../../actions/comments'
@@ -56,7 +56,7 @@ export default function Task({ match }) {
         </CRow>
       </CCol>
       <CCol xs="12" sm="3" md="3">
-        <TaskInfo task={task} />
+        <TaskStatus task={task} todos={todos} links={links} comments={comments} />
         <CommentBoard task={task} comments={comments} />
       </CCol>
     </CRow>
