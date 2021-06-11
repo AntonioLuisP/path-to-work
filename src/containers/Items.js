@@ -15,8 +15,9 @@ import CIcon from '@coreui/icons-react'
 
 const Items = () => {
 
-    const projects = useSelector(state => state.projects)
     const dispatch = useDispatch()
+
+    const projects = useSelector(state => state.projects)
 
     useEffect(() => {
         api.get('project')
@@ -33,7 +34,7 @@ const Items = () => {
                 projects.map(project => (
                     <CSidebarNavItem
                         key={project.id}
-                        name={project.name}
+                        name={project.name.length > 25 ? project.name.substring(0, 24) + ' ...' : project.name}
                         to={'/projects/' + project.id}
                         icon={<CIcon content={cilBriefcase} customClasses="c-sidebar-nav-icon" />}
                     />
