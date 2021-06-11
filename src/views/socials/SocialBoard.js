@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
-import { SeeMore, ToasterNotification } from '../../reusable'
+import { More } from '../../reusable'
 import api from "../../services/api"
 
 import {
@@ -24,7 +24,6 @@ const QuestionBoard = ({ project, lista }) => {
 
   const [question, setQuestion] = useState('')
   const [id_project, setId_project] = useState('')
-  const [notifications, setNotifications] = useState({})
 
   //lista
   const [questions, setQuestions] = useState([])
@@ -45,11 +44,6 @@ const QuestionBoard = ({ project, lista }) => {
         .then(response => {
           if (response.status === 200) {
             setQuestions([...questions, response.data])
-            setNotifications({
-              header: 'Questão adicionada:',
-              body: response.data.question,
-              id: response.data.id,
-            })
           }
         })
     } catch (error) {
@@ -60,7 +54,6 @@ const QuestionBoard = ({ project, lista }) => {
 
   return (
     <CRow>
-      <ToasterNotification notificaton={notifications} />
       <CCol xs="12" sm="12" md="12">
         <CBreadcrumb className="border-0 c-subheader-nav">
           <CBreadcrumbItem active>Nova Questão</CBreadcrumbItem>
@@ -96,7 +89,7 @@ const QuestionBoard = ({ project, lista }) => {
                   <CCardHeader>
                     {question.question}
                     <div className="card-header-actions">
-                      <SeeMore to={() => { history.push('/questions/' + question.id) }} />
+                      <More to={() => { history.push('/questions/' + question.id) }} />
                     </div>
                   </CCardHeader>
                 </CCard>

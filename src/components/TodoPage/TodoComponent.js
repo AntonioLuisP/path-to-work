@@ -1,11 +1,7 @@
 import React, { useState } from 'react'
 import api from "../../services/api"
-import { More } from '../../reusable'
-import { useHistory } from 'react-router-dom'
 
 export default function TodoComponent(props) {
-
-    const history = useHistory()
 
     const [todo, setTodo] = useState(props.todo)
 
@@ -34,9 +30,6 @@ export default function TodoComponent(props) {
             </td>
             <td width='90%' className='text-break text-justify'>
                 {todo.name}
-            </td>
-            <td width='5%'>
-                <More to={() => { history.push('/todos/' + todo.id) }} />
             </td>
         </tr>
     )

@@ -1,14 +1,14 @@
 import React from 'react'
 import { CLink } from '@coreui/react'
 
-const More = ({ to }) => {
+const More = (props) => {
   return (
     <CLink
-      onClick={to}
+      onClick={props.to}
       rel="noreferrer noopener"
-      className='float-right text-muted text-decoration-none'
+      className='float-right text-decoration-none'
     >
-      Ver
+      {props.children}
     </CLink>
   )
 }

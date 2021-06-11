@@ -25,17 +25,17 @@ export default function TaskStatusFooter(props) {
             <CRow>
                 <CCol>
                     <div className="text-value-md">{todos}</div>
-                    <CIcon content={cilTask} customClasses="c-sidebar-nav-icon" />
+                    <CIcon content={cilTask}/>
                 </CCol>
                 <CCol>
                     <div className="text-value-md">{links}</div>
-                    <CIcon content={cilCursor} customClasses="c-sidebar-nav-icon" />
+                    <CIcon content={cilCursor}/>
                     {/* </div> */}
 
                 </CCol>
                 <CCol>
                     <div className="text-value-md">{comments}</div>
-                    <CIcon content={cilSpeech} customClasses="c-sidebar-nav-icon" />
+                    <CIcon content={cilSpeech}/>
                 </CCol>
             </CRow>
         </CCardFooter>

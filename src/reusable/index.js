@@ -1,5 +1,4 @@
 import DropdownMore from './DropdownMore'
-import SeeMore from './SeeMore'
 import More from './More'
 import Modal from './Modal'
 import Loading from './Loading'
@@ -8,7 +7,6 @@ import TypeColorBadge from './TypeColorBadge'
 
 export {
   DropdownMore,
-  SeeMore,
   More,
   Loading,
   Modal,

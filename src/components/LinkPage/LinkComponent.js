@@ -3,8 +3,16 @@ import { useHistory } from 'react-router-dom'
 import { More } from '../../reusable'
 
 import {
-    CListGroupItem,
+    CCardBody,
+    CCard,
+    CCardText,
 } from '@coreui/react'
+
+import {
+    cilCursor,
+} from '@coreui/icons'
+
+import CIcon from '@coreui/icons-react'
 
 export default function LinkComponent(props) {
 
@@ -13,18 +21,21 @@ export default function LinkComponent(props) {
     const link = props.link
 
     return (
-        <CListGroupItem
-            key={link.id}
-            color='light'
-        >
-            <a
-                target='_blank'
-                rel="noreferrer noopener"
-                href={link.url} >
-                {link.name !== null ? link.name : link.url}
-            </a>
-            <More to={() => history.push('/links/' + link.id)} />
-        </CListGroupItem>
+        <CCard>
+            <CCardBody>
+                <CCardText className='text-break text-justify'>
+                    <a
+                        target='_blank'
+                        rel="noreferrer noopener"
+                        href={link.url} >
+                        {link.name !== null ? link.name : link.url}
+                    </a>
+                </CCardText>
+                <More to={() => history.push('/links/' + link.id)}>
+                    <CIcon width={20} content={cilCursor} />
+                </More>
+            </CCardBody>
+        </CCard>
     )
 }
 
