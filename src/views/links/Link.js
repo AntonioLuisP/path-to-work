@@ -49,7 +49,7 @@ export default function Link({ match }) {
     <>
       <CRow>
         <CCol xs="12" sm="12" md="12">
-          <CCard>
+          <CCard className='text-break text-justify'>
             <CCardHeader color="secondary">
               {link.name}: {link.url}
               <div className="card-header-actions">

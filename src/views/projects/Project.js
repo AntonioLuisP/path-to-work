@@ -58,7 +58,7 @@ export default function Project({ match }) {
     <>
       <CRow>
         <CCol xs="12" sm="12" md="12">
-          <CCard>
+          <CCard className='text-break text-justify'>
             <CCardHeader color="secondary">
               {project.name}
               <div className="card-header-actions">

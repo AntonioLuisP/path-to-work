@@ -27,7 +27,7 @@ export default function TaskPrincipal(props) {
     }
 
     return (
-        <CCard>
+        <CCard className='text-break text-justify'>
             <CCardHeader color="secondary">
                 {task.name}
                 <div className="card-header-actions">
