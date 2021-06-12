@@ -22,15 +22,15 @@ export default function projectsReducer(state = INITIAL, { type, ...rest }) {
 }
 
 export const Actions = {
-    addProject: (data) => ({
+    addOne: (data) => ({
         type: TYPES.ADD_PROJECT,
         project: data
     }),
-    fillProjects: (list) => ({
+    fillSome: (list) => ({
         type: TYPES.FILL_PROJECTS,
         projects: list
     }),
-    editProject: (data) => ({
+    editOne: (data) => ({
         type: TYPES.EDIT_PROJECT,
         project: data
     })

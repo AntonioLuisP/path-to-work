@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import ProjectCreate from '../../views/projects/ProjectCreate'
-import { modalAction } from '../../actions/modalAction'
+import { Actions as ActionModal } from '../../redux/modal'
 
 import {
   CBreadcrumb,
@@ -20,7 +20,7 @@ export default function ProjectHeader(props) {
   const dispatch = useDispatch()
 
   const toogleModal = () => {
-    dispatch(modalAction(<ProjectCreate />))
+    dispatch(ActionModal.modalSwitch(<ProjectCreate />))
   }
 
   return (

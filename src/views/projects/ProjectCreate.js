@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import api from "../../services/api"
 import { useDispatch } from 'react-redux'
-import { addProject } from '../../actions/projects'
-import { addNotification } from '../../actions/notifications'
+import { Actions as ActionProject } from '../../redux/projects'
+import { Actions as ActionNotification } from '../../redux/notifications'
 
 import {
   CButton,
@@ -38,8 +38,8 @@ export default function ProjectCreate() {
       await api.post('project', data, {})
         .then(response => {
           if (response.status === 200) {
-            dispatch(addProject(response.data))
-            dispatch(addNotification({
+            dispatch(ActionProject.addOne(response.data))
+            dispatch(ActionNotification.addOne({
               header: 'Projeto adicionado:',
               body: response.data.name,
               id: response.data.id,

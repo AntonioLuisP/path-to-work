@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import api from "../../services/api"
 import { DropdownMore, Loading } from '../../reusable/'
-import ProjectEdit from './ProjectEdit'
-import { modalAction } from '../../actions/modalAction'
 import TaskBoard from '../../components/TaskPage/TaskBoard'
-import { fillTasks } from '../../actions/tasks'
+import ProjectEdit from './ProjectEdit'
+import api from "../../services/api"
+import { Actions as ActionModal } from '../../redux/modal'
+import { Actions as ActionTask } from '../../redux/tasks'
 
 import {
   CCard,
@@ -26,7 +26,7 @@ export default function Project({ match }) {
   const tasks = useSelector(state => state.tasks)
 
   const toogleModal = () => {
-    dispatch(modalAction(<ProjectEdit project={project} />))
+    dispatch(ActionModal.modalSwitch(<ProjectEdit project={project} />))
   }
 
   useEffect(() => {
@@ -34,7 +34,7 @@ export default function Project({ match }) {
       .then(response => {
         if (response.status === 200) {
           setProject(response.data.project)
-          dispatch(fillTasks(response.data.tasks))
+          dispatch(ActionTask.fillSome(response.data.tasks))
         } else {
           setProject([])
         }

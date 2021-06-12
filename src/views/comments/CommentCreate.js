@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import api from "../../services/api"
 import { useDispatch } from 'react-redux'
-import { addComment } from '../../actions/comments'
-import { addNotification } from '../../actions/notifications'
+import { Actions as ActionComment } from '../../redux/comments'
+import { Actions as ActionNotification } from '../../redux/notifications'
 
 import {
   CButton,
@@ -40,8 +40,8 @@ export default function CommentCreate(props) {
       await api.post('comment', data, {})
         .then(response => {
           if (response.status === 200) {
-            dispatch(addComment(response.data))
-            dispatch(addNotification({
+            dispatch(ActionComment.addOne(response.data))
+            dispatch(ActionNotification.addOne({
               header: 'Comentário adicionado:',
               body: response.data.comment,
               id: response.data.id,

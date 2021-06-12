@@ -1,20 +1,21 @@
 export const TYPES = {
-    ADD_PROJECT: 'ADD_PROJECT',
-    FILL_PROJECTS: 'FILL_PROJECTS',
-    EDIT_PROJECT: 'EDIT_PROJECT',
+    SIDEBAR: 'SIDEBAR',
 }
 
 const INITIAL = 'responsive'
 
 export default function sidebarReducer(state = INITIAL, { type, ...rest }) {
     switch (type) {
-        case 'set':
-            return rest.sidebarShow
+        case TYPES.SIDEBAR:
+            return rest.show
         default:
             return state
     }
 }
 
 export const Actions = {
-
+    showSwitch: (data) => ({
+        type: TYPES.SIDEBAR,
+        show: data
+    }),
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { modalAction } from '../../actions/modalAction'
+import { Actions as ActionModal } from '../../redux/modal'
 import CommentCreate from '../../views/comments/CommentCreate'
 
 import {
@@ -22,7 +22,7 @@ export default function CommentHeader(props) {
     const task = props.task
 
     const toogleModal = () => {
-        dispatch(modalAction(<CommentCreate task={task} />))
+        dispatch(ActionModal.modalSwitch(<CommentCreate task={task} />))
     }
 
     return (

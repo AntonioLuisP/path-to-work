@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import LinkCreate from '../../views/links/LinkCreate'
-import { modalAction } from '../../actions/modalAction'
+import { Actions as ActionModal } from '../../redux/modal'
 
 import {
     CBreadcrumb,
@@ -20,7 +20,7 @@ export default function LinkHeader() {
     const dispatch = useDispatch()
 
     const toogleModal = () => {
-        dispatch(modalAction(<LinkCreate />))
+        dispatch(ActionModal.modalSwitch(<LinkCreate />))
     }
 
     return (

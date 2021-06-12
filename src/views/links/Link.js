@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import api from "../../services/api"
 import { DropdownMore } from '../../reusable'
+import { Actions as ActionModal } from '../../redux/modal'
+import api from "../../services/api"
 import LinkEdit from './LinkEdit'
-import { modalAction } from '../../actions/modalAction'
 
 import {
   CCard,
@@ -21,7 +21,7 @@ export default function Link({ match }) {
   const [link, setLink] = useState({})
 
   const toogleModal = () => {
-    dispatch(modalAction(<LinkEdit link={link} />))
+    dispatch(ActionModal.modalSwitch(<LinkEdit link={link} />))
   }
 
   useEffect(() => {

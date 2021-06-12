@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { addNotification } from '../../actions/notifications'
+import { Actions as ActionNotification } from '../../redux/notifications'
 import api from "../../services/api"
 
 import {
@@ -47,7 +47,7 @@ export default function TaskCreate(props) {
       await api.post('task', data, {})
         .then(response => {
           if (response.status === 200) {
-            dispatch(addNotification({
+            dispatch(ActionNotification.addOne({
               header: 'Tarefa adicionada:',
               body: response.data.name,
               id: response.data.id,

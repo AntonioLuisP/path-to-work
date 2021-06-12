@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { modalAction } from '../actions/modalAction'
+import { Actions as ActionModal } from '../redux/modal'
 import TaskCreate from '../views/tasks/TaskCreate'
 
 import {
@@ -21,7 +21,7 @@ const TheHeaderPlus = () => {
   const dispatch = useDispatch()
 
   const toogleModal = () => {
-    dispatch(modalAction(<TaskCreate />))
+    dispatch(ActionModal.modalSwitch(<TaskCreate />))
   }
 
   return (

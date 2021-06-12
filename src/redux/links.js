@@ -22,15 +22,15 @@ export default function linksReducer(state = INITIAL, { type, ...rest }) {
 }
 
 export const Actions = {
-    addLink: (data) => ({
+    addOne: (data) => ({
         type: TYPES.ADD_LINK,
         link: data
     }),
-    fillLinks: (list) => ({
+    fillSome: (list) => ({
         type: TYPES.FILL_LINKS,
         links: list
     }),
-    editLink: (data) => ({
+    editOne: (data) => ({
         type: TYPES.EDIT_LINK,
         link: data
     })

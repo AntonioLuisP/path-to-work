@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import api from "../../services/api"
 import { useDispatch } from 'react-redux'
-import { addTodo } from '../../actions/todos'
-import { addNotification } from '../../actions/notifications'
+import { Actions as ActionTodo  } from '../../redux/todos'
+import { Actions as ActionNotification  } from '../../redux/notifications'
 
 import {
   CButton,
@@ -40,10 +40,10 @@ export default function TodoCreate(props) {
       await api.post('todo', data, {})
         .then(response => {
           if (response.status === 200) {
-            dispatch(addTodo(response.data))
-            dispatch(addNotification({
+            dispatch(ActionTodo.addOne(response.data))
+            dispatch(ActionNotification.addOne({
               header: 'Afazer adicionado:',
-              body: response.data.todo,
+              body: response.data.name,
               id: response.data.id,
             }))
           }

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { fillProjects } from '../actions/projects'
+import { Actions as ActionProject } from '../redux/projects'
 import api from "../services/api"
 
 import {
@@ -23,7 +23,7 @@ const Items = () => {
         api.get('project')
             .then(response => {
                 if (response.status === 200) {
-                    dispatch(fillProjects(response.data.data))
+                    dispatch(ActionProject.fillSome(response.data.data))
                 }
             })
     }, [dispatch])

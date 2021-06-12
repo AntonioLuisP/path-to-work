@@ -4,7 +4,7 @@ import ProjectBoard from "../../components/ProjectPage/ProjectBoard"
 import LinkBoard from "../../components/LinkPage/LinkBoard"
 import api from "../../services/api"
 import { Loading } from '../../reusable/'
-import { fillLinks } from '../../actions/links'
+import { Actions as ActionLink } from '../../redux/links'
 
 import {
     CCol,
@@ -24,7 +24,7 @@ export default function Dashboard() {
         api.get('link')
             .then(response => {
                 if (response.status === 200) {
-                    dispatch(fillLinks(response.data.data))
+                    dispatch(ActionLink.fillSome(response.data.data))
                 }
                 setLoading(false)
             })

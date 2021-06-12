@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import api from "../../services/api"
 import { useDispatch } from 'react-redux'
-import { addLink } from '../../actions/links'
-import { addNotification } from '../../actions/notifications'
+import { Actions as ActionLink } from '../../redux/links'
+import { Actions as ActionNotification } from '../../redux/notifications'
 
 import {
   CButton,
@@ -38,8 +38,8 @@ export default function LinkCreate() {
       await api.post('link', data, {})
         .then(response => {
           if (response.status === 200) {
-            dispatch(addLink(response.data))
-            dispatch(addNotification({
+            dispatch(ActionLink.addOne(response.data))
+            dispatch(ActionNotification.addOne({
               header: 'Link adicionado:',
               body: response.data.name,
               id: response.data.id,

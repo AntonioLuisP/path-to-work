@@ -22,15 +22,15 @@ export default function todosReducer(state = INITIAL, { type, ...rest }) {
 }
 
 export const Actions = {
-    addTodo: (data) => ({
+    addOne: (data) => ({
         type: TYPES.ADD_TODOS,
         todo: data
     }),
-    fillTodos: (list) => ({
+    fillSome: (list) => ({
         type: TYPES.FILL_TODOSS,
         todos: list
     }),
-    editTodo: (data) => ({
+    editOne: (data) => ({
         type: TYPES.EDIT_TODOS,
         todo: data
     })

@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import api from "../../services/api"
-import { editProject } from 'src/actions/projects';
-import { addNotification } from '../../actions/notifications'
+import { Actions as ActionProject } from 'src/redux/projects';
+import { Actions as ActionNotification } from '../../redux/notifications'
 
 import {
   CButton,
@@ -35,8 +35,8 @@ const ProjectEdit = (props) => {
       await api.put('/project/' + project.id, data, {})
         .then(response => {
           if (response.status === 200) {
-            dispatch(editProject(project))
-            dispatch(addNotification({
+            dispatch(ActionProject.editOne(project))
+            dispatch(ActionNotification.addOne({
               header: 'Projeto Editado:',
               body: project.name,
               id: project.id,

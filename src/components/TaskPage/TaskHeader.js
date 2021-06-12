@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import TaskCreate from '../../views/tasks/TaskCreate'
-import { modalAction } from '../../actions/modalAction'
+import { Actions as ActionModal } from '../../redux/modal'
 
 import {
     CButton,
@@ -22,7 +22,7 @@ export default function TaskBoard(props) {
     const project = props.project
 
     const toogleModal = () => {
-        dispatch(modalAction(<TaskCreate project={project} />))
+        dispatch(ActionModal.modalSwitch(<TaskCreate project={project} />))
     }
 
     return (

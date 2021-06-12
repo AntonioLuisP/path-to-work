@@ -17,7 +17,7 @@ const allReducers = combineReducers({
     links: linksReducer,
     comments: commentsReducer,
     todos: todosReducer,
-    sidebarShow: sidebarReducer,
+    sidebar: sidebarReducer,
 })
 
 export default allReducers;

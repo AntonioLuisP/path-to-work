@@ -22,15 +22,15 @@ export default function commentsReducer(state = INITIAL, { type, ...rest }) {
 }
 
 export const Actions = {
-    addComment: (data) => ({
+    addOne: (data) => ({
         type: TYPES.ADD_COMMENT,
         comment: data
     }),
-    fillComments: (list) => ({
+    fillSome: (list) => ({
         type: TYPES.FILL_COMMENTS,
         comments: list
     }),
-    editComment: (data) => ({
+    editOne: (data) => ({
         type: TYPES.EDIT_COMMENT,
         comment: data
     })

@@ -4,11 +4,11 @@ import api from "../../services/api"
 import TaskPrincipal from '../../components/TaskPage/TaskPrincipal'
 import TaskStatus from '../../components/TaskPage/TaskStatus'
 import LinkBoard from "../../components/LinkPage/LinkBoard"
-import { Loading } from '../../reusable'
-import { fillComments } from '../../actions/comments'
-import { fillTodos } from '../../actions/todos'
 import CommentBoard from '../../components/CommentPage/CommentBoard'
 import TodoBoard from '../../components/TodoPage/TodoBoard'
+import { Loading } from '../../reusable'
+import { Actions as ActionComment } from '../../redux/comments'
+import { Actions as ActionTodo } from '../../redux/todos'
 
 import {
   CCol,
@@ -31,8 +31,8 @@ export default function Task({ match }) {
       .then(response => {
         if (response.status === 200) {
           setTask(response.data.task)
-          dispatch(fillComments(response.data.comments))
-          dispatch(fillTodos(response.data.todos))
+          dispatch(ActionComment.fillSome(response.data.comments))
+          dispatch(ActionTodo.fillSome(response.data.todos))
         } else {
           setTask([])
         }

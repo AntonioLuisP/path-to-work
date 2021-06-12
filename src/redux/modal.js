@@ -19,7 +19,7 @@ export default function modalReducer(state = INITIAL, { type, ...rest }) {
 }
 
 export const Actions = {
-    modalAction: (data) => ({
+    modalSwitch: (data) => ({
         type: TYPES.MODAL,
         component: data
     })

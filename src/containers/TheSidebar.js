@@ -1,6 +1,7 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import Items from './Items'
+import { Actions as ActionSidebar } from '../redux/sidebar'
 
 import {
   CSidebar,
@@ -25,12 +26,12 @@ import CIcon from '@coreui/icons-react'
 const TheSidebar = () => {
 
   const dispatch = useDispatch()
-  const show = useSelector(state => state.sidebarShow)
+  const sidebar = useSelector(state => state.sidebar)
 
   return (
     <CSidebar
-      show={show}
-      onShowChange={(val) => dispatch({ type: 'set', sidebarShow: val })}
+      show={sidebar}
+      onShowChange={(val) => dispatch(ActionSidebar.showSwitch(val))}
     >
       <CSidebarBrand
         to='/'
