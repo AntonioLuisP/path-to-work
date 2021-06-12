@@ -21,7 +21,7 @@ export default function linksReducer(state = INITIAL, { type, ...rest }) {
     }
 }
 
-export const actions = {
+export const Actions = {
     addLink: (data) => ({
         type: TYPES.ADD_LINK,
         link: data

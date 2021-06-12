@@ -21,7 +21,7 @@ export default function commentsReducer(state = INITIAL, { type, ...rest }) {
     }
 }
 
-export const actions = {
+export const Actions = {
     addComment: (data) => ({
         type: TYPES.ADD_COMMENT,
         comment: data

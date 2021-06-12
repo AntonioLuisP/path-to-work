@@ -21,7 +21,7 @@ export default function tasksReducer(state = INITIAL, { type, ...rest }) {
     }
 }
 
-export const actions = {
+export const Actions = {
     addTask: (data) => ({
         type: TYPES.ADD_TASK,
         task: data

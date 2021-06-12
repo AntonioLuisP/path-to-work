@@ -18,7 +18,7 @@ export default function modalReducer(state = INITIAL, { type, ...rest }) {
     }
 }
 
-export const actions = {
+export const Actions = {
     modalAction: (data) => ({
         type: TYPES.MODAL,
         component: data

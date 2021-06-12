@@ -21,7 +21,7 @@ export default function todosReducer(state = INITIAL, { type, ...rest }) {
     }
 }
 
-export const actions = {
+export const Actions = {
     addTodo: (data) => ({
         type: TYPES.ADD_TODOS,
         todo: data

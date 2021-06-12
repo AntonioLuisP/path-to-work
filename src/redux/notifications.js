@@ -13,7 +13,7 @@ export default function notificationsReducer(state = INITIAL, { type, ...rest })
     }
 }
 
-export const actions = {
+export const Actions = {
     addNotification: (data) => ({
         type: TYPES.ADD_NOTIFICATION,
         notification: data

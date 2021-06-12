@@ -15,6 +15,6 @@ export default function sidebarReducer(state = INITIAL, { type, ...rest }) {
     }
 }
 
-export const actions = {
+export const Actions = {
 
 }
