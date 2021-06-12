@@ -29,7 +29,7 @@ export default function TodoComponent(props) {
                 <input type='checkbox' checked={todo.conclusion} onChange={handleConclusion} />
             </td>
             <td width='90%' className='text-break text-justify'>
-                {todo.name}
+                {todo.conclusion ? <s>{todo.name}</s> : todo.name}
             </td>
         </tr>
     )
