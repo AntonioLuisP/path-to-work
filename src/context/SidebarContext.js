@@ -10,7 +10,7 @@ export function useSidebar() {
     return useContext(SidebarContext)
 }
 
-const INITIAL = []
+const INITIAL = 'responsive'
 
 const TYPES = {
     SIDEBAR: 'SIDEBAR',
