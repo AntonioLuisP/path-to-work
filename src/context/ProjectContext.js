@@ -1,4 +1,11 @@
-import React, { createContext, useState, useContext, useReducer, useEffect } from 'react'
+import React, {
+    createContext,
+    useState,
+    useContext,
+    useReducer,
+    useEffect
+} from 'react'
+
 import api from '../services/api'
 import { Loading } from '../reusable/'
 
@@ -46,7 +53,7 @@ const projectsReducer = (state = INITIAL, { type, ...rest }) => {
     }
 }
 
-export function ProjectProvider({ children }) {
+export function ProjectsProvider({ children }) {
 
     const [loading, setLoading] = useState(true)
     const [projects, setProjects] = useReducer(projectsReducer, INITIAL)
