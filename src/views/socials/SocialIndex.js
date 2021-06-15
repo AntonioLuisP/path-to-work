@@ -1,12 +1,12 @@
 import React from 'react'
-import { ProjectProvider } from 'src/context/ProjectContext'
+import { ProjectsProvider } from 'src/context/ProjectContext'
 import Project from './projects'
 
 export default function SocialIndex() {
 
   return (
-    <ProjectProvider>
+    <ProjectsProvider>
       <Project />
-    </ProjectProvider>
+    </ProjectsProvider>
   )
 }
