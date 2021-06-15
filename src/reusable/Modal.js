@@ -5,10 +5,9 @@ import {
     CModal,
 } from '@coreui/react'
 
-const Modal = (props) => {
+const Modal = () => {
 
     const [modal, setModal] = useModal()
-    console.log(modal)
 
     const toogleModal = () => {
         setModal(ActionModal.modalSwitch(<></>))

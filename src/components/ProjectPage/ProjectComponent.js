@@ -29,7 +29,7 @@ export default function ProjectComponent(props) {
                         {project.name}
                     </CCardText>
                     <More to={() => history.push('/projects/' + project.id)}>
-                        <CIcon width={20} content={cilBriefcase} />
+                        <CIcon width={18} content={cilBriefcase} />
                     </More>
                 </CCardBody>
             </CCard>

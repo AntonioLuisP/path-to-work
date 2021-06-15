@@ -32,7 +32,7 @@ export default function LinkComponent(props) {
                     </a>
                 </CCardText>
                 <More to={() => history.push('/links/' + link.id)}>
-                    <CIcon width={20} content={cilCursor} />
+                    <CIcon width={18} content={cilCursor} />
                 </More>
             </CCardBody>
         </CCard>
