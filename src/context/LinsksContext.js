@@ -11,7 +11,7 @@ import { Loading } from '../reusable'
 
 const LinsksContext = createContext()
 
-export function useLinsks() {
+export function useLinks() {
     return useContext(LinsksContext)
 }
 

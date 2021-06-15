@@ -4,17 +4,16 @@ import React, {
     useReducer,
 } from 'react'
 
-const ModalContext = createContext()
+const SidebarContext = createContext()
 
-export function useModal() {
-    return useContext(ModalContext)
+export function useSidebar() {
+    return useContext(SidebarContext)
 }
 
 const INITIAL = []
 
 const TYPES = {
     SIDEBAR: 'SIDEBAR',
-
 }
 
 export const Actions = {
@@ -38,9 +37,9 @@ export default function SidebarProvider({ children }) {
     const [sidebar, setSidebar] = useReducer(sidebarReducer, INITIAL)
 
     return (
-        <ModalContext.Provider value={[sidebar, setSidebar]}>
+        <SidebarContext.Provider value={[sidebar, setSidebar]}>
             {children}
-        </ModalContext.Provider >
+        </SidebarContext.Provider >
     )
 }
 
