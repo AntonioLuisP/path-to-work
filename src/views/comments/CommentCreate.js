@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import api from "../../services/api"
 import { useDispatch } from 'react-redux'
 import { Actions as ActionComment } from '../../redux/comments'
-import { Actions as ActionNotification } from '../../redux/notifications'
+import { useNotifications, Actions as ActionNotification } from '../../context/NotificationsContext'
 
 import {
   CButton,
@@ -17,6 +17,8 @@ import {
 } from '@coreui/react'
 
 export default function CommentCreate(props) {
+
+  const [, setNotifications] = useNotifications()
 
   const dispatch = useDispatch()
 
@@ -41,7 +43,7 @@ export default function CommentCreate(props) {
         .then(response => {
           if (response.status === 200) {
             dispatch(ActionComment.addOne(response.data))
-            dispatch(ActionNotification.addOne({
+            setNotifications(ActionNotification.addOne({
               header: 'Comentário adicionado:',
               body: response.data.comment,
               id: response.data.id,

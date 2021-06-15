@@ -1,6 +1,6 @@
 import React from 'react'
 import Toasts from './Toasts'
-import { useSelector } from 'react-redux'
+import { useNotifications } from '../context/NotificationsContext'
 
 import {
     CToaster,
@@ -8,20 +8,20 @@ import {
 
 const ToasterNotification = () => {
 
-    const toasts = useSelector(state => state.notifications)
+    const [notifications] = useNotifications()
 
     return (
         <CToaster
             position={'top-right'}
         >
-            {toasts.map((toast) => {
-                if (Object.keys(toast).length > 0)
+            {notifications.map((notification) => {
+                if (Object.keys(notification).length > 0)
                     return (
                         <Toasts
-                            key={toast.id}
-                            header={toast.header}
-                            body={toast.body}
-                            id={toast.id}
+                            key={notification.id}
+                            header={notification.header}
+                            body={notification.body}
+                            id={notification.id}
                         />
                     )
                 return('')

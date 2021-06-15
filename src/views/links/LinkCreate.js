@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import api from "../../services/api"
 import { useDispatch } from 'react-redux'
 import { Actions as ActionLink } from '../../redux/links'
-import { Actions as ActionNotification } from '../../redux/notifications'
+import { useNotifications, Actions as ActionNotification } from '../../context/NotificationsContext'
 
 import {
   CButton,
@@ -17,6 +17,8 @@ import {
 } from '@coreui/react'
 
 export default function LinkCreate() {
+
+  const [, setNotifications] = useNotifications()
 
   const dispatch = useDispatch()
 
@@ -39,7 +41,7 @@ export default function LinkCreate() {
         .then(response => {
           if (response.status === 200) {
             dispatch(ActionLink.addOne(response.data))
-            dispatch(ActionNotification.addOne({
+            setNotifications(ActionNotification.addOne({
               header: 'Link adicionado:',
               body: response.data.name,
               id: response.data.id,

@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import api from "../../services/api"
 import { useDispatch } from 'react-redux'
-import { Actions as ActionTodo  } from '../../redux/todos'
-import { Actions as ActionNotification  } from '../../redux/notifications'
+import { Actions as ActionTodo } from '../../redux/todos'
+import { useNotifications, Actions as ActionNotification } from '../../context/NotificationsContext'
 
 import {
   CButton,
@@ -17,6 +17,8 @@ import {
 } from '@coreui/react'
 
 export default function TodoCreate(props) {
+
+  const [, setNotifications] = useNotifications()
 
   const dispatch = useDispatch()
 
@@ -41,7 +43,7 @@ export default function TodoCreate(props) {
         .then(response => {
           if (response.status === 200) {
             dispatch(ActionTodo.addOne(response.data))
-            dispatch(ActionNotification.addOne({
+            setNotifications(ActionNotification.addOne({
               header: 'Afazer adicionado:',
               body: response.data.name,
               id: response.data.id,

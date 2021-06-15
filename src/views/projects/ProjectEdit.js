@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import api from "../../services/api"
 import { Actions as ActionProject } from 'src/redux/projects';
-import { Actions as ActionNotification } from '../../redux/notifications'
+import { useNotifications, Actions as ActionNotification } from '../../context/NotificationsContext'
+
 
 import {
   CButton,
@@ -18,6 +19,8 @@ import {
 } from '@coreui/react'
 
 const ProjectEdit = (props) => {
+
+  const [, setNotifications] = useNotifications()
 
   const dispatch = useDispatch()
 
@@ -36,7 +39,7 @@ const ProjectEdit = (props) => {
         .then(response => {
           if (response.status === 200) {
             dispatch(ActionProject.editOne(project))
-            dispatch(ActionNotification.addOne({
+            setNotifications(ActionNotification.addOne({
               header: 'Projeto Editado:',
               body: project.name,
               id: project.id,

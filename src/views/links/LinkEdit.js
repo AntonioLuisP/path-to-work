@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
 import api from "../../services/api"
-import { Actions as ActionNotification } from '../../redux/notifications'
+import { useNotifications, Actions as ActionNotification } from '../../context/NotificationsContext'
 
 import {
   CButton,
@@ -18,7 +17,7 @@ import {
 
 export default function LinkEdit(props) {
 
-  const dispatch = useDispatch()
+  const [, setNotifications] = useNotifications()
 
   const [load, setLoad] = useState(true)
   const [link, setLink] = useState(props.link)
@@ -34,7 +33,7 @@ export default function LinkEdit(props) {
       await api.put('/link/' + link.id, data, {})
         .then(response => {
           if (response.status === 200) {
-            dispatch(ActionNotification.addOne({
+            setNotifications(ActionNotification.addOne({
               header: 'Link Editado:',
               body: link.name,
               id: link.id,
