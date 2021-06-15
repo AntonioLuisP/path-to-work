@@ -53,7 +53,7 @@ const commentsReducer = (state = INITIAL, { type, ...rest }) => {
     }
 }
 
-export function CommentsProvider({ children }) {
+export default function CommentsProvider({ children }) {
 
     const [loading, setLoading] = useState(true)
     const [comments, setComments] = useReducer(commentsReducer, INITIAL)

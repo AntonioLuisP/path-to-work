@@ -53,7 +53,7 @@ const linksReducer = (state = INITIAL, { type, ...rest }) => {
     }
 }
 
-export function LinksProvider({ children }) {
+export default function LinksProvider({ children }) {
 
     const [loading, setLoading] = useState(true)
     const [links, setLinks] = useReducer(linksReducer, INITIAL)

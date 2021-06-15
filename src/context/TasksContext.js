@@ -53,7 +53,7 @@ const tasksReducer = (state = INITIAL, { type, ...rest }) => {
     }
 }
 
-export function TasksProvider({ children }) {
+export default function TasksProvider({ children }) {
 
     const [loading, setLoading] = useState(true)
     const [tasks, setTasks] = useReducer(tasksReducer, INITIAL)

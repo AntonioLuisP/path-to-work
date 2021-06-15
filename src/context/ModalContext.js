@@ -37,7 +37,7 @@ const modalReducer = (state = INITIAL, { type, ...rest }) => {
     }
 }
 
-export function ModalProvider({ children }) {
+export default function ModalProvider({ children }) {
 
     const [modal, setModal] = useReducer(modalReducer, INITIAL)
 

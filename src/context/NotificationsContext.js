@@ -32,7 +32,7 @@ const notificationsReducer = (state = INITIAL, { type, ...rest }) => {
     }
 }
 
-export function NotificationsProvider({ children }) {
+export default function NotificationsProvider({ children }) {
 
     const [notifications, setNotifications] = useReducer(notificationsReducer, INITIAL)
 

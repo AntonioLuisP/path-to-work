@@ -53,7 +53,7 @@ const projectsReducer = (state = INITIAL, { type, ...rest }) => {
     }
 }
 
-export function ProjectsProvider({ children }) {
+export default function ProjectsProvider({ children }) {
 
     const [loading, setLoading] = useState(true)
     const [projects, setProjects] = useReducer(projectsReducer, INITIAL)

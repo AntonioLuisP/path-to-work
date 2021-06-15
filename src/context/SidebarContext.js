@@ -33,7 +33,7 @@ const sidebarReducer = (state = INITIAL, { type, ...rest }) => {
     }
 }
 
-export function SidebarProvider({ children }) {
+export default function SidebarProvider({ children }) {
 
     const [sidebar, setSidebar] = useReducer(sidebarReducer, INITIAL)
 

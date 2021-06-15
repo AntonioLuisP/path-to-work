@@ -53,7 +53,7 @@ const todosReducer = (state = INITIAL, { type, ...rest }) => {
     }
 }
 
-export function TodosProvider({ children }) {
+export default function TodosProvider({ children }) {
 
     const [loading, setLoading] = useState(true)
     const [todos, setTodos] = useReducer(todosReducer, INITIAL)
