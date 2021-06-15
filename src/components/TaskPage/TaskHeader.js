@@ -1,7 +1,6 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
 import TaskCreate from '../../views/tasks/TaskCreate'
-import { Actions as ActionModal } from '../../redux/modal'
+import { useModal, Actions as ActionModal } from '../../context/ModalContext'
 
 import {
     CButton,
@@ -17,12 +16,12 @@ import CIcon from '@coreui/icons-react'
 
 export default function TaskBoard(props) {
 
-    const dispatch = useDispatch()
+    const [, setModal] = useModal()
 
     const project = props.project
 
     const toogleModal = () => {
-        dispatch(ActionModal.modalSwitch(<TaskCreate project={project} />))
+        setModal(ActionModal.modalSwitch(<TaskCreate project={project} />))
     }
 
     return (

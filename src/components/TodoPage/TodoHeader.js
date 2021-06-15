@@ -1,7 +1,6 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
-import { Actions as ActionModal } from '../../redux/modal'
 import TodoCreate from '../../views/todos/TodoCreate'
+import { useModal, Actions as ActionModal } from '../../context/ModalContext'
 
 import {
     CBreadcrumb,
@@ -17,12 +16,12 @@ import CIcon from '@coreui/icons-react'
 
 export default function CommentHeader(props) {
 
-    const dispatch = useDispatch()
+    const [, setModal] = useModal()
 
     const task = props.task
 
     const toogleModal = () => {
-        dispatch(ActionModal.modalSwitch(<TodoCreate task={task} />))
+        setModal(ActionModal.modalSwitch(<TodoCreate task={task} />))
     }
 
     return (
