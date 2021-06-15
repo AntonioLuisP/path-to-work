@@ -1,5 +1,5 @@
 import React from 'react'
-import { useProjects, Actions as ActionProjects } from 'src/context/ProjectContext'
+import { useProjects, Actions as ActionProjects } from 'src/context/ProjectsContext'
 
 export default function Project() {
 

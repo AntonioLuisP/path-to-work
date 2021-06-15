@@ -7,12 +7,12 @@ import React, {
 } from 'react'
 
 import api from '../services/api'
-import { Loading } from '../reusable/'
+import { Loading } from '../reusable'
 
-const ProjectContext = createContext()
+const ProjectsContext = createContext()
 
 export function useProjects() {
-    return useContext(ProjectContext)
+    return useContext(ProjectsContext)
 }
 
 const INITIAL = []
@@ -71,9 +71,9 @@ export function ProjectsProvider({ children }) {
     if (loading) return (<Loading />)
 
     return (
-        <ProjectContext.Provider value={[projects, setProjects]}>
+        <ProjectsContext.Provider value={[projects, setProjects]}>
             {children}
-        </ProjectContext.Provider >
+        </ProjectsContext.Provider >
     )
 }
 
