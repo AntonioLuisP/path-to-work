@@ -16,5 +16,6 @@ export {
   ProjectsProvider,
   SidebarProvider,
   TasksProvider,
+  TodosProvider,
   DashboardProvider,
 }
