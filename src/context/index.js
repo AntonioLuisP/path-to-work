@@ -6,6 +6,7 @@ import ProjectsProvider from './ProjectsContext'
 import SidebarProvider from './SidebarContext'
 import TasksProvider from './TasksContext'
 import TodosProvider from './TodosContext'
+import DashboardProvider from './DashboardContext'
 
 export {
   CommentsProvider,
@@ -15,5 +16,5 @@ export {
   ProjectsProvider,
   SidebarProvider,
   TasksProvider,
-  TodosProvider,
+  DashboardProvider,
 }
