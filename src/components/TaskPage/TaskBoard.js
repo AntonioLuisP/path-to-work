@@ -16,13 +16,11 @@ export default function TaskBoard(props) {
     <CRow>
       <CCol xs="12" sm="12" md="12">
         <BreadcrumbHeader title={props.title} component={<TaskCreate task={props.project} />} />
-        <CRow>
-          {
-            tasks.map(task => (
-              <TaskComponent key={task.id} task={task} />
-            ))
-          }
-        </CRow>
+        {
+          tasks.map(task => (
+            <TaskComponent key={task.id} task={task} />
+          ))
+        }
       </CCol>
     </CRow>
   )

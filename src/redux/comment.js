@@ -6,7 +6,7 @@ export const TYPES = {
 
 const INITIAL = []
 
-export default function commentsReducer(state = INITIAL, { type, ...rest }) {
+export function commentsReducer(state = INITIAL, { type, ...rest }) {
     switch (type) {
         case TYPES.ADD_COMMENT:
             return [...state, rest.comment];

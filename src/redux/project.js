@@ -6,7 +6,7 @@ export const TYPES = {
 
 const INITIAL = []
 
-export default function projectsReducer(state = INITIAL, { type, ...rest }) {
+export function projectsReducer(state = INITIAL, { type, ...rest }) {
     switch (type) {
         case TYPES.ADD_PROJECT:
             return [...state, rest.project];

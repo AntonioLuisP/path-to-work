@@ -6,7 +6,7 @@ export const TYPES = {
 
 const INITIAL = []
 
-export default function todosReducer(state = INITIAL, { type, ...rest }) {
+export function todosReducer(state = INITIAL, { type, ...rest }) {
     switch (type) {
         case TYPES.ADD_TODOS:
             return [...state, rest.todo];

@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux'
 
 import notificationsReducer from './notifications'
-import projectsReducer from './project'
-import tasksReducer from './task'
-import linksReducer from './link'
-import commentsReducer from './comment'
-import todosReducer from './todo'
+import { projectsReducer } from './project'
+import { tasksReducer } from './task'
+import { linksReducer } from './link'
+import { commentsReducer } from './comment'
+import { todosReducer } from './todo'
 import sidebarReducer from './sidebar'
 import modalReducer from './modal'
 

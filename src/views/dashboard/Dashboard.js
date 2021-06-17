@@ -51,10 +51,10 @@ export default function Dashboard() {
 
     return (
         <CRow>
-            <CCol xs="12" sm="6" md="6">
+            <CCol xs="12" sm="8" md="8">
                 <LinkBoard title='Links Favoritos' links={links} />
             </CCol>
-            <CCol xs="12" sm="6" md="6">
+            <CCol xs="12" sm="4" md="4">
                 <TaskBoard title='Tarefas do dia' tasks={tasks} />
             </CCol>
         </CRow>

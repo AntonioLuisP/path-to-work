@@ -6,7 +6,7 @@ export const TYPES = {
 
 const INITIAL = []
 
-export default function tasksReducer(state = INITIAL, { type, ...rest }) {
+export function tasksReducer(state = INITIAL, { type, ...rest }) {
     switch (type) {
         case TYPES.ADD_TASK:
             return [...state, rest.task];

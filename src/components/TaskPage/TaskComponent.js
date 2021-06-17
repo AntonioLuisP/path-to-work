@@ -9,7 +9,6 @@ import {
     CCardBody,
     CCardText,
     CCardFooter,
-    CCol,
 } from '@coreui/react'
 
 import {
@@ -43,27 +42,24 @@ export default function TaskComponent(props) {
     }
 
     return (
-        <CCol xs="12" sm="4" md="4">
-            <CCard>
-                <TaskStatusHeader task={task} />
-                <CCardBody className='content-center'>
-                    <div className='col-sm-1 text-center'>
-                        <input type='checkbox' checked={task.conclusion} onChange={handleConclusion} />
-                    </div>
-                    <div className='col-sm-11'>
-                        <CCardText className='text-break text-justify'>
-                            {task.name}
-                        </CCardText>
-                    </div>
-                </CCardBody>
-                <CCardFooter>
-                    <More to={() => { history.push('/tasks/' + task.id) }}>
-                        <CIcon width={18} content={cilTask} />
-                    </More>
-                </CCardFooter>
-
-            </CCard>
-        </CCol>
+        <CCard>
+            <TaskStatusHeader task={task} />
+            <CCardBody className='content-center'>
+                <div className='col-sm-1 text-center'>
+                    <input type='checkbox' checked={task.conclusion} onChange={handleConclusion} />
+                </div>
+                <div className='col-sm-11'>
+                    <CCardText className='text-break text-justify'>
+                        {task.name}
+                    </CCardText>
+                </div>
+            </CCardBody>
+            <CCardFooter>
+                <More to={() => { history.push('/tasks/' + task.id) }}>
+                    <CIcon width={18} content={cilTask} />
+                </More>
+            </CCardFooter>
+        </CCard>
     )
 }
 

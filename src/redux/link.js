@@ -6,7 +6,7 @@ export const TYPES = {
 
 const INITIAL = []
 
-export default function linksReducer(state = INITIAL, { type, ...rest }) {
+export function linksReducer(state = INITIAL, { type, ...rest }) {
     switch (type) {
         case TYPES.ADD_LINK:
             return [...state, rest.link];
