@@ -49,11 +49,4 @@ export const Actions = {
         type: TYPES.EDIT_PROJECT,
         project: data
     }),
-    selectOne: (data) => ({
-        type: TYPES.SELECTED_PROJECT,
-        project: data
-    }),
-    removeSelected: () => ({
-        type: TYPES.REMOVE_SELECTED,
-    })
 }
