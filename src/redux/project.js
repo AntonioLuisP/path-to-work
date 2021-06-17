@@ -2,11 +2,13 @@ export const TYPES = {
     ADD_PROJECT: 'ADD_PROJECT',
     FILL_PROJECTS: 'FILL_PROJECTS',
     EDIT_PROJECT: 'EDIT_PROJECT',
+    SELECTED_PROJECT: 'SELECTED_PROJECT',
+    REMOVE_SELECTED: "REMOVE_SELECTED",
 }
 
-const INITIAL = []
+const INITIAL_PROJECTS = []
 
-export function projectsReducer(state = INITIAL, { type, ...rest }) {
+export function projectsReducer(state = INITIAL_PROJECTS, { type, ...rest }) {
     switch (type) {
         case TYPES.ADD_PROJECT:
             return [...state, rest.project];
@@ -16,6 +18,19 @@ export function projectsReducer(state = INITIAL, { type, ...rest }) {
             const index = state.findIndex(project => (project.id) === rest.project.id)
             state[index] = rest.project
             return [...state];
+        default:
+            return state
+    }
+}
+
+const INITIAL_PROJECT = {}
+
+export function projectReducer(state = INITIAL_PROJECT, { type, ...rest }) {
+    switch (type) {
+        case TYPES.SELECTED_PROJECT:
+            return { ...state, ...rest.project };
+        case TYPES.REMOVE_SELECTED:
+            return {};
         default:
             return state
     }
@@ -33,5 +48,12 @@ export const Actions = {
     editOne: (data) => ({
         type: TYPES.EDIT_PROJECT,
         project: data
+    }),
+    selectOne: (data) => ({
+        type: TYPES.SELECTED_PROJECT,
+        project: data
+    }),
+    removeSelected: () => ({
+        type: TYPES.REMOVE_SELECTED,
     })
 }

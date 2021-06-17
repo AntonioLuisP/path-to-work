@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux'
 
 import notificationsReducer from './notifications'
-import { projectsReducer } from './project'
+import { projectReducer, projectsReducer } from './project'
 import { tasksReducer } from './task'
-import { linksReducer } from './link'
+import { linkReducer, linksReducer } from './link'
 import { commentsReducer } from './comment'
 import { todosReducer } from './todo'
 import sidebarReducer from './sidebar'
@@ -12,12 +12,19 @@ import modalReducer from './modal'
 const allReducers = combineReducers({
     modal: modalReducer,
     notifications: notificationsReducer,
-    projects: projectsReducer,
-    tasks: tasksReducer,
-    links: linksReducer,
-    comments: commentsReducer,
-    todos: todosReducer,
     sidebar: sidebarReducer,
+
+    project: projectReducer,
+    projects: projectsReducer,
+
+    tasks: tasksReducer,
+
+    link: linkReducer,
+    links: linksReducer,
+
+    comments: commentsReducer,
+
+    todos: todosReducer,
 })
 
 export default allReducers;
