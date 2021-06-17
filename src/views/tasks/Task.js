@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Actions as ActionComment } from '../../redux/comments'
-import { Actions as ActionTodo } from '../../redux/todos'
+import { Actions as ActionComment } from '../../redux/comment'
+import { Actions as ActionTodo } from '../../redux/todo'
 import TaskPrincipal from '../../components/TaskPage/TaskPrincipal'
 import TaskStatus from '../../components/TaskPage/TaskStatus'
 import LinkBoard from "../../components/LinkPage/LinkBoard"

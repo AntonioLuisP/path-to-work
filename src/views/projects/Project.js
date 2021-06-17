@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { Actions as ActionTask } from '../../redux/tasks'
+import { Actions as ActionTask } from '../../redux/task'
 import { Actions as ActionModal } from '../../redux/modal'
 import { DropdownMore, Loading } from '../../reusable/'
 import TaskBoard from '../../components/TaskPage/TaskBoard'

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Actions as ActionProject } from '../../redux/projects'
+import { Actions as ActionProject } from '../../redux/project'
 import { Actions as ActionNotification } from '../../redux/notifications'
 import api from "../../services/api"
 

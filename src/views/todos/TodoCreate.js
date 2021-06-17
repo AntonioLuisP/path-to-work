@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Actions as ActionTodo } from '../../redux/todos'
+import { Actions as ActionTodo } from '../../redux/todo'
 import { Actions as ActionNotification } from '../../redux/notifications'
 import api from "../../services/api"
 
