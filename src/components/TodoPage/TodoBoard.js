@@ -5,12 +5,11 @@ import BreadcrumbHeader from '../../reusable/BreadcrumbHeader'
 
 export default function TodoBoard(props) {
 
-  const task = props.task
   const todos = props.todos
 
   return (
     <>
-      <BreadcrumbHeader title='Afazeres' component={<TodoCreate task={task} />} />
+      <BreadcrumbHeader title={props.title} component={<TodoCreate task={props.task} />} />
       <table className='table'>
         <tbody>
           {

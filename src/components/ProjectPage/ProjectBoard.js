@@ -15,7 +15,7 @@ export default function ProjectBoard(props) {
   return (
     <CRow>
       <CCol xs="12" sm="12" md="12">
-        <BreadcrumbHeader title='Seus Projetos' component={<ProjectCreate />} />
+        <BreadcrumbHeader title={props.title} component={<ProjectCreate />} />
         <CRow>
           {
             projects.map(project => (

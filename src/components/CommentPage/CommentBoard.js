@@ -10,12 +10,11 @@ import {
 
 export default function CommentBoard(props) {
 
-  const task = props.task
   const comments = props.comments
 
   return (
     <>
-      <BreadcrumbHeader title='Comentários' component={<CommentCreate task={task} />} />
+      <BreadcrumbHeader title={props.title} component={<CommentCreate task={props.task} />} />
       <CCard>
         <CCardBody height='80rm'>
           {
