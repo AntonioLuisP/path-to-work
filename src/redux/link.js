@@ -3,7 +3,7 @@ export const TYPES = {
     FILL_LINKS: 'FILL_LINKS',
     EDIT_LINK: 'EDIT_LINK',
     SELECTED_LINK: 'SELECTED_LINK',
-    REMOVE_SELECTED: "REMOVE_SELECTED",
+    REMOVE_SELECTED_LINK: "REMOVE_SELECTED_LINK",
 }
 
 const INITIAL_LINKS = []
@@ -28,8 +28,8 @@ const INITIAL_LINK = {}
 export function linkReducer(state = INITIAL_LINK, { type, ...rest }) {
     switch (type) {
         case TYPES.SELECTED_LINK:
-            return { ...state, ...rest.project };
-        case TYPES.REMOVE_SELECTED:
+            return { ...state, ...rest.link };
+        case TYPES.REMOVE_SELECTED_LINK:
             return {};
         default:
             return state
@@ -54,6 +54,6 @@ export const Actions = {
         link: data
     }),
     removeSelected: () => ({
-        type: TYPES.REMOVE_SELECTED,
+        type: TYPES.REMOVE_SELECTED_LINK,
     })
 }

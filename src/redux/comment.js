@@ -2,11 +2,13 @@ export const TYPES = {
     ADD_COMMENT: 'ADD_COMMENT',
     FILL_COMMENTS: 'FILL_COMMENTS',
     EDIT_COMMENT: 'EDIT_COMMENT',
+    SELECTED_COMMENT: 'SELECTED_COMMENT',
+    REMOVE_SELECTED_COMMENT: "REMOVE_SELECTED_COMMENT",
 }
 
-const INITIAL = []
+const INITIAL_COMMENTS = []
 
-export function commentsReducer(state = INITIAL, { type, ...rest }) {
+export function commentsReducer(state = INITIAL_COMMENTS, { type, ...rest }) {
     switch (type) {
         case TYPES.ADD_COMMENT:
             return [...state, rest.comment];
@@ -16,6 +18,19 @@ export function commentsReducer(state = INITIAL, { type, ...rest }) {
             const index = state.findIndex(comment => (comment.id) === rest.comment.id)
             state[index] = rest.comment
             return [...state];
+        default:
+            return state
+    }
+}
+
+const INITIAL_COMMENT = {}
+
+export function commentReducer(state = INITIAL_COMMENT, { type, ...rest }) {
+    switch (type) {
+        case TYPES.SELECTED_COMMENT:
+            return { ...state, ...rest.link };
+        case TYPES.REMOVE_SELECTED_COMMENT:
+            return {};
         default:
             return state
     }
@@ -33,5 +48,12 @@ export const Actions = {
     editOne: (data) => ({
         type: TYPES.EDIT_COMMENT,
         comment: data
+    }),
+    selectOne: (data) => ({
+        type: TYPES.SELECTED_COMMENT,
+        link: data
+    }),
+    removeSelected: () => ({
+        type: TYPES.REMOVE_SELECTED_COMMENT,
     })
 }

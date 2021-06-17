@@ -2,11 +2,13 @@ export const TYPES = {
     ADD_TODOS: 'ADD_TODOS',
     FILL_TODOSS: 'FILL_TODOSS',
     EDIT_TODOS: 'EDIT_TODOS',
+    SELECTED_TODO: 'SELECTED_TODO',
+    REMOVE_SELECTED_TODO: "REMOVE_SELECTED_TODO",
 }
 
-const INITIAL = []
+const INITIAL_TODOS = []
 
-export function todosReducer(state = INITIAL, { type, ...rest }) {
+export function todosReducer(state = INITIAL_TODOS, { type, ...rest }) {
     switch (type) {
         case TYPES.ADD_TODOS:
             return [...state, rest.todo];
@@ -16,6 +18,19 @@ export function todosReducer(state = INITIAL, { type, ...rest }) {
             const index = state.findIndex(todo => (todo.id) === rest.todo.id)
             state[index] = rest.todo
             return [...state];
+        default:
+            return state
+    }
+}
+
+const INITIAL_TODO = {}
+
+export function todoReducer(state = INITIAL_TODO, { type, ...rest }) {
+    switch (type) {
+        case TYPES.SELECTED_TODO:
+            return { ...state, ...rest.link };
+        case TYPES.REMOVE_SELECTED_TODO:
+            return {};
         default:
             return state
     }
@@ -33,5 +48,12 @@ export const Actions = {
     editOne: (data) => ({
         type: TYPES.EDIT_TODOS,
         todo: data
+    }),
+    selectOne: (data) => ({
+        type: TYPES.SELECTED_TODO,
+        link: data
+    }),
+    removeSelected: () => ({
+        type: TYPES.REMOVE_SELECTED_TODO,
     })
 }

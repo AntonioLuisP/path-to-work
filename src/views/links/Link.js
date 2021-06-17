@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
-import { DropdownMore } from '../../reusable'
-import { useDispatch } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useParams, useHistory } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import { Actions as ActionModal } from '../../redux/modal'
+import { Actions as ActionLink } from '../../redux/link'
+import { DropdownMore } from '../../reusable'
 import LinkEdit from './LinkEdit'
 import api from "../../services/api"
 
@@ -13,28 +14,29 @@ import {
   CRow,
 } from '@coreui/react'
 
-export default function Link({ match }) {
+export default function Link() {
 
   const dispatch = useDispatch()
-
   const history = useHistory()
+  const { id } = useParams();
 
-  const [link, setLink] = useState({})
+  const link = useSelector(state => state.link)
 
   const toogleModal = () => {
     dispatch(ActionModal.modalSwitch(<LinkEdit link={link} />))
   }
 
   useEffect(() => {
-    api.get('link/' + match.params.id)
+    api.get('link/' + id)
       .then(response => {
         if (response.status === 200) {
-          setLink(response.data.link)
-        } else {
-          setLink([])
+          dispatch(ActionLink.selectOne(response.data.link))
         }
       })
-  }, [match.params.id])
+    return () => {
+      dispatch(ActionLink.removeSelected())
+    }
+  }, [id, dispatch])
 
   async function handleDelete(id) {
     try {

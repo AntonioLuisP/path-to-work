@@ -2,10 +2,10 @@ import { combineReducers } from 'redux'
 
 import notificationsReducer from './notifications'
 import { projectReducer, projectsReducer } from './project'
-import { tasksReducer } from './task'
+import { taskReducer, tasksReducer } from './task'
 import { linkReducer, linksReducer } from './link'
-import { commentsReducer } from './comment'
-import { todosReducer } from './todo'
+import { commentReducer, commentsReducer } from './comment'
+import { todoReducer, todosReducer } from './todo'
 import sidebarReducer from './sidebar'
 import modalReducer from './modal'
 
@@ -17,13 +17,16 @@ const allReducers = combineReducers({
     project: projectReducer,
     projects: projectsReducer,
 
-    tasks: tasksReducer,
-
     link: linkReducer,
     links: linksReducer,
 
+    task: taskReducer,
+    tasks: tasksReducer,
+
+    comment: commentReducer,
     comments: commentsReducer,
 
+    todo: todoReducer,
     todos: todosReducer,
 })
 

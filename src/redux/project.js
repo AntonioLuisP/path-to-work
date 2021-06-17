@@ -3,7 +3,7 @@ export const TYPES = {
     FILL_PROJECTS: 'FILL_PROJECTS',
     EDIT_PROJECT: 'EDIT_PROJECT',
     SELECTED_PROJECT: 'SELECTED_PROJECT',
-    REMOVE_SELECTED: "REMOVE_SELECTED",
+    REMOVE_SELECTED_PROJECT: "REMOVE_SELECTED_PROJECT",
 }
 
 const INITIAL_PROJECTS = []
@@ -49,4 +49,11 @@ export const Actions = {
         type: TYPES.EDIT_PROJECT,
         project: data
     }),
+    selectOne: (data) => ({
+        type: TYPES.SELECTED_LINK,
+        link: data
+    }),
+    removeSelected: () => ({
+        type: TYPES.REMOVE_SELECTED_LINK,
+    })
 }

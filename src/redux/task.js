@@ -2,11 +2,13 @@ export const TYPES = {
     ADD_TASK: 'ADD_TASK',
     FILL_TASKS: 'FILL_TASKS',
     EDIT_TASK: 'EDIT_TASK',
+    SELECTED_TASK: 'SELECTED_TASK',
+    REMOVE_SELECTED_TASK: "REMOVE_SELECTED_TASK",
 }
 
-const INITIAL = []
+const INITIAL_TASKS = []
 
-export function tasksReducer(state = INITIAL, { type, ...rest }) {
+export function tasksReducer(state = INITIAL_TASKS, { type, ...rest }) {
     switch (type) {
         case TYPES.ADD_TASK:
             return [...state, rest.task];
@@ -16,6 +18,19 @@ export function tasksReducer(state = INITIAL, { type, ...rest }) {
             const index = state.findIndex(task => (task.id) === rest.task.id)
             state[index] = rest.task
             return [...state];
+        default:
+            return state
+    }
+}
+
+const INITIAL_TASK = {}
+
+export function taskReducer(state = INITIAL_TASK, { type, ...rest }) {
+    switch (type) {
+        case TYPES.SELECTED_TASK:
+            return { ...state, ...rest.link };
+        case TYPES.REMOVE_SELECTED_TASK:
+            return {};
         default:
             return state
     }
@@ -33,5 +48,12 @@ export const Actions = {
     editOne: (data) => ({
         type: TYPES.EDIT_TASK,
         task: data
+    }),
+    selectOne: (data) => ({
+        type: TYPES.SELECTED_TASK,
+        link: data
+    }),
+    removeSelected: () => ({
+        type: TYPES.REMOVE_SELECTED_TASK,
     })
 }
