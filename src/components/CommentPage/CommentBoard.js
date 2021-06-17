@@ -1,6 +1,7 @@
 import React from 'react'
 import CommentComponent from './CommentComponent'
-import CommentHeader from './CommentHeader'
+import CommentCreate from '../../views/comments/CommentCreate'
+import BreadcrumbHeader from '../../reusable/BreadcrumbHeader'
 
 import {
   CCard,
@@ -14,10 +15,10 @@ export default function CommentBoard(props) {
 
   return (
     <>
-      <CommentHeader task={task} />
+      <BreadcrumbHeader title='Comentários' component={<CommentCreate task={task} />} />
       <CCard>
         <CCardBody height='80rm'>
-        {
+          {
             comments.map(comment => (
               <CommentComponent key={comment.id} comment={comment} />
             ))

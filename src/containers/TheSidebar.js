@@ -1,7 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Actions as ActionSidebar } from '../redux/sidebar'
-import Items from './Items'
 
 import {
   CSidebar,
@@ -13,6 +12,7 @@ import {
 } from '@coreui/react'
 
 import {
+  cilBriefcase,
   cilCursor,
   cilHome,
   cilList,
@@ -55,6 +55,11 @@ const TheSidebar = () => {
           to="/social"
           icon={<CIcon content={cilContact} customClasses="c-sidebar-nav-icon" />}
         />
+        <CSidebarNavItem
+          name="Categorias"
+          to="/links"
+          icon={<CIcon content={cilList} customClasses="c-sidebar-nav-icon" />}
+        />
         <CSidebarNavTitle>Tarefa</CSidebarNavTitle>
         <CSidebarNavItem
           name="Tarefas"
@@ -65,9 +70,8 @@ const TheSidebar = () => {
         <CSidebarNavItem
           name="Todos Projetos"
           to="/projects"
-          icon={<CIcon content={cilList} customClasses="c-sidebar-nav-icon" />}
+          icon={<CIcon content={cilBriefcase} customClasses="c-sidebar-nav-icon" />}
         />
-        <Items />
       </CSidebarNav>
       <CSidebarMinimizer className="c-d-md-down-none" />
     </CSidebar>

@@ -1,6 +1,7 @@
 import React from 'react'
 import TodoComponent from './TodoComponent'
-import TodoHeader from './TodoHeader'
+import TodoCreate from '../../views/todos/TodoCreate'
+import BreadcrumbHeader from '../../reusable/BreadcrumbHeader'
 
 export default function TodoBoard(props) {
 
@@ -9,7 +10,7 @@ export default function TodoBoard(props) {
 
   return (
     <>
-      <TodoHeader task={task} />
+      <BreadcrumbHeader title='Afazeres' component={<TodoCreate task={task} />} />
       <table className='table'>
         <tbody>
           {

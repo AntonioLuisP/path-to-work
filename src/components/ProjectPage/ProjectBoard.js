@@ -1,6 +1,7 @@
 import React from 'react'
 import ProjectComponent from './ProjectComponent'
-import ProjectHeader from './ProjectHeader'
+import ProjectCreate from '../../views/projects/ProjectCreate'
+import BreadcrumbHeader from '../../reusable/BreadcrumbHeader'
 
 import {
   CCol,
@@ -14,7 +15,7 @@ export default function ProjectBoard(props) {
   return (
     <CRow>
       <CCol xs="12" sm="12" md="12">
-        <ProjectHeader />
+        <BreadcrumbHeader title='Seus Projetos' component={<ProjectCreate />} />
         <CRow>
           {
             projects.map(project => (
