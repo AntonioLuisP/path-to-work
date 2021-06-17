@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
+import { useParams, useHistory } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom'
-import { Actions as ActionTask } from '../../redux/task'
+import { Actions as ActionProject } from '../../redux/project'
 import { Actions as ActionModal } from '../../redux/modal'
+import { Actions as ActionTask } from '../../redux/task'
 import { DropdownMore, Loading } from '../../reusable/'
 import TaskBoard from '../../components/TaskPage/TaskBoard'
 import ProjectEdit from './ProjectEdit'
@@ -16,13 +17,15 @@ import {
   CRow,
 } from '@coreui/react'
 
-export default function Project({ match }) {
+export default function Project() {
 
-  const history = useHistory()
+  const { id } = useParams();
   const dispatch = useDispatch()
+  const history = useHistory()
 
   const [loading, setLoading] = useState(true)
-  const [project, setProject] = useState(null)
+
+  const project = useSelector(state => state.project)
   const tasks = useSelector(state => state.tasks)
 
   const toogleModal = () => {
@@ -30,17 +33,18 @@ export default function Project({ match }) {
   }
 
   useEffect(() => {
-    api.get('project/' + match.params.id)
+    api.get('project/' + id)
       .then(response => {
         if (response.status === 200) {
-          setProject(response.data.project)
+          dispatch(ActionProject.selectOne(response.data.project))
           dispatch(ActionTask.fillSome(response.data.tasks))
-        } else {
-          setProject([])
         }
         setLoading(false)
       })
-  }, [match.params.id, dispatch])
+    return () => {
+      dispatch(ActionProject.removeSelected())
+    }
+  }, [id, dispatch])
 
   async function handleDelete(id) {
     try {

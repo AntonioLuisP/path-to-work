@@ -11,12 +11,12 @@ const INITIAL_LINKS = []
 export function linksReducer(state = INITIAL_LINKS, { type, ...rest }) {
     switch (type) {
         case TYPES.ADD_LINK:
-            return [...state, rest.link];
+            return [...state, rest.payload];
         case TYPES.FILL_LINKS:
-            return rest.links;
+            return rest.payload;
         case TYPES.EDIT_LINK:
-            const index = state.findIndex(link => (link.id) === rest.link.id)
-            state[index] = rest.link
+            const index = state.findIndex(link => (link.id) === rest.payload.id)
+            state[index] = rest.payload
             return [...state];
         default:
             return state
@@ -28,7 +28,7 @@ const INITIAL_LINK = {}
 export function linkReducer(state = INITIAL_LINK, { type, ...rest }) {
     switch (type) {
         case TYPES.SELECTED_LINK:
-            return { ...state, ...rest.link };
+            return { ...state, ...rest.payload };
         case TYPES.REMOVE_SELECTED_LINK:
             return {};
         default:
@@ -39,19 +39,19 @@ export function linkReducer(state = INITIAL_LINK, { type, ...rest }) {
 export const Actions = {
     addOne: (data) => ({
         type: TYPES.ADD_LINK,
-        link: data
+        payload: data
     }),
-    fillSome: (list) => ({
+    fillSome: (data) => ({
         type: TYPES.FILL_LINKS,
-        links: list
+        payload: data
     }),
     editOne: (data) => ({
         type: TYPES.EDIT_LINK,
-        link: data
+        payload: data
     }),
     selectOne: (data) => ({
         type: TYPES.SELECTED_LINK,
-        link: data
+        payload: data
     }),
     removeSelected: () => ({
         type: TYPES.REMOVE_SELECTED_LINK,

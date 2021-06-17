@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { useParams, useHistory } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { Actions as ActionTodo } from '../../redux/todo'
+import { Actions as ActionModal } from '../../redux/modal'
+import { DropdownMore, Loading } from '../../reusable'
+import TodoEdit from './TodoEdit'
 import api from "../../services/api"
-import { DropdownMore } from '../../reusable'
 
 import {
   CCard,
@@ -10,21 +15,32 @@ import {
   CRow
 } from '@coreui/react'
 
-export default function Comment({ match }) {
+export default function Comment() {
+
+  const { id } = useParams();
+  const dispatch = useDispatch()
   const history = useHistory()
 
-  const [comment, setComment] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  const todo = useSelector(state => state.todo)
+
+  const toogleModal = () => {
+    dispatch(ActionModal.modalSwitch(<TodoEdit todo={todo} />))
+  }
 
   useEffect(() => {
-    api.get('comment/' + match.params.id)
+    api.get('comment/' + id)
       .then(response => {
         if (response.status === 200) {
-          setComment(response.data.comment)
-        } else {
-          setComment([])
+          dispatch(ActionTodo.selectOne(response.data.todo))
         }
+        setLoading(false)
       })
-  }, [match.params.id])
+    return () => {
+      dispatch(ActionTodo.removeSelected())
+    }
+  }, [id, dispatch])
 
   async function handleDelete(id) {
     try {
@@ -37,16 +53,18 @@ export default function Comment({ match }) {
     }
   }
 
+  if (loading) return (<Loading />)
+
   return (
     <>
       <CRow>
         <CCol xs="12" sm="12" md="12">
           <CCard>
             <CCardHeader color="secondary">
-              {comment.comment}
+              {todo.name}
               <div className="card-header-actions">
                 <DropdownMore
-                  editAction={() => history.push('/comments/' + comment.id + '/edit')}
+                  editAction={() => toogleModal()}
                   deleteAction={() => handleDelete(comment.id)}
                 />
               </div>

@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { Actions as ActionModal } from '../../redux/modal'
 import { Actions as ActionLink } from '../../redux/link'
-import { DropdownMore } from '../../reusable'
+import { Actions as ActionModal } from '../../redux/modal'
+import { DropdownMore, Loading } from '../../reusable'
 import LinkEdit from './LinkEdit'
 import api from "../../services/api"
 
@@ -16,9 +16,11 @@ import {
 
 export default function Link() {
 
+  const { id } = useParams();
   const dispatch = useDispatch()
   const history = useHistory()
-  const { id } = useParams();
+
+  const [loading, setLoading] = useState(true)
 
   const link = useSelector(state => state.link)
 
@@ -32,6 +34,7 @@ export default function Link() {
         if (response.status === 200) {
           dispatch(ActionLink.selectOne(response.data.link))
         }
+        setLoading(false)
       })
     return () => {
       dispatch(ActionLink.removeSelected())
@@ -47,6 +50,8 @@ export default function Link() {
       console.log(error)
     }
   }
+
+  if (loading) return (<Loading />)
 
   return (
     <>

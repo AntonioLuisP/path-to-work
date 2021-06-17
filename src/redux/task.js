@@ -11,12 +11,12 @@ const INITIAL_TASKS = []
 export function tasksReducer(state = INITIAL_TASKS, { type, ...rest }) {
     switch (type) {
         case TYPES.ADD_TASK:
-            return [...state, rest.task];
+            return [...state, rest.payload];
         case TYPES.FILL_TASKS:
-            return rest.tasks;
+            return rest.payload;
         case TYPES.EDIT_TASK:
-            const index = state.findIndex(task => (task.id) === rest.task.id)
-            state[index] = rest.task
+            const index = state.findIndex(task => (task.id) === rest.payload.id)
+            state[index] = rest.payload
             return [...state];
         default:
             return state
@@ -28,7 +28,7 @@ const INITIAL_TASK = {}
 export function taskReducer(state = INITIAL_TASK, { type, ...rest }) {
     switch (type) {
         case TYPES.SELECTED_TASK:
-            return { ...state, ...rest.link };
+            return { ...state, ...rest.payload };
         case TYPES.REMOVE_SELECTED_TASK:
             return {};
         default:
@@ -39,19 +39,19 @@ export function taskReducer(state = INITIAL_TASK, { type, ...rest }) {
 export const Actions = {
     addOne: (data) => ({
         type: TYPES.ADD_TASK,
-        task: data
+        payload: data
     }),
     fillSome: (list) => ({
         type: TYPES.FILL_TASKS,
-        tasks: list
+        payload: list
     }),
     editOne: (data) => ({
         type: TYPES.EDIT_TASK,
-        task: data
+        payload: data
     }),
     selectOne: (data) => ({
         type: TYPES.SELECTED_TASK,
-        link: data
+        payload: data
     }),
     removeSelected: () => ({
         type: TYPES.REMOVE_SELECTED_TASK,

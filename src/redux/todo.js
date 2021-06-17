@@ -11,12 +11,12 @@ const INITIAL_TODOS = []
 export function todosReducer(state = INITIAL_TODOS, { type, ...rest }) {
     switch (type) {
         case TYPES.ADD_TODOS:
-            return [...state, rest.todo];
+            return [...state, rest.payload];
         case TYPES.FILL_TODOSS:
-            return rest.todos;
+            return rest.payload;
         case TYPES.EDIT_TODOS:
-            const index = state.findIndex(todo => (todo.id) === rest.todo.id)
-            state[index] = rest.todo
+            const index = state.findIndex(todo => (todo.id) === rest.payload.id)
+            state[index] = rest.payload
             return [...state];
         default:
             return state
@@ -28,7 +28,7 @@ const INITIAL_TODO = {}
 export function todoReducer(state = INITIAL_TODO, { type, ...rest }) {
     switch (type) {
         case TYPES.SELECTED_TODO:
-            return { ...state, ...rest.link };
+            return { ...state, ...rest.payload };
         case TYPES.REMOVE_SELECTED_TODO:
             return {};
         default:
@@ -39,19 +39,19 @@ export function todoReducer(state = INITIAL_TODO, { type, ...rest }) {
 export const Actions = {
     addOne: (data) => ({
         type: TYPES.ADD_TODOS,
-        todo: data
+        payload: data
     }),
     fillSome: (list) => ({
         type: TYPES.FILL_TODOSS,
-        todos: list
+        payload: list
     }),
     editOne: (data) => ({
         type: TYPES.EDIT_TODOS,
-        todo: data
+        payload: data
     }),
     selectOne: (data) => ({
         type: TYPES.SELECTED_TODO,
-        link: data
+        payload: data
     }),
     removeSelected: () => ({
         type: TYPES.REMOVE_SELECTED_TODO,

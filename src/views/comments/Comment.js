@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { Actions as ActionComment } from '../../redux/comment'
+import { Actions as ActionModal } from '../../redux/modal'
+import { DropdownMore, Loading } from '../../reusable'
+import CommentEdit from './CommentEdit'
 import api from "../../services/api"
-import { DropdownMore } from '../../reusable'
+
 
 import {
   CCard,
@@ -11,20 +16,31 @@ import {
 } from '@coreui/react'
 
 export default function Comment({ match }) {
+
+  const { id } = useParams();
+  const dispatch = useDispatch()
   const history = useHistory()
 
-  const [comment, setComment] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  const comment = useSelector(state => state.comment)
+
+  const toogleModal = () => {
+    dispatch(ActionModal.modalSwitch(<CommentEdit comment={comment} />))
+  }
 
   useEffect(() => {
-    api.get('comment/' + match.params.id)
+    api.get('comment/' + id)
       .then(response => {
         if (response.status === 200) {
-          setComment(response.data.comment)
-        } else {
-          setComment([])
+          dispatch(ActionComment.selectOne(response.data.comment))
         }
+        setLoading(false)
       })
-  }, [match.params.id])
+    return () => {
+      dispatch(ActionComment.removeSelected())
+    }
+  }, [id, dispatch])
 
   async function handleDelete(id) {
     try {
@@ -37,6 +53,8 @@ export default function Comment({ match }) {
     }
   }
 
+  if (loading) return (<Loading />)
+
   return (
     <>
       <CRow>
@@ -46,7 +64,7 @@ export default function Comment({ match }) {
               {comment.comment}
               <div className="card-header-actions">
                 <DropdownMore
-                  editAction={() => history.push('/comments/' + comment.id + '/edit')}
+                  editAction={() => toogleModal()}
                   deleteAction={() => handleDelete(comment.id)}
                 />
               </div>
