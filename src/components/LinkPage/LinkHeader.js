@@ -1,6 +1,7 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
+import { Actions as ActionModal } from '../../redux/modal'
 import LinkCreate from '../../views/links/LinkCreate'
-import { useModal, Actions as ActionModal } from '../../context/ModalContext'
 
 import {
     CBreadcrumb,
@@ -16,10 +17,10 @@ import CIcon from '@coreui/icons-react'
 
 export default function LinkHeader() {
 
-    const [, setModal] = useModal()
+    const dispatch = useDispatch()
 
     const toogleModal = () => {
-        setModal(ActionModal.modalSwitch(<LinkCreate />))
+        dispatch(ActionModal.modalSwitch(<LinkCreate />))
     }
 
     return (

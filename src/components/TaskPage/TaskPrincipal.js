@@ -1,6 +1,9 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { DropdownMore } from '../../reusable'
+import { useDispatch } from 'react-redux'
+import { Actions as ActionModal } from '../../redux/modal'
+import TaskEdit from '../../views/tasks/TaskEdit'
 import api from "../../services/api"
 
 import {
@@ -15,6 +18,10 @@ export default function TaskPrincipal(props) {
 
     const task = props.task
 
+    const dispatch = useDispatch()
+    const toogleModal = () => {
+        dispatch(ActionModal.modalSwitch(<TaskEdit task={task} />))
+    }
     async function handleDelete(id) {
         try {
             await api.delete(`/task/${id}`, {})
@@ -32,7 +39,7 @@ export default function TaskPrincipal(props) {
                 {task.name}
                 <div className="card-header-actions">
                     <DropdownMore
-                        editAction={() => history.push('/tasks/' + task.id + '/edit')}
+                        editAction={() => toogleModal()}
                         deleteAction={() => handleDelete(task.id)}
                     />
                 </div>

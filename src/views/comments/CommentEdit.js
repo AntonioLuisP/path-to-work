@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux'
 import api from "../../services/api"
+// import { Actions as ActionComment } from '../../redux/comments'
+import { Actions as ActionNotification } from '../../redux/notifications'
 
 import {
   CButton,
@@ -19,19 +22,22 @@ import {
 } from '@coreui/react'
 
 export default function CommentEdit({ match }) {
+
+  const dispatch = useDispatch()
+
   const history = useHistory()
 
-  const [id, setId] = useState('')
-  const [comment, setComment] = useState('')
-  const [id_task, setId_task] = useState('')
+  const [comment, setComment] = useState({
+    'id': '',
+    'comment': '',
+    'id_task': '',
+  })
 
   useEffect(() => {
     api.get('comment/' + match.params.id)
       .then(response => {
         if (response.status === 200) {
-          setId(response.data.id)
-          setComment(response.data.comment.comment)
-          setId_task(response.data.comment.id_task)
+          setComment(response.data.comment)
         }
       })
   }, [match.params.id])
@@ -42,10 +48,14 @@ export default function CommentEdit({ match }) {
       comment,
     }
     try {
-      await api.put('/comment/' + id, data, {})
+      await api.put('/comment/' + comment.id, data, {})
         .then(response => {
           if (response.status === 200) {
-            history.push("/questions/" + id_task)
+            dispatch(ActionNotification.addOne({
+              header: 'Comentário Editado:',
+              body: '',
+              id: response.data.id,
+            }))
           }
         })
     } catch (error) {
@@ -71,7 +81,7 @@ export default function CommentEdit({ match }) {
                       id="text-input"
                       name="text-input"
                       placeholder="Comentário"
-                      value={comment}
+                      value={comment.comment}
                       onChange={e => setComment(e.target.value)}
                     />
                     <CInputGroupAppend>

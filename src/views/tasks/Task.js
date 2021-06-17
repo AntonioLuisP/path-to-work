@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import api from "../../services/api"
+import { Actions as ActionComment } from '../../redux/comments'
+import { Actions as ActionTodo } from '../../redux/todos'
 import TaskPrincipal from '../../components/TaskPage/TaskPrincipal'
 import TaskStatus from '../../components/TaskPage/TaskStatus'
 import LinkBoard from "../../components/LinkPage/LinkBoard"
 import CommentBoard from '../../components/CommentPage/CommentBoard'
 import TodoBoard from '../../components/TodoPage/TodoBoard'
 import { Loading } from '../../reusable'
-import { Actions as ActionComment } from '../../redux/comments'
-import { Actions as ActionTodo } from '../../redux/todos'
+import api from "../../services/api"
 
 import {
   CCol,

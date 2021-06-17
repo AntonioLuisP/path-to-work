@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import api from "../../services/api"
 import { useDispatch } from 'react-redux'
 import { Actions as ActionProject } from '../../redux/projects'
-import { useNotifications, Actions as ActionNotification } from '../../context/NotificationsContext'
+import { Actions as ActionNotification } from '../../redux/notifications'
+import api from "../../services/api"
 
 import {
   CButton,
@@ -18,8 +18,6 @@ import {
 } from '@coreui/react'
 
 export default function ProjectCreate() {
-
-  const [, setNotifications] = useNotifications()
   
   const dispatch = useDispatch()
   
@@ -41,7 +39,7 @@ export default function ProjectCreate() {
         .then(response => {
           if (response.status === 200) {
             dispatch(ActionProject.addOne(response.data))
-            setNotifications(ActionNotification.addOne({
+            dispatch(ActionNotification.addOne({
               header: 'Projeto adicionado:',
               body: response.data.name,
               id: response.data.id,

@@ -1,5 +1,6 @@
 import React from 'react'
-import { useSidebar, Actions as ActionSidebar } from '../context/SidebarContext'
+import { useDispatch, useSelector } from 'react-redux'
+import { Actions as ActionSidebar } from '../redux/sidebar'
 
 import {
   CHeader,
@@ -27,16 +28,17 @@ import {
 
 const TheHeader = () => {
 
-  const [sidebar, setSidebar] = useSidebar()
+  const dispatch = useDispatch()
+  const sidebar = useSelector(state => state.sidebar)
 
   const toggleSidebar = () => {
     const val = [true, 'responsive'].includes(sidebar) ? false : 'responsive'
-    setSidebar(ActionSidebar.showSwitch(val))
+    dispatch(ActionSidebar.showSwitch(val))
   }
 
   const toggleSidebarMobile = () => {
     const val = [false, 'responsive'].includes(sidebar) ? true : 'responsive'
-    setSidebar(ActionSidebar.showSwitch(val))
+    dispatch(ActionSidebar.showSwitch(val))
   }
 
   return (

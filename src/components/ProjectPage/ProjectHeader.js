@@ -1,6 +1,7 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
+import { Actions as ActionModal } from '../../redux/modal'
 import ProjectCreate from '../../views/projects/ProjectCreate'
-import { useModal, Actions as ActionModal } from '../../context/ModalContext'
 
 import {
   CBreadcrumb,
@@ -16,10 +17,10 @@ import CIcon from '@coreui/icons-react'
 
 export default function ProjectHeader(props) {
 
-  const [, setModal] = useModal()
+  const dispatch = useDispatch()
 
   const toogleModal = () => {
-    setModal(ActionModal.modalSwitch(<ProjectCreate />))
+    dispatch(ActionModal.modalSwitch(<ProjectCreate />))
   }
 
   return (

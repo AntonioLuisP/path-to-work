@@ -6,7 +6,7 @@ const INITIAL = []
 
 export default function notificationsReducer(state = INITIAL, { type, ...rest }) {
     switch (type) {
-        case 'ADD_NOTIFICATION':
+        case TYPES.ADD_NOTIFICATION:
             return [...state, rest.notification];
         default:
             return state

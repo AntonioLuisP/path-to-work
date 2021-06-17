@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import { useNotifications, Actions as ActionNotification } from '../../context/NotificationsContext'
+import { useDispatch, useSelector } from 'react-redux'
+import { Actions as ActionNotification } from '../../redux/notifications'
 import api from "../../services/api"
 
 import {
@@ -19,7 +19,7 @@ import {
 
 export default function TaskCreate(props) {
 
-  const [, setNotifications] = useNotifications()
+  const dispatch = useDispatch()
 
   const projects = useSelector(state => state.projects)
 
@@ -48,7 +48,7 @@ export default function TaskCreate(props) {
       await api.post('task', data, {})
         .then(response => {
           if (response.status === 200) {
-            setNotifications(ActionNotification.addOne({
+            dispatch(ActionNotification.addOne({
               header: 'Tarefa adicionada:',
               body: response.data.name,
               id: response.data.id,

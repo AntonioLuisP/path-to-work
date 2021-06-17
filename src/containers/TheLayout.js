@@ -8,28 +8,21 @@ import {
 } from './index'
 
 import { Modal, ToasterNotification } from '../reusable'
-import { SidebarProvider, ModalProvider, NotificationsProvider } from 'src/context/'
 
 const TheLayout = () => {
 
   return (
     <div className="c-app c-default-layout">
-      <SidebarProvider>
-        <TheSidebar />
-        <div className="c-wrapper">
-          <TheHeader />
-          <div className="c-body">
-            <ModalProvider>
-              <NotificationsProvider>
-                <Modal />
-                <ToasterNotification />
-                <TheContent />
-              </NotificationsProvider>
-            </ModalProvider>
-          </div>
-          <TheFooter />
+      <TheSidebar />
+      <div className="c-wrapper">
+        <TheHeader />
+        <div className="c-body">
+          <Modal />
+          <ToasterNotification />
+          <TheContent />
         </div>
-      </SidebarProvider>
+        <TheFooter />
+      </div>
 
     </div>
   )

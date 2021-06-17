@@ -1,5 +1,6 @@
 import React from 'react'
-import { useModal, Actions as ActionModal } from '../../context/ModalContext'
+import { useDispatch } from 'react-redux'
+import { Actions as ActionModal } from '../../redux/modal'
 import CommentCreate from '../../views/comments/CommentCreate'
 
 import {
@@ -16,12 +17,12 @@ import CIcon from '@coreui/icons-react'
 
 export default function CommentHeader(props) {
 
-    const [, setModal] = useModal()
+    const dispatch = useDispatch()
 
     const task = props.task
 
     const toogleModal = () => {
-        setModal(ActionModal.modalSwitch(<CommentCreate task={task} />))
+        dispatch(ActionModal.modalSwitch(<CommentCreate task={task} />))
     }
 
     return (

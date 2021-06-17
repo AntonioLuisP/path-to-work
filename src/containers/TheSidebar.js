@@ -1,5 +1,6 @@
 import React from 'react'
-import { useSidebar, Actions as ActionSidebar } from '../context/SidebarContext'
+import { useDispatch, useSelector } from 'react-redux'
+import { Actions as ActionSidebar } from '../redux/sidebar'
 import Items from './Items'
 
 import {
@@ -23,12 +24,13 @@ import CIcon from '@coreui/icons-react'
 
 const TheSidebar = () => {
 
-  const [sidebar, setSidebar] = useSidebar()
+  const dispatch = useDispatch()
+  const sidebar = useSelector(state => state.sidebar)
 
   return (
     <CSidebar
       show={sidebar}
-      onShowChange={(val) => setSidebar(ActionSidebar.showSwitch(val))}
+      onShowChange={(val) => dispatch(ActionSidebar.showSwitch(val))}
     >
       <CSidebarBrand
         to='/'

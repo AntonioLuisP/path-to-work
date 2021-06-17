@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
+import { Actions as ActionTask } from '../../redux/tasks'
+import { Actions as ActionModal } from '../../redux/modal'
 import { DropdownMore, Loading } from '../../reusable/'
 import TaskBoard from '../../components/TaskPage/TaskBoard'
 import ProjectEdit from './ProjectEdit'
 import api from "../../services/api"
-import { Actions as ActionTask } from '../../redux/tasks'
-import { useModal, Actions as ActionModal } from '../../context/ModalContext'
 
 import {
   CCard,
@@ -18,8 +18,6 @@ import {
 
 export default function Project({ match }) {
 
-  const [, setModal] = useModal()
-
   const history = useHistory()
   const dispatch = useDispatch()
 
@@ -28,7 +26,7 @@ export default function Project({ match }) {
   const tasks = useSelector(state => state.tasks)
 
   const toogleModal = () => {
-    setModal(ActionModal.modalSwitch(<ProjectEdit project={project} />))
+    dispatch(ActionModal.modalSwitch(<ProjectEdit project={project} />))
   }
 
   useEffect(() => {

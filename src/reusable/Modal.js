@@ -1,5 +1,6 @@
 import React from 'react'
-import { useModal, Actions as ActionModal } from '../context/ModalContext'
+import { useDispatch, useSelector } from 'react-redux'
+import { Actions as ActionModal } from '../redux/modal'
 
 import {
     CModal,
@@ -7,10 +8,12 @@ import {
 
 const Modal = () => {
 
-    const [modal, setModal] = useModal()
+    const dispatch = useDispatch()
+
+    const modal = useSelector(state => state.modal)
 
     const toogleModal = () => {
-        setModal(ActionModal.modalSwitch(<></>))
+        dispatch(ActionModal.modalSwitch(<></>))
     }
 
     return (
