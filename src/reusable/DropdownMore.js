@@ -1,5 +1,4 @@
 import React from 'react'
-import { Modal } from '../reusable'
 
 import {
   CDropdown,
@@ -15,10 +14,10 @@ import {
 
 import CIcon from '@coreui/icons-react'
 
-const DropdownMore = ({ editAction, deleteAction, }) => {
+const DropdownMore = ({ editAction, deleteAction }) => {
+
   return (
     <>
-      <Modal />
       <CDropdown >
         <CDropdownToggle className="card-header-action">
           <CIcon name="cil-settings" />

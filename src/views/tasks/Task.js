@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { Actions as ActionTask } from '../../redux/task'
-import { Actions as ActionModal } from '../../redux/modal'
 import { Actions as ActionComment } from '../../redux/comment'
 import { Actions as ActionTodo } from '../../redux/todo'
-import { DropdownMore, Loading } from '../../reusable'
+import { DropdownMore, Loading, Modal } from '../../reusable'
 import LinkBoard from "../../components/LinkPage/LinkBoard"
 import CommentBoard from '../../components/CommentPage/CommentBoard'
 import TodoBoard from '../../components/TodoPage/TodoBoard'
@@ -28,6 +27,7 @@ export default function Task() {
   const history = useHistory()
 
   const [loading, setLoading] = useState(true)
+  const [modal, setModal] = useState(false)
 
   const task = useSelector(state => state.task)
 
@@ -36,7 +36,7 @@ export default function Task() {
   const todos = useSelector(state => state.todos)
 
   const toogleModal = () => {
-    dispatch(ActionModal.modalSwitch(true, <TaskEdit task={task} />))
+    setModal(old => !old)
   }
 
   useEffect(() => {
@@ -69,6 +69,7 @@ export default function Task() {
 
   return (
     <CRow>
+      <Modal show={modal} onClose={toogleModal} component={<TaskEdit task={task} />} />
       <CCol xs="12" sm="9" md="9">
         <CCard className='text-break text-justify'>
           <CCardHeader color="secondary">

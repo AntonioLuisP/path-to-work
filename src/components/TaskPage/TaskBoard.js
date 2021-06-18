@@ -15,7 +15,7 @@ export default function TaskBoard(props) {
   return (
     <CRow>
       <CCol xs="12" sm="12" md="12">
-        <BreadcrumbHeader title={props.title} component={<TaskCreate task={props.project} />} />
+        <BreadcrumbHeader title={props.title} component={<TaskCreate />} />
         {
           tasks.map(task => (
             <TaskComponent key={task.id} task={task} />

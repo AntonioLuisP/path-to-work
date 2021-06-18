@@ -1,6 +1,5 @@
-import React from 'react'
-import { useDispatch } from 'react-redux'
-import { Actions as ActionModal } from '../redux/modal'
+import React, { useState } from 'react'
+import { Modal } from '../reusable'
 import TaskCreate from '../views/tasks/TaskCreate'
 
 import {
@@ -18,27 +17,30 @@ import {
 
 const TheHeaderPlus = () => {
 
-  const dispatch = useDispatch()
+  const [modal, setModal] = useState(false)
 
   const toogleModal = () => {
-    dispatch(ActionModal.modalSwitch(true, <TaskCreate />))
+    setModal(old => !old)
   }
 
   return (
-    <CHeaderNav className="d-md-down-none mr-auto">
-      <CHeaderNavItem className="px-3" >
-        <CTooltip
-          content='Nova Tarefa'
-          placement='bottom'
-        >
-          <CButton
-            onClick={toogleModal}
+    <>
+      <Modal show={modal} onClose={toogleModal} component={<TaskCreate />} />
+      <CHeaderNav className="d-md-down-none mr-auto">
+        <CHeaderNavItem className="px-3" >
+          <CTooltip
+            content='Nova Tarefa'
+            placement='bottom'
           >
-            <CIcon content={cilPlus} />
-          </CButton>
-        </CTooltip>
-      </CHeaderNavItem>
-    </CHeaderNav>
+            <CButton
+              onClick={toogleModal}
+            >
+              <CIcon content={cilPlus} />
+            </CButton>
+          </CTooltip>
+        </CHeaderNavItem>
+      </CHeaderNav>
+    </>
   )
 }
 

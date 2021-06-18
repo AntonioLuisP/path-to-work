@@ -3,8 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Actions as ActionTodo } from '../../redux/todo'
-import { Actions as ActionModal } from '../../redux/modal'
-import { DropdownMore, Loading } from '../../reusable'
+import { DropdownMore, Loading, Modal } from '../../reusable'
 import TodoEdit from './TodoEdit'
 import api from "../../services/api"
 
@@ -22,11 +21,12 @@ export default function Comment() {
   const history = useHistory()
 
   const [loading, setLoading] = useState(true)
+  const [modal, setModal] = useState(false)
 
   const todo = useSelector(state => state.todo)
 
   const toogleModal = () => {
-    dispatch(ActionModal.modalSwitch(true, <TodoEdit todo={todo} />))
+    setModal(old => !old)
   }
 
   useEffect(() => {
@@ -57,6 +57,7 @@ export default function Comment() {
 
   return (
     <>
+      <Modal show={modal} onClose={toogleModal} component={<TodoEdit todo={todo} />} />
       <CRow>
         <CCol xs="12" sm="12" md="12">
           <CCard>

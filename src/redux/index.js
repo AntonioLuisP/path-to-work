@@ -7,10 +7,9 @@ import { linkReducer, linksReducer } from './link'
 import { commentReducer, commentsReducer } from './comment'
 import { todoReducer, todosReducer } from './todo'
 import sidebarReducer from './sidebar'
-import modalReducer from './modal'
 
 const allReducers = combineReducers({
-    modal: modalReducer,
+
     notifications: notificationsReducer,
     sidebar: sidebarReducer,
 

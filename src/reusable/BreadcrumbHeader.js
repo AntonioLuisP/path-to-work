@@ -1,6 +1,4 @@
-import React from 'react'
-import { useDispatch } from 'react-redux'
-import { Actions as ActionModal } from '../redux/modal'
+import React, { useState } from 'react'
 import { Modal } from '../reusable'
 
 import {
@@ -17,10 +15,10 @@ import CIcon from '@coreui/icons-react'
 
 export default function BreadcrumbHeader({ title, component }) {
 
-  const dispatch = useDispatch()
+  const [modal, setModal] = useState(false)
 
   const toogleModal = () => {
-    dispatch(ActionModal.modalSwitch(true, component))
+    setModal(old => !old)
   }
 
   return (
@@ -31,7 +29,7 @@ export default function BreadcrumbHeader({ title, component }) {
       >
         <CIcon content={cilPlus} />
       </CButton>
-      <Modal />
+      <Modal show={modal} onClose={toogleModal} component={component} />
     </CBreadcrumb>
   )
 }

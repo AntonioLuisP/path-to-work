@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Actions as ActionComment } from '../../redux/comment'
-import { Actions as ActionModal } from '../../redux/modal'
-import { DropdownMore, Loading } from '../../reusable'
+import { DropdownMore, Loading, Modal } from '../../reusable'
 import CommentEdit from './CommentEdit'
 import api from "../../services/api"
 
@@ -22,11 +21,12 @@ export default function Comment({ match }) {
   const history = useHistory()
 
   const [loading, setLoading] = useState(true)
+  const [modal, setModal] = useState(false)
 
   const comment = useSelector(state => state.comment)
 
   const toogleModal = () => {
-    dispatch(ActionModal.modalSwitch(true, <CommentEdit comment={comment} />))
+    setModal(old => !old)
   }
 
   useEffect(() => {
@@ -57,6 +57,7 @@ export default function Comment({ match }) {
 
   return (
     <>
+      <Modal show={modal} onClose={toogleModal} component={<CommentEdit comment={comment} />} />
       <CRow>
         <CCol xs="12" sm="12" md="12">
           <CCard>

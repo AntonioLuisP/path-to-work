@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { Actions as ActionProject } from '../../redux/project'
-import { Actions as ActionModal } from '../../redux/modal'
 import { Actions as ActionTask } from '../../redux/task'
-import { DropdownMore, Loading } from '../../reusable/'
+import { DropdownMore, Loading, Modal } from '../../reusable'
 import TaskBoard from '../../components/TaskPage/TaskBoard'
 import ProjectEdit from './ProjectEdit'
 import api from "../../services/api"
@@ -24,12 +23,13 @@ export default function Project() {
   const history = useHistory()
 
   const [loading, setLoading] = useState(true)
+  const [modal, setModal] = useState(false)
 
   const project = useSelector(state => state.project)
   const tasks = useSelector(state => state.tasks)
 
   const toogleModal = () => {
-    dispatch(ActionModal.modalSwitch(true, <ProjectEdit project={project} />))
+    setModal(old => !old)
   }
 
   useEffect(() => {
@@ -60,6 +60,7 @@ export default function Project() {
 
   return (
     <>
+      <Modal show={modal} onClose={toogleModal} component={<ProjectEdit project={project} />} />
       <CRow>
         <CCol xs="12" sm="12" md="12">
           <CCard className='text-break text-justify'>

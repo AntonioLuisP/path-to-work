@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Actions as ActionLink } from '../../redux/link'
-import { Actions as ActionModal } from '../../redux/modal'
-import { DropdownMore, Loading } from '../../reusable'
+import { DropdownMore, Loading, Modal } from '../../reusable'
 import LinkEdit from './LinkEdit'
 import api from "../../services/api"
 
@@ -21,11 +20,12 @@ export default function Link() {
   const history = useHistory()
 
   const [loading, setLoading] = useState(true)
+  const [modal, setModal] = useState(false)
 
   const link = useSelector(state => state.link)
 
   const toogleModal = () => {
-    dispatch(ActionModal.modalSwitch(true, <LinkEdit link={link} />))
+    setModal(old => !old)
   }
 
   useEffect(() => {
@@ -55,6 +55,7 @@ export default function Link() {
 
   return (
     <>
+      <Modal show={modal} onClose={toogleModal} component={<LinkEdit link={link} />} />
       <CRow>
         <CCol xs="12" sm="12" md="12">
           <CCard className='text-break text-justify'>
