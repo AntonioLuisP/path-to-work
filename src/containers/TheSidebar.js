@@ -12,7 +12,6 @@ import {
 } from '@coreui/react'
 
 import {
-  cilBriefcase,
   cilCursor,
   cilHome,
   cilList,
