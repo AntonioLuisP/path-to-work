@@ -1,6 +1,6 @@
 import React from 'react'
 import ProjectComponent from './ProjectComponent'
-import ProjectCreate from '../../views/projects/ProjectCreate'
+import ProjectCreate from '../../views/lists/ListCreate'
 import BreadcrumbHeader from '../../reusable/BreadcrumbHeader'
 
 import {

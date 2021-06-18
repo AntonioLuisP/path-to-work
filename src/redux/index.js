@@ -2,6 +2,7 @@ import { combineReducers } from 'redux'
 
 import notificationsReducer from './notifications'
 import { projectReducer, projectsReducer } from './project'
+import { listReducer, listsReducer } from './list'
 import { taskReducer, tasksReducer } from './task'
 import { linkReducer, linksReducer } from './link'
 import { commentReducer, commentsReducer } from './comment'
@@ -12,6 +13,9 @@ const allReducers = combineReducers({
 
     notifications: notificationsReducer,
     sidebar: sidebarReducer,
+
+    list: listReducer,
+    lists: listsReducer,
 
     project: projectReducer,
     projects: projectsReducer,

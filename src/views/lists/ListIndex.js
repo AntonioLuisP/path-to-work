@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-export default function Social() {
+export default function ListIndex() {
 
 
   return (

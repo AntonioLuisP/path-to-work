@@ -6,19 +6,19 @@ const User = React.lazy(() => import('./views/users/User'));
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'));
 
 const SocialIndex = React.lazy(() => import('./views/socials/SocialIndex'));
-// const SocialCreate = React.lazy(() => import('./views/socials/SocialCreate'));
-// const Social = React.lazy(() => import('./views/socials/Social'));
-// const SocialEdit = React.lazy(() => import('./views/socials/SocialEdit'));
+const SocialCreate = React.lazy(() => import('./views/socials/SocialCreate'));
+const Social = React.lazy(() => import('./views/socials/Social'));
+const SocialEdit = React.lazy(() => import('./views/socials/SocialEdit'));
 
 const LinkIndex = React.lazy(() => import('./views/links/LinkIndex'));
 const LinkCreate = React.lazy(() => import('./views/links/LinkCreate'));
 const Link = React.lazy(() => import('./views/links/Link'));
 const LinkEdit = React.lazy(() => import('./views/links/LinkEdit'));
 
-const ProjectIndex = React.lazy(() => import('./views/projects/ProjectIndex'));
-const ProjectCreate = React.lazy(() => import('./views/projects/ProjectCreate'));
-const Project = React.lazy(() => import('./views/projects/Project'));
-const ProjectEdit = React.lazy(() => import('./views/projects/ProjectEdit'));
+const ListIndex = React.lazy(() => import('./views/lists/ListIndex'));
+const ListCreate = React.lazy(() => import('./views/lists/ListCreate'));
+const List = React.lazy(() => import('./views/lists/List'));
+const ListEdit = React.lazy(() => import('./views/lists/ListEdit'));
 
 const TaskIndex = React.lazy(() => import('./views/tasks/TaskIndex'));
 const TaskCreate = React.lazy(() => import('./views/tasks/TaskCreate'));
@@ -37,19 +37,19 @@ const routes = [
   { path: '/users/:id', exact: true, name: 'Detalhes', component: User },
 
   { path: '/social', exact: true, name: 'Perfil Social', component: SocialIndex },
-  // { path: '/social/create', exact: true, name: 'Criar', component: SocialCreate },
-  // { path: '/social/:id', exact: true, name: 'Detalhes', component: Social },
-  // { path: '/social/:id/edit', exact: true, name: 'Editar', component: SocialEdit },
+  { path: '/social/create', exact: true, name: 'Criar', component: SocialCreate },
+  { path: '/social/:id', exact: true, name: 'Detalhes', component: Social },
+  { path: '/social/:id/edit', exact: true, name: 'Editar', component: SocialEdit },
 
   { path: '/links', exact: true, name: 'Link', component: LinkIndex },
   { path: '/links/create', exact: true, name: 'Criar', component: LinkCreate },
   { path: '/links/:id', exact: true, name: 'Detalhes', component: Link },
   { path: '/links/:id/edit', exact: true, name: 'Editar', component: LinkEdit },
 
-  { path: '/projects', exact: true, name: 'Projetos', component: ProjectIndex },
-  { path: '/projects/create', exact: true, name: 'Criar', component: ProjectCreate },
-  { path: '/projects/:id', exact: true, name: 'Detalhes', component: Project },
-  { path: '/projects/:id/edit', exact: true, name: 'Editar', component: ProjectEdit },
+  { path: '/lists', exact: true, name: 'Listas', component: ListIndex },
+  { path: '/lists/create', exact: true, name: 'Criar', component: ListCreate },
+  { path: '/lists/:id', exact: true, name: 'Detalhes', component: List },
+  { path: '/lists/:id/edit', exact: true, name: 'Editar', component: ListEdit },
 
   { path: '/tasks', exact: true, name: 'Tarefas', component: TaskIndex },
   { path: '/tasks/create', exact: true, name: 'Criar', component: TaskCreate },
