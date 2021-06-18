@@ -78,7 +78,7 @@ export default function Project() {
           </CCard>
         </CCol>
       </CRow>
-      <TaskBoard project={project} tasks={tasks} />
+      <TaskBoard title='Tarefas' project={project} tasks={tasks} />
     </>
   )
 }
