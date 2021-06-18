@@ -31,7 +31,7 @@ export default function Dashboard() {
             .catch((err) => {
                 console.error("ops! ocorreu um erro" + err);
             });
-        api.get('project')
+        api.get('task')
             .then(response => {
                 if (response.status === 200) {
                     dispatch(ActionTask.fillSome(response.data.data))

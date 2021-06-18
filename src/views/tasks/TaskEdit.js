@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux'
+import { Actions as ActionTask } from '../../redux/task'
 import { Actions as ActionNotification } from '../../redux/notifications'
 import api from "../../services/api"
 
@@ -16,26 +16,26 @@ import {
   CFormGroup,
   CInput,
   CRow,
+  CLabel,
   CTextarea
 } from '@coreui/react'
 
 export default function TaskEdit(props) {
 
   const dispatch = useDispatch()
-  const history = useHistory()
 
-  const [task, setTask] = useState(props.task)
+  const [task, setTask] = useState({
+    ...props.task,
+    'description': props.task.description === null ? '' : props.task.description
+  })
 
   async function handleEdit(e) {
     e.preventDefault();
-    const data = {
-      'name': task.name,
-      'description': task.description
-    }
     try {
-      await api.put('/task/' + task.id, data, {})
+      await api.put('/task/' + task.id, task, {})
         .then(response => {
           if (response.status === 200) {
+            dispatch(ActionTask.selectOne(task))
             dispatch(ActionNotification.addOne({
               header: 'Tarefa Editada:',
               body: task.name,
@@ -69,6 +69,42 @@ export default function TaskEdit(props) {
                 </CCol>
               </CFormGroup>
               <CFormGroup row>
+                <CCol xs="4" md="4">
+                  <CLabel htmlFor="text-input">Data Limite</CLabel>
+                  <CInput
+                    id="text-input"
+                    name="text-input"
+                    type="date"
+                    value={task.limite_date}
+                    onChange={e => setTask({ ...task, 'limite_date': e.target.value })}
+                  />
+                </CCol>
+                <CCol xs="4" md="4">
+                  <CLabel htmlFor="text-input">Hora da tarefa</CLabel>
+                  <CInput
+                    id="text-input"
+                    name="text-input"
+                    type="time"
+                    value={task.hora}
+                    onChange={e => setTask({ ...task, 'hora': e.target.value })}
+                  />
+                </CCol>
+                <CCol xs="4" md="4">
+                  <CFormGroup>
+                    <CLabel htmlFor="text-input">{task.conclusion ? 'Concluída' : 'Não finalizada'}</CLabel>
+                    <CInput
+                      id="text-input"
+                      name="text-input"
+                      type="button"
+                      placeholder="Nome"
+                      className='btn btn-warning'
+                      value={task.conclusion ? 'Refazer' : 'Concluir'}
+                      onClick={() => setTask({ ...task, 'conclusion': !task.conclusion })}
+                    />
+                  </CFormGroup>
+                </CCol>
+              </CFormGroup>
+              <CFormGroup row>
                 <CCol xs="12" md="12">
                   <CTextarea
                     name="textarea-input"
@@ -88,16 +124,10 @@ export default function TaskEdit(props) {
               >
                 Salvar
               </CButton>
-              <CButton
-                color="secondary"
-                onClick={() => history.goBack()}
-              >
-                Cancelar
-              </CButton>
             </CCardFooter>
           </CForm>
         </CCard>
       </CCol>
-    </CRow>
+    </CRow >
   )
 }

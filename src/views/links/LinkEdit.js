@@ -26,7 +26,7 @@ export default function LinkEdit(props) {
   const [load, setLoad] = useState(true)
   const [link, setLink] = useState({
     ...props.link,
-    'description': props.description === null ? '' : props.description
+    'description': props.link.description === null ? '' : props.link.description
   })
 
   async function handleEdit(e) {

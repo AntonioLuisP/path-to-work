@@ -9,7 +9,7 @@ import { DropdownMore, Loading } from '../../reusable'
 import LinkBoard from "../../components/LinkPage/LinkBoard"
 import CommentBoard from '../../components/CommentPage/CommentBoard'
 import TodoBoard from '../../components/TodoPage/TodoBoard'
-import TaskStatus from '../../components/TaskPage/TaskStatus'
+import TaskInfo from '../../components/TaskPage/TaskInfo'
 import TaskEdit from './TaskEdit'
 import api from "../../services/api"
 
@@ -86,16 +86,16 @@ export default function Task() {
         </CCard>
         <CRow>
           <CCol xs="12" sm="6" md="6">
-            <TodoBoard task={task} todos={todos} />
+            <TodoBoard title='Afazeres' task={task} todos={todos} />
           </CCol>
           <CCol xs="12" sm="6" md="6">
-            <LinkBoard links={links} />
+            <LinkBoard title='Links' links={links} />
           </CCol>
         </CRow>
       </CCol>
       <CCol xs="12" sm="3" md="3">
-        <TaskStatus task={task} todos={todos} links={links} comments={comments} />
-        <CommentBoard task={task} comments={comments} />
+        <TaskInfo task={task} todos={todos} links={links} comments={comments} />
+        <CommentBoard title='Comentários' task={task} comments={comments} />
       </CCol>
     </CRow>
   )
