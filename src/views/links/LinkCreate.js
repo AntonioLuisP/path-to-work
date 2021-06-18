@@ -72,25 +72,13 @@ export default function LinkCreate() {
       <CForm onSubmit={handleCreate} className="form-horizontal">
         <CModalBody>
           <CFormGroup row>
-            <CCol xs="12" md="12">
+            <CCol xs="10" md="10">
               <CInput
                 id="text-input"
                 name="text-input"
                 placeholder="Nome"
                 value={link.name}
                 onChange={e => setLink({ ...link, 'name': e.target.value })}
-              />
-            </CCol>
-          </CFormGroup>
-          <CFormGroup row>
-            <CCol xs="10" md="10">
-              <CInput
-                id="text-input"
-                name="text-input"
-                placeholder="Url"
-                type='url'
-                value={link.url}
-                onChange={e => setLink({ ...link, 'url': e.target.value })}
               />
             </CCol>
             <CCol xs="2" md="2">
@@ -104,6 +92,18 @@ export default function LinkCreate() {
                 />
                 <CLabel variant="custom-checkbox" htmlFor="inline-checkbox1">Favoritar</CLabel>
               </CFormGroup>
+            </CCol>
+          </CFormGroup>
+          <CFormGroup row>
+            <CCol xs="12" md="12">
+              <CInput
+                id="text-input"
+                name="text-input"
+                placeholder="Url"
+                type='url'
+                value={link.url}
+                onChange={e => setLink({ ...link, 'url': e.target.value })}
+              />
             </CCol>
           </CFormGroup>
           <CFormGroup row>
