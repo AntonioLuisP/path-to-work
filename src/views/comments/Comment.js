@@ -26,7 +26,7 @@ export default function Comment({ match }) {
   const comment = useSelector(state => state.comment)
 
   const toogleModal = () => {
-    dispatch(ActionModal.modalSwitch(<CommentEdit comment={comment} />))
+    dispatch(ActionModal.modalSwitch(true, <CommentEdit comment={comment} />))
   }
 
   useEffect(() => {

@@ -29,7 +29,7 @@ export default function Project() {
   const tasks = useSelector(state => state.tasks)
 
   const toogleModal = () => {
-    dispatch(ActionModal.modalSwitch(<ProjectEdit project={project} />))
+    dispatch(ActionModal.modalSwitch(true, <ProjectEdit project={project} />))
   }
 
   useEffect(() => {

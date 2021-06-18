@@ -36,7 +36,7 @@ export default function Task() {
   const todos = useSelector(state => state.todos)
 
   const toogleModal = () => {
-    dispatch(ActionModal.modalSwitch(<TaskEdit task={task} />))
+    dispatch(ActionModal.modalSwitch(true, <TaskEdit task={task} />))
   }
 
   useEffect(() => {

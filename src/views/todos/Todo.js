@@ -26,7 +26,7 @@ export default function Comment() {
   const todo = useSelector(state => state.todo)
 
   const toogleModal = () => {
-    dispatch(ActionModal.modalSwitch(<TodoEdit todo={todo} />))
+    dispatch(ActionModal.modalSwitch(true, <TodoEdit todo={todo} />))
   }
 
   useEffect(() => {

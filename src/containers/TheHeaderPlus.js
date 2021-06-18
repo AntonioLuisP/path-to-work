@@ -21,7 +21,7 @@ const TheHeaderPlus = () => {
   const dispatch = useDispatch()
 
   const toogleModal = () => {
-    dispatch(ActionModal.modalSwitch(<TaskCreate />))
+    dispatch(ActionModal.modalSwitch(true, <TaskCreate />))
   }
 
   return (

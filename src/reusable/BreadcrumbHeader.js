@@ -1,6 +1,7 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { Actions as ActionModal } from '../redux/modal'
+import { Modal } from '../reusable'
 
 import {
   CBreadcrumb,
@@ -19,7 +20,7 @@ export default function BreadcrumbHeader({ title, component }) {
   const dispatch = useDispatch()
 
   const toogleModal = () => {
-    dispatch(ActionModal.modalSwitch(component))
+    dispatch(ActionModal.modalSwitch(true, component))
   }
 
   return (
@@ -30,6 +31,7 @@ export default function BreadcrumbHeader({ title, component }) {
       >
         <CIcon content={cilPlus} />
       </CButton>
+      <Modal />
     </CBreadcrumb>
   )
 }

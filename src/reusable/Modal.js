@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Actions as ActionModal } from '../redux/modal'
 
@@ -12,14 +12,16 @@ const Modal = () => {
 
     const modal = useSelector(state => state.modal)
 
-    const toogleModal = () => {
-        dispatch(ActionModal.modalSwitch(<></>))
-    }
+    useEffect(() => {
+        return () => {
+            dispatch(ActionModal.modalSwitch(false, <></>))
+        }
+    }, [dispatch])
 
     return (
         <CModal
             show={modal.show}
-            onClose={toogleModal}
+            onClose={() => { dispatch(ActionModal.modalSwitch(false, <></>)) }}
             size='lg'
         >
             {modal.component}

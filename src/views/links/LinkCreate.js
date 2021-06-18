@@ -32,21 +32,14 @@ export default function LinkCreate() {
     'description': '',
   })
 
-  console.log(link.favorite)
   async function handleCreate(e) {
     e.preventDefault();
     setLoad(false)
-    const data = {
-      'name': link.name,
-      'url': link.url,
-      'favorite': link.favorite,
-      'description': link.description,
-    }
     try {
-      await api.post('link', data, {})
+      await api.post('link', link, {})
         .then(response => {
           if (response.status === 200) {
-            if (data.favorite) {
+            if (link.favorite) {
               dispatch(ActionLink.addOne(response.data))
             }
             dispatch(ActionNotification.addOne({

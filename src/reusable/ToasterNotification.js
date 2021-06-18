@@ -14,11 +14,11 @@ const ToasterNotification = () => {
         <CToaster
             position={'top-right'}
         >
-            {notifications.map((note) => {
+            {notifications.map((note, idx) => {
                 if (Object.keys(note).length > 0)
                     return (
                         <Toasts
-                            key={note.id}
+                            key={idx}
                             header={note.header}
                             body={note.body}
                             id={note.id}

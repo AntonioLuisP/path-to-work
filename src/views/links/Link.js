@@ -25,7 +25,7 @@ export default function Link() {
   const link = useSelector(state => state.link)
 
   const toogleModal = () => {
-    dispatch(ActionModal.modalSwitch(<LinkEdit link={link} />))
+    dispatch(ActionModal.modalSwitch(true, <LinkEdit link={link} />))
   }
 
   useEffect(() => {
