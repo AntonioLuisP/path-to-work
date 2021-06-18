@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { Actions as ActionTask } from '../../redux/task'
 import { Actions as ActionNotification } from '../../redux/notifications'
-import { Loading } from '../../reusable/'
 import api from "../../services/api"
 
 import {
@@ -16,7 +15,6 @@ import {
   CFormGroup,
   CInput,
   CLabel,
-  CSelect,
   CTextarea,
 } from '@coreui/react'
 
@@ -24,9 +22,6 @@ export default function TaskCreate() {
 
   const dispatch = useDispatch()
 
-  const project = useSelector(state => state.project)
-
-  const [loading, setLoading] = useState(true)
   const [load, setLoad] = useState(true)
   const [task, setTask] = useState({
     'name': '',
@@ -35,27 +30,6 @@ export default function TaskCreate() {
     'description': '',
     'hora': '',
   })
-  const [projects, setProjects] = useState([])
-
-  useEffect(() => {
-    if (typeof project.id !== "undefined") {
-      setTask(task => ({ ...task, 'id_project': project.id }))
-    } else {
-      api.get('project/')
-        .then(response => {
-          if (response.status === 200) {
-            setProjects(response.data.data)
-            if (Object.keys(response.data.data).length > 0) {
-              setTask(task => ({ ...task, 'id_project': response.data.data[0].id }))
-            }
-          }
-        })
-        .catch((err) => {
-          console.error("ops! ocorreu um erro" + err);
-        });
-    }
-    setLoading(false)
-  }, [project])
 
   async function handleCreate(e) {
     e.preventDefault();
@@ -80,16 +54,6 @@ export default function TaskCreate() {
     }
   }
 
-  if (loading) return (<Loading />)
-
-  if (task.id_project === null) {
-    return (
-      <>
-        Crie um projeto antes
-      </>
-    )
-  }
-
   return (
     <>
       <CModalHeader>
@@ -109,22 +73,7 @@ export default function TaskCreate() {
             </CCol>
           </CFormGroup>
           <CFormGroup row>
-            <CCol xs="7" md="7">
-              <CLabel htmlFor="text-input">Projeto</CLabel>
-              <CSelect
-                value={task.id_project}
-                onChange={e => setTask({ ...task, 'id_project': e.target.value })}
-                custom
-                name="select"
-                id="select">
-                {
-                  projects.map(project => (
-                    <option key={project.id} value={project.id}>{project.name}</option>
-                  ))
-                }
-              </CSelect>
-            </CCol>
-            <CCol xs="3" md="3">
+            <CCol xs="6" md="6">
               <CLabel htmlFor="text-input">Data Limite</CLabel>
               <CInput
                 id="text-input"
@@ -134,7 +83,7 @@ export default function TaskCreate() {
                 onChange={e => setTask({ ...task, 'limite_date': e.target.value })}
               />
             </CCol>
-            <CCol xs="2" md="2">
+            <CCol xs="6" md="6">
               <CLabel htmlFor="text-input">Hora da tarefa</CLabel>
               <CInput
                 id="text-input"
