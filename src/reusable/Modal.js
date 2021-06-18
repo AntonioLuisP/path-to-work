@@ -20,6 +20,7 @@ const Modal = () => {
         <CModal
             show={modal.show}
             onClose={toogleModal}
+            size='lg'
         >
             {modal.component}
         </CModal>

@@ -22,7 +22,7 @@ export default function Dashboard() {
     const links = useSelector(state => state.links)
 
     useEffect(() => {
-        api.get('link')
+        api.get('link?favorite=true')
             .then(response => {
                 if (response.status === 200) {
                     dispatch(ActionLink.fillSome(response.data.data))

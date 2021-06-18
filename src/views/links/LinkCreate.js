@@ -14,6 +14,9 @@ import {
   CForm,
   CFormGroup,
   CInput,
+  CTextarea,
+  CLabel,
+  CInputCheckbox
 } from '@coreui/react'
 
 export default function LinkCreate() {
@@ -25,20 +28,27 @@ export default function LinkCreate() {
   const [link, setLink] = useState({
     'name': '',
     'url': '',
+    'favorite': false,
+    'description': '',
   })
 
+  console.log(link.favorite)
   async function handleCreate(e) {
     e.preventDefault();
     setLoad(false)
     const data = {
       'name': link.name,
-      'url': link.url
+      'url': link.url,
+      'favorite': link.favorite,
+      'description': link.description,
     }
     try {
       await api.post('link', data, {})
         .then(response => {
           if (response.status === 200) {
-            dispatch(ActionLink.addOne(response.data))
+            if (data.favorite) {
+              dispatch(ActionLink.addOne(response.data))
+            }
             dispatch(ActionNotification.addOne({
               header: 'Link adicionado:',
               body: response.data.name,
@@ -73,13 +83,39 @@ export default function LinkCreate() {
             </CCol>
           </CFormGroup>
           <CFormGroup row>
-            <CCol xs="12" md="12">
+            <CCol xs="10" md="10">
               <CInput
                 id="text-input"
                 name="text-input"
                 placeholder="Url"
+                type='url'
                 value={link.url}
                 onChange={e => setLink({ ...link, 'url': e.target.value })}
+              />
+            </CCol>
+            <CCol xs="2" md="2">
+              <CFormGroup variant="custom-checkbox" inline>
+                <CInputCheckbox
+                  custom
+                  id="inline-checkbox1"
+                  name="inline-checkbox1"
+                  value={link.favorite}
+                  onChange={e => setLink({ ...link, 'favorite': !link.favorite })}
+                />
+                <CLabel variant="custom-checkbox" htmlFor="inline-checkbox1">Favoritar</CLabel>
+              </CFormGroup>
+            </CCol>
+          </CFormGroup>
+          <CFormGroup row>
+            <CCol xs="12" md="12">
+              <CTextarea
+                name="textarea-input"
+                id="textarea-input"
+                rows="3"
+                maxLength='500'
+                placeholder="Descrição..."
+                value={link.description}
+                onChange={e => setLink({ ...link, 'description': e.target.value })}
               />
             </CCol>
           </CFormGroup>
