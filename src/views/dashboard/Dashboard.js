@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import TaskBoard from "../../components/TaskPage/TaskBoard"
-import LinkBoard from "../../components/LinkPage/LinkBoard"
-import api from "../../services/api"
-import { Loading } from '../../reusable/'
 import { Actions as ActionLink } from '../../redux/link'
 import { Actions as ActionTask } from '../../redux/task'
+import TaskBoard from "../../components/TaskPage/TaskBoard"
+import LinkBoard from "../../components/LinkPage/LinkBoard"
+import { Loading } from '../../reusable/'
+import api from "../../services/api"
 
 import {
     CCol,

@@ -22,28 +22,21 @@ export default function ListCreate(props) {
 
   const [load, setLoad] = useState(true)
 
-  const task = props.task
-
   const [list, setList] = useState({
-    'list': '',
-    'id_task': '',
+    'name': '',
   })
 
   async function handleCreate(e) {
     e.preventDefault();
     setLoad(false)
-    const data = {
-      'list': list.list,
-      'id_task': task.id,
-    }
     try {
-      await api.post('list', data, {})
+      await api.post('list', list, {})
         .then(response => {
           if (response.status === 200) {
             dispatch(ActionList.addOne(response.data))
             dispatch(ActionNotification.addOne({
               header: 'Lista adicionada:',
-              body: response.data.list,
+              body: response.data.name,
               id: response.data.id,
             }))
           }

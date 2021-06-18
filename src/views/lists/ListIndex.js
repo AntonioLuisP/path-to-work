@@ -1,141 +1,37 @@
-import React, { useState, useEffect } from 'react'
-import { useHistory, useLocation } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import ListBoard from "../../components/ListPage/ListBoard"
 import api from "../../services/api"
-
-import {
-  CButton,
-  CButtonGroup,
-  CCard,
-  CCol,
-  CInput,
-  CPagination,
-  CRow,
-} from '@coreui/react'
-
-import {
-  cilPen,
-  cilZoom
-} from '@coreui/icons'
-
-import CIcon from '@coreui/icons-react'
-
-const style = { 'verticalAlign': 'middle', 'overflow': 'hidden' }
+import { Loading } from '../../reusable/'
+import { Actions as ActionList } from '../../redux/list'
 
 export default function ListIndex() {
 
-  const history = useHistory()
+    const dispatch = useDispatch()
 
-  const location = useLocation()
-  const queryUrl = location.search
-  const queryPage = queryUrl.match(/page=([0-9]+)/, '')
-  const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1)
+    const [loading, setLoading] = useState(true)
 
-  // pagination settings
-  const [url, setUrl] = useState(queryUrl)
-  const [page, setPage] = useState(currentPage)
-  const [pages, setPages] = useState()
+    const lists = useSelector(state => state.lists)
 
-  // list settings
-  const [lists, setLists] = useState([])
-
-  // search settings
-  const [name, setName] = useState('')
-
-  useEffect(() => {
-    currentPage !== page && setPage(currentPage)
-    setUrl(location.search)
-    api.get('list' + url)
-      .then(response => {
-        if (response.status === 200) {
-          setPages(response.data.last_page)
-          setLists(response.data.data)
-        }
-      })
-  }, [currentPage, page, url, location.search])
-
-  const pageChange = newPage => {
-    if (currentPage !== newPage) {
-      history.push(
-        '/lists?' +
-        'page=' + newPage +
-        '&name=' + name
-      )
-    }
-  }
-
-  const buscar = () => {
-    history.push(
-      '/lists?' +
-      'name=' + name
-    )
-  }
-
-  return (
-    <CRow>
-      <CCol xl={12}>
-        <CCard>
-          <div className="position-relative table-responsive">
-            <table className="table table-striped table-hover">
-              <thead className='text-center'>
-                <tr>
-                  <th className="font-weight-bold" style={style}>
-                    <div className="d-inline">
-                      Nome
-                    </div>
-                  </th>
-                  <th className="font-weight-bold" style={style}>
-                    <div className="d-inline">
-                      Ações
-                    </div>
-                  </th>
-                </tr>
-                <tr>
-                  <th>
-                    <CInput
-                      id="list-search"
-                      name="text-input"
-                      placeholder="Nome"
-                      value={name}
-                      onChange={e => setName(e.target.value)}
-                    />
-                  </th>
-                  <th>
-                    <CButton color="secondary" onClick={buscar}>
-                      <CIcon content={cilZoom} />
-                    </CButton>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {
-                  lists.map(list => (
-                    <tr key={list.id}>
-                      <td className="font-weight-bold">{list.name}</td>
-                      <td className="text-center">
-                        <CButtonGroup>
-                          <CButton color="info" onClick={() => history.push('/lists/' + list.id)}>
-                            <CIcon content={cilZoom} />
-                          </CButton>
-                          <CButton color="warning" onClick={() => history.push('/lists/' + list.id + '/edit')}>
-                            <CIcon content={cilPen} />
-                          </CButton>
-                        </CButtonGroup>
-                      </td>
-                    </tr>
-                  ))
+    useEffect(() => {
+        api.get('list')
+            .then(response => {
+                if (response.status === 200) {
+                    dispatch(ActionList.fillSome(response.data.data))
                 }
-              </tbody>
-            </table>
-          </div>
-          <CPagination
-            activePage={page}
-            onActivePageChange={pageChange}
-            pages={pages}
-            doubleArrows={true}
-            align="center"
-          />
-        </CCard>
-      </CCol>
-    </CRow>
-  )
+            })
+            .catch((err) => {
+                console.error("ops! ocorreu um erro" + err);
+            });
+        setLoading(false)
+        return () => {
+            dispatch(ActionList.fillSome([]))
+        }
+    }, [dispatch])
+
+    if (loading) return (<Loading />)
+
+    return (
+        <ListBoard title='Listas' lists={lists} />
+    )
 }

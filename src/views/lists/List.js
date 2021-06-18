@@ -6,7 +6,6 @@ import { DropdownMore, Loading, Modal } from '../../reusable'
 import ListEdit from './ListEdit'
 import api from "../../services/api"
 
-
 import {
   CCard,
   CCardHeader,
@@ -62,7 +61,7 @@ export default function List({ match }) {
         <CCol xs="12" sm="12" md="12">
           <CCard>
             <CCardHeader color="secondary">
-              {list.list}
+              {list.name}
               <div className="card-header-actions">
                 <DropdownMore
                   editAction={() => toogleModal()}
