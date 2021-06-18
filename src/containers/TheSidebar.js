@@ -56,7 +56,7 @@ const TheSidebar = () => {
         />
         <CSidebarNavItem
           name="Listas"
-          to="/links"
+          to="/lists"
           icon={<CIcon content={cilList} customClasses="c-sidebar-nav-icon" />}
         />
         <CSidebarNavTitle>Tarefa</CSidebarNavTitle>
