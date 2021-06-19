@@ -13,7 +13,7 @@ import {
 
 import CIcon from '@coreui/icons-react'
 
-export default function BreadcrumbHeader({ title, component }) {
+export default function BreadcrumbHeader({ title, quantidade, component }) {
 
   const [modal, setModal] = useState(false)
 
@@ -22,14 +22,18 @@ export default function BreadcrumbHeader({ title, component }) {
   }
 
   return (
-    <CBreadcrumb className="border-0 c-subheader-nav">
-      <CBreadcrumbItem active>{title}</CBreadcrumbItem>
-      <CButton
-        onClick={toogleModal}
-      >
-        <CIcon content={cilPlus} />
-      </CButton>
-      <Modal show={modal} onClose={toogleModal} component={component} />
-    </CBreadcrumb>
+    <>
+      <CBreadcrumb className="c-subheader-nav justify-content-between">
+        <CBreadcrumbItem active>{title + ' (' + quantidade + ')'} </CBreadcrumbItem>
+        <Modal show={modal} onClose={toogleModal} component={component} />
+        <div className="d-md-down-none mfe-2 c-subheader-nav">
+          <CButton
+            onClick={toogleModal}
+          >
+            <CIcon content={cilPlus} />
+          </CButton>
+        </div>
+      </CBreadcrumb>
+    </>
   )
 }

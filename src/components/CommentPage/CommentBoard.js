@@ -14,7 +14,7 @@ export default function CommentBoard(props) {
 
   return (
     <>
-      <BreadcrumbHeader title={props.title} component={<CommentCreate task={props.task} />} />
+      <BreadcrumbHeader title={props.title} quantidade={comments.length} component={<CommentCreate task={props.task} />} />
       <CCard>
         <CCardBody height='80rm'>
           {

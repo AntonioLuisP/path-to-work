@@ -6,9 +6,9 @@ import {
     CListGroupItem,
 } from '@coreui/react'
 
-export default function TaskInfo(props) {
+export default function LinkInfo(props) {
 
-    const task = props.task
+    const link = props.link
 
     return (
         <CCard>
@@ -17,16 +17,10 @@ export default function TaskInfo(props) {
                     Informações
                 </CListGroupItem>
                 <CListGroupItem>
-                    Data limite: {task.limite_date}
+                    Criado em: {link.created_at}
                 </CListGroupItem>
                 <CListGroupItem>
-                    Hora limite: {task.hora}
-                </CListGroupItem>
-                <CListGroupItem>
-                    Criado em: {task.created_at}
-                </CListGroupItem>
-                <CListGroupItem>
-                    Editado em: {task.updated_at}
+                    Editado em: {link.updated_at}
                 </CListGroupItem>
             </CListGroup>
         </CCard>

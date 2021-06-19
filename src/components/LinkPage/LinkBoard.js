@@ -15,7 +15,7 @@ export default function LinkBoard(props) {
   return (
     <CRow>
       <CCol xs="12" sm="12" md="12">
-        <BreadcrumbHeader title={props.title} component={<LinkCreate />}/>
+        <BreadcrumbHeader title={props.title} quantidade={links.length} component={<LinkCreate />}/>
         {
           links.map(link => (
             <LinkComponent key={link.id} link={link} />

@@ -15,7 +15,7 @@ export default function ListBoard(props) {
   return (
     <CRow>
       <CCol xs="12" sm="12" md="12">
-        <BreadcrumbHeader title={props.title} component={<ListCreate />} />
+        <BreadcrumbHeader title={props.title} quantidade={lists.length} component={<ListCreate />} />
         {
           lists.map(list => (
             <ListComponent key={list.id} list={list} />

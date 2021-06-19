@@ -9,7 +9,7 @@ export default function TodoBoard(props) {
 
   return (
     <>
-      <BreadcrumbHeader title={props.title} component={<TodoCreate task={props.task} />} />
+      <BreadcrumbHeader title={props.title} quantidade={todos.length} component={<TodoCreate task={props.task} />} />
       <table className='table'>
         <tbody>
           {

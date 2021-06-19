@@ -3,6 +3,8 @@ import { useParams, useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Actions as ActionLink } from '../../redux/link'
 import { DropdownMore, Loading, Modal } from '../../reusable'
+import ListBoard from "../../components/ListPage/ListBoard"
+import LinkInfo from '../../components/LinkPage/LinkInfo'
 import LinkEdit from './LinkEdit'
 import api from "../../services/api"
 
@@ -23,6 +25,7 @@ export default function Link() {
   const [modal, setModal] = useState(false)
 
   const link = useSelector(state => state.link)
+  const lists = useSelector(state => state.lists)
 
   const toogleModal = () => {
     setModal(old => !old)
@@ -54,25 +57,27 @@ export default function Link() {
   if (loading) return (<Loading />)
 
   return (
-    <>
+
+    <CRow>
       <Modal show={modal} onClose={toogleModal} component={<LinkEdit link={link} />} />
-      <CRow>
-        <CCol xs="12" sm="12" md="12">
-          <CCard className='text-break text-justify'>
-            <CCardHeader color="secondary">
-              {link.name}: {link.url}
-              <div className="card-header-actions">
-                <DropdownMore
-                  editAction={() => toogleModal()}
-                  deleteAction={() => handleDelete(link.id)}
-                />
-              </div>
-            </CCardHeader>
-          </CCard>
-        </CCol>
-      </CRow>
-    </>
+      <CCol xs="12" sm="9" md="9">
+        <CCard className='text-break text-justify'>
+          <CCardHeader color="secondary">
+            {link.name}: {link.url}
+            <div className="card-header-actions">
+              <DropdownMore
+                editAction={() => toogleModal()}
+                deleteAction={() => handleDelete(link.id)}
+              />
+            </div>
+          </CCardHeader>
+        </CCard>
+        <ListBoard title="Listas" lists={lists} />
+      </CCol>
+      <CCol xs="12" sm="3" md="3">
+        <LinkInfo link={link} />
+      </CCol>
+    </CRow>
+
   )
 }
-
-
