@@ -4,6 +4,8 @@ import { Actions as ActionLink } from '../../redux/link'
 import { Actions as ActionTask } from '../../redux/task'
 import TaskBoard from "../../components/TaskPage/TaskBoard"
 import LinkBoard from "../../components/LinkPage/LinkBoard"
+import LinkCreate from '../links/LinkCreate'
+import TaskCreate from '../tasks/TaskCreate'
 import { Loading } from '../../reusable/'
 import api from "../../services/api"
 
@@ -52,10 +54,10 @@ export default function Dashboard() {
     return (
         <CRow>
             <CCol xs="12" sm="8" md="8">
-                <LinkBoard title='Links Favoritos' links={links} />
+                <LinkBoard title='Links Favoritos' links={links} component={<LinkCreate />} />
             </CCol>
             <CCol xs="12" sm="4" md="4">
-                <TaskBoard title='Tarefas do dia' tasks={tasks} />
+                <TaskBoard title='Tarefas do dia' tasks={tasks} component={<TaskCreate />} />
             </CCol>
         </CRow>
     )

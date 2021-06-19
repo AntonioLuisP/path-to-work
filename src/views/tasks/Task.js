@@ -9,6 +9,9 @@ import LinkBoard from "../../components/LinkPage/LinkBoard"
 import CommentBoard from '../../components/CommentPage/CommentBoard'
 import TodoBoard from '../../components/TodoPage/TodoBoard'
 import TaskInfo from '../../components/TaskPage/TaskInfo'
+import LinkCreate from '../links/LinkCreate'
+import CommentCreate from '../comments/CommentCreate'
+import TodoCreate from '../todos/TodoCreate'
 import TaskEdit from './TaskEdit'
 import api from "../../services/api"
 
@@ -87,16 +90,16 @@ export default function Task() {
         </CCard>
         <CRow>
           <CCol xs="12" sm="6" md="6">
-            <TodoBoard title='Afazeres' task={task} todos={todos} />
+            <TodoBoard title='Afazeres' todos={todos} component={<TodoCreate task={task} />} />
           </CCol>
           <CCol xs="12" sm="6" md="6">
-            <LinkBoard title='Links' links={links} />
+            <LinkBoard title='Links' links={links} component={<LinkCreate />} />
           </CCol>
         </CRow>
       </CCol>
       <CCol xs="12" sm="3" md="3">
         <TaskInfo task={task} todos={todos} links={links} comments={comments} />
-        <CommentBoard title='Comentários' task={task} comments={comments} />
+        <CommentBoard title='Comentários' comments={comments} component={<CommentCreate task={task} />} />
       </CCol>
     </CRow>
   )

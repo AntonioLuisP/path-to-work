@@ -1,6 +1,5 @@
 import React from 'react'
 import ListComponent from './ListComponent'
-import ListCreate from '../../views/lists/ListCreate'
 import BreadcrumbHeader from '../../reusable/BreadcrumbHeader'
 
 import {
@@ -15,7 +14,7 @@ export default function ListBoard(props) {
   return (
     <CRow>
       <CCol xs="12" sm="12" md="12">
-        <BreadcrumbHeader title={props.title} quantidade={lists.length} component={<ListCreate />} />
+        <BreadcrumbHeader title={props.title} quantidade={lists.length} component={props.component} />
         {
           lists.map(list => (
             <ListComponent key={list.id} list={list} />

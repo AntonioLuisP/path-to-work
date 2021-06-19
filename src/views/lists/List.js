@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Actions as ActionList } from '../../redux/list'
 import { DropdownMore, Loading, Modal } from '../../reusable'
 import LinkBoard from "../../components/LinkPage/LinkBoard"
+import LinkCreate from '../links/LinkCreate'
 import ListInfo from '../../components/ListPage/ListInfo'
 import ListEdit from './ListEdit'
 import api from "../../services/api"
@@ -72,7 +73,7 @@ export default function List({ match }) {
             </div>
           </CCardHeader>
         </CCard>
-        <LinkBoard title='Links' links={links} />
+        <LinkBoard title='Links' links={links} component={<LinkCreate />}/>
       </CCol>
       <CCol xs="12" sm="3" md="3">
         <ListInfo list={list} />

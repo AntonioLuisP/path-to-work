@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Actions as ActionLink } from '../../redux/link'
 import { DropdownMore, Loading, Modal } from '../../reusable'
 import ListBoard from "../../components/ListPage/ListBoard"
+import ListCreate from '../lists/ListCreate'
 import LinkInfo from '../../components/LinkPage/LinkInfo'
 import LinkEdit from './LinkEdit'
 import api from "../../services/api"
@@ -57,7 +58,6 @@ export default function Link() {
   if (loading) return (<Loading />)
 
   return (
-
     <CRow>
       <Modal show={modal} onClose={toogleModal} component={<LinkEdit link={link} />} />
       <CCol xs="12" sm="9" md="9">
@@ -72,7 +72,7 @@ export default function Link() {
             </div>
           </CCardHeader>
         </CCard>
-        <ListBoard title="Listas" lists={lists} />
+        <ListBoard title="Listas" lists={lists} component={<ListCreate />} />
       </CCol>
       <CCol xs="12" sm="3" md="3">
         <LinkInfo link={link} />
