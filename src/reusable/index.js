@@ -5,6 +5,7 @@ import Loading from './Loading'
 import ToasterNotification from './ToasterNotification'
 import TypeColorBadge from './TypeColorBadge'
 import BreadcrumbHeader from './BreadcrumbHeader'
+import Favorite from './Favorite'
 
 export {
   DropdownMore,
@@ -13,5 +14,6 @@ export {
   Modal,
   ToasterNotification,
   TypeColorBadge,
-  BreadcrumbHeader
+  BreadcrumbHeader,
+  Favorite
 }

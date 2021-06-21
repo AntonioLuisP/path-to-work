@@ -1,6 +1,6 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import { More } from '../reusable'
+import { Favorite ,More } from '../reusable'
 
 import {
     CCard,
@@ -31,6 +31,7 @@ export default function LinkComponent(props) {
                 <More to={() => history.push('/links/' + link.id)}>
                     <CIcon width={18} content={cilCursor} />
                 </More>
+                <Favorite link={link}/>
             </CCardHeader>
         </CCard>
     )
