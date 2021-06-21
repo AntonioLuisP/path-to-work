@@ -4,11 +4,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Actions as ActionTask } from '../../redux/task'
 import { Actions as ActionComment } from '../../redux/comment'
 import { Actions as ActionTodo } from '../../redux/todo'
-import { DropdownMore, Loading, Modal } from '../../reusable'
-import LinkBoard from "../../components/LinkPage/LinkBoard"
-import CommentBoard from '../../components/CommentPage/CommentBoard'
-import TodoBoard from '../../components/TodoPage/TodoBoard'
-import TaskInfo from '../../components/TaskPage/TaskInfo'
+import { BreadcrumbHeader, DropdownMore, Loading, Modal } from '../../reusable'
+import { LinkComponent, CommentComponent, TodoComponent, TaskStatus, TaskInfo } from "../../components/"
 import LinkCreate from '../links/LinkCreate'
 import CommentCreate from '../comments/CommentCreate'
 import TodoCreate from '../todos/TodoCreate'
@@ -90,16 +87,32 @@ export default function Task() {
         </CCard>
         <CRow>
           <CCol xs="12" sm="6" md="6">
-            <TodoBoard title='Afazeres' todos={todos} component={<TodoCreate task={task} />} />
+            <BreadcrumbHeader title='Afazeres' quantidade={todos.length} component={<TodoCreate task={task} />} />
+            {
+              todos.map(todo => (
+                <TodoComponent key={todo.id} todo={todo} />
+              ))
+            }
           </CCol>
           <CCol xs="12" sm="6" md="6">
-            <LinkBoard title='Links' links={links} component={<LinkCreate />} />
+            <BreadcrumbHeader title='Links' quantidade={links.length} component={<LinkCreate />} />
+            {
+              links.map(link => (
+                <LinkComponent key={link.id} link={link} />
+              ))
+            }
           </CCol>
         </CRow>
       </CCol>
       <CCol xs="12" sm="3" md="3">
-        <TaskInfo task={task} todos={todos} links={links} comments={comments} />
-        <CommentBoard title='Comentários' comments={comments} component={<CommentCreate task={task} />} />
+        <TaskStatus task={task} todos={todos} links={links} comments={comments} />
+        <TaskInfo task={task} />
+        <BreadcrumbHeader title='Comentários' quantidade={comments.length} component={<CommentCreate task={task} />} />
+        {
+          comments.map(comment => (
+            <CommentComponent key={comment.id} comment={comment} />
+          ))
+        }
       </CCol>
     </CRow>
   )

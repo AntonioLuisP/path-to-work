@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Actions as ActionList } from '../../redux/list'
-import { DropdownMore, Loading, Modal } from '../../reusable'
-import LinkBoard from "../../components/LinkPage/LinkBoard"
+import { BreadcrumbHeader, DropdownMore, Loading, Modal } from '../../reusable'
+import { LinkComponent, ListInfo } from "../../components/"
 import LinkCreate from '../links/LinkCreate'
-import ListInfo from '../../components/ListPage/ListInfo'
 import ListEdit from './ListEdit'
 import api from "../../services/api"
 
@@ -16,7 +15,7 @@ import {
   CRow
 } from '@coreui/react'
 
-export default function List({ match }) {
+export default function List() {
 
   const { id } = useParams();
   const dispatch = useDispatch()
@@ -73,7 +72,12 @@ export default function List({ match }) {
             </div>
           </CCardHeader>
         </CCard>
-        <LinkBoard title='Links' links={links} component={<LinkCreate />}/>
+        <BreadcrumbHeader title='Links' quantidade={links.length} component={<LinkCreate />} />
+        {
+          links.map(link => (
+            <LinkComponent key={link.id} link={link} />
+          ))
+        }
       </CCol>
       <CCol xs="12" sm="3" md="3">
         <ListInfo list={list} />

@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Actions as ActionLink } from '../../redux/link'
 import { Actions as ActionTask } from '../../redux/task'
-import TaskBoard from "../../components/TaskPage/TaskBoard"
-import LinkBoard from "../../components/LinkPage/LinkBoard"
+import { TaskComponent, LinkComponent } from "../../components/"
 import LinkCreate from '../links/LinkCreate'
 import TaskCreate from '../tasks/TaskCreate'
-import { Loading } from '../../reusable/'
+import { Loading, BreadcrumbHeader } from '../../reusable/'
 import api from "../../services/api"
 
 import {
@@ -54,10 +53,20 @@ export default function Dashboard() {
     return (
         <CRow>
             <CCol xs="12" sm="8" md="8">
-                <LinkBoard title='Links Favoritos' links={links} component={<LinkCreate />} />
+                <BreadcrumbHeader title='Links Favoritos' quantidade={links.length} component={<LinkCreate />} />
+                {
+                    links.map(link => (
+                        <LinkComponent key={link.id} link={link} />
+                    ))
+                }
             </CCol>
             <CCol xs="12" sm="4" md="4">
-                <TaskBoard title='Tarefas do dia' tasks={tasks} component={<TaskCreate />} />
+                <BreadcrumbHeader title='Tarefas do dia' quantidade={tasks.length} component={<TaskCreate />} />
+                {
+                    tasks.map(task => (
+                        <TaskComponent key={task.id} task={task} />
+                    ))
+                }
             </CCol>
         </CRow>
     )

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import ListBoard from "../../components/ListPage/ListBoard"
+import { ListComponent } from "../../components/"
 import api from "../../services/api"
-import { Loading } from '../../reusable/'
+import { BreadcrumbHeader, Loading } from '../../reusable/'
 import { Actions as ActionList } from '../../redux/list'
+import ListCreate from './ListCreate'
 
 export default function ListIndex() {
 
@@ -32,6 +33,13 @@ export default function ListIndex() {
     if (loading) return (<Loading />)
 
     return (
-        <ListBoard title='Listas' lists={lists} />
+        <>
+            <BreadcrumbHeader title="Listas" quantidade={lists.length} component={<ListCreate />} />
+            {
+                lists.map(list => (
+                    <ListComponent key={list.id} list={list} />
+                ))
+            }
+        </>
     )
 }
