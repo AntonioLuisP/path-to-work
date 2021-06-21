@@ -1,6 +1,14 @@
 import React, { useState } from 'react'
 import api from "../../services/api"
 
+import {
+    CCard,
+    CCardHeader,
+    CInputCheckbox,
+    CFormGroup,
+    CLabel
+} from '@coreui/react'
+
 export default function TodoComponent(props) {
 
     const [todo, setTodo] = useState(props.todo)
@@ -24,13 +32,29 @@ export default function TodoComponent(props) {
     }
 
     return (
-        <tr>
-            <td width='5%'>
-                <input type='checkbox' checked={todo.conclusion} onChange={handleConclusion} />
-            </td>
-            <td width='90%' className='text-break text-justify'>
-                {todo.conclusion ? <s>{todo.name}</s> : todo.name}
-            </td>
-        </tr>
+        // <tr>
+        //     <td width='5%'>
+        //         <input type='checkbox' checked={todo.conclusion} onChange={handleConclusion} />
+        //     </td>
+        //     <td width='90%' className='text-break text-justify'>
+        //         {todo.conclusion ? <s>{todo.name}</s> : todo.name}
+        //     </td>
+        // </tr>
+        <CCard>
+            <CCardHeader className='text-break text-justify'>
+                <CFormGroup variant="checkbox">
+                    <CInputCheckbox
+                        id="checkbox1"
+                        name="checkbox1"
+                        value="option1"
+                        checked={todo.conclusion}
+                        onChange={handleConclusion}
+                    />
+                    <CLabel variant="checkbox" className="form-check-label" htmlFor="checkbox1">
+                        {todo.conclusion ? <s>{todo.name}</s> : todo.name}
+                    </CLabel>
+                </CFormGroup>
+            </CCardHeader>
+        </CCard>
     )
 }

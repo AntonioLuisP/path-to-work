@@ -6,9 +6,10 @@ import TaskStatusHeader from './TaskStatusHeader'
 
 import {
     CCard,
-    CCardBody,
-    CCardText,
-    CCardFooter,
+    CCardHeader,
+    CInputCheckbox,
+    CFormGroup,
+    CLabel
 } from '@coreui/react'
 
 import {
@@ -44,21 +45,23 @@ export default function TaskComponent(props) {
     return (
         <CCard>
             <TaskStatusHeader task={task} />
-            <CCardBody className='content-center'>
-                <div className='col-sm-1 text-center'>
-                    <input type='checkbox' checked={task.conclusion} onChange={handleConclusion} />
-                </div>
-                <div className='col-sm-11'>
-                    <CCardText className='text-break text-justify'>
+            <CCardHeader className='text-break text-justify'>
+                <CFormGroup variant="checkbox">
+                    <CInputCheckbox
+                        id="checkbox1"
+                        name="checkbox1"
+                        value="option1"
+                        checked={task.conclusion}
+                        onChange={handleConclusion}
+                    />
+                    <CLabel variant="checkbox" className="form-check-label" htmlFor="checkbox1">
                         {task.name}
-                    </CCardText>
-                </div>
-            </CCardBody>
-            <CCardFooter>
-                <More to={() => { history.push('/tasks/' + task.id) }}>
-                    <CIcon width={18} content={cilTask} />
-                </More>
-            </CCardFooter>
+                    </CLabel>
+                    <More to={() => { history.push('/tasks/' + task.id) }}>
+                        <CIcon width={18} content={cilTask} />
+                    </More>
+                </CFormGroup>
+            </CCardHeader>
         </CCard>
     )
 }
