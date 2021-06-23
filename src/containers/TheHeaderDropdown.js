@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { useAuth } from 'src/hooks/useAuth'
 import {
   CBadge,
   CDropdown,
@@ -19,6 +19,9 @@ import {
 import CIcon from '@coreui/icons-react'
 
 const TheHeaderDropdown = () => {
+
+  const { user } = useAuth()
+
   return (
     <CDropdown
       inNav
@@ -27,11 +30,15 @@ const TheHeaderDropdown = () => {
     >
       <CDropdownToggle className="c-header-nav-link" caret={false}>
         <div className="c-avatar">
-          <CImg
-            src={'avatars/6.jpg'}
-            className="c-avatar-img"
-            alt="admin@bootstrapmaster.com"
-          />
+          {user ? (
+            <CImg
+              src={user.avatar}
+              className="c-avatar-img"
+              alt="admin@bootstrapmaster.com"
+            />
+          ) : (
+            <CIcon content={cilUser} className="mfe-2" />
+          )}
         </div>
       </CDropdownToggle>
       <CDropdownMenu className="pt-0" placement="bottom-end">

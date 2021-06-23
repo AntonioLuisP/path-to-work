@@ -12,11 +12,15 @@ import { icons } from './assets/icons'
 import { Provider } from 'react-redux'
 import store from './store'
 
+
+import { AuthContextProvider } from './context/AuthContext'
 React.icons = icons
 
 ReactDOM.render(
   <Provider store={store}>
-    <App/>
+    <AuthContextProvider>
+      <App />
+    </AuthContextProvider>
   </Provider>,
   document.getElementById('root')
 );
