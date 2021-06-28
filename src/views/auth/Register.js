@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
 
 import {
@@ -20,8 +20,7 @@ import CIcon from '@coreui/icons-react'
 
 const Register = () => {
 
-  const history = useHistory()
-  const { user, handleRegisterNewUser } = useAuth()
+  const { handleRegisterNewUser } = useAuth()
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')

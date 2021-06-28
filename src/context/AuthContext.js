@@ -33,7 +33,7 @@ export function AuthProvider(props) {
     }, [user, history]);
 
     async function handleLoginUser({ email, password }) {
-        const { user, error } = await supabase.auth.signIn({ email, password })
+        const { error } = await supabase.auth.signIn({ email, password })
 
         if (error) {
             alert('erro: ' + error)
