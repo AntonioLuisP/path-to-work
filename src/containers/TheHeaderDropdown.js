@@ -1,18 +1,15 @@
 import React from 'react'
-import { useAuth } from 'src/hooks/useAuth'
+import { useAuth } from '../hooks/useAuth'
+
 import {
-  CBadge,
   CDropdown,
   CDropdownItem,
   CDropdownMenu,
   CDropdownToggle,
-  CImg
 } from '@coreui/react'
 
 import {
   cilAccountLogout,
-  cilBriefcase,
-  cilSettings,
   cilUser,
 } from '@coreui/icons'
 
@@ -20,7 +17,7 @@ import CIcon from '@coreui/icons-react'
 
 const TheHeaderDropdown = () => {
 
-  const { user } = useAuth()
+  const { handleLogout } = useAuth()
 
   return (
     <CDropdown
@@ -29,17 +26,7 @@ const TheHeaderDropdown = () => {
       direction="down"
     >
       <CDropdownToggle className="c-header-nav-link" caret={false}>
-        <div className="c-avatar">
-          {user ? (
-            <CImg
-              src={user.avatar}
-              className="c-avatar-img"
-              alt="admin@bootstrapmaster.com"
-            />
-          ) : (
-            <CIcon content={cilUser} className="mfe-2" />
-          )}
-        </div>
+        <CIcon content={cilUser} className="mfe-2" />
       </CDropdownToggle>
       <CDropdownMenu className="pt-0" placement="bottom-end">
         <CDropdownItem
@@ -48,22 +35,13 @@ const TheHeaderDropdown = () => {
           color="light"
           className="text-center"
         >
-          <strong>Account</strong>
+          <strong>Conta</strong>
         </CDropdownItem>
         <CDropdownItem>
           <CIcon content={cilUser} className="mfe-2" />Profile
         </CDropdownItem>
-        <CDropdownItem>
-          <CIcon content={cilSettings} className="mfe-2" />
-          Settings
-        </CDropdownItem>
-        <CDropdownItem>
-          <CIcon content={cilBriefcase} className="mfe-2" />
-          Projects
-          <CBadge color="primary" className="mfs-auto">42</CBadge>
-        </CDropdownItem>
         <CDropdownItem divider />
-        <CDropdownItem>
+        <CDropdownItem onClick={() => handleLogout()}>
           <CIcon content={cilAccountLogout} className="mfe-2" />
           Logout
         </CDropdownItem>

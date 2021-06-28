@@ -1,5 +1,6 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link, useHistory } from 'react-router-dom'
+import { useAuth } from '../../hooks/useAuth'
 
 import {
   CButton,
@@ -18,6 +19,23 @@ import {
 import CIcon from '@coreui/icons-react'
 
 const Register = () => {
+
+  const history = useHistory()
+  const { user, handleRegisterNewUser } = useAuth()
+
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  async function handleRegister(e) {
+    e.preventDefault()
+
+    if (email.trim() === '' || password.trim() === '') {
+      return;
+    }
+    handleRegisterNewUser({ email, password })
+  }
+
+
   return (
     <div className="c-app c-default-layout flex-row align-items-center">
       <CContainer>
@@ -25,22 +43,14 @@ const Register = () => {
           <CCol md="9" lg="7" xl="6">
             <CCard className="mx-4">
               <CCardBody className="p-4">
-                <CForm>
+                <CForm onSubmit={handleRegister}>
                   <h1>Registre-se</h1>
                   <p className="text-muted">Crie sua conta</p>
                   <CInputGroup className="mb-3">
                     <CInputGroupPrepend>
-                      <CInputGroupText>
-                        <CIcon name="cil-user" />
-                      </CInputGroupText>
-                    </CInputGroupPrepend>
-                    <CInput type="text" placeholder="Nome" autoComplete="username" />
-                  </CInputGroup>
-                  <CInputGroup className="mb-3">
-                    <CInputGroupPrepend>
                       <CInputGroupText>@</CInputGroupText>
                     </CInputGroupPrepend>
-                    <CInput type="text" placeholder="Email" autoComplete="email" />
+                    <CInput type="text" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} autoComplete="email" />
                   </CInputGroup>
                   <CInputGroup className="mb-3">
                     <CInputGroupPrepend>
@@ -48,17 +58,9 @@ const Register = () => {
                         <CIcon name="cil-lock-locked" />
                       </CInputGroupText>
                     </CInputGroupPrepend>
-                    <CInput type="password" placeholder="Senha" autoComplete="new-password" />
+                    <CInput type="password" placeholder="Senha" value={password} onChange={e => setPassword(e.target.value)} autoComplete="new-password" />
                   </CInputGroup>
-                  <CInputGroup className="mb-4">
-                    <CInputGroupPrepend>
-                      <CInputGroupText>
-                        <CIcon name="cil-lock-locked" />
-                      </CInputGroupText>
-                    </CInputGroupPrepend>
-                    <CInput type="password" placeholder="Repita sua senha" autoComplete="new-password" />
-                  </CInputGroup>
-                  <CButton color="success" block>Crie sua conta</CButton>
+                  <CButton type="submit" color="success" block>Crie sua conta</CButton>
                 </CForm>
               </CCardBody>
               <CCardFooter className="p-4">
