@@ -1,54 +1,40 @@
 import { useState, useEffect, createContext } from 'react'
-import { auth, firebase } from '../services/firebase'
+import { useHistory } from 'react-router'
+import { supabase } from '../services/supabase'
 
 export const AuthContext = createContext({})
 
 export function AuthProvider(props) {
 
-    const [user, setUser] = useState()
+    const history = useHistory()
+
+    const [user, setUser] = useState(null)
 
     useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged(user => {
-            if (user) {
-                const { displayName, photoURL, uid } = user
+        const session = supabase.auth.session();
+        setUser(session?.user ?? null);
 
-                if (!displayName || !photoURL) {
-                    throw new Error('Missing information from Google Account')
-                }
-
-                setUser({
-                    id: uid,
-                    name: displayName,
-                    avatar: photoURL
-                })
+        const { data: authListener } = supabase.auth.onAuthStateChange(
+            async (event, session) => {
+                const currentUser = session?.user;
+                setUser(currentUser ?? null);
             }
-        })
+        );
+
+        // if (user) {
+        //     history.push('/dashboard')
+        // } else {
+        //     history.push('/login')
+        // }
+
         return () => {
-            unsubscribe()
-        }
-    }, [])
+            authListener?.unsubscribe();
+        };
+    }, [user, history]);
 
-
-    async function signIWithGoogle() {
-        const provider = new firebase.auth.GoogleAuthProvider()
-        const result = await auth.signInWithPopup(provider)
-
-        if (result.user) {
-            const { displayName, photoURL, uid } = result.user
-
-            if (!displayName || !photoURL) {
-                throw new Error('Missing information from Google Account')
-            }
-            setUser({
-                id: uid,
-                name: displayName,
-                avatar: photoURL
-            })
-        }
-    }
 
     return (
-        <AuthContext.Provider value={{ user, signIWithGoogle }}>
+        <AuthContext.Provider value={{ user }}>
             {props.children}
         </AuthContext.Provider>
     )

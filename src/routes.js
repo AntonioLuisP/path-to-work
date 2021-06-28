@@ -30,7 +30,7 @@ const Comment = React.lazy(() => import('./views/comments/Comment'));
 const CommentEdit = React.lazy(() => import('./views/comments/CommentEdit'));
 
 const routes = [
-  { path: '/', exact: true, name: 'Home' },
+  // { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', exact: true, name: 'Dashboard', component: Dashboard },
 
   { path: '/users', exact: true, name: 'Users', component: Users },

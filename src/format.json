@@ -7,7 +7,26 @@
             "favorite": true,
             "user_id": 1,
             "created_at": "hoje",
-            "updated_at": "hoje"
+            "updated_at": "hoje",
+            "lists": [
+                {
+                    "id": 1
+                }
+            ]
+        }
+    ],
+    "lists": [
+        {
+            "name": "contabilidade",
+            "created_at": "hoje",
+            "updated_at": "hoje",
+            "user_id": 1,
+            "links": [
+                {
+                    "name": "teste",
+                    "link_id": 1
+                }
+            ]
         }
     ],
     "social": [
@@ -21,14 +40,6 @@
     "notes": [
         {
             "name": "Eu paguei outro dia isso",
-            "created_at": "hoje",
-            "updated_at": "hoje",
-            "user_id": 1
-        }
-    ],
-    "lists": [
-        {
-            "name": "contabilidade",
             "created_at": "hoje",
             "updated_at": "hoje",
             "user_id": 1

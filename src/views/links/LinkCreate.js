@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Actions as ActionLink } from '../../redux/link'
 import { Actions as ActionNotification } from '../../redux/notifications'
-import api from "../../services/api"
+import { useAuth } from '../../hooks/useAuth';
 
 import {
   CButton,
@@ -23,6 +23,7 @@ export default function LinkCreate() {
 
   const dispatch = useDispatch()
 
+  const { user } = useAuth()
   const [load, setLoad] = useState(true)
 
   const [link, setLink] = useState({
@@ -35,26 +36,14 @@ export default function LinkCreate() {
   async function handleCreate(e) {
     e.preventDefault();
     setLoad(false)
-    try {
-      await api.post('link', link, {})
-        .then(response => {
-          if (response.status === 200) {
-            if (link.favorite) {
-              dispatch(ActionLink.addOne(response.data))
-            }
-            dispatch(ActionNotification.addOne({
-              header: 'Link adicionado:',
-              body: response.data.name,
-              id: response.data.id,
-            }))
-          }
-        })
-    } catch (error) {
-      alert("erro")
-      console.log(error)
-    } finally {
-      setLoad(true)
-    }
+
+    dispatch(ActionLink.addOne(link))
+    dispatch(ActionNotification.addOne({
+      header: 'Link adicionado:',
+      body: link.name,
+      id: link.id,
+    }))
+    setLoad(true)
   }
 
   return (
@@ -94,6 +83,7 @@ export default function LinkCreate() {
                 name="text-input"
                 placeholder="Url"
                 type='url'
+                required
                 value={link.url}
                 onChange={e => setLink({ ...link, 'url': e.target.value })}
               />

@@ -7,6 +7,7 @@ import { ListComponent, LinkInfo } from "../../components/"
 import ListCreate from '../lists/ListCreate'
 import LinkEdit from './LinkEdit'
 import api from "../../services/api"
+// import { useAuth } from "../../hooks/useAuth";
 
 import {
   CCard,
@@ -18,13 +19,12 @@ import {
 export default function Link() {
 
   const { id } = useParams();
-  const dispatch = useDispatch()
   const history = useHistory()
 
   const [loading, setLoading] = useState(true)
   const [modal, setModal] = useState(false)
+  const [link, setLink] = useState({})
 
-  const link = useSelector(state => state.link)
   const lists = useSelector(state => state.lists)
 
   const toogleModal = () => {
@@ -32,17 +32,8 @@ export default function Link() {
   }
 
   useEffect(() => {
-    api.get('link/' + id)
-      .then(response => {
-        if (response.status === 200) {
-          dispatch(ActionLink.selectOne(response.data.link))
-        }
-        setLoading(false)
-      })
-    return () => {
-      dispatch(ActionLink.removeSelected())
-    }
-  }, [id, dispatch])
+
+  }, [])
 
   async function handleDelete(id) {
     try {
