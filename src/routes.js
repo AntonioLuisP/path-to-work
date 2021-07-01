@@ -15,6 +15,11 @@ const LinkCreate = React.lazy(() => import('./views/links/LinkCreate'));
 const Link = React.lazy(() => import('./views/links/Link'));
 const LinkEdit = React.lazy(() => import('./views/links/LinkEdit'));
 
+const NoteIndex = React.lazy(() => import('./views/notes/NoteIndex'));
+const NoteCreate = React.lazy(() => import('./views/notes/NoteCreate'));
+const Note = React.lazy(() => import('./views/notes/Note'));
+const NoteEdit = React.lazy(() => import('./views/notes/NoteEdit'));
+
 const ListIndex = React.lazy(() => import('./views/lists/ListIndex'));
 const ListCreate = React.lazy(() => import('./views/lists/ListCreate'));
 const List = React.lazy(() => import('./views/lists/List'));
@@ -45,6 +50,11 @@ const routes = [
   { path: '/links/create', exact: true, name: 'Criar', component: LinkCreate },
   { path: '/links/:id', exact: true, name: 'Detalhes', component: Link },
   { path: '/links/:id/edit', exact: true, name: 'Editar', component: LinkEdit },
+
+  { path: '/notes', exact: true, name: 'Note', component: NoteIndex },
+  { path: '/notes/create', exact: true, name: 'Criar', component: NoteCreate },
+  { path: '/notes/:id', exact: true, name: 'Detalhes', component: Note },
+  { path: '/notes/:id/edit', exact: true, name: 'Editar', component: NoteEdit },
 
   { path: '/lists', exact: true, name: 'Listas', component: ListIndex },
   { path: '/lists/create', exact: true, name: 'Criar', component: ListCreate },

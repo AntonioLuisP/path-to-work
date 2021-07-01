@@ -10,6 +10,8 @@ import ListInfo from './ListInfo'
 import LinkComponent from './LinkComponent'
 import LinkInfo from './LinkInfo'
 
+import NoteComponent from './NoteComponent'
+
 import CommentComponent from './CommentComponent'
 import TodoComponent from './TodoComponent'
 
@@ -25,6 +27,8 @@ export {
 
   LinkComponent,
   LinkInfo,
+
+  NoteComponent,
 
   CommentComponent,
   TodoComponent,
