@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Actions as ActionLink } from '../../redux/link'
+import { Actions as ActionList } from '../../redux/list'
 import { BreadcrumbHeader, DropdownMore, Loading, Modal } from '../../reusable'
 import { ListComponent, LinkInfo } from "../../components/"
 import ListCreate from '../lists/ListCreate'
 import LinkEdit from './LinkEdit'
-import api from "../../services/api"
-// import { useAuth } from "../../hooks/useAuth";
+import { supabase } from '../../services/supabase'
 
 import {
   CCard,
@@ -20,29 +20,49 @@ export default function Link() {
 
   const { id } = useParams();
   const history = useHistory()
+  const dispatch = useDispatch()
 
   const [loading, setLoading] = useState(true)
   const [modal, setModal] = useState(false)
-  const [link, setLink] = useState({})
 
+  const link = useSelector(state => state.link)
   const lists = useSelector(state => state.lists)
 
   const toogleModal = () => {
     setModal(old => !old)
   }
 
-  useEffect(() => {
-
-  }, [])
-
-  async function handleDelete(id) {
-    try {
-      await api.delete(`/link/${id}`, {})
-      history.push('/dashboard')
-    } catch (error) {
-      alert("Erro ao deletar o caso, tente novamente")
-      console.log(error)
+  const fetchLink = useCallback(async () => {
+    const { data: link, error } = await supabase
+      .from("links")
+      .select("*")
+      .eq('id', id)
+      .single()
+    if (error) {
+      console.log("error", error);
     }
+    else {
+      dispatch(ActionLink.selectOne(link))
+      dispatch(ActionList.fillSome([]))
+    }
+    setLoading(false)
+  }, [id, dispatch])
+
+  useEffect(() => {
+    fetchLink()
+    return () => {
+      dispatch(ActionLink.removeSelected())
+      dispatch(ActionList.fillSome([]))
+    }
+  }, [fetchLink, dispatch])
+
+  async function handleDelete() {
+    const { error } = await supabase
+      .from('links')
+      .delete()
+      .eq('id', id)
+    if (error) console.log("error", error);
+    else history.push('/links');
   }
 
   if (loading) return (<Loading />)
@@ -73,6 +93,5 @@ export default function Link() {
         <LinkInfo link={link} />
       </CCol>
     </CRow>
-
   )
 }

@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { Actions as ActionLink } from '../../redux/link'
 import { Actions as ActionNotification } from '../../redux/notifications'
 import { useAuth } from '../../hooks/useAuth';
+import { supabase } from 'src/services/supabase';
 
 import {
   CButton,
@@ -24,25 +25,37 @@ export default function LinkCreate() {
   const dispatch = useDispatch()
 
   const { user } = useAuth()
-  const [load, setLoad] = useState(true)
 
-  const [link, setLink] = useState({
-    'name': '',
-    'url': '',
-    'favorite': false,
-    'description': '',
-  })
+  const [load, setLoad] = useState(true)
+  const [name, setName] = useState('')
+  const [url, setUrl] = useState('')
+  const [is_favorite, setIs_favorite] = useState(false)
+  const [description, setDescription] = useState('')
 
   async function handleCreate(e) {
     e.preventDefault();
     setLoad(false)
-
-    dispatch(ActionLink.addOne(link))
-    dispatch(ActionNotification.addOne({
-      header: 'Link adicionado:',
-      body: link.name,
-      id: link.id,
-    }))
+    const { data: link, error } = await supabase
+      .from("links")
+      .insert({
+        name,
+        url,
+        is_favorite,
+        description,
+        user_id: user.id
+      })
+      .single();
+    if (error) {
+      alert("error", error)
+      return;
+    } else {
+      dispatch(ActionLink.addOne(link))
+      dispatch(ActionNotification.addOne({
+        header: 'Link adicionado:',
+        body: link.name,
+        id: link.id,
+      }))
+    }
     setLoad(true)
   }
 
@@ -59,8 +72,9 @@ export default function LinkCreate() {
                 id="text-input"
                 name="text-input"
                 placeholder="Nome"
-                value={link.name}
-                onChange={e => setLink({ ...link, 'name': e.target.value })}
+                required
+                value={name}
+                onChange={e => setName(e.target.value)}
               />
             </CCol>
             <CCol xs="2" md="2">
@@ -69,8 +83,8 @@ export default function LinkCreate() {
                   custom
                   id="inline-checkbox1"
                   name="inline-checkbox1"
-                  value={link.favorite}
-                  onChange={e => setLink({ ...link, 'favorite': !link.favorite })}
+                  value={is_favorite}
+                  onChange={e => setIs_favorite(prev => !prev)}
                 />
                 <CLabel variant="custom-checkbox" htmlFor="inline-checkbox1">Favoritar</CLabel>
               </CFormGroup>
@@ -84,8 +98,8 @@ export default function LinkCreate() {
                 placeholder="Url"
                 type='url'
                 required
-                value={link.url}
-                onChange={e => setLink({ ...link, 'url': e.target.value })}
+                value={url}
+                onChange={e => setUrl(e.target.value)}
               />
             </CCol>
           </CFormGroup>
@@ -97,8 +111,8 @@ export default function LinkCreate() {
                 rows="3"
                 maxLength='500'
                 placeholder="Descrição..."
-                value={link.description}
-                onChange={e => setLink({ ...link, 'description': e.target.value })}
+                value={description}
+                onChange={e => setDescription(e.target.value)}
               />
             </CCol>
           </CFormGroup>

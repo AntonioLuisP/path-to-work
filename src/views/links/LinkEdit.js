@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Actions as ActionLink } from '../../redux/link'
 import { Actions as ActionNotification } from '../../redux/notifications'
-import api from "../../services/api"
+import { supabase } from '../../services/supabase'
 
 import {
   CButton,
@@ -23,33 +23,38 @@ export default function LinkEdit(props) {
 
   const dispatch = useDispatch()
 
+  const id = props.link.id
   const [load, setLoad] = useState(true)
-  const [link, setLink] = useState({
-    ...props.link,
-    'description': props.link.description === null ? '' : props.link.description
-  })
+  const [name, setName] = useState(props.link.name)
+  const [url, setUrl] = useState(props.link.url)
+  const [is_favorite, setIs_favorite] = useState(props.link.is_favorite)
+  const [description, setDescription] = useState(props.link.description)
 
   async function handleEdit(e) {
     e.preventDefault();
     setLoad(false)
-    try {
-      await api.put('/link/' + link.id, link, {})
-        .then(response => {
-          if (response.status === 200) {
-            dispatch(ActionLink.selectOne(link))
-            dispatch(ActionNotification.addOne({
-              header: 'Link Editado:',
-              body: link.name,
-              id: link.id,
-            }))
-          }
-        })
-    } catch (error) {
-      alert("erro")
-      console.log(error)
-    } finally {
-      setLoad(true)
+    const { data: link, error } = await supabase
+      .from("links")
+      .update({
+        name,
+        url,
+        is_favorite,
+        description,
+      })
+      .eq('id', id)
+      .single()
+    if (error) {
+      alert("error", error)
+      return;
+    } else {
+      dispatch(ActionLink.selectOne(link))
+      dispatch(ActionNotification.addOne({
+        header: 'Link Editado:',
+        body: link.name,
+        id: link.id,
+      }))
     }
+    setLoad(true)
   }
 
   return (
@@ -64,8 +69,8 @@ export default function LinkEdit(props) {
               id="text-input"
               name="text-input"
               placeholder="Nome"
-              value={link.name}
-              onChange={e => setLink({ ...link, 'name': e.target.value })}
+              value={name}
+              onChange={e => setName(e.target.value)}
             />
           </CCol>
           <CCol xs="2" md="2">
@@ -74,8 +79,8 @@ export default function LinkEdit(props) {
                 custom
                 id="inline-checkbox1"
                 name="inline-checkbox1"
-                checked={link.favorite}
-                onChange={e => setLink({ ...link, 'favorite': !link.favorite })}
+                checked={is_favorite}
+                onChange={e => setIs_favorite(prev => !prev)}
               />
               <CLabel variant="custom-checkbox" htmlFor="inline-checkbox1">Favoritar</CLabel>
             </CFormGroup>
@@ -88,8 +93,8 @@ export default function LinkEdit(props) {
               id="text-input"
               name="text-input"
               placeholder="Url"
-              value={link.url}
-              onChange={e => setLink({ ...link, 'url': e.target.value })}
+              value={url}
+              onChange={e => setUrl(e.target.value)}
             />
           </CCol>
         </CFormGroup>
@@ -101,8 +106,8 @@ export default function LinkEdit(props) {
               rows="3"
               maxLength='500'
               placeholder="Descrição..."
-              value={link.description}
-              onChange={e => setLink({ ...link, 'description': e.target.value })}
+              value={description}
+              onChange={e => setDescription(e.target.value)}
             />
           </CCol>
         </CFormGroup>
@@ -115,6 +120,5 @@ export default function LinkEdit(props) {
         </CButton>
       </CModalFooter>
     </CForm>
-
   )
 }

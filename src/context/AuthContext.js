@@ -21,12 +21,6 @@ export function AuthProvider(props) {
             }
         );
 
-        if (user) {
-            history.push('/dashboard')
-        } else {
-            history.push('/login')
-        }
-
         return () => {
             authListener?.unsubscribe();
         };
