@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Actions as ActionTask } from '../../redux/task'
 import { Actions as ActionNotification } from '../../redux/notifications'
-import api from "../../services/api"
+import { supabase } from '../../services/supabase'
 
 import {
   CButton,
@@ -22,29 +22,40 @@ export default function TaskEdit(props) {
 
   const dispatch = useDispatch()
 
-  const [task, setTask] = useState({
-    ...props.task,
-    'description': props.task.description === null ? '' : props.task.description
-  })
+  const id = props.task.id
+  const [load, setLoad] = useState(true)
+  const [name, setName] = useState(props.task.name)
+  const [description, setDescription] = useState(props.task.description)
+  const [limite_date, setLimite_date] = useState(props.task.limite_date)
+  const [horario, setHorario] = useState(props.task.horario)
+  const [conclusion, setConclusion] = useState(props.task.conclusion)
 
   async function handleEdit(e) {
     e.preventDefault();
-    try {
-      await api.put('/task/' + task.id, task, {})
-        .then(response => {
-          if (response.status === 200) {
-            dispatch(ActionTask.selectOne(task))
-            dispatch(ActionNotification.addOne({
-              header: 'Tarefa Editada:',
-              body: task.name,
-              id: task.id,
-            }))
-          }
-        })
-    } catch (error) {
-      alert("erro")
-      console.log(error)
+    setLoad(false)
+    const { data: task, error } = await supabase
+      .from("tasks")
+      .update({
+        name,
+        description,
+        limite_date,
+        horario,
+        conclusion
+      })
+      .eq('id', id)
+      .single()
+    if (error) {
+      alert("error", error)
+      return;
+    } else {
+      dispatch(ActionTask.selectOne(task))
+      dispatch(ActionNotification.addOne({
+        header: 'Tarefa Editada:',
+        body: task.name,
+        id: task.id,
+      }))
     }
+    setLoad(true)
   }
 
   return (
@@ -60,8 +71,8 @@ export default function TaskEdit(props) {
                 id="text-input"
                 name="text-input"
                 placeholder="Nome"
-                value={task.name}
-                onChange={e => setTask({ ...task, 'name': e.target.value })} />
+                value={name}
+                onChange={e => setName(e.target.value)} />
             </CCol>
           </CFormGroup>
           <CFormGroup row>
@@ -71,8 +82,8 @@ export default function TaskEdit(props) {
                 id="text-input"
                 name="text-input"
                 type="date"
-                value={task.limite_date}
-                onChange={e => setTask({ ...task, 'limite_date': e.target.value })}
+                value={limite_date}
+                onChange={e => setLimite_date(e.target.value)}
               />
             </CCol>
             <CCol xs="4" md="4">
@@ -81,21 +92,21 @@ export default function TaskEdit(props) {
                 id="text-input"
                 name="text-input"
                 type="time"
-                value={task.hora}
-                onChange={e => setTask({ ...task, 'hora': e.target.value })}
+                value={horario}
+                onChange={e => setHorario(e.target.value)}
               />
             </CCol>
             <CCol xs="4" md="4">
               <CFormGroup>
-                <CLabel htmlFor="text-input">{task.conclusion ? 'Concluída' : 'Não finalizada'}</CLabel>
+                <CLabel htmlFor="text-input">{conclusion ? 'Concluída' : 'Não finalizada'}</CLabel>
                 <CInput
                   id="text-input"
                   name="text-input"
                   type="button"
                   placeholder="Nome"
                   className='btn btn-warning'
-                  value={task.conclusion ? 'Refazer' : 'Concluir'}
-                  onClick={() => setTask({ ...task, 'conclusion': !task.conclusion })}
+                  value={conclusion ? 'Refazer' : 'Concluir'}
+                  onClick={() => setConclusion(prev => !prev)}
                 />
               </CFormGroup>
             </CCol>
@@ -108,17 +119,16 @@ export default function TaskEdit(props) {
                 rows="3"
                 maxLength='500'
                 placeholder="Descrição..."
-                value={task.description}
-                onChange={e => setTask({ ...task, 'description': e.target.value })} />
+                value={description}
+                onChange={e => setDescription(e.target.value)} />
             </CCol>
           </CFormGroup>
         </CModalBody>
         <CModalFooter>
-          <CButton
-            type="submit"
-            color="success"
-          >
-            Salvar
+          <CButton type="submit" color="success" disabled={!load}>
+            {
+              load ? 'Salvar' : (<span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />)
+            }
           </CButton>
         </CModalFooter>
       </CForm>

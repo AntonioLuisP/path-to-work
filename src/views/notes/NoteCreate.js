@@ -43,7 +43,7 @@ export default function NoteCreate() {
     } else {
       dispatch(ActionNote.addOne(note))
       dispatch(ActionNotification.addOne({
-        header: 'note adicionado:',
+        header: 'Anotação adicionada:',
         body: note.name,
         id: note.id,
       }))

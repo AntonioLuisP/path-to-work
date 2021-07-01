@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Actions as ActionList } from '../../redux/list'
@@ -6,7 +6,7 @@ import { BreadcrumbHeader, DropdownMore, Loading, Modal } from '../../reusable'
 import { LinkComponent, ListInfo } from "../../components/"
 import LinkCreate from '../links/LinkCreate'
 import ListEdit from './ListEdit'
-import api from "../../services/api"
+import { supabase } from '../../services/supabase'
 
 import {
   CCard,
@@ -18,8 +18,8 @@ import {
 export default function List() {
 
   const { id } = useParams();
-  const dispatch = useDispatch()
   const history = useHistory()
+  const dispatch = useDispatch()
 
   const [loading, setLoading] = useState(true)
   const [modal, setModal] = useState(false)
@@ -31,28 +31,35 @@ export default function List() {
     setModal(old => !old)
   }
 
+  const fetchList = useCallback(async () => {
+    const { data: list, error } = await supabase
+      .from("lists")
+      .select("*")
+      .eq('id', id)
+      .single()
+    if (error) {
+      console.log("error", error);
+    }
+    else {
+      dispatch(ActionList.selectOne(list))
+    }
+    setLoading(false)
+  }, [id, dispatch])
+
   useEffect(() => {
-    api.get('list/' + id)
-      .then(response => {
-        if (response.status === 200) {
-          dispatch(ActionList.selectOne(response.data.list))
-        }
-        setLoading(false)
-      })
+    fetchList()
     return () => {
       dispatch(ActionList.removeSelected())
     }
-  }, [id, dispatch])
+  }, [fetchList, dispatch])
 
-  async function handleDelete(id) {
-    try {
-      await api.delete(`/list/${id}`, {})
-      alert('apaguei')
-      history.push('/lists/')
-    } catch (error) {
-      alert("Erro ao deletar o caso, tente novamente")
-      console.log(error)
-    }
+  async function handleDelete() {
+    const { error } = await supabase
+      .from('lists')
+      .delete()
+      .eq('id', id)
+    if (error) console.log("error", error);
+    else history.push('/lists');
   }
 
   if (loading) return (<Loading />)

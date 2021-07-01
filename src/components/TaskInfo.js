@@ -20,7 +20,7 @@ export default function TaskInfo(props) {
                     Data limite: {task.limite_date}
                 </CListGroupItem>
                 <CListGroupItem>
-                    Hora limite: {task.hora}
+                    Hora limite: {task.horario}
                 </CListGroupItem>
                 <CListGroupItem>
                     Criado em: {task.created_at}

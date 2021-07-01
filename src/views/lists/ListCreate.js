@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Actions as ActionList } from '../../redux/list'
 import { Actions as ActionNotification } from '../../redux/notifications'
-import api from "../../services/api"
+import { useAuth } from '../../hooks/useAuth';
+import { supabase } from 'src/services/supabase';
 
 import {
   CButton,
@@ -20,33 +21,33 @@ export default function ListCreate(props) {
 
   const dispatch = useDispatch()
 
-  const [load, setLoad] = useState(true)
+  const { user } = useAuth()
 
-  const [list, setList] = useState({
-    'name': '',
-  })
+  const [load, setLoad] = useState(true)
+  const [name, setName] = useState('')
 
   async function handleCreate(e) {
     e.preventDefault();
     setLoad(false)
-    try {
-      await api.post('list', list, {})
-        .then(response => {
-          if (response.status === 200) {
-            dispatch(ActionList.addOne(response.data))
-            dispatch(ActionNotification.addOne({
-              header: 'Lista adicionada:',
-              body: response.data.name,
-              id: response.data.id,
-            }))
-          }
-        })
-    } catch (error) {
-      alert("erro")
-      console.log(error)
-    } finally {
-      setLoad(true)
+    const { data: list, error } = await supabase
+      .from("lists")
+      .insert({
+        name,
+        user_id: user.id
+      })
+      .single();
+    if (error) {
+      alert("error", error)
+      return;
+    } else {
+      dispatch(ActionList.addOne(list))
+      dispatch(ActionNotification.addOne({
+        header: 'Lista adicionada:',
+        body: list.name,
+        id: list.id,
+      }))
     }
+    setLoad(true)
   }
 
   return (
@@ -62,8 +63,8 @@ export default function ListCreate(props) {
                 id="text-input"
                 name="text-input"
                 placeholder="Nome"
-                value={list.name}
-                onChange={e => setList(list => ({ ...list, 'name': e.target.value }))}
+                value={name}
+                onChange={e => setName(e.target.value)}
               />
             </CCol>
           </CFormGroup>

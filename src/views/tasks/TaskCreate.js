@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Actions as ActionTask } from '../../redux/task'
 import { Actions as ActionNotification } from '../../redux/notifications'
-import api from "../../services/api"
+import { useAuth } from '../../hooks/useAuth';
+import { supabase } from 'src/services/supabase';
 
 import {
   CButton,
@@ -22,36 +23,39 @@ export default function TaskCreate() {
 
   const dispatch = useDispatch()
 
+  const { user } = useAuth()
+
   const [load, setLoad] = useState(true)
-  const [task, setTask] = useState({
-    'name': '',
-    'id_project': null,
-    'limite_date': '',
-    'description': '',
-    'hora': '',
-  })
+  const [name, setName] = useState('')
+  const [description, setDescription] = useState('')
+  const [limite_date, setLimite_date] = useState('')
+  const [horario, setHorario] = useState('')
 
   async function handleCreate(e) {
     e.preventDefault();
     setLoad(false)
-    try {
-      await api.post('task', task, {})
-        .then(response => {
-          if (response.status === 200) {
-            dispatch(ActionTask.addOne(response.data))
-            dispatch(ActionNotification.addOne({
-              header: 'Tarefa adicionada:',
-              body: response.data.name,
-              id: response.data.id,
-            }))
-          }
-        })
-    } catch (error) {
-      alert("erro")
-      console.log(error)
-    } finally {
-      setLoad(true)
+    const { data: task, error } = await supabase
+      .from("tasks")
+      .insert({
+        name,
+        description,
+        limite_date,
+        horario,
+        user_id: user.id
+      })
+      .single();
+    if (error) {
+      alert("error", error)
+      return;
+    } else {
+      dispatch(ActionTask.addOne(task))
+      dispatch(ActionNotification.addOne({
+        header: 'Tarefa adicionada:',
+        body: task.name,
+        id: task.id,
+      }))
     }
+    setLoad(true)
   }
 
   return (
@@ -67,8 +71,8 @@ export default function TaskCreate() {
                 id="text-input"
                 name="text-input"
                 placeholder="Nome"
-                value={task.name}
-                onChange={e => setTask({ ...task, 'name': e.target.value })}
+                value={name}
+                onChange={e => setName(e.target.value)}
               />
             </CCol>
           </CFormGroup>
@@ -79,8 +83,8 @@ export default function TaskCreate() {
                 id="text-input"
                 name="text-input"
                 type="date"
-                value={task.limite_date}
-                onChange={e => setTask({ ...task, 'limite_date': e.target.value })}
+                value={limite_date}
+                onChange={e => setLimite_date(e.target.value)}
               />
             </CCol>
             <CCol xs="6" md="6">
@@ -89,8 +93,8 @@ export default function TaskCreate() {
                 id="text-input"
                 name="text-input"
                 type="time"
-                value={task.hora}
-                onChange={e => setTask({ ...task, 'hora': e.target.value })}
+                value={horario}
+                onChange={e => setHorario(e.target.value)}
               />
             </CCol>
           </CFormGroup>
@@ -102,8 +106,8 @@ export default function TaskCreate() {
                 rows="3"
                 maxLength='500'
                 placeholder="Descrição..."
-                value={task.description}
-                onChange={e => setTask({ ...task, 'description': e.target.value })}
+                value={description}
+                onChange={e => setDescription(e.target.value)}
               />
             </CCol>
           </CFormGroup>

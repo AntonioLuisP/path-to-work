@@ -1,34 +1,31 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useEffect, useState, useCallback } from 'react'
 import { ListComponent } from "../../components/"
-import api from "../../services/api"
+import { supabase } from '../../services/supabase'
 import { BreadcrumbHeader, Loading } from '../../reusable/'
-import { Actions as ActionList } from '../../redux/list'
 import ListCreate from './ListCreate'
 
 export default function ListIndex() {
 
-    const dispatch = useDispatch()
-
     const [loading, setLoading] = useState(true)
+    const [lists, setLists] = useState([])
 
-    const lists = useSelector(state => state.lists)
+    const fetchLists = useCallback(async () => {
+        const { data: lists, error } = await supabase
+            .from("lists")
+            .select("*")
+            .order("created_at", { ascending: false });
+        if (error) {
+            console.log("error", error);
+        }
+        else {
+            setLists(lists)
+        }
+        setLoading(false)
+    }, [])
 
     useEffect(() => {
-        api.get('list')
-            .then(response => {
-                if (response.status === 200) {
-                    dispatch(ActionList.fillSome(response.data.data))
-                }
-            })
-            .catch((err) => {
-                console.error("ops! ocorreu um erro" + err);
-            });
-        setLoading(false)
-        return () => {
-            dispatch(ActionList.fillSome([]))
-        }
-    }, [dispatch])
+        fetchLists()
+    }, [fetchLists])
 
     if (loading) return (<Loading />)
 

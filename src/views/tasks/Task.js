@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { Actions as ActionTask } from '../../redux/task'
@@ -10,7 +10,7 @@ import LinkCreate from '../links/LinkCreate'
 import CommentCreate from '../comments/CommentCreate'
 import TodoCreate from '../todos/TodoCreate'
 import TaskEdit from './TaskEdit'
-import api from "../../services/api"
+import { supabase } from '../../services/supabase'
 
 import {
   CCol,
@@ -39,30 +39,37 @@ export default function Task() {
     setModal(old => !old)
   }
 
+  const fetchTask = useCallback(async () => {
+    const { data: task, error } = await supabase
+      .from("tasks")
+      .select("*")
+      .eq('id', id)
+      .single()
+    if (error) {
+      console.log("error", error);
+    }
+    else {
+      dispatch(ActionTask.selectOne(task))
+      dispatch(ActionComment.fillSome([]))
+      dispatch(ActionTodo.fillSome([]))
+    }
+    setLoading(false)
+  }, [id, dispatch])
+
   useEffect(() => {
-    api.get('task/' + id)
-      .then(response => {
-        if (response.status === 200) {
-          dispatch(ActionTask.selectOne(response.data.task))
-          dispatch(ActionComment.fillSome(response.data.comments))
-          dispatch(ActionTodo.fillSome(response.data.todos))
-        }
-        setLoading(false)
-      })
+    fetchTask()
     return () => {
       dispatch(ActionTask.removeSelected())
     }
-  }, [id, dispatch])
+  }, [fetchTask, dispatch])
 
-  async function handleDelete(id) {
-    try {
-      await api.delete(`/task/${id}`, {})
-      alert('apaguei')
-      history.push('/projects/' + task.id_project)
-    } catch (error) {
-      alert("Erro ao deletar o caso, tente novamente")
-      console.log(error)
-    }
+  async function handleDelete() {
+    const { error } = await supabase
+      .from('tasks')
+      .delete()
+      .eq('id', id)
+    if (error) console.log("error", error);
+    else history.push('/notes');
   }
 
   if (loading) return (<Loading />)
@@ -82,7 +89,7 @@ export default function Task() {
             </div>
           </CCardHeader>
           <CCardBody>
-            {task.description ? task.description : 'No description'}
+            {task.description}
           </CCardBody>
         </CCard>
         <CRow>

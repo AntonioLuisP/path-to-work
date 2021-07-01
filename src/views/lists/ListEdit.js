@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Actions as ActionList } from '../../redux/list'
 import { Actions as ActionNotification } from '../../redux/notifications'
-import api from "../../services/api"
+import { supabase } from '../../services/supabase'
 
 import {
   CButton,
@@ -20,30 +20,32 @@ export default function ListEdit(props) {
 
   const dispatch = useDispatch()
 
+  const id = props.list.id
   const [load, setLoad] = useState(true)
-  const [list, setList] = useState(props.list)
+  const [name, setName] = useState(props.list.name)
 
   async function handleEdit(e) {
     e.preventDefault();
     setLoad(false)
-    try {
-      await api.put('/list/' + list.id, list, {})
-        .then(response => {
-          if (response.status === 200) {
-            dispatch(ActionList.selectOne(list))
-            dispatch(ActionNotification.addOne({
-              header: 'list Editado:',
-              body: list.name,
-              id: list.id,
-            }))
-          }
-        })
-    } catch (error) {
-      alert("erro")
-      console.log(error)
-    } finally {
-      setLoad(true)
+    const { data: list, error } = await supabase
+      .from("lists")
+      .update({
+        name,
+      })
+      .eq('id', id)
+      .single()
+    if (error) {
+      alert("error", error)
+      return;
+    } else {
+      dispatch(ActionList.selectOne(list))
+      dispatch(ActionNotification.addOne({
+        header: 'Anotação Editada:',
+        body: list.name,
+        id: list.id,
+      }))
     }
+    setLoad(true)
   }
 
   return (
@@ -58,8 +60,8 @@ export default function ListEdit(props) {
               id="text-input"
               name="text-input"
               placeholder="Nome"
-              value={list.name}
-              onChange={e => setList({ ...list, 'name': e.target.value })}
+              value={name}
+              onChange={e => setName(e.target.value)}
             />
           </CCol>
         </CFormGroup>
