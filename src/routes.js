@@ -30,6 +30,11 @@ const TaskCreate = React.lazy(() => import('./views/tasks/TaskCreate'));
 const Task = React.lazy(() => import('./views/tasks/Task'));
 const TaskEdit = React.lazy(() => import('./views/tasks/TaskEdit'));
 
+const TodoIndex = React.lazy(() => import('./views/todos/TodoIndex'));
+const TodoCreate = React.lazy(() => import('./views/todos/TodoCreate'));
+const Todo = React.lazy(() => import('./views/todos/Todo'));
+const TodoEdit = React.lazy(() => import('./views/todos/TodoEdit'));
+
 const CommentIndex = React.lazy(() => import('./views/comments/CommentIndex'));
 const Comment = React.lazy(() => import('./views/comments/Comment'));
 const CommentEdit = React.lazy(() => import('./views/comments/CommentEdit'));
@@ -65,6 +70,11 @@ const routes = [
   { path: '/tasks/create', exact: true, name: 'Criar', component: TaskCreate },
   { path: '/tasks/:id', exact: true, name: 'Detalhes', component: Task },
   { path: '/tasks/:id/edit', exact: true, name: 'Editar', component: TaskEdit },
+
+  { path: '/todos', exact: true, name: 'Afazer', component: TodoIndex },
+  { path: '/todos/create', exact: true, name: 'Criar', component: TodoCreate },
+  { path: '/todos/:id', exact: true, name: 'Detalhes', component: Todo },
+  { path: '/todos/:id/edit', exact: true, name: 'Editar', component: TodoEdit },
 
   { path: '/comments', exact: true, name: 'Comentários', component: CommentIndex },
   { path: '/comments/:id', exact: true, name: 'Detalhes', component: Comment },

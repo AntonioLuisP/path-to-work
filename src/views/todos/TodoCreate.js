@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Actions as ActionTodo } from '../../redux/todo'
 import { Actions as ActionNotification } from '../../redux/notifications'
-import api from "../../services/api"
+import { useAuth } from '../../hooks/useAuth';
+import { supabase } from 'src/services/supabase';
 
 import {
   CButton,
@@ -14,52 +15,47 @@ import {
   CForm,
   CFormGroup,
   CInput,
+
 } from '@coreui/react'
 
-export default function TodoCreate(props) {
-
-  const task = props.task
+export default function TodoCreate() {
 
   const dispatch = useDispatch()
 
-  const [load, setLoad] = useState(true)
+  const { user } = useAuth()
 
-  const [todo, setTodo] = useState({
-    'todo': '',
-    'id_task': '',
-  })
+  const [load, setLoad] = useState(true)
+  const [name, setName] = useState('')
 
   async function handleCreate(e) {
     e.preventDefault();
     setLoad(false)
-    const data = {
-      'name': todo.name,
-      'id_task': task.id,
+    const { data: todo, error } = await supabase
+      .from("todos")
+      .insert({
+        name,
+        task_id: 'a0aa535f-3409-45a2-9fea-dd5dd3dc5688',
+        user_id: user.id
+      })
+      .single();
+    if (error) {
+      alert("error", error)
+      return;
+    } else {
+      dispatch(ActionTodo.addOne(todo))
+      dispatch(ActionNotification.addOne({
+        header: 'Afazer adicionado: ',
+        body: todo.name,
+        id: todo.id,
+      }))
     }
-    try {
-      await api.post('todo', data, {})
-        .then(response => {
-          if (response.status === 200) {
-            dispatch(ActionTodo.addOne(response.data))
-            dispatch(ActionNotification.addOne({
-              header: 'Afazer adicionado:',
-              body: response.data.name,
-              id: response.data.id,
-            }))
-          }
-        })
-    } catch (error) {
-      alert("erro")
-      console.log(error)
-    } finally {
-      setLoad(true)
-    }
+    setLoad(true)
   }
 
   return (
     <>
       <CModalHeader closeButton>
-        <CModalTitle>Novo Afazer</CModalTitle>
+        <CModalTitle>Nova Anotação</CModalTitle>
       </CModalHeader >
       <CForm onSubmit={handleCreate} className="form-horizontal">
         <CModalBody>
@@ -68,9 +64,10 @@ export default function TodoCreate(props) {
               <CInput
                 id="text-input"
                 name="text-input"
-                placeholder="nome"
-                value={todo.name}
-                onChange={e => setTodo(todo => ({ ...todo, 'name': e.target.value }))}
+                placeholder="Nome"
+                required
+                value={name}
+                onChange={e => setName(e.target.value)}
               />
             </CCol>
           </CFormGroup>

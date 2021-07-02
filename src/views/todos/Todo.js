@@ -1,24 +1,23 @@
-import React, { useState, useEffect } from 'react'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Actions as ActionTodo } from '../../redux/todo'
 import { DropdownMore, Loading, Modal } from '../../reusable'
 import TodoEdit from './TodoEdit'
-import api from "../../services/api"
+import { supabase } from '../../services/supabase'
 
 import {
   CCard,
   CCardHeader,
   CCol,
-  CRow
+  CRow,
 } from '@coreui/react'
 
-export default function Comment() {
+export default function Todo() {
 
   const { id } = useParams();
-  const dispatch = useDispatch()
   const history = useHistory()
+  const dispatch = useDispatch()
 
   const [loading, setLoading] = useState(true)
   const [modal, setModal] = useState(false)
@@ -29,50 +28,55 @@ export default function Comment() {
     setModal(old => !old)
   }
 
+  const fetchTodo = useCallback(async () => {
+    const { data: todo, error } = await supabase
+      .from("todos")
+      .select("*")
+      .eq('id', id)
+      .single()
+    if (error) {
+      console.log("error", error);
+    }
+    else {
+      dispatch(ActionTodo.selectOne(todo))
+    }
+    setLoading(false)
+  }, [id, dispatch])
+
   useEffect(() => {
-    api.get('comment/' + id)
-      .then(response => {
-        if (response.status === 200) {
-          dispatch(ActionTodo.selectOne(response.data.todo))
-        }
-        setLoading(false)
-      })
+    fetchTodo()
     return () => {
       dispatch(ActionTodo.removeSelected())
     }
-  }, [id, dispatch])
+  }, [fetchTodo, dispatch])
 
-  async function handleDelete(id) {
-    try {
-      await api.delete(`/comment/${id}`, {})
-      alert('apaguei')
-      history.push('/questions/' + comment.id_question)
-    } catch (error) {
-      alert("Erro ao deletar o caso, tente novamente")
-      console.log(error)
-    }
+  async function handleDelete() {
+    const { error } = await supabase
+      .from('todos')
+      .delete()
+      .eq('id', id)
+    if (error) console.log("error", error);
+    else history.push('/todos');
   }
 
   if (loading) return (<Loading />)
 
   return (
-    <>
+    <CRow>
       <Modal show={modal} onClose={toogleModal} component={<TodoEdit todo={todo} />} />
-      <CRow>
-        <CCol xs="12" sm="12" md="12">
-          <CCard>
-            <CCardHeader color="secondary">
-              {todo.name}
-              <div className="card-header-actions">
-                <DropdownMore
-                  editAction={() => toogleModal()}
-                  deleteAction={() => handleDelete(comment.id)}
-                />
-              </div>
-            </CCardHeader>
-          </CCard>
-        </CCol>
-      </CRow>
-    </>
+      <CCol xs="12" sm="9" md="9">
+        <CCard className='text-break text-justify'>
+          <CCardHeader color="secondary">
+            {todo.name}
+            <div className="card-header-actions">
+              <DropdownMore
+                editAction={() => toogleModal()}
+                deleteAction={() => handleDelete(todo.id)}
+              />
+            </div>
+          </CCardHeader>
+        </CCard>
+      </CCol>
+    </CRow>
   )
 }
