@@ -1,50 +1,66 @@
 import React, { useState } from 'react'
-import api from "../services/api"
+import { supabase } from '../services/supabase'
+import TodoEdit from '../views/todos/TodoEdit'
+import { Modal } from '../reusable'
 
 import {
     CCard,
     CCardHeader,
     CInputCheckbox,
     CFormGroup,
-    CLabel
+    CButton
 } from '@coreui/react'
+
+import {
+    cilPencil,
+} from '@coreui/icons'
+
+import CIcon from '@coreui/icons-react'
 
 export default function TodoComponent(props) {
 
     const [todo, setTodo] = useState(props.todo)
+    const [modal, setModal] = useState(false)
+
+    const toogleModal = () => {
+        setModal(old => !old)
+    }
 
     async function handleConclusion(e) {
         e.preventDefault();
-        const data = {
-            'conclusion': !todo.conclusion,
-        }
-        try {
-            await api.put('/todo/' + todo.id, data, {})
-                .then(response => {
-                    if (response.status === 200) {
-                        setTodo(todo => ({ ...todo, 'conclusion': data.conclusion }))
-                    }
-                })
-        } catch (error) {
-            alert("erro")
-            console.log(error)
+        const { data: todoNew, error } = await supabase
+            .from("todos")
+            .update({
+                conclusion: !todo.conclusion,
+            })
+            .eq('id', todo.id)
+            .single()
+        if (error) {
+            alert("error", error)
+            return;
+        } else {
+            console.log(todoNew)
+            setTodo(todoNew)
         }
     }
 
     return (
         <CCard>
+            <Modal show={modal} onClose={toogleModal} component={<TodoEdit todo={todo} changeTodo={todo => setTodo(todo)} />} />
             <CCardHeader className='text-break text-justify'>
                 <CFormGroup variant="checkbox">
                     <CInputCheckbox
-                        id="checkbox1"
-                        name="checkbox1"
-                        value="option1"
                         checked={todo.conclusion}
                         onChange={handleConclusion}
                     />
-                    <CLabel variant="checkbox" className="form-check-label" htmlFor="checkbox1">
-                        {todo.conclusion ? <s>{todo.name}</s> : todo.name}
-                    </CLabel>
+                    {todo.conclusion ? <s>{todo.name}</s> : todo.name}
+                    <CButton
+                        type='button'
+                        onClick={() => toogleModal()} className='float-right'
+                        size='md'
+                    >
+                        <CIcon width={18} content={cilPencil} />
+                    </CButton>
                 </CFormGroup>
             </CCardHeader>
         </CCard>

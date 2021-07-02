@@ -48,8 +48,17 @@ export default function Task() {
     }
     else {
       dispatch(ActionTask.selectOne(task))
+      const { data: todos, error } = await supabase
+        .from("todos")
+        .select("*")
+        .eq('task_id', id)
+      if (error) {
+        console.log("error", error);
+      }
+      else {
+        dispatch(ActionTodo.fillSome(todos))
+      }
       dispatch(ActionLink.fillSome([]))
-      dispatch(ActionTodo.fillSome([]))
     }
     setLoading(false)
   }, [id, dispatch])
@@ -58,6 +67,8 @@ export default function Task() {
     fetchTask()
     return () => {
       dispatch(ActionTask.removeSelected())
+      dispatch(ActionTodo.fillSome([]))
+      dispatch(ActionLink.fillSome([]))
     }
   }, [fetchTask, dispatch])
 
@@ -94,7 +105,7 @@ export default function Task() {
           <CCol xs="12" sm="6" md="6">
             <BreadcrumbHeader title='Afazeres' quantidade={todos.length} component={<TodoCreate task={task} />} />
             {todos <= 0 ? <NoItems /> :
-              links.map(todo => (<TodoComponent key={todo.id} todo={todo} />))
+              todos.map(todo => (<TodoComponent key={todo.id} todo={todo} />))
             }
           </CCol>
           <CCol xs="12" sm="6" md="6">

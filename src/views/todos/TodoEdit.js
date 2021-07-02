@@ -16,14 +16,14 @@ import {
   CInput,
 } from '@coreui/react'
 
-export default function TodoEdit(props) {
+export default function TodoEdit({todo, changeTodo}) {
 
   const dispatch = useDispatch()
 
-  const id = props.todo.id
+  const id = todo.id
   const [load, setLoad] = useState(true)
-  const [name, setName] = useState(props.todo.name)
-  const [conclusion, setConclusion] = useState(props.todo.conclusion)
+  const [name, setName] = useState(todo.name)
+  const [conclusion, setConclusion] = useState(todo.conclusion)
 
   async function handleEdit(e) {
     e.preventDefault();
@@ -40,6 +40,7 @@ export default function TodoEdit(props) {
       alert("error", error)
       return;
     } else {
+      changeTodo(todo)
       dispatch(ActionTodo.selectOne(todo))
       dispatch(ActionNotification.addOne({
         header: 'Afazer Editado:',
