@@ -98,7 +98,7 @@ export default function TaskEdit(props) {
             </CCol>
             <CCol xs="4" md="4">
               <CFormGroup>
-                <CLabel htmlFor="text-input">{conclusion ? 'Concluída' : 'Não finalizada'}</CLabel>
+                <CLabel htmlFor="text-input"> Status: {conclusion ? '' : 'Não '} Concluída</CLabel>
                 <CInput
                   id="text-input"
                   name="text-input"

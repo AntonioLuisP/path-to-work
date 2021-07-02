@@ -32,14 +32,6 @@ export default function TodoComponent(props) {
     }
 
     return (
-        // <tr>
-        //     <td width='5%'>
-        //         <input type='checkbox' checked={todo.conclusion} onChange={handleConclusion} />
-        //     </td>
-        //     <td width='90%' className='text-break text-justify'>
-        //         {todo.conclusion ? <s>{todo.name}</s> : todo.name}
-        //     </td>
-        // </tr>
         <CCard>
             <CCardHeader className='text-break text-justify'>
                 <CFormGroup variant="checkbox">
