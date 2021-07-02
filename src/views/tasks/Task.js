@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Actions as ActionTask } from '../../redux/task'
 import { Actions as ActionLink } from '../../redux/link'
 import { Actions as ActionTodo } from '../../redux/todo'
-import { BreadcrumbHeader, DropdownMore, Loading, Modal, NoItems, CreateDataButton } from '../../reusable'
+import { BreadcrumbHeader, DropdownMore, Loading, Modal, NoItems } from '../../reusable'
 import { LinkComponent, TodoComponent, TaskStatus, TaskInfo } from "../../components/"
 import LinkCreate from '../links/LinkCreate'
 import TodoCreate from '../todos/TodoCreate'
@@ -92,15 +92,13 @@ export default function Task() {
         </CCard>
         <CRow>
           <CCol xs="12" sm="6" md="6">
-            <BreadcrumbHeader title='Afazeres' quantidade={todos.length} />
-            <CreateDataButton component={<TodoCreate task={task} />} />
+            <BreadcrumbHeader title='Afazeres' quantidade={todos.length} component={<TodoCreate task={task} />} />
             {todos <= 0 ? <NoItems /> :
               links.map(todo => (<TodoComponent key={todo.id} todo={todo} />))
             }
           </CCol>
           <CCol xs="12" sm="6" md="6">
-            <BreadcrumbHeader title='Links' quantidade={links.length} />
-            <CreateDataButton component={<LinkCreate />} />
+            <BreadcrumbHeader title='Links' quantidade={links.length} component={<LinkCreate />} />
             {links <= 0 ? <NoItems /> :
               links.map(link => (<LinkComponent key={link.id} link={link} />))
             }

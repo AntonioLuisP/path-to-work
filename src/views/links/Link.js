@@ -3,9 +3,11 @@ import { useParams, useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Actions as ActionLink } from '../../redux/link'
 import { Actions as ActionList } from '../../redux/list'
-import { BreadcrumbHeader, DropdownMore, Loading, Modal, NoItems, CreateDataButton } from '../../reusable'
-import { ListComponent, LinkInfo } from "../../components/"
+import { Actions as ActionNote } from '../../redux/note'
+import { BreadcrumbHeader, DropdownMore, Loading, Modal, NoItems } from '../../reusable'
+import { ListComponent, NoteComponent, LinkInfo } from "../../components/"
 import ListCreate from '../lists/ListCreate'
+import NoteCreate from '../notes/NoteCreate'
 import LinkEdit from './LinkEdit'
 import { supabase } from '../../services/supabase'
 
@@ -27,6 +29,7 @@ export default function Link() {
 
   const link = useSelector(state => state.link)
   const lists = useSelector(state => state.lists)
+  const notes = useSelector(state => state.notes)
 
   const toogleModal = () => {
     setModal(old => !old)
@@ -43,6 +46,16 @@ export default function Link() {
     }
     else {
       dispatch(ActionLink.selectOne(link))
+      const { data: notes, error } = await supabase
+        .from("notes")
+        .select("*")
+        .eq('link_id', id)
+      if (error) {
+        console.log("error", error);
+      }
+      else {
+        dispatch(ActionNote.fillSome(notes))
+      }
       dispatch(ActionList.fillSome([]))
     }
     setLoading(false)
@@ -53,6 +66,7 @@ export default function Link() {
     return () => {
       dispatch(ActionLink.removeSelected())
       dispatch(ActionList.fillSome([]))
+      dispatch(ActionNote.fillSome([]))
     }
   }, [fetchLink, dispatch])
 
@@ -82,14 +96,17 @@ export default function Link() {
             </div>
           </CCardHeader>
         </CCard>
-        <BreadcrumbHeader title="Listas" quantidade={lists.length} />
-        <CreateDataButton component={<ListCreate />} />
-        {lists <= 0 ? <NoItems /> :
-          lists.map(list => (<ListComponent key={list.id} list={list} />))
+        <BreadcrumbHeader title="Anotações" quantidade={notes.length} component={<NoteCreate link={link} />} />
+        {notes <= 0 ? <NoItems /> :
+          notes.map(note => (<NoteComponent key={note.id} note={note} />))
         }
       </CCol>
       <CCol xs="12" sm="3" md="3">
         <LinkInfo link={link} />
+        <BreadcrumbHeader title="Listas" quantidade={lists.length} component={<ListCreate />} />
+        {lists <= 0 ? <NoItems /> :
+          lists.map(list => (<ListComponent key={list.id} list={list} />))
+        }
       </CCol>
     </CRow>
   )

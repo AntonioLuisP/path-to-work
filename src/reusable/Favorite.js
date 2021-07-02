@@ -5,6 +5,7 @@ import {
 } from '@coreui/icons'
 
 import CIcon from '@coreui/icons-react'
+
 const Favorite = ({ link }) => {
 
   const color = link.is_favorite ? 'text-warning' : 'text-black'

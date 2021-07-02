@@ -18,7 +18,7 @@ import {
 
 } from '@coreui/react'
 
-export default function NoteCreate() {
+export default function NoteCreate({ link }) {
 
   const dispatch = useDispatch()
 
@@ -34,6 +34,7 @@ export default function NoteCreate() {
       .from("notes")
       .insert({
         name,
+        link_id: link.id,
         user_id: user.id
       })
       .single();

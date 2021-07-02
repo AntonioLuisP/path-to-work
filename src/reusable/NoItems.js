@@ -15,7 +15,7 @@ const NoItems = () => {
 
     return (
         <CAlert color="danger">
-            <CIcon content={cilBan} /> Nenhuma dado cadastrado. Adicione algo.
+            <CIcon content={cilBan} /> Nada cadastrado. Adicione algo!
         </CAlert>
     )
 }

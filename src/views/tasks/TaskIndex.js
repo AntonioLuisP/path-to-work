@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { TaskComponent } from '../../components/'
 import { supabase } from '../../services/supabase'
-import { BreadcrumbHeader, Loading, NoItems, CreateDataButton } from '../../reusable'
+import { BreadcrumbHeader, Loading, NoItems } from '../../reusable'
 import TaskCreate from './TaskCreate'
 
 export default function TaskIndex() {
@@ -31,8 +31,7 @@ export default function TaskIndex() {
 
   return (
     <>
-      <BreadcrumbHeader title="Tarefas" quantidade={tasks.length} />
-      <CreateDataButton component={<TaskCreate />} />
+      <BreadcrumbHeader title="Tarefas" quantidade={tasks.length} component={<TaskCreate />} />
       {tasks <= 0 ? <NoItems /> :
         tasks.map(task => (<TaskComponent key={task.id} task={task} />))
       }

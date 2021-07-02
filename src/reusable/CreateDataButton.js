@@ -6,12 +6,6 @@ import {
     CCard
 } from '@coreui/react'
 
-import {
-    cilPlus,
-} from '@coreui/icons'
-
-import CIcon from '@coreui/icons-react'
-
 export default function CreateDataButton({ component }) {
 
     const [modal, setModal] = useState(false)
@@ -25,9 +19,10 @@ export default function CreateDataButton({ component }) {
             <Modal show={modal} onClose={toogleModal} component={component} />
             <CButton
                 color="info"
+                size='sm'
                 onClick={toogleModal}
             >
-                <CIcon content={cilPlus} />
+                Adicionar
             </CButton>
         </CCard>
     )

@@ -3,9 +3,8 @@ import { useHistory } from 'react-router-dom'
 import { More } from '../reusable'
 
 import {
-    CCardBody,
+    CCardHeader,
     CCard,
-    CCardText,
 } from '@coreui/react'
 
 import {
@@ -14,22 +13,18 @@ import {
 
 import CIcon from '@coreui/icons-react'
 
-export default function NoteComponent(props) {
+export default function NoteComponent({note}) {
 
     const history = useHistory()
 
-    const note = props.note
-
     return (
         <CCard>
-            <CCardBody>
-                <CCardText className='text-break text-justify'>
+            <CCardHeader className='text-break text-justify'>
                     {note.name}
-                </CCardText>
                 <More to={() => history.push('/notes/' + note.id)}>
                     <CIcon width={18} content={cilNotes} />
                 </More>
-            </CCardBody>
+            </CCardHeader>
         </CCard>
     )
 }

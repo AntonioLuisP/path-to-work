@@ -20,6 +20,12 @@ import {
   CInputCheckbox
 } from '@coreui/react'
 
+import {
+  cilStar,
+} from '@coreui/icons'
+
+import CIcon from '@coreui/icons-react'
+
 export default function LinkCreate() {
 
   const dispatch = useDispatch()
@@ -31,6 +37,8 @@ export default function LinkCreate() {
   const [url, setUrl] = useState('')
   const [is_favorite, setIs_favorite] = useState(false)
   const [description, setDescription] = useState('')
+
+  const color = is_favorite ? 'text-warning' : 'text-black'
 
   async function handleCreate(e) {
     e.preventDefault();
@@ -86,7 +94,10 @@ export default function LinkCreate() {
                   value={is_favorite}
                   onChange={e => setIs_favorite(prev => !prev)}
                 />
-                <CLabel variant="custom-checkbox" htmlFor="inline-checkbox1">Favoritar</CLabel>
+                <CLabel variant="custom-checkbox" htmlFor="inline-checkbox1">
+                  <CIcon className={'float-right text-decoration-none ' + color}
+                    width={18} content={cilStar} />
+                </CLabel>
               </CFormGroup>
             </CCol>
           </CFormGroup>

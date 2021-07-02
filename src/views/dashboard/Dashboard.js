@@ -5,7 +5,7 @@ import { Actions as ActionTask } from '../../redux/task'
 import { TaskComponent, LinkComponent } from "../../components/"
 import LinkCreate from '../links/LinkCreate'
 import TaskCreate from '../tasks/TaskCreate'
-import { Loading, BreadcrumbHeader, NoItems, CreateDataButton } from '../../reusable/'
+import { Loading, BreadcrumbHeader, NoItems } from '../../reusable/'
 import { supabase } from '../../services/supabase'
 
 import {
@@ -64,15 +64,13 @@ export default function Dashboard() {
     return (
         <CRow>
             <CCol xs="12" sm="8" md="8">
-                <BreadcrumbHeader title='Links Favoritos' quantidade={links.length} />
-                <CreateDataButton component={<LinkCreate />} />
+                <BreadcrumbHeader title='Links Favoritos' quantidade={links.length} component={<LinkCreate />} />
                 {links <= 0 ? <NoItems /> :
                     links.map(link => (<LinkComponent key={link.id} link={link} />))
                 }
             </CCol>
             <CCol xs="12" sm="4" md="4">
-                <BreadcrumbHeader title='Tarefas do dia' quantidade={tasks.length} />
-                <CreateDataButton component={<TaskCreate />} />
+                <BreadcrumbHeader title='Tarefas do dia' quantidade={tasks.length} component={<TaskCreate />} />
                 {tasks <= 0 ? <NoItems /> :
                     tasks.map(task => (<TaskComponent key={task.id} task={task} />))
                 }
