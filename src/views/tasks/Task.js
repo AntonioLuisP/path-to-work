@@ -2,12 +2,11 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { Actions as ActionTask } from '../../redux/task'
-import { Actions as ActionComment } from '../../redux/comment'
+import { Actions as ActionLink } from '../../redux/link'
 import { Actions as ActionTodo } from '../../redux/todo'
 import { BreadcrumbHeader, DropdownMore, Loading, Modal, NoItems, CreateDataButton } from '../../reusable'
-import { LinkComponent, CommentComponent, TodoComponent, TaskStatus, TaskInfo } from "../../components/"
+import { LinkComponent, TodoComponent, TaskStatus, TaskInfo } from "../../components/"
 import LinkCreate from '../links/LinkCreate'
-import CommentCreate from '../comments/CommentCreate'
 import TodoCreate from '../todos/TodoCreate'
 import TaskEdit from './TaskEdit'
 import { supabase } from '../../services/supabase'
@@ -31,7 +30,6 @@ export default function Task() {
 
   const task = useSelector(state => state.task)
 
-  const comments = useSelector(state => state.comments)
   const links = useSelector(state => state.links)
   const todos = useSelector(state => state.todos)
 
@@ -50,7 +48,7 @@ export default function Task() {
     }
     else {
       dispatch(ActionTask.selectOne(task))
-      dispatch(ActionComment.fillSome([]))
+      dispatch(ActionLink.fillSome([]))
       dispatch(ActionTodo.fillSome([]))
     }
     setLoading(false)
@@ -110,13 +108,8 @@ export default function Task() {
         </CRow>
       </CCol>
       <CCol xs="12" sm="3" md="3">
-        <TaskStatus task={task} todos={todos.length} links={links.length} comments={comments.length} />
+        <TaskStatus task={task} todos={todos.length} links={links.length} />
         <TaskInfo task={task} />
-        <BreadcrumbHeader title='Comentários' quantidade={comments.length} />
-        <CreateDataButton component={<CommentCreate task={task} />} />
-        {comments <= 0 ? <NoItems /> :
-          comments.map(comment => (<CommentComponent key={comment.id} comment={comment} />))
-        }
       </CCol>
     </CRow>
   )

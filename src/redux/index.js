@@ -6,7 +6,6 @@ import { listReducer, listsReducer } from './list'
 import { taskReducer, tasksReducer } from './task'
 import { linkReducer, linksReducer } from './link'
 import { noteReducer, notesReducer } from './note'
-import { commentReducer, commentsReducer } from './comment'
 import { todoReducer, todosReducer } from './todo'
 import sidebarReducer from './sidebar'
 
@@ -29,9 +28,6 @@ const allReducers = combineReducers({
 
     task: taskReducer,
     tasks: tasksReducer,
-
-    comment: commentReducer,
-    comments: commentsReducer,
 
     todo: todoReducer,
     todos: todosReducer,

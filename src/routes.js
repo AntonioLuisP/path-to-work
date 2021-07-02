@@ -35,10 +35,6 @@ const TodoCreate = React.lazy(() => import('./views/todos/TodoCreate'));
 const Todo = React.lazy(() => import('./views/todos/Todo'));
 const TodoEdit = React.lazy(() => import('./views/todos/TodoEdit'));
 
-const CommentIndex = React.lazy(() => import('./views/comments/CommentIndex'));
-const Comment = React.lazy(() => import('./views/comments/Comment'));
-const CommentEdit = React.lazy(() => import('./views/comments/CommentEdit'));
-
 const routes = [
   // { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', exact: true, name: 'Dashboard', component: Dashboard },
@@ -75,10 +71,6 @@ const routes = [
   { path: '/todos/create', exact: true, name: 'Criar', component: TodoCreate },
   { path: '/todos/:id', exact: true, name: 'Detalhes', component: Todo },
   { path: '/todos/:id/edit', exact: true, name: 'Editar', component: TodoEdit },
-
-  { path: '/comments', exact: true, name: 'Comentários', component: CommentIndex },
-  { path: '/comments/:id', exact: true, name: 'Detalhes', component: Comment },
-  { path: '/comments/:id/edit', exact: true, name: 'Editar', component: CommentEdit },
 ];
 
 export default routes;

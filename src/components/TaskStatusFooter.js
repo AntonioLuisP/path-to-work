@@ -9,12 +9,11 @@ import {
 import {
     cilCursor,
     cilTask,
-    cilSpeech
 } from '@coreui/icons'
 
 import CIcon from '@coreui/icons-react'
 
-export default function TaskStatusFooter({ links, todos, comments }) {
+export default function TaskStatusFooter({ links, todos }) {
 
     return (
         <CCardFooter className='text-center'>
@@ -26,10 +25,6 @@ export default function TaskStatusFooter({ links, todos, comments }) {
                 <CCol>
                     <div className="text-value-md">{links}</div>
                     <CIcon content={cilCursor} />
-                </CCol>
-                <CCol>
-                    <div className="text-value-md">{comments}</div>
-                    <CIcon content={cilSpeech} />
                 </CCol>
             </CRow>
         </CCardFooter>

@@ -12,7 +12,6 @@ import LinkInfo from './LinkInfo'
 
 import NoteComponent from './NoteComponent'
 
-import CommentComponent from './CommentComponent'
 import TodoComponent from './TodoComponent'
 
 export {
@@ -30,6 +29,5 @@ export {
 
   NoteComponent,
 
-  CommentComponent,
   TodoComponent,
 }
