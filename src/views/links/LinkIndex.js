@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { LinkComponent } from '../../components/'
 import { supabase } from '../../services/supabase'
-import { BreadcrumbHeader, Loading, NoItems } from '../../reusable/'
+import { BreadcrumbHeader, Loading, NoItems, CreateDataButton } from '../../reusable/'
 import LinkCreate from './LinkCreate'
 
 export default function LinkIndex() {
@@ -31,7 +31,8 @@ export default function LinkIndex() {
 
   return (
     <>
-      <BreadcrumbHeader title="Links" quantidade={links.length} component={<LinkCreate />} />
+      <BreadcrumbHeader title="Links" quantidade={links.length} />
+      <CreateDataButton component={<LinkCreate />} />
       {links <= 0 ? <NoItems /> :
         links.map(link => (<LinkComponent key={link.id} link={link} />))
       }

@@ -14,28 +14,22 @@ import {
 
 import CIcon from '@coreui/icons-react'
 
-export default function TaskStatusFooter(props) {
-
-    const links = 1
-    const todos = 1
-    const comments = 2
+export default function TaskStatusFooter({ links, todos, comments }) {
 
     return (
         <CCardFooter className='text-center'>
             <CRow>
                 <CCol>
                     <div className="text-value-md">{todos}</div>
-                    <CIcon content={cilTask}/>
+                    <CIcon content={cilTask} />
                 </CCol>
                 <CCol>
                     <div className="text-value-md">{links}</div>
-                    <CIcon content={cilCursor}/>
-                    {/* </div> */}
-
+                    <CIcon content={cilCursor} />
                 </CCol>
                 <CCol>
                     <div className="text-value-md">{comments}</div>
-                    <CIcon content={cilSpeech}/>
+                    <CIcon content={cilSpeech} />
                 </CCol>
             </CRow>
         </CCardFooter>

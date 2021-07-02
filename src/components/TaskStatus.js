@@ -6,12 +6,7 @@ import {
     CCard,
 } from '@coreui/react'
 
-export default function TaskStatus(props) {
-
-    const task = props.task
-    const links = props.links
-    const todos = props.todos
-    const comments = props.comments
+export default function TaskStatus({ task, links, todos, comments }) {
 
     return (
         <CCard>

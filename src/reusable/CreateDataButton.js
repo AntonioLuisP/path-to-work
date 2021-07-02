@@ -3,6 +3,7 @@ import { Modal } from '.'
 
 import {
     CButton,
+    CCard
 } from '@coreui/react'
 
 import {
@@ -20,14 +21,14 @@ export default function CreateDataButton({ component }) {
     }
 
     return (
-        <>
+        <CCard className="content-center bg-transparent border-0">
             <Modal show={modal} onClose={toogleModal} component={component} />
             <CButton
-                color="dark"
+                color="info"
                 onClick={toogleModal}
             >
                 <CIcon content={cilPlus} />
             </CButton>
-        </>
+        </CCard>
     )
 }

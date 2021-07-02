@@ -3,9 +3,8 @@ import { useHistory } from 'react-router-dom'
 import { More } from '../reusable'
 
 import {
-    CCardBody,
+    CCardHeader,
     CCard,
-    CCardText,
 } from '@coreui/react'
 
 import {
@@ -22,14 +21,12 @@ export default function ListComponent(props) {
 
     return (
         <CCard>
-            <CCardBody>
-                <CCardText className='text-break text-justify'>
-                    {list.name}
-                </CCardText>
+            <CCardHeader className='text-break text-justify'>
+                {list.name}
                 <More to={() => history.push('/lists/' + list.id)}>
                     <CIcon width={18} content={cilList} />
                 </More>
-            </CCardBody>
+            </CCardHeader>
         </CCard>
     )
 }
