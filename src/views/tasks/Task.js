@@ -69,7 +69,7 @@ export default function Task() {
       .delete()
       .eq('id', id)
     if (error) console.log("error", error);
-    else history.push('/notes');
+    else history.push('/tasks');
   }
 
   if (loading) return (<Loading />)

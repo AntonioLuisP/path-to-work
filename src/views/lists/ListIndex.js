@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { ListComponent } from "../../components/"
 import { supabase } from '../../services/supabase'
-import { BreadcrumbHeader, Loading } from '../../reusable/'
+import { BreadcrumbHeader, Loading, NoItems, CreateDataButton } from '../../reusable/'
 import ListCreate from './ListCreate'
 
 export default function ListIndex() {
@@ -31,11 +31,10 @@ export default function ListIndex() {
 
     return (
         <>
-            <BreadcrumbHeader title="Listas" quantidade={lists.length} component={<ListCreate />} />
-            {
-                lists.map(list => (
-                    <ListComponent key={list.id} list={list} />
-                ))
+            <BreadcrumbHeader title="Listas" quantidade={lists.length} />
+            <CreateDataButton component={<ListCreate />} />
+            {lists <= 0 ? <NoItems /> :
+                lists.map(list => (<ListComponent key={list.id} list={list} />))
             }
         </>
     )
