@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { Actions as ActionList } from '../../redux/list'
 import { BreadcrumbHeader, DropdownMore, Loading, Modal, NoItems } from '../../reusable'
 import { LinkComponent, ListInfo } from "../../components/"
 import LinkCreate from '../links/LinkCreate'
@@ -19,13 +17,12 @@ export default function List() {
 
   const { id } = useParams();
   const history = useHistory()
-  const dispatch = useDispatch()
 
   const [loading, setLoading] = useState(true)
   const [modal, setModal] = useState(false)
 
-  const list = useSelector(state => state.list)
-  const links = useSelector(state => state.links)
+  const [list, setList] = useState({})
+  const [links, setLinks] = useState([])
 
   const toogleModal = () => {
     setModal(old => !old)
@@ -41,17 +38,15 @@ export default function List() {
       console.log("error", error);
     }
     else {
-      dispatch(ActionList.selectOne(list))
+      setList(list)
+      setLinks([])
     }
     setLoading(false)
-  }, [id, dispatch])
+  }, [id])
 
   useEffect(() => {
     fetchList()
-    return () => {
-      dispatch(ActionList.removeSelected())
-    }
-  }, [fetchList, dispatch])
+  }, [fetchList])
 
   async function handleDelete() {
     const { error } = await supabase
@@ -66,7 +61,7 @@ export default function List() {
 
   return (
     <CRow>
-      <Modal show={modal} onClose={toogleModal} component={<ListEdit list={list} />} />
+      <Modal show={modal} onClose={toogleModal} component={<ListEdit list={list} edit={list => setList(list)} />} />
       <CCol xs="12" sm="9" md="9">
         <CCard>
           <CCardHeader color="secondary">

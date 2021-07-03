@@ -15,11 +15,6 @@ const LinkCreate = React.lazy(() => import('./views/links/LinkCreate'));
 const Link = React.lazy(() => import('./views/links/Link'));
 const LinkEdit = React.lazy(() => import('./views/links/LinkEdit'));
 
-const NoteIndex = React.lazy(() => import('./views/notes/NoteIndex'));
-const NoteCreate = React.lazy(() => import('./views/notes/NoteCreate'));
-const Note = React.lazy(() => import('./views/notes/Note'));
-const NoteEdit = React.lazy(() => import('./views/notes/NoteEdit'));
-
 const ListIndex = React.lazy(() => import('./views/lists/ListIndex'));
 const ListCreate = React.lazy(() => import('./views/lists/ListCreate'));
 const List = React.lazy(() => import('./views/lists/List'));
@@ -29,11 +24,6 @@ const TaskIndex = React.lazy(() => import('./views/tasks/TaskIndex'));
 const TaskCreate = React.lazy(() => import('./views/tasks/TaskCreate'));
 const Task = React.lazy(() => import('./views/tasks/Task'));
 const TaskEdit = React.lazy(() => import('./views/tasks/TaskEdit'));
-
-const TodoIndex = React.lazy(() => import('./views/todos/TodoIndex'));
-const TodoCreate = React.lazy(() => import('./views/todos/TodoCreate'));
-const Todo = React.lazy(() => import('./views/todos/Todo'));
-const TodoEdit = React.lazy(() => import('./views/todos/TodoEdit'));
 
 const routes = [
   // { path: '/', exact: true, name: 'Home' },
@@ -52,11 +42,6 @@ const routes = [
   { path: '/links/:id', exact: true, name: 'Detalhes', component: Link },
   { path: '/links/:id/edit', exact: true, name: 'Editar', component: LinkEdit },
 
-  { path: '/notes', exact: true, name: 'Note', component: NoteIndex },
-  { path: '/notes/create', exact: true, name: 'Criar', component: NoteCreate },
-  { path: '/notes/:id', exact: true, name: 'Detalhes', component: Note },
-  { path: '/notes/:id/edit', exact: true, name: 'Editar', component: NoteEdit },
-
   { path: '/lists', exact: true, name: 'Listas', component: ListIndex },
   { path: '/lists/create', exact: true, name: 'Criar', component: ListCreate },
   { path: '/lists/:id', exact: true, name: 'Detalhes', component: List },
@@ -66,11 +51,6 @@ const routes = [
   { path: '/tasks/create', exact: true, name: 'Criar', component: TaskCreate },
   { path: '/tasks/:id', exact: true, name: 'Detalhes', component: Task },
   { path: '/tasks/:id/edit', exact: true, name: 'Editar', component: TaskEdit },
-
-  { path: '/todos', exact: true, name: 'Afazer', component: TodoIndex },
-  { path: '/todos/create', exact: true, name: 'Criar', component: TodoCreate },
-  { path: '/todos/:id', exact: true, name: 'Detalhes', component: Todo },
-  { path: '/todos/:id/edit', exact: true, name: 'Editar', component: TodoEdit },
 ];
 
 export default routes;

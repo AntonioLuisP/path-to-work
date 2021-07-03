@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Actions as ActionList } from '../../redux/list'
 import { Actions as ActionNotification } from '../../redux/notifications'
 import { useAuth } from '../../hooks/useAuth';
 import { supabase } from 'src/services/supabase';
@@ -17,7 +16,7 @@ import {
   CInput,
 } from '@coreui/react'
 
-export default function ListCreate(props) {
+export default function ListCreate({ add }) {
 
   const dispatch = useDispatch()
 
@@ -40,7 +39,7 @@ export default function ListCreate(props) {
       alert("error", error)
       return;
     } else {
-      dispatch(ActionList.addOne(list))
+      add(list)
       dispatch(ActionNotification.addOne({
         header: 'Lista adicionada:',
         body: list.name,

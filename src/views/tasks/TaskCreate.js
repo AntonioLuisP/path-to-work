@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Actions as ActionTask } from '../../redux/task'
 import { Actions as ActionNotification } from '../../redux/notifications'
 import { useAuth } from '../../hooks/useAuth';
 import { supabase } from 'src/services/supabase';
@@ -19,7 +18,7 @@ import {
   CTextarea,
 } from '@coreui/react'
 
-export default function TaskCreate() {
+export default function TaskCreate({ add }) {
 
   const dispatch = useDispatch()
 
@@ -39,8 +38,8 @@ export default function TaskCreate() {
       .insert({
         name,
         description,
-        limite_date,
-        horario,
+        limite_date: limite_date === '' ? null : limite_date,
+        horario: horario === '' ? null : horario,
         user_id: user.id
       })
       .single();
@@ -48,7 +47,7 @@ export default function TaskCreate() {
       alert("error", error)
       return;
     } else {
-      dispatch(ActionTask.addOne(task))
+      add(task)
       dispatch(ActionNotification.addOne({
         header: 'Tarefa adicionada:',
         body: task.name,

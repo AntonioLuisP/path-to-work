@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Actions as ActionNote } from '../../redux/note'
 import { Actions as ActionNotification } from '../../redux/notifications'
 import { supabase } from '../../services/supabase'
 
@@ -16,13 +15,13 @@ import {
   CInput,
 } from '@coreui/react'
 
-export default function NoteEdit(props) {
+export default function NoteEdit({ note, edit }) {
 
   const dispatch = useDispatch()
 
-  const id = props.note.id
+  const id = note.id
   const [load, setLoad] = useState(true)
-  const [name, setName] = useState(props.note.name)
+  const [name, setName] = useState(note.name)
 
   async function handleEdit(e) {
     e.preventDefault();
@@ -38,7 +37,7 @@ export default function NoteEdit(props) {
       alert("error", error)
       return;
     } else {
-      dispatch(ActionNote.selectOne(note))
+      edit(note)
       dispatch(ActionNotification.addOne({
         header: 'Anotação Editada:',
         body: note.name,

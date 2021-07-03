@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Actions as ActionLink } from '../../redux/link'
 import { Actions as ActionNotification } from '../../redux/notifications'
 import { supabase } from '../../services/supabase'
 
@@ -47,7 +46,7 @@ export default function LinkEdit(props) {
       alert("error", error)
       return;
     } else {
-      dispatch(ActionLink.selectOne(link))
+      props.edit(link)
       dispatch(ActionNotification.addOne({
         header: 'Link Editado:',
         body: link.name,

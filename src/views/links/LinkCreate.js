@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Actions as ActionLink } from '../../redux/link'
 import { Actions as ActionNotification } from '../../redux/notifications'
 import { useAuth } from '../../hooks/useAuth';
 import { supabase } from 'src/services/supabase';
@@ -26,7 +25,7 @@ import {
 
 import CIcon from '@coreui/icons-react'
 
-export default function LinkCreate() {
+export default function LinkCreate({ add }) {
 
   const dispatch = useDispatch()
 
@@ -57,7 +56,7 @@ export default function LinkCreate() {
       alert("error", error)
       return;
     } else {
-      dispatch(ActionLink.addOne(link))
+      add(link)
       dispatch(ActionNotification.addOne({
         header: 'Link adicionado:',
         body: link.name,

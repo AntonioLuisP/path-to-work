@@ -46,7 +46,7 @@ export default function TodoComponent(props) {
 
     return (
         <CCard>
-            <Modal show={modal} onClose={toogleModal} component={<TodoEdit todo={todo} changeTodo={todo => setTodo(todo)} />} />
+            <Modal show={modal} onClose={toogleModal} component={<TodoEdit todo={todo} edit={todo => setTodo(todo)} />} />
             <CCardHeader className='text-break text-justify'>
                 <CFormGroup variant="checkbox">
                     <CInputCheckbox
@@ -57,7 +57,7 @@ export default function TodoComponent(props) {
                     <CButton
                         type='button'
                         onClick={() => toogleModal()} className='float-right'
-                        size='md'
+                        size='sm'
                     >
                         <CIcon width={18} content={cilPencil} />
                     </CButton>

@@ -1,7 +1,4 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Actions as ActionLink } from '../../redux/link'
-import { Actions as ActionTask } from '../../redux/task'
 import { TaskComponent, LinkComponent } from "../../components/"
 import LinkCreate from '../links/LinkCreate'
 import TaskCreate from '../tasks/TaskCreate'
@@ -15,15 +12,12 @@ import {
 
 export default function Dashboard() {
 
-    const dispatch = useDispatch()
-
     const [loading, setLoading] = useState(true)
-
-    const tasks = useSelector(state => state.tasks)
-    const links = useSelector(state => state.links)
+    const [links, setLinks] = useState([])
+    const [tasks, setTasks] = useState([])
 
     const fetchLinks = useCallback(async () => {
-        const { data: links, error } = await supabase
+        const { data: linksSearch, error } = await supabase
             .from("links")
             .select("*")
             .eq('is_favorite', 'true')
@@ -32,12 +26,12 @@ export default function Dashboard() {
             console.log("error", error);
         }
         else {
-            dispatch(ActionLink.fillSome(links))
+            setLinks(linksSearch)
         }
-    }, [dispatch])
+    }, [])
 
     const fetchTasks = useCallback(async () => {
-        const { data: tasks, error } = await supabase
+        const { data: tasksSearch, error } = await supabase
             .from("tasks")
             .select("*")
             .order("created_at", { ascending: false });
@@ -45,32 +39,30 @@ export default function Dashboard() {
             console.log("error", error);
         }
         else {
-            dispatch(ActionTask.fillSome(tasks))
+            setTasks(tasksSearch)
         }
-    }, [dispatch])
+    }, [])
 
     useEffect(() => {
         fetchLinks()
         fetchTasks()
         setLoading(false)
-        return () => {
-            dispatch(ActionLink.fillSome([]))
-            dispatch(ActionTask.fillSome([]))
-        }
-    }, [dispatch, fetchLinks, fetchTasks])
+    }, [fetchLinks, fetchTasks])
 
     if (loading) return (<Loading />)
 
     return (
         <CRow>
             <CCol xs="12" sm="8" md="8">
-                <BreadcrumbHeader title='Links Favoritos' quantidade={links.length} component={<LinkCreate />} />
+                <BreadcrumbHeader title='Links Favoritos' quantidade={links.length}
+                    component={<LinkCreate add={link => link.is_favorite ? setLinks([...links, link]) : ''} />}
+                />
                 {links <= 0 ? <NoItems /> :
                     links.map(link => (<LinkComponent key={link.id} link={link} />))
                 }
             </CCol>
             <CCol xs="12" sm="4" md="4">
-                <BreadcrumbHeader title='Tarefas do dia' quantidade={tasks.length} component={<TaskCreate />} />
+                <BreadcrumbHeader title='Tarefas do dia' quantidade={tasks.length} component={<TaskCreate add={task => setTasks([...tasks, task])} />} />
                 {tasks <= 0 ? <NoItems /> :
                     tasks.map(task => (<TaskComponent key={task.id} task={task} />))
                 }

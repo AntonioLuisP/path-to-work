@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Actions as ActionTodo } from '../../redux/todo'
 import { Actions as ActionNotification } from '../../redux/notifications'
 import { supabase } from '../../services/supabase'
 
@@ -16,7 +15,7 @@ import {
   CInput,
 } from '@coreui/react'
 
-export default function TodoEdit({todo, changeTodo}) {
+export default function TodoEdit({todo, edit}) {
 
   const dispatch = useDispatch()
 
@@ -40,8 +39,7 @@ export default function TodoEdit({todo, changeTodo}) {
       alert("error", error)
       return;
     } else {
-      changeTodo(todo)
-      dispatch(ActionTodo.selectOne(todo))
+      edit(todo)
       dispatch(ActionNotification.addOne({
         header: 'Afazer Editado:',
         body: todo.name,

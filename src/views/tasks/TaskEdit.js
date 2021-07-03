@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Actions as ActionTask } from '../../redux/task'
 import { Actions as ActionNotification } from '../../redux/notifications'
 import { supabase } from '../../services/supabase'
 
@@ -26,8 +25,8 @@ export default function TaskEdit(props) {
   const [load, setLoad] = useState(true)
   const [name, setName] = useState(props.task.name)
   const [description, setDescription] = useState(props.task.description)
-  const [limite_date, setLimite_date] = useState(props.task.limite_date)
-  const [horario, setHorario] = useState(props.task.horario)
+  const [limite_date, setLimite_date] = useState(props.task.limite_date === null ? '' : props.task.limite_date)
+  const [horario, setHorario] = useState(props.task.horario === null ? '' : props.task.horario)
   const [conclusion, setConclusion] = useState(props.task.conclusion)
 
   async function handleEdit(e) {
@@ -38,8 +37,8 @@ export default function TaskEdit(props) {
       .update({
         name,
         description,
-        limite_date,
-        horario,
+        limite_date: limite_date === '' ? null : limite_date,
+        horario: horario === '' ? null : horario,
         conclusion
       })
       .eq('id', id)
@@ -48,7 +47,7 @@ export default function TaskEdit(props) {
       alert("error", error)
       return;
     } else {
-      dispatch(ActionTask.selectOne(task))
+      props.edit(task)
       dispatch(ActionNotification.addOne({
         header: 'Tarefa Editada:',
         body: task.name,

@@ -1,9 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
-import { Actions as ActionTask } from '../../redux/task'
-import { Actions as ActionLink } from '../../redux/link'
-import { Actions as ActionTodo } from '../../redux/todo'
 import { BreadcrumbHeader, DropdownMore, Loading, Modal, NoItems } from '../../reusable'
 import { LinkComponent, TodoComponent, TaskStatus, TaskInfo } from "../../components/"
 import LinkCreate from '../links/LinkCreate'
@@ -22,16 +18,14 @@ import {
 export default function Task() {
 
   const { id } = useParams();
-  const dispatch = useDispatch()
   const history = useHistory()
 
   const [loading, setLoading] = useState(true)
   const [modal, setModal] = useState(false)
 
-  const task = useSelector(state => state.task)
-
-  const links = useSelector(state => state.links)
-  const todos = useSelector(state => state.todos)
+  const [task, setTask] = useState({})
+  const [links, setLinks] = useState([])
+  const [todos, setTodos] = useState([])
 
   const toogleModal = () => {
     setModal(old => !old)
@@ -47,7 +41,7 @@ export default function Task() {
       console.log("error", error);
     }
     else {
-      dispatch(ActionTask.selectOne(task))
+      setTask(task)
       const { data: todos, error } = await supabase
         .from("todos")
         .select("*")
@@ -56,21 +50,16 @@ export default function Task() {
         console.log("error", error);
       }
       else {
-        dispatch(ActionTodo.fillSome(todos))
+        setTodos(todos)
       }
-      dispatch(ActionLink.fillSome([]))
+      setLinks([])
     }
     setLoading(false)
-  }, [id, dispatch])
+  }, [id])
 
   useEffect(() => {
     fetchTask()
-    return () => {
-      dispatch(ActionTask.removeSelected())
-      dispatch(ActionTodo.fillSome([]))
-      dispatch(ActionLink.fillSome([]))
-    }
-  }, [fetchTask, dispatch])
+  }, [fetchTask])
 
   async function handleDelete() {
     const { error } = await supabase
@@ -85,7 +74,7 @@ export default function Task() {
 
   return (
     <CRow>
-      <Modal show={modal} onClose={toogleModal} component={<TaskEdit task={task} />} />
+      <Modal show={modal} onClose={toogleModal} component={<TaskEdit task={task} edit={task => setTask(task)} />} />
       <CCol xs="12" sm="9" md="9">
         <CCard className='text-break text-justify'>
           <CCardHeader color="secondary">
@@ -103,7 +92,7 @@ export default function Task() {
         </CCard>
         <CRow>
           <CCol xs="12" sm="6" md="6">
-            <BreadcrumbHeader title='Afazeres' quantidade={todos.length} component={<TodoCreate task={task} />} />
+            <BreadcrumbHeader title='Afazeres' quantidade={todos.length} component={<TodoCreate task={task} add={todo => setTodos([...todos, todo])} />} />
             {todos <= 0 ? <NoItems /> :
               todos.map(todo => (<TodoComponent key={todo.id} todo={todo} />))
             }

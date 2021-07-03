@@ -23,7 +23,6 @@ import routes from '../routes'
 
 import {
   TheHeaderDropdown,
-  TheHeaderPlus
 } from './index'
 
 const TheHeader = () => {
@@ -69,7 +68,6 @@ const TheHeader = () => {
       </CHeaderNav>
 
       <CHeaderNav className="px-3">
-        <TheHeaderPlus />
         <TheHeaderDropdown />
       </CHeaderNav>
 

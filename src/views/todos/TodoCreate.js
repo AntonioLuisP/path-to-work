@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Actions as ActionTodo } from '../../redux/todo'
 import { Actions as ActionNotification } from '../../redux/notifications'
 import { useAuth } from '../../hooks/useAuth';
 import { supabase } from 'src/services/supabase';
@@ -18,7 +17,7 @@ import {
 
 } from '@coreui/react'
 
-export default function TodoCreate({ task }) {
+export default function TodoCreate({ task, add }) {
 
   const dispatch = useDispatch()
 
@@ -42,7 +41,7 @@ export default function TodoCreate({ task }) {
       alert("error", error)
       return;
     } else {
-      dispatch(ActionTodo.addOne(todo))
+      add(todo)
       dispatch(ActionNotification.addOne({
         header: 'Afazer adicionado: ',
         body: todo.name,

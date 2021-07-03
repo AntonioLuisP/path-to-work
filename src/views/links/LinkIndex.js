@@ -31,7 +31,7 @@ export default function LinkIndex() {
 
   return (
     <>
-      <BreadcrumbHeader title="Links" quantidade={links.length} component={<LinkCreate />} />
+      <BreadcrumbHeader title="Links" quantidade={links.length} component={<LinkCreate add={link => setLinks([...links, link])} />} />
       {links <= 0 ? <NoItems /> :
         links.map(link => (<LinkComponent key={link.id} link={link} />))
       }

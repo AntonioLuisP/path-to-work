@@ -38,7 +38,7 @@ export default function ListEdit(props) {
       alert("error", error)
       return;
     } else {
-      dispatch(ActionList.selectOne(list))
+      props.edit(list)
       dispatch(ActionNotification.addOne({
         header: 'Anotação Editada:',
         body: list.name,

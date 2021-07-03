@@ -31,7 +31,7 @@ export default function ListIndex() {
 
     return (
         <>
-            <BreadcrumbHeader title="Listas" quantidade={lists.length} component={<ListCreate />} />
+            <BreadcrumbHeader title="Listas" quantidade={lists.length} component={<ListCreate add={list => setLists([...lists, list])} />} />
             {lists <= 0 ? <NoItems /> :
                 lists.map(list => (<ListComponent key={list.id} list={list} />))
             }

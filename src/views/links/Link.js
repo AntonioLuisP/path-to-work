@@ -1,9 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { Actions as ActionLink } from '../../redux/link'
-import { Actions as ActionList } from '../../redux/list'
-import { Actions as ActionNote } from '../../redux/note'
 import { BreadcrumbHeader, DropdownMore, Loading, Modal, NoItems } from '../../reusable'
 import { ListComponent, NoteComponent, LinkInfo } from "../../components/"
 import ListCreate from '../lists/ListCreate'
@@ -22,14 +18,13 @@ export default function Link() {
 
   const { id } = useParams();
   const history = useHistory()
-  const dispatch = useDispatch()
 
   const [loading, setLoading] = useState(true)
   const [modal, setModal] = useState(false)
 
-  const link = useSelector(state => state.link)
-  const lists = useSelector(state => state.lists)
-  const notes = useSelector(state => state.notes)
+  const [link, setLink] = useState({})
+  const [lists, setLists] = useState([])
+  const [notes, setNotes] = useState([])
 
   const toogleModal = () => {
     setModal(old => !old)
@@ -45,7 +40,7 @@ export default function Link() {
       console.log("error", error);
     }
     else {
-      dispatch(ActionLink.selectOne(link))
+      setLink(link)
       const { data: notes, error } = await supabase
         .from("notes")
         .select("*")
@@ -54,21 +49,16 @@ export default function Link() {
         console.log("error", error);
       }
       else {
-        dispatch(ActionNote.fillSome(notes))
+        setNotes(notes)
       }
-      dispatch(ActionList.fillSome([]))
+      setLists([])
     }
     setLoading(false)
-  }, [id, dispatch])
+  }, [id])
 
   useEffect(() => {
     fetchLink()
-    return () => {
-      dispatch(ActionLink.removeSelected())
-      dispatch(ActionList.fillSome([]))
-      dispatch(ActionNote.fillSome([]))
-    }
-  }, [fetchLink, dispatch])
+  }, [fetchLink])
 
   async function handleDelete() {
     const { error } = await supabase
@@ -83,7 +73,7 @@ export default function Link() {
 
   return (
     <CRow>
-      <Modal show={modal} onClose={toogleModal} component={<LinkEdit link={link} />} />
+      <Modal show={modal} onClose={toogleModal} component={<LinkEdit link={link} edit={link => setLink(link)} />} />
       <CCol xs="12" sm="9" md="9">
         <CCard className='text-break text-justify'>
           <CCardHeader color="secondary">
@@ -96,7 +86,7 @@ export default function Link() {
             </div>
           </CCardHeader>
         </CCard>
-        <BreadcrumbHeader title="Anotações" quantidade={notes.length} component={<NoteCreate link={link} />} />
+        <BreadcrumbHeader title="Anotações" quantidade={notes.length} component={<NoteCreate link={link} add={note => setNotes([...notes, note])} />} />
         {notes <= 0 ? <NoItems /> :
           notes.map(note => (<NoteComponent key={note.id} note={note} />))
         }

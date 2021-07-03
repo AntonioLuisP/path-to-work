@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Actions as ActionNote } from '../../redux/note'
 import { Actions as ActionNotification } from '../../redux/notifications'
 import { useAuth } from '../../hooks/useAuth';
 import { supabase } from 'src/services/supabase';
@@ -18,7 +17,7 @@ import {
 
 } from '@coreui/react'
 
-export default function NoteCreate({ link }) {
+export default function NoteCreate({ link, add }) {
 
   const dispatch = useDispatch()
 
@@ -42,7 +41,7 @@ export default function NoteCreate({ link }) {
       alert("error", error)
       return;
     } else {
-      dispatch(ActionNote.addOne(note))
+      add(note)
       dispatch(ActionNotification.addOne({
         header: 'Anotação adicionada:',
         body: note.name,
