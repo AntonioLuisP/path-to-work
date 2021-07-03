@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useAuth } from '../../hooks/useAuth'
+import { supabase } from '../../services/supabase'
+import OAuth from './OAuth'
 
 import {
   CButton,
@@ -20,8 +21,6 @@ import CIcon from '@coreui/icons-react'
 
 const Register = () => {
 
-  const { handleRegisterNewUser } = useAuth()
-
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -31,7 +30,16 @@ const Register = () => {
     if (email.trim() === '' || password.trim() === '') {
       return;
     }
-    handleRegisterNewUser({ email, password })
+
+    const { user, error } = await supabase.auth.signUp({ email, password })
+
+    if (error) {
+      alert('erro: ' + error.message)
+      return;
+    } else if (user && !error) {
+      alert('An email has been sent to you for verification!')
+      return;
+    }
   }
 
 
@@ -62,14 +70,15 @@ const Register = () => {
                   <CButton type="submit" color="success" block>Crie sua conta</CButton>
                 </CForm>
               </CCardBody>
-              <CCardFooter className="p-4">
+              <CCardFooter>
                 <CRow>
-                  <CCol xs="12" sm="12">
-                    <div className="text-center">
-                      <Link to="/login">
-                        Já tenho cadastro!
-                      </Link>
-                    </div>
+                  <CCol xs="9" sm="9">
+                    <Link to="/login">
+                      Já tenho cadastro!
+                    </Link>
+                  </CCol>
+                  <CCol xs="3" sm="3">
+                    <OAuth />
                   </CCol>
                 </CRow>
               </CCardFooter>

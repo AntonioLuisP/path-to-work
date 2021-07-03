@@ -1,6 +1,6 @@
 import React from 'react'
 import { useHistory } from 'react-router'
-import { useAuth } from '../hooks/useAuth'
+import { supabase } from '../services/supabase'
 
 import {
   CDropdown,
@@ -19,7 +19,11 @@ import CIcon from '@coreui/icons-react'
 const TheHeaderDropdown = () => {
 
   const history = useHistory()
-  const { handleLogout } = useAuth()
+
+  async function handleLogout() {
+    supabase.auth.signOut().catch(console.error)
+    history.push('/home')
+  };
 
   return (
     <CDropdown

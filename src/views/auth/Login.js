@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { useAuth } from '../../hooks/useAuth'
+import { Link, useHistory } from 'react-router-dom'
+import { supabase } from '../../services/supabase'
+import OAuth from './OAuth'
 
 import {
   CButton,
@@ -20,7 +21,8 @@ import {
 import CIcon from '@coreui/icons-react'
 
 const Login = () => {
-  const { handleLoginUser } = useAuth()
+
+  const history = useHistory()
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -31,8 +33,17 @@ const Login = () => {
     if (email.trim() === '' || password.trim() === '') {
       return;
     }
-    handleLoginUser({ email, password })
+
+    const { error } = await supabase.auth.signIn({ email, password })
+
+    if (!error) {
+      history.push('/dashboard')
+    } else {
+      console.log('erro: ' + error.message)
+      return;
+    }
   }
+
   return (
     <div className="c-app c-default-layout flex-row align-items-center">
       <CContainer>
@@ -65,6 +76,11 @@ const Login = () => {
                         <CButton type='submit' color="primary" className="px-4">Login</CButton>
                       </CCol>
                       <CCol xs="6" className="text-right">
+                        <OAuth />
+                      </CCol>
+                    </CRow>
+                    <CRow>
+                      <CCol xs="12" className="text-right">
                         <CButton color="link" className="px-0">Esqueceu sua senha?</CButton>
                       </CCol>
                     </CRow>

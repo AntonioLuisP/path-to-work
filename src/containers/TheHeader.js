@@ -14,7 +14,7 @@ import {
 } from '@coreui/react'
 
 import {
-  cilNotes,
+  cilCursor,
 } from '@coreui/icons'
 
 import CIcon from '@coreui/icons-react'
@@ -56,7 +56,7 @@ const TheHeader = () => {
         <CIcon
           className="c-sidebar-brand-full"
           name="logo-negative"
-          content={cilNotes}
+          content={cilCursor}
           height={35}
         />
       </CHeaderBrand>
