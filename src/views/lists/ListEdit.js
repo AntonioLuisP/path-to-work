@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Actions as ActionList } from '../../redux/list'
 import { Actions as ActionNotification } from '../../redux/notifications'
 import { supabase } from '../../services/supabase'
 

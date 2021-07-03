@@ -39,7 +39,7 @@ export default function TodoComponent(props) {
             alert("error", error)
             return;
         } else {
-            console.log(todoNew)
+            console.log('foi')
             setTodo(todoNew)
         }
     }

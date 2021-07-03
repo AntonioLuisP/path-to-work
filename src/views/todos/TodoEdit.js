@@ -15,14 +15,12 @@ import {
   CInput,
 } from '@coreui/react'
 
-export default function TodoEdit({todo, edit}) {
+export default function TodoEdit({ todo, edit }) {
 
   const dispatch = useDispatch()
-
   const id = todo.id
   const [load, setLoad] = useState(true)
   const [name, setName] = useState(todo.name)
-  const [conclusion, setConclusion] = useState(todo.conclusion)
 
   async function handleEdit(e) {
     e.preventDefault();
@@ -30,8 +28,7 @@ export default function TodoEdit({todo, edit}) {
     const { data: todo, error } = await supabase
       .from("todos")
       .update({
-        name,
-        conclusion
+        name
       })
       .eq('id', id)
       .single()
@@ -56,7 +53,7 @@ export default function TodoEdit({todo, edit}) {
       </CModalHeader>
       <CModalBody>
         <CFormGroup row>
-          <CCol xs="9" md="9">
+          <CCol xs="12" md="12" sm='12'>
             <CInput
               id="text-input"
               name="text-input"
@@ -64,19 +61,6 @@ export default function TodoEdit({todo, edit}) {
               value={name}
               onChange={e => setName(e.target.value)}
             />
-          </CCol>
-          <CCol xs="3" md="3">
-            <CFormGroup>
-              <CInput
-                id="text-input"
-                name="text-input"
-                type="button"
-                placeholder="Nome"
-                className='btn btn-warning'
-                value={conclusion ? 'Refazer' : 'Concluir'}
-                onClick={() => setConclusion(prev => !prev)}
-              />
-            </CFormGroup>
           </CCol>
         </CFormGroup>
       </CModalBody>
