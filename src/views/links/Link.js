@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
-import { BreadcrumbHeader, DropdownMore, Loading, Modal, NoItems } from '../../reusable'
+import { BreadcrumbHeader, Loading, Modal, NoItems, PrincipalButtons, CollapseDescription } from '../../reusable'
 import { ListComponent, NoteComponent, LinkInfo } from "../../components/"
 import ListCreate from '../lists/ListCreate'
 import NoteCreate from '../notes/NoteCreate'
@@ -10,9 +10,12 @@ import { supabase } from '../../services/supabase'
 import {
   CCard,
   CCardHeader,
+  CCardBody,
   CCol,
   CRow,
+  CCollapse
 } from '@coreui/react'
+
 
 export default function Link() {
 
@@ -21,6 +24,7 @@ export default function Link() {
 
   const [loading, setLoading] = useState(true)
   const [modal, setModal] = useState(false)
+  const [collapsed, setCollapsed] = useState(false)
 
   const [link, setLink] = useState({})
   const [lists, setLists] = useState([])
@@ -61,12 +65,14 @@ export default function Link() {
   }, [fetchLink])
 
   async function handleDelete() {
-    const { error } = await supabase
-      .from('links')
-      .delete()
-      .eq('id', id)
-    if (error) console.log("error", error);
-    else history.push('/links');
+    if (window.confirm('Tem certeza que você deseja excluir?')) {
+      const { error } = await supabase
+        .from('links')
+        .delete()
+        .eq('id', id)
+      if (error) console.log("error", error);
+      else history.push('/links');
+    }
   }
 
   if (loading) return (<Loading />)
@@ -78,13 +84,12 @@ export default function Link() {
         <CCard className='text-break text-justify'>
           <CCardHeader color="secondary">
             {link.name}: {link.url}
-            <div className="card-header-actions">
-              <DropdownMore
-                editAction={() => toogleModal()}
-                deleteAction={() => handleDelete(link.id)}
-              />
-            </div>
           </CCardHeader>
+          <CCollapse show={collapsed}>
+            <CCardBody>
+              {link.description === '' ? 'Sem Descrição' : link.description}
+            </CCardBody>
+          </CCollapse>
         </CCard>
         <BreadcrumbHeader title="Anotações" quantidade={notes.length} component={<NoteCreate link={link} add={note => setNotes([...notes, note])} />} />
         {notes <= 0 ? <NoItems /> :
@@ -92,7 +97,12 @@ export default function Link() {
         }
       </CCol>
       <CCol xs="12" sm="3" md="3">
-        <LinkInfo link={link} />
+        <LinkInfo link={link}>
+          <div className="card-header-actions">
+            <CollapseDescription status={collapsed} action={() => setCollapsed(!collapsed)} />
+            <PrincipalButtons editAction={() => toogleModal()} deleteAction={() => handleDelete(link.id)} />
+          </div>
+        </LinkInfo>
         <BreadcrumbHeader title="Listas" quantidade={lists.length} component={<ListCreate />} />
         {lists <= 0 ? <NoItems /> :
           lists.map(list => (<ListComponent key={list.id} list={list} />))

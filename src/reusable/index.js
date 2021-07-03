@@ -7,7 +7,8 @@ import TypeColorBadge from './TypeColorBadge'
 import BreadcrumbHeader from './BreadcrumbHeader'
 import Favorite from './Favorite'
 import NoItems from './NoItems'
-import CreateDataButton from './CreateDataButton'
+import PrincipalButtons from './PrincipalButtons'
+import CollapseDescription from './CollapseDescription'
 
 export {
   DropdownMore,
@@ -19,5 +20,6 @@ export {
   BreadcrumbHeader,
   Favorite,
   NoItems,
-  CreateDataButton
+  PrincipalButtons,
+  CollapseDescription,
 }

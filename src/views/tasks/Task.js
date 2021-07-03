@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
-import { BreadcrumbHeader, DropdownMore, Loading, Modal, NoItems } from '../../reusable'
+import { BreadcrumbHeader, Loading, Modal, NoItems, PrincipalButtons, CollapseDescription } from '../../reusable'
 import { LinkComponent, TodoComponent, TaskStatus, TaskInfo } from "../../components/"
 import LinkCreate from '../links/LinkCreate'
 import TodoCreate from '../todos/TodoCreate'
@@ -13,6 +13,7 @@ import {
   CCard,
   CCardHeader,
   CCardBody,
+  CCollapse
 } from '@coreui/react'
 
 export default function Task() {
@@ -22,6 +23,7 @@ export default function Task() {
 
   const [loading, setLoading] = useState(true)
   const [modal, setModal] = useState(false)
+  const [collapsed, setCollapsed] = useState(false)
 
   const [task, setTask] = useState({})
   const [links, setLinks] = useState([])
@@ -62,12 +64,14 @@ export default function Task() {
   }, [fetchTask])
 
   async function handleDelete() {
-    const { error } = await supabase
-      .from('tasks')
-      .delete()
-      .eq('id', id)
-    if (error) console.log("error", error);
-    else history.push('/tasks');
+    if (window.confirm('Tem certeza que você deseja excluir?')) {
+      const { error } = await supabase
+        .from('tasks')
+        .delete()
+        .eq('id', id)
+      if (error) console.log("error", error);
+      else history.push('/tasks');
+    }
   }
 
   if (loading) return (<Loading />)
@@ -79,16 +83,12 @@ export default function Task() {
         <CCard className='text-break text-justify'>
           <CCardHeader color="secondary">
             {task.name}
-            <div className="card-header-actions">
-              <DropdownMore
-                editAction={() => toogleModal()}
-                deleteAction={() => handleDelete(task.id)}
-              />
-            </div>
           </CCardHeader>
-          <CCardBody>
-            {task.description}
-          </CCardBody>
+          <CCollapse show={collapsed}>
+            <CCardBody>
+              {task.description === '' ? 'Sem Descrição' : task.description}
+            </CCardBody>
+          </CCollapse>
         </CCard>
         <CRow>
           <CCol xs="12" sm="6" md="6">
@@ -106,8 +106,13 @@ export default function Task() {
         </CRow>
       </CCol>
       <CCol xs="12" sm="3" md="3">
+        <TaskInfo task={task}>
+          <div className="card-header-actions">
+            <CollapseDescription status={collapsed} action={() => setCollapsed(!collapsed)} />
+            <PrincipalButtons editAction={() => toogleModal()} deleteAction={() => handleDelete(task.id)} />
+          </div>
+        </TaskInfo>
         <TaskStatus task={task} todos={todos.length} links={links.length} />
-        <TaskInfo task={task} />
       </CCol>
     </CRow>
   )
