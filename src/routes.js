@@ -1,6 +1,5 @@
 import React from 'react';
 
-const Users = React.lazy(() => import('./views/users/Users'));
 const User = React.lazy(() => import('./views/users/User'));
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'));
@@ -29,8 +28,7 @@ const routes = [
   // { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', exact: true, name: 'Dashboard', component: Dashboard },
 
-  { path: '/users', exact: true, name: 'Users', component: Users },
-  { path: '/users/:id', exact: true, name: 'Detalhes', component: User },
+  { path: '/user', exact: true, name: 'Usuário', component: User },
 
   { path: '/social', exact: true, name: 'Perfil Social', component: SocialIndex },
   { path: '/social/create', exact: true, name: 'Criar', component: SocialCreate },

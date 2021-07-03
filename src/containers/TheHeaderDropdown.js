@@ -1,4 +1,5 @@
 import React from 'react'
+import { useHistory } from 'react-router'
 import { useAuth } from '../hooks/useAuth'
 
 import {
@@ -17,6 +18,7 @@ import CIcon from '@coreui/icons-react'
 
 const TheHeaderDropdown = () => {
 
+  const history = useHistory()
   const { handleLogout } = useAuth()
 
   return (
@@ -37,7 +39,7 @@ const TheHeaderDropdown = () => {
         >
           <strong>Conta</strong>
         </CDropdownItem>
-        <CDropdownItem>
+        <CDropdownItem onClick={() => history.push('/user')}>
           <CIcon content={cilUser} className="mfe-2" />Profile
         </CDropdownItem>
         <CDropdownItem divider />
