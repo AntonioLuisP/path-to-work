@@ -1,5 +1,4 @@
-import DropdownMore from './DropdownMore'
-import More from './More'
+import GoTo from './GoTo'
 import Modal from './Modal'
 import Loading from './Loading'
 import ToasterNotification from './ToasterNotification'
@@ -11,8 +10,7 @@ import PrincipalButtons from './PrincipalButtons'
 import CollapseDescription from './CollapseDescription'
 
 export {
-  DropdownMore,
-  More,
+  GoTo,
   Loading,
   Modal,
   ToasterNotification,

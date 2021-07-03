@@ -16,7 +16,6 @@ import {
   CCollapse
 } from '@coreui/react'
 
-
 export default function Link() {
 
   const { id } = useParams();
