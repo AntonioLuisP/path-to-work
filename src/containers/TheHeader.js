@@ -1,6 +1,8 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Actions as ActionSidebar } from '../redux/sidebar'
+import { useHistory } from 'react-router'
+import { supabase } from '../services/supabase'
 
 import {
   CHeader,
@@ -9,25 +11,29 @@ import {
   CHeaderNav,
   CHeaderNavItem,
   CHeaderNavLink,
-  CSubheader,
+  CTooltip,
   CBreadcrumbRouter,
 } from '@coreui/react'
 
 import {
   cilCursor,
+  cilAccountLogout
 } from '@coreui/icons'
 
 import CIcon from '@coreui/icons-react'
 
 import routes from '../routes'
 
-import {
-  TheHeaderDropdown,
-} from './index'
-
 const TheHeader = () => {
 
   const dispatch = useDispatch()
+  const history = useHistory()
+
+  async function handleLogout() {
+    supabase.auth.signOut().catch(console.error)
+    history.push('/login')
+  };
+
   const sidebar = useSelector(state => state.sidebar)
 
   const toggleSidebar = () => {
@@ -41,7 +47,7 @@ const TheHeader = () => {
   }
 
   return (
-    <CHeader withSubheader>
+    <CHeader>
       <CToggler
         inHeader
         className="ml-md-3 d-lg-none"
@@ -62,21 +68,24 @@ const TheHeader = () => {
       </CHeaderBrand>
 
       <CHeaderNav className="d-md-down-none mr-auto">
-        <CHeaderNavItem className="px-3" >
-          <CHeaderNavLink to="/dashboard">Dashboard</CHeaderNavLink>
-        </CHeaderNavItem>
-      </CHeaderNav>
-
-      <CHeaderNav className="px-3">
-        <TheHeaderDropdown />
-      </CHeaderNav>
-
-      <CSubheader className="px-3 justify-content-between">
         <CBreadcrumbRouter
           className="border-0 c-subheader-nav m-0 px-0 px-md-3"
           routes={routes}
         />
-      </CSubheader>
+      </CHeaderNav>
+
+      <CHeaderNav className="px-3">
+        <CHeaderNavItem className="px-3">
+          <CTooltip
+            content='Logout'
+            placement='bottom'
+          >
+            <CHeaderNavLink onClick={() => handleLogout()}>
+              <CIcon content={cilAccountLogout} className="mfe-2" />
+            </CHeaderNavLink>
+          </CTooltip>
+        </CHeaderNavItem>
+      </CHeaderNav>
     </CHeader>
   )
 }

@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { supabase } from '../../services/supabase'
-import { useAuth } from '../../hooks/useAuth'
 import OAuth from './OAuth'
 
 import {
@@ -24,10 +23,6 @@ import CIcon from '@coreui/icons-react'
 const Login = () => {
 
   const history = useHistory()
-
-  const { user } = useAuth()
-
-  if (user) history.push('/dashboard')
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -84,23 +79,18 @@ const Login = () => {
                         <OAuth />
                       </CCol>
                     </CRow>
-                    <CRow>
-                      <CCol xs="12" className="text-right">
-                        <CButton color="link" className="px-0">Esqueceu sua senha?</CButton>
-                      </CCol>
-                    </CRow>
                   </CForm>
                 </CCardBody>
               </CCard>
-              <CCard className="text-white bg-primary py-5 d-md-down-none" style={{ width: '44%' }}>
+              <CCard className="text-white bg-gradient-info py-5 d-md-down-none" style={{ width: '44%' }}>
                 <CCardBody className="text-center">
                   <div>
                     <h2>Cadastre-se</h2>
-                    <p>
-                      Nesse sistema você terá a possibilidade de criar projetos de estudos com questões e anotações para auxiliar seus na sua educação.
+                    <p className="text-justify">
+                      Nesse sistema você pode gerenciar todos os links importantes de sua vida. Dentre as possibilidades estão <b>listagem, anotações e criação de tarefas para esses links</b>. Aqui também você poderá criar um perfil compartilhável com todos os seus <b>links sociais</b> para as pessoas conseguirem te encontrar!!!
                     </p>
-                    <Link to="/register">
-                      <CButton color="primary" className="mt-3" active tabIndex={-1}>Registre-se agora!</CButton>
+                    <Link to="/register" className='text-black-50'>
+                      Registre-se agora!
                     </Link>
                   </div>
                 </CCardBody>

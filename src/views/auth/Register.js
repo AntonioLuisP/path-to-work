@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { supabase } from '../../services/supabase'
-import { useAuth } from '../../hooks/useAuth'
-import { useHistory } from 'react-router-dom'
 import OAuth from './OAuth'
 
 import {
@@ -23,11 +21,6 @@ import {
 import CIcon from '@coreui/icons-react'
 
 const Register = () => {
-
-  const history = useHistory()
-  const { user } = useAuth()
-
-  if (user) history.push('/dashboard')
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -78,17 +71,13 @@ const Register = () => {
                   <CButton type="submit" color="success" block>Crie sua conta</CButton>
                 </CForm>
               </CCardBody>
-              <CCardFooter>
-                <CRow>
-                  <CCol xs="9" sm="9">
-                    <Link to="/login">
-                      Já tenho cadastro!
-                    </Link>
-                  </CCol>
-                  <CCol xs="3" sm="3">
-                    <OAuth />
-                  </CCol>
-                </CRow>
+              <CCardFooter className='text-center'>
+                <OAuth />
+              </CCardFooter>
+              <CCardFooter className='text-center'>
+                <Link to="/login">
+                  Já tenho cadastro!
+                </Link>
               </CCardFooter>
             </CCard>
           </CCol>

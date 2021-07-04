@@ -16,7 +16,8 @@ import {
   cilHome,
   cilList,
   cilContact,
-  cilTask
+  cilTask,
+  cilUser
 } from '@coreui/icons'
 
 import CIcon from '@coreui/icons-react'
@@ -64,6 +65,12 @@ const TheSidebar = () => {
           name="Tarefas"
           to="/tasks"
           icon={<CIcon content={cilTask} customClasses="c-sidebar-nav-icon" />}
+        />
+        <CSidebarNavTitle>Perfil</CSidebarNavTitle>
+        <CSidebarNavItem
+          name="Usuário"
+          to="/user"
+          icon={<CIcon content={cilUser} customClasses="c-sidebar-nav-icon" />}
         />
       </CSidebarNav>
       <CSidebarMinimizer className="c-d-md-down-none" />
