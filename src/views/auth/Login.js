@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { supabase } from '../../services/supabase'
+import { useAuth } from '../../hooks/useAuth'
 import OAuth from './OAuth'
 
 import {
@@ -23,6 +24,10 @@ import CIcon from '@coreui/icons-react'
 const Login = () => {
 
   const history = useHistory()
+
+  const { user } = useAuth()
+
+  if (user) history.push('/dashboard')
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')

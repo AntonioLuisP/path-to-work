@@ -22,7 +22,7 @@ const TheHeaderDropdown = () => {
 
   async function handleLogout() {
     supabase.auth.signOut().catch(console.error)
-    history.push('/home')
+    history.push('/login')
   };
 
   return (

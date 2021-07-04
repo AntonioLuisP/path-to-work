@@ -1,12 +1,9 @@
 import { useState, useEffect, createContext } from 'react'
-import { useHistory } from 'react-router'
 import { supabase } from '../services/supabase'
 
 export const AuthContext = createContext({})
 
 export function AuthProvider({ children }) {
-
-    const history = useHistory()
 
     const [user, setUser] = useState(null)
 
@@ -24,10 +21,10 @@ export function AuthProvider({ children }) {
         return () => {
             authListener.unsubscribe();
         };
-    }, [user, history]);
+    }, [user]);
 
     return (
-        <AuthContext.Provider value={{ user }}>
+        <AuthContext.Provider value={{ user, setUser }}>
             {children}
         </AuthContext.Provider>
     )

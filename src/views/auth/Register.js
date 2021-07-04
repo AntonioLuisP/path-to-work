@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { supabase } from '../../services/supabase'
+import { useAuth } from '../../hooks/useAuth'
+import { useHistory } from 'react-router-dom'
 import OAuth from './OAuth'
 
 import {
@@ -17,9 +19,15 @@ import {
   CInputGroupText,
   CRow
 } from '@coreui/react'
+
 import CIcon from '@coreui/icons-react'
 
 const Register = () => {
+
+  const history = useHistory()
+  const { user } = useAuth()
+
+  if (user) history.push('/dashboard')
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
