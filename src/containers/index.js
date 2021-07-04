@@ -1,13 +1,13 @@
-import TheContent from './TheContent'
-import TheFooter from './TheFooter'
-import TheHeader from './TheHeader'
-import TheLayout from './TheLayout'
-import TheSidebar from './TheSidebar'
+import Content from './Content'
+import Footer from './Footer'
+import Header from './Header'
+import TheApp from './TheApp'
+import Sidebar from './Sidebar'
 
 export {
-  TheContent,
-  TheFooter,
-  TheHeader,
-  TheLayout,
-  TheSidebar
+  Content,
+  Footer,
+  Header,
+  TheApp,
+  Sidebar
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 
 import {
-    TheFooter,
+    Footer,
 } from '../../containers'
 
 import {
@@ -33,7 +33,7 @@ export default function Home() {
                         HOME
                     </CContainer>
                 </div>
-                <TheFooter />
+                <Footer />
             </div>
         </div>
     )

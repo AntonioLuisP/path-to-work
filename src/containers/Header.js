@@ -24,7 +24,7 @@ import CIcon from '@coreui/icons-react'
 
 import routes from '../routes'
 
-const TheHeader = () => {
+const Header = () => {
 
   const dispatch = useDispatch()
   const history = useHistory()
@@ -90,4 +90,4 @@ const TheHeader = () => {
   )
 }
 
-export default TheHeader
+export default Header

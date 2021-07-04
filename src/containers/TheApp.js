@@ -1,30 +1,30 @@
 import React from 'react'
 
 import {
-  TheContent,
-  TheSidebar,
-  TheFooter,
-  TheHeader
+  Content,
+  Sidebar,
+  Footer,
+  Header
 } from './index'
 
 import { ToasterNotification } from '../reusable'
 
-const TheLayout = () => {
+const TheApp = () => {
 
   return (
     <div className="c-app c-default-layout">
-      <TheSidebar />
+      <Sidebar />
       <div className="c-wrapper">
-        <TheHeader />
+        <Header />
         <div className="c-body">
           <ToasterNotification />
-          <TheContent />
+          <Content />
         </div>
-        <TheFooter />
+        <Footer />
       </div>
 
     </div>
   )
 }
 
-export default TheLayout
+export default TheApp

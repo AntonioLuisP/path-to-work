@@ -22,7 +22,7 @@ import {
 
 import CIcon from '@coreui/icons-react'
 
-const TheSidebar = () => {
+const Sidebar = () => {
 
   const dispatch = useDispatch()
   const sidebar = useSelector(state => state.sidebar)
@@ -78,4 +78,4 @@ const TheSidebar = () => {
   )
 }
 
-export default TheSidebar
+export default Sidebar
