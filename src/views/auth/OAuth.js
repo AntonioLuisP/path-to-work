@@ -20,6 +20,7 @@ const OAuth = () => {
             console.log("Error: ", error.message)
             return;
         }
+        return;
     }
 
     return (

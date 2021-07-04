@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { supabase } from '../../services/supabase'
 import OAuth from './OAuth'
 
@@ -22,8 +22,6 @@ import CIcon from '@coreui/icons-react'
 
 const Login = () => {
 
-  const history = useHistory()
-
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -36,9 +34,7 @@ const Login = () => {
 
     const { error } = await supabase.auth.signIn({ email, password })
 
-    if (!error) {
-      history.push('/dashboard')
-    } else {
+    if (error) {
       console.log('erro: ' + error.message)
       return;
     }
