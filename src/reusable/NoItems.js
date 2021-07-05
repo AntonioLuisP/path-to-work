@@ -14,7 +14,7 @@ import CIcon from '@coreui/icons-react'
 const NoItems = () => {
 
     return (
-        <CAlert color="danger">
+        <CAlert color="info">
             <CIcon content={cilBan} /> Nada cadastrado. Adicione algo!
         </CAlert>
     )

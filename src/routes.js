@@ -29,7 +29,7 @@ const routes = [
   { path: '/social/:id', exact: true, name: 'Detalhes', component: Social },
   { path: '/social/:id/edit', exact: true, name: 'Editar', component: SocialEdit },
 
-  { path: '/links', exact: true, name: 'Link', component: LinkIndex },
+  { path: '/links', exact: true, name: 'Links', component: LinkIndex },
   { path: '/links/:id', exact: true, name: 'Detalhes', component: Link },
 
   { path: '/lists', exact: true, name: 'Listas', component: ListIndex },

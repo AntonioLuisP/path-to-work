@@ -12,8 +12,11 @@ export default function BreadcrumbHeader({ title, quantidade, component }) {
   return (
     <>
       <CBreadcrumb className="c-subheader-nav border-0 justify-content-between">
-        <CBreadcrumbItem active>{title + ' (' + quantidade + ')'} </CBreadcrumbItem>
-        <CreateDataButton component={component} className='float-right' />
+        <CBreadcrumbItem active>
+          {title} {quantidade ? ' (' + quantidade + ')' : ''}
+        </CBreadcrumbItem>
+        {component ? <CreateDataButton component={component} className='float-right' /> : ''}
+
       </CBreadcrumb>
     </>
   )

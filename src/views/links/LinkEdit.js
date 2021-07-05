@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Actions as ActionNotification } from '../../redux/notifications'
 import { supabase } from '../../services/supabase'
+import { Favorite } from '../../reusable/';
 
 import {
   CButton,
@@ -15,7 +16,6 @@ import {
   CInput,
   CLabel,
   CTextarea,
-  CInputCheckbox
 } from '@coreui/react'
 
 export default function LinkEdit(props) {
@@ -73,21 +73,15 @@ export default function LinkEdit(props) {
             />
           </CCol>
           <CCol xs="2" md="2">
-            <CFormGroup variant="custom-checkbox" inline>
-              <CInputCheckbox
-                custom
-                id="inline-checkbox1"
-                name="inline-checkbox1"
-                checked={is_favorite}
-                onChange={e => setIs_favorite(prev => !prev)}
-              />
-              <CLabel variant="custom-checkbox" htmlFor="inline-checkbox1">Favoritar</CLabel>
+            <CFormGroup row>
+              <CLabel >
+                <Favorite favorito={is_favorite} action={() => setIs_favorite(prev => !prev)} />
+              </CLabel>
             </CFormGroup>
           </CCol>
         </CFormGroup>
         <CFormGroup row>
           <CCol xs="12" md="12">
-            <CLabel htmlFor="text-input">Link</CLabel>
             <CInput
               id="text-input"
               name="text-input"

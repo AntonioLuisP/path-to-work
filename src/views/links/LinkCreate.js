@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Actions as ActionNotification } from '../../redux/notifications'
 import { useAuth } from '../../hooks/useAuth';
-import { supabase } from 'src/services/supabase';
+import { supabase } from '../../services/supabase';
+import { Favorite } from '../../reusable/';
 
 import {
   CButton,
@@ -16,14 +17,7 @@ import {
   CInput,
   CTextarea,
   CLabel,
-  CInputCheckbox
 } from '@coreui/react'
-
-import {
-  cilStar,
-} from '@coreui/icons'
-
-import CIcon from '@coreui/icons-react'
 
 export default function LinkCreate({ add }) {
 
@@ -36,8 +30,6 @@ export default function LinkCreate({ add }) {
   const [url, setUrl] = useState('')
   const [is_favorite, setIs_favorite] = useState(false)
   const [description, setDescription] = useState('')
-
-  const color = is_favorite ? 'text-warning' : 'text-black'
 
   async function handleCreate(e) {
     e.preventDefault();
@@ -85,17 +77,9 @@ export default function LinkCreate({ add }) {
               />
             </CCol>
             <CCol xs="2" md="2">
-              <CFormGroup variant="custom-checkbox" inline>
-                <CInputCheckbox
-                  custom
-                  id="inline-checkbox1"
-                  name="inline-checkbox1"
-                  value={is_favorite}
-                  onChange={e => setIs_favorite(prev => !prev)}
-                />
-                <CLabel variant="custom-checkbox" htmlFor="inline-checkbox1">
-                  <CIcon className={'float-right text-decoration-none ' + color}
-                    width={18} content={cilStar} />
+              <CFormGroup row>
+                <CLabel >
+                  <Favorite favorito={is_favorite} action={() => setIs_favorite(prev => !prev)} />
                 </CLabel>
               </CFormGroup>
             </CCol>

@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Favorite, GoTo } from '../reusable'
+import { supabase } from '../services/supabase'
 
 import {
     CCard,
@@ -9,9 +10,28 @@ import {
 
 import CIcon from '@coreui/icons-react'
 
-export default function LinkComponent({ link }) {
+export default function LinkComponent(props) {
 
     const history = useHistory()
+
+    const [link, setLink] = useState(props.link)
+
+    async function handleFavorite(e) {
+        e.preventDefault();
+        const { data: linkNew, error } = await supabase
+            .from("links")
+            .update({
+                is_favorite: !link.is_favorite,
+            })
+            .eq('id', link.id)
+            .single()
+        if (error) {
+            alert("error", error)
+            return;
+        } else {
+            setLink(linkNew)
+        }
+    }
 
     return (
         <CCard>
@@ -23,7 +43,7 @@ export default function LinkComponent({ link }) {
                     {link.name !== null ? link.name : link.url}
                 </a>
                 <div className="card-header-actions">
-                    <Favorite link={link} />
+                    <Favorite favorito={link.is_favorite} action={handleFavorite} />
                     <GoTo action={() => history.push('/links/' + link.id)}>
                         <CIcon name="cil-cursor" />
                     </GoTo>

@@ -10,9 +10,9 @@ import {
 
 import CIcon from '@coreui/icons-react'
 
-const Favorite = ({ link, action }) => {
+const Favorite = ({ favorito, action }) => {
 
-  const color = link.is_favorite ? 'text-warning' : 'text-black'
+  const color = favorito ? 'text-warning' : 'text-black'
   return (
     <CLink
       onClick={action}

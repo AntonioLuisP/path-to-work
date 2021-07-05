@@ -8,6 +8,7 @@ import Favorite from './Favorite'
 import NoItems from './NoItems'
 import PrincipalButtons from './PrincipalButtons'
 import CollapseDescription from './CollapseDescription'
+import Avisos from './Avisos'
 
 export {
   GoTo,
@@ -20,4 +21,5 @@ export {
   NoItems,
   PrincipalButtons,
   CollapseDescription,
+  Avisos
 }

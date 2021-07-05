@@ -28,14 +28,16 @@ export default function App() {
       <React.Suspense fallback={loading}>
         <Switch>
           <Route
+            exact
             path="/login"
             name="Login"
-            render={props => user ? <Redirect to={{ pathname: '/dashboard', state: { from: props.location } }} /> : <Login />}
+            render={props => user ? <Redirect to={{ pathname: '/dashboard', state: { from: props.location } }} /> : <Login {...props} />}
           />
           <Route
+            exact
             path="/register"
             name="Registro"
-            render={props => user ? <Redirect to={{ pathname: '/dashboard', state: { from: props.location } }} /> : <Register />}
+            render={props => user ? <Redirect to={{ pathname: '/dashboard', state: { from: props.location } }} /> : <Register {...props} />}
           />
           <Route exact path="/404" name="Page 404" render={props => <Error404 {...props} />} />
           <Route exact path="/500" name="Page 500" render={props => <Error500 {...props} />} />
@@ -43,7 +45,7 @@ export default function App() {
           <Route
             path="/"
             name="Home"
-            render={props => user ? <TheApp /> : <Redirect to={{ pathname: '/login', state: { from: props.location } }} />}
+            render={props => user ? <TheApp {...props} /> : <Redirect to={{ pathname: '/login', state: { from: props.location } }} />}
           />
         </Switch>
       </React.Suspense>
