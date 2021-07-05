@@ -23,24 +23,28 @@ export default function App() {
 
   const { user } = useAuth()
 
-  const redirect = (<Redirect to='/dashboard' />)
-
   return (
     <HashRouter>
       <React.Suspense fallback={loading}>
         <Switch>
-          <Route exact path="/login" name="Login">
-            {user ? redirect : <Login />}
-          </Route>
-          <Route exact path="/register" name="Registro">
-            {user ? redirect : <Register />}
-          </Route>
+          <Route
+            path="/login"
+            name="Login"
+            render={props => user ? <Redirect to={{ pathname: '/dashboard', state: { from: props.location } }} /> : <Login />}
+          />
+          <Route
+            path="/register"
+            name="Registro"
+            render={props => user ? <Redirect to={{ pathname: '/dashboard', state: { from: props.location } }} /> : <Register />}
+          />
           <Route exact path="/404" name="Page 404" render={props => <Error404 {...props} />} />
           <Route exact path="/500" name="Page 500" render={props => <Error500 {...props} />} />
           <Route exatc path="/home" name="teste" render={props => <Home {...props} />} />
-          <Route path="/" name="Home">
-            {user === null ? <Redirect to='/login' /> : <TheApp />}
-          </Route>
+          <Route
+            path="/"
+            name="Home"
+            render={props => user ? <TheApp /> : <Redirect to={{ pathname: '/login', state: { from: props.location } }} />}
+          />
         </Switch>
       </React.Suspense>
     </HashRouter>
