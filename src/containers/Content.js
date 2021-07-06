@@ -1,4 +1,5 @@
 import React, { Suspense } from 'react'
+import { useAuth } from '../hooks/useAuth'
 
 import {
   Redirect,
@@ -17,6 +18,9 @@ const loading = (
 )
 
 const Content = () => {
+
+  const { user } = useAuth()
+
   return (
     <main className="c-main">
       <CContainer fluid>
@@ -29,11 +33,11 @@ const Content = () => {
                   path={route.path}
                   exact={route.exact}
                   name={route.name}
-                  render={props => (
+                  render={props => user ? (
                     <CFade>
                       <route.component {...props} />
                     </CFade>
-                  )} />
+                  ) : <Redirect to={{ pathname: '/login', state: { from: props.location } }} />} />
               )
             })}
             <Redirect from="/" to="/dashboard" />
