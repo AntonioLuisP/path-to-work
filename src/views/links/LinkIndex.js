@@ -6,7 +6,8 @@ import { LinkComponent } from '../../components/'
 import {
   BreadcrumbHeader,
   Loading,
-  NoItems
+  NoItems,
+  AddButton
 } from '../../reusable/'
 
 export default function LinkIndex() {
@@ -36,7 +37,9 @@ export default function LinkIndex() {
 
   return (
     <>
-      <BreadcrumbHeader title="Links" quantidade={links.length} component={<LinkCreate add={link => setLinks([...links, link])} />} />
+      <BreadcrumbHeader title="Links" quantidade={links.length} >
+        <AddButton component={<LinkCreate add={link => setLinks([...links, link])} />} />
+      </BreadcrumbHeader>
       {links <= 0 ? <NoItems /> :
         links.map(link => (<LinkComponent key={link.id} link={link} />))
       }

@@ -1,6 +1,7 @@
 import React from 'react'
 
 import {
+    CTooltip,
     CLink
 } from '@coreui/react'
 
@@ -10,8 +11,13 @@ const DeleteDataButton = ({ action }) => {
 
     return (
         <CLink className="card-header-action" onClick={action}>
-            <CIcon name="cil-trash" className='text-danger' />
-        </CLink>
+            <CTooltip
+                content='Deletar'
+                placement='top'
+            >
+                <CIcon name="cil-trash" className='text-danger' />
+            </CTooltip>
+        </CLink >
     )
 }
 

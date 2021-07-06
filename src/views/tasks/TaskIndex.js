@@ -4,6 +4,7 @@ import TaskCreate from './TaskCreate'
 import { TaskComponent } from '../../components/'
 
 import {
+  AddButton,
   BreadcrumbHeader,
   Loading,
   NoItems
@@ -36,7 +37,9 @@ export default function TaskIndex() {
 
   return (
     <>
-      <BreadcrumbHeader title="Tarefas" quantidade={tasks.length} component={<TaskCreate add={task => setTasks([...tasks, task])} />} />
+      <BreadcrumbHeader title="Tarefas" quantidade={tasks.length} >
+        <AddButton component={<TaskCreate add={task => setTasks([...tasks, task])} />} />
+      </BreadcrumbHeader>
       {tasks <= 0 ? <NoItems /> :
         tasks.map(task => (<TaskComponent key={task.id} task={task} />))
       }

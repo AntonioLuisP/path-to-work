@@ -5,6 +5,8 @@ import ToasterNotification from './ToasterNotification'
 import TypeColorBadge from './TypeColorBadge'
 import BreadcrumbHeader from './BreadcrumbHeader'
 import Favorite from './Favorite'
+import AddButton from './AddButton'
+import RelateButton from './RelateButton'
 import NoItems from './NoItems'
 import PrincipalButtons from './PrincipalButtons'
 import CollapseDescription from './CollapseDescription'
@@ -18,6 +20,8 @@ export {
   TypeColorBadge,
   BreadcrumbHeader,
   Favorite,
+  AddButton,
+  RelateButton,
   NoItems,
   PrincipalButtons,
   CollapseDescription,

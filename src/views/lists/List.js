@@ -4,13 +4,16 @@ import { supabase } from '../../services/supabase'
 import LinkCreate from '../links/LinkCreate'
 import ListEdit from './ListEdit'
 import { LinkComponent, ListInfo } from "../../components/"
+import ListCreateLinks from '../linkList/ListCreateLinks'
 
 import {
   BreadcrumbHeader,
   Loading,
   Modal,
   NoItems,
-  PrincipalButtons
+  PrincipalButtons,
+  AddButton,
+  RelateButton
 } from '../../reusable'
 
 import {
@@ -77,7 +80,10 @@ export default function List() {
             {list.name}
           </CCardHeader>
         </CCard>
-        <BreadcrumbHeader title='Links' quantidade={links.length} component={<LinkCreate />} />
+        <BreadcrumbHeader title='Links' quantidade={links.length}  >
+          <RelateButton component={<ListCreateLinks add={() => { }} />} />
+          <AddButton component={<LinkCreate add={() => { }} />} />
+        </BreadcrumbHeader>
         {links <= 0 ? <NoItems /> :
           links.map(link => (<LinkComponent key={link.id} link={link} />))
         }

@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { supabase } from '../../services/supabase'
 import { Loading } from '../../reusable'
-import ListCreate from '../lists/ListCreate'
 import { SearchComponent } from 'src/components'
 
 import {
@@ -51,9 +50,6 @@ export default function LinkCreateLists() {
                         }
                     </CCol>
                 </CFormGroup>
-            </CModalBody>
-            <CModalBody>
-
             </CModalBody>
         </>
     )

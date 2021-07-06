@@ -3,6 +3,7 @@ import { supabase } from '../../services/supabase'
 import ListCreate from './ListCreate'
 import { ListComponent } from "../../components/"
 import {
+    AddButton,
     BreadcrumbHeader,
     Loading,
     NoItems
@@ -35,7 +36,9 @@ export default function ListIndex() {
 
     return (
         <>
-            <BreadcrumbHeader title="Listas" quantidade={lists.length} component={<ListCreate add={list => setLists([...lists, list])} />} />
+            <BreadcrumbHeader title="Listas" quantidade={lists.length} >
+                <AddButton component={<ListCreate add={list => setLists([...lists, list])} />} />
+            </BreadcrumbHeader>
             {lists <= 0 ? <NoItems /> :
                 lists.map(list => (<ListComponent key={list.id} list={list} />))
             }

@@ -3,6 +3,7 @@ import { useParams, useHistory } from 'react-router-dom'
 import { supabase } from '../../services/supabase'
 import LinkEdit from './LinkEdit'
 import NoteCreate from '../notes/NoteCreate'
+import ListCreate from '../lists/ListCreate'
 import LinkCreateLists from '../linkList/LinkCreateLists'
 
 import {
@@ -11,7 +12,9 @@ import {
   Modal,
   NoItems,
   PrincipalButtons,
-  CollapseDescription
+  CollapseDescription,
+  AddButton,
+  RelateButton
 } from '../../reusable'
 
 import {
@@ -103,7 +106,11 @@ export default function Link() {
             </CCardBody>
           </CCollapse>
         </CCard>
-        <BreadcrumbHeader title="Anotações" quantidade={notes.length} component={<NoteCreate link={link} add={note => setNotes([...notes, note])} />} />
+        <BreadcrumbHeader title="Anotações" quantidade={notes.length}>
+          <AddButton
+            component={<NoteCreate link={link} add={note => setNotes([...notes, note])} />}
+          />
+        </BreadcrumbHeader>
         {notes <= 0 ? <NoItems /> :
           notes.map(note => (<NoteComponent key={note.id} note={note} />))
         }
@@ -115,7 +122,10 @@ export default function Link() {
             <PrincipalButtons editAction={() => toogleModal()} deleteAction={() => handleDelete(link.id)} />
           </div>
         </LinkInfo>
-        <BreadcrumbHeader title="Listas" quantidade={lists.length} component={<LinkCreateLists add={() => { }} />} />
+        <BreadcrumbHeader title="Listas" quantidade={lists.length} >
+          <RelateButton component={<LinkCreateLists add={() => { }} />} />
+          <AddButton component={<ListCreate add={() => { }} />} />
+        </BreadcrumbHeader>
         {lists <= 0 ? <NoItems /> :
           lists.map(list => (<ListComponent key={list.id} list={list} />))
         }

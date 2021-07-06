@@ -1,6 +1,7 @@
 import React from 'react'
 
 import {
+    CTooltip,
     CLink
 } from '@coreui/react'
 
@@ -10,7 +11,12 @@ const EditDataButton = ({ action }) => {
 
     return (
         <CLink className="card-header-action" onClick={action}>
-            <CIcon name="cil-pencil" />
+            <CTooltip
+                content='Editar'
+                placement='top'
+            >
+                <CIcon name="cil-pencil" />
+            </CTooltip>
         </CLink>
     )
 }

@@ -6,6 +6,8 @@ import TodoCreate from '../todos/TodoCreate'
 import TaskEdit from './TaskEdit'
 
 import {
+  AddButton,
+  RelateButton,
   BreadcrumbHeader,
   Loading,
   Modal,
@@ -106,13 +108,18 @@ export default function Task() {
         </CCard>
         <CRow>
           <CCol xs="12" sm="6" md="6">
-            <BreadcrumbHeader title='Afazeres' quantidade={todos.length} component={<TodoCreate task={task} add={todo => setTodos([...todos, todo])} />} />
+            <BreadcrumbHeader title='Afazeres' quantidade={todos.length} >
+              <AddButton component={<TodoCreate task={task} add={todo => setTodos([...todos, todo])} />} />
+            </BreadcrumbHeader>
             {todos <= 0 ? <NoItems /> :
               todos.map(todo => (<TodoComponent key={todo.id} todo={todo} />))
             }
           </CCol>
           <CCol xs="12" sm="6" md="6">
-            <BreadcrumbHeader title='Links' quantidade={links.length} component={<LinkCreate />} />
+            <BreadcrumbHeader title='Links' quantidade={links.length} >
+              <RelateButton component={<LinkCreate />} />
+              <AddButton component={<LinkCreate />} />
+            </BreadcrumbHeader>
             {links <= 0 ? <NoItems /> :
               links.map(link => (<LinkComponent key={link.id} link={link} />))
             }

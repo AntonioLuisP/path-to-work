@@ -3,11 +3,10 @@ import React from 'react'
 import {
   CBreadcrumb,
   CBreadcrumbItem,
+  CButtonGroup
 } from '@coreui/react'
 
-import CreateDataButton from './CreateDataButton'
-
-export default function BreadcrumbHeader({ title, quantidade, component }) {
+export default function BreadcrumbHeader({ title, quantidade = null, children }) {
 
   return (
     <>
@@ -15,8 +14,9 @@ export default function BreadcrumbHeader({ title, quantidade, component }) {
         <CBreadcrumbItem active>
           {title} {quantidade ? ' (' + quantidade + ')' : ''}
         </CBreadcrumbItem>
-        {component ? <CreateDataButton component={component} className='float-right' /> : ''}
-
+        <CButtonGroup >
+          {children}
+        </CButtonGroup>
       </CBreadcrumb>
     </>
   )
