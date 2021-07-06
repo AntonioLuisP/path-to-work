@@ -3,7 +3,7 @@ import { useParams, useHistory } from 'react-router-dom'
 import { supabase } from '../../services/supabase'
 import LinkEdit from './LinkEdit'
 import NoteCreate from '../notes/NoteCreate'
-import LinkListCreate from '../linkList/LinkListCreate'
+import LinkCreateLists from '../linkList/LinkCreateLists'
 
 import {
   BreadcrumbHeader,
@@ -115,7 +115,7 @@ export default function Link() {
             <PrincipalButtons editAction={() => toogleModal()} deleteAction={() => handleDelete(link.id)} />
           </div>
         </LinkInfo>
-        <BreadcrumbHeader title="Listas" quantidade={lists.length} component={<LinkListCreate type="lists" add={() => { }} />} />
+        <BreadcrumbHeader title="Listas" quantidade={lists.length} component={<LinkCreateLists add={() => { }} />} />
         {lists <= 0 ? <NoItems /> :
           lists.map(list => (<ListComponent key={list.id} list={list} />))
         }

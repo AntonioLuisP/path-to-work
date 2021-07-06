@@ -15,7 +15,7 @@ export default function CreateDataButton({ component }) {
     }
 
     return (
-        <CCard className="content-center bg-transparent border-0">
+        <CCard className="border-0">
             <Modal show={modal} onClose={toogleModal}>
                 {component}
             </Modal>

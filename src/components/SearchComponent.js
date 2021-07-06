@@ -16,7 +16,7 @@ export default function SearchComponent({ data }) {
     }
 
     return (
-        <CFormGroup variant="checkbox">
+        <CFormGroup variant="checkbox" className='text-break text-justify'>
             <CInputCheckbox
                 checked={selected}
                 onChange={handleSelected}
