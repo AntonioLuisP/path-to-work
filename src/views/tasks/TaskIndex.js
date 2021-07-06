@@ -1,8 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { TaskComponent } from '../../components/'
 import { supabase } from '../../services/supabase'
-import { BreadcrumbHeader, Loading, NoItems } from '../../reusable'
 import TaskCreate from './TaskCreate'
+import { TaskComponent } from '../../components/'
+
+import {
+  BreadcrumbHeader,
+  Loading,
+  NoItems
+} from '../../reusable'
 
 export default function TaskIndex() {
 

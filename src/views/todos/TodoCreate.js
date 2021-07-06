@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Actions as ActionNotification } from '../../redux/notifications'
 import { useAuth } from '../../hooks/useAuth';
 import { supabase } from 'src/services/supabase';
+import { Actions as ActionNotification } from '../../redux/notifications'
 
 import {
   CButton,

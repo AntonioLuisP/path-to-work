@@ -14,6 +14,8 @@ import NoteComponent from './NoteComponent'
 
 import TodoComponent from './TodoComponent'
 
+import SearchComponent from './SearchComponent'
+
 export {
   TaskComponent,
   TaskInfo,
@@ -30,4 +32,6 @@ export {
   NoteComponent,
 
   TodoComponent,
+
+  SearchComponent
 }

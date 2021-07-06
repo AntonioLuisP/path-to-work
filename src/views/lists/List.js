@@ -1,10 +1,17 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
-import { BreadcrumbHeader, Loading, Modal, NoItems, PrincipalButtons } from '../../reusable'
-import { LinkComponent, ListInfo } from "../../components/"
+import { supabase } from '../../services/supabase'
 import LinkCreate from '../links/LinkCreate'
 import ListEdit from './ListEdit'
-import { supabase } from '../../services/supabase'
+import { LinkComponent, ListInfo } from "../../components/"
+
+import {
+  BreadcrumbHeader,
+  Loading,
+  Modal,
+  NoItems,
+  PrincipalButtons
+} from '../../reusable'
 
 import {
   CCard,

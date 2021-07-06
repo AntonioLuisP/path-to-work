@@ -1,11 +1,24 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
-import { BreadcrumbHeader, Loading, Modal, NoItems, PrincipalButtons, CollapseDescription } from '../../reusable'
-import { ListComponent, NoteComponent, LinkInfo } from "../../components/"
-import ListCreate from '../lists/ListCreate'
-import NoteCreate from '../notes/NoteCreate'
-import LinkEdit from './LinkEdit'
 import { supabase } from '../../services/supabase'
+import LinkEdit from './LinkEdit'
+import NoteCreate from '../notes/NoteCreate'
+import LinkListCreate from '../linkList/LinkListCreate'
+
+import {
+  BreadcrumbHeader,
+  Loading,
+  Modal,
+  NoItems,
+  PrincipalButtons,
+  CollapseDescription
+} from '../../reusable'
+
+import {
+  ListComponent,
+  NoteComponent,
+  LinkInfo
+} from "../../components/"
 
 import {
   CCard,
@@ -102,7 +115,7 @@ export default function Link() {
             <PrincipalButtons editAction={() => toogleModal()} deleteAction={() => handleDelete(link.id)} />
           </div>
         </LinkInfo>
-        <BreadcrumbHeader title="Listas" quantidade={lists.length} component={<ListCreate />} />
+        <BreadcrumbHeader title="Listas" quantidade={lists.length} component={<LinkListCreate type="lists" add={() => { }} />} />
         {lists <= 0 ? <NoItems /> :
           lists.map(list => (<ListComponent key={list.id} list={list} />))
         }

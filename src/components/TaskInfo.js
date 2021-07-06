@@ -1,4 +1,5 @@
 import React from 'react'
+import moment from 'moment'
 
 import {
     CListGroup,
@@ -16,10 +17,10 @@ export default function TaskInfo({ task, children }) {
             </CCardHeader>
             <CListGroup>
                 <CListGroupItem>
-                    Data limite: {task.limite_date === null ? 'Sem data' : task.limite_date}
+                    Data limite: {task.limite_date === null ? 'Sem data' : moment(task.limite_date).format('DD/MM/YYYY').toString()}
                 </CListGroupItem>
                 <CListGroupItem>
-                    Hora limite: {task.horario === null ? 'Sem Horario' : task.horario}
+                    Hora limite: {task.horario === null ? 'Sem data' : moment(task.horario).format('hh:mm').toString()}
                 </CListGroupItem>
                 <CListGroupItem>
                     Criado em: {task.created_at}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Loading } from '../../reusable/'
+import { Loading } from '../../reusable'
 
 import {
 
@@ -16,6 +16,8 @@ export default function LinkListCreate() {
     if (loading) return (<Loading />)
 
     return (
-        <></>
+        <>
+            oba
+        </>
     )
 }

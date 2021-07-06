@@ -1,11 +1,25 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
-import { BreadcrumbHeader, Loading, Modal, NoItems, PrincipalButtons, CollapseDescription } from '../../reusable'
-import { LinkComponent, TodoComponent, TaskStatus, TaskInfo } from "../../components/"
+import { supabase } from '../../services/supabase'
 import LinkCreate from '../links/LinkCreate'
 import TodoCreate from '../todos/TodoCreate'
 import TaskEdit from './TaskEdit'
-import { supabase } from '../../services/supabase'
+
+import {
+  BreadcrumbHeader,
+  Loading,
+  Modal,
+  NoItems,
+  PrincipalButtons,
+  CollapseDescription
+} from '../../reusable'
+
+import {
+  LinkComponent,
+  TodoComponent,
+  TaskStatus,
+  TaskInfo
+} from "../../components/"
 
 import {
   CCol,

@@ -1,8 +1,12 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { ListComponent } from "../../components/"
 import { supabase } from '../../services/supabase'
-import { BreadcrumbHeader, Loading, NoItems } from '../../reusable/'
 import ListCreate from './ListCreate'
+import { ListComponent } from "../../components/"
+import {
+    BreadcrumbHeader,
+    Loading,
+    NoItems
+} from '../../reusable/'
 
 export default function ListIndex() {
 

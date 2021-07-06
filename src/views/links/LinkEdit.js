@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Actions as ActionNotification } from '../../redux/notifications'
 import { supabase } from '../../services/supabase'
 import { Favorite } from '../../reusable/';
+import { Actions as ActionNotification } from '../../redux/notifications'
 
 import {
   CButton,
