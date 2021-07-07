@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import { supabase } from '../../services/supabase'
+import { useAuth } from '../../hooks/useAuth';
 import LinkEdit from './LinkEdit'
 import NoteCreate from '../notes/NoteCreate'
 import ListCreate from '../lists/ListCreate'
 import LinkCreateLists from '../linkList/LinkCreateLists'
+import { Actions as ActionNotification } from '../../redux/notifications'
 
 import {
   BreadcrumbHeader,
@@ -34,8 +37,11 @@ import {
 
 export default function Link() {
 
-  const { id } = useParams();
+  const dispatch = useDispatch()
   const history = useHistory()
+
+  const { id } = useParams();
+  const { user } = useAuth()
 
   const [loading, setLoading] = useState(true)
   const [modal, setModal] = useState(false)
@@ -60,13 +66,13 @@ export default function Link() {
     }
     else {
       setLink(link)
-      const { data: notes, error } = await supabase
+      const { data: notes, errorNotes } = await supabase
         .from("notes")
         .select("*")
         .eq('link_id', id)
         .order("created_at", { ascending: false });
-      if (error) {
-        console.log("error", error);
+      if (errorNotes) {
+        console.log("errorNotes", errorNotes);
       }
       else {
         setNotes(notes)
@@ -89,6 +95,29 @@ export default function Link() {
       if (error) console.log("error", error);
       else history.push('/links');
     }
+  }
+
+  async function handleRelationLinkList(list) {
+    const { error } = await supabase
+      .from("list_links")
+      .insert({
+        link_id: id,
+        list_id: list.id,
+        user_id: user.id
+      })
+      .single();
+    if (error) {
+      alert("error", error)
+      return;
+    } else {
+      setLists([list, ...lists])
+      dispatch(ActionNotification.addOne({
+        header: 'Link adicionada a Lista:',
+        body: list.name,
+        id: list.id,
+      }))
+    }
+    return;
   }
 
   if (loading) return (<Loading />)
@@ -125,7 +154,7 @@ export default function Link() {
         </LinkInfo>
         <BreadcrumbHeader title="Listas" quantidade={lists.length} >
           <RelateButton component={<LinkCreateLists add={() => { }} />} />
-          <AddButton component={<ListCreate add={() => { }} />} />
+          <AddButton component={<ListCreate add={list => handleRelationLinkList(list)} />} />
         </BreadcrumbHeader>
         {lists <= 0 ? <NoItems /> :
           lists.map(list => (<ListComponent key={list.id} list={list} />))
