@@ -38,7 +38,7 @@ export default function TaskIndex() {
   return (
     <>
       <BreadcrumbHeader title="Tarefas" quantidade={tasks.length} >
-        <AddButton component={<TaskCreate add={task => setTasks([...tasks, task])} />} />
+        <AddButton component={<TaskCreate add={task => setTasks([task, ...tasks])} />} />
       </BreadcrumbHeader>
       {tasks <= 0 ? <NoItems /> :
         tasks.map(task => (<TaskComponent key={task.id} task={task} />))

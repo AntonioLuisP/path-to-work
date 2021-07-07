@@ -6,20 +6,18 @@ import {
 } from '@coreui/react'
 
 
-export default function SearchComponent({ data }) {
+export default function SearchComponent({ data, toogleSelect }) {
 
     const [selected, setSelected] = useState(false)
-
-    async function handleSelected(e) {
-        e.preventDefault();
-        setSelected(prev => !prev)
-    }
 
     return (
         <CFormGroup variant="checkbox" className='text-break text-justify'>
             <CInputCheckbox
                 checked={selected}
-                onChange={handleSelected}
+                onChange={() => {
+                    setSelected(prev => !prev)
+                    toogleSelect()
+                }}
             />
             {data.name}
         </CFormGroup>

@@ -64,6 +64,7 @@ export default function Link() {
         .from("notes")
         .select("*")
         .eq('link_id', id)
+        .order("created_at", { ascending: false });
       if (error) {
         console.log("error", error);
       }
@@ -108,7 +109,7 @@ export default function Link() {
         </CCard>
         <BreadcrumbHeader title="Anotações" quantidade={notes.length}>
           <AddButton
-            component={<NoteCreate link={link} add={note => setNotes([...notes, note])} />}
+            component={<NoteCreate link={link} add={note => setNotes([note, ...notes])} />}
           />
         </BreadcrumbHeader>
         {notes <= 0 ? <NoItems /> :

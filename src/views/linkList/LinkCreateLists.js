@@ -31,6 +31,10 @@ export default function LinkCreateLists() {
         setLoading(false)
     }, [])
 
+    async function toogleSelect(e) {
+        e.preventDefault();
+    }
+
     useEffect(() => {
         fetchDatas()
     }, [fetchDatas])
@@ -46,7 +50,7 @@ export default function LinkCreateLists() {
                 <CFormGroup row>
                     <CCol md="12">
                         {
-                            datas.map(data => <SearchComponent data={data} toogleSelect={() => { }} />)
+                            datas.map(data => <SearchComponent data={data} toogleSelect={toogleSelect} />)
                         }
                     </CCol>
                 </CFormGroup>

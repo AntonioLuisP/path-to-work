@@ -64,6 +64,7 @@ export default function Task() {
         .from("todos")
         .select("*")
         .eq('task_id', id)
+        .order("created_at", { ascending: false });
       if (error) {
         console.log("error", error);
       }
@@ -109,7 +110,7 @@ export default function Task() {
         <CRow>
           <CCol xs="12" sm="6" md="6">
             <BreadcrumbHeader title='Afazeres' quantidade={todos.length} >
-              <AddButton component={<TodoCreate task={task} add={todo => setTodos([...todos, todo])} />} />
+              <AddButton component={<TodoCreate task={task} add={todo => setTodos([todo, ...todos])} />} />
             </BreadcrumbHeader>
             {todos <= 0 ? <NoItems /> :
               todos.map(todo => (<TodoComponent key={todo.id} todo={todo} />))
