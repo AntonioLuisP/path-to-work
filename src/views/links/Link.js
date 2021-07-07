@@ -77,7 +77,20 @@ export default function Link() {
       else {
         setNotes(notes)
       }
-      setLists([])
+      const { data: lists, errorLists } = await supabase
+        .from("list_links")
+        .select("list_id, lists(*)")
+        .eq('link_id', id)
+        .order("created_at", { ascending: false });
+      if (errorLists) {
+        console.log("errorLists", errorLists);
+      }
+      else {
+        const parsedLists = Object.entries(lists).map(([key, value]) => {
+          return value.lists
+        })
+        setLists(parsedLists)
+      }
     }
     setLoading(false)
   }, [id])
