@@ -20,7 +20,9 @@ export default function NoteComponent(props) {
 
     return (
         <CCard>
-            <Modal show={modal} onClose={toogleModal} component={<NoteEdit note={note} edit={note => setNote(note)} />} />
+            <Modal show={modal} onClose={toogleModal}>
+                <NoteEdit note={note} edit={note => setNote(note)} />
+            </Modal>
             <CCardHeader className='text-break text-justify'>
                 {note.name}
                 <div className="card-header-actions">

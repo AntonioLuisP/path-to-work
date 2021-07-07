@@ -95,7 +95,9 @@ export default function Task() {
 
   return (
     <CRow>
-      <Modal show={modal} onClose={toogleModal} component={<TaskEdit task={task} edit={task => setTask(task)} />} />
+      <Modal show={modal} onClose={toogleModal}>
+        <TaskEdit task={task} edit={task => setTask(task)} />
+      </Modal>
       <CCol xs="12" sm="9" md="9">
         <CCard className='text-break text-justify'>
           <CCardHeader color="secondary">

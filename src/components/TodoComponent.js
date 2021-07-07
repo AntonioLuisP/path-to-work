@@ -40,7 +40,9 @@ export default function TodoComponent(props) {
 
     return (
         <CCard>
-            <Modal show={modal} onClose={toogleModal} component={<TodoEdit todo={todo} edit={todo => setTodo(todo)} />} />
+            <Modal show={modal} onClose={toogleModal}>
+                <TodoEdit todo={todo} edit={todo => setTodo(todo)} />
+            </Modal>
             <CCardHeader className='text-break text-justify'>
                 <CFormGroup variant="checkbox">
                     <CInputCheckbox

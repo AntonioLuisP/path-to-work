@@ -73,7 +73,9 @@ export default function List() {
 
   return (
     <CRow>
-      <Modal show={modal} onClose={toogleModal} component={<ListEdit list={list} edit={list => setList(list)} />} />
+      <Modal show={modal} onClose={toogleModal}>
+        <ListEdit list={list} edit={list => setList(list)} />
+      </Modal>
       <CCol xs="12" sm="9" md="9">
         <CCard>
           <CCardHeader color="secondary" className='text-break text-justify'>

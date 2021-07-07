@@ -137,7 +137,9 @@ export default function Link() {
 
   return (
     <CRow>
-      <Modal show={modal} onClose={toogleModal} component={<LinkEdit link={link} edit={link => setLink(link)} />} />
+      <Modal show={modal} onClose={toogleModal}>
+        <LinkEdit link={link} edit={link => setLink(link)} />
+      </Modal>
       <CCol xs="12" sm="9" md="9">
         <CCard className='text-break text-justify'>
           <CCardHeader color="secondary">
