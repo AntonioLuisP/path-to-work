@@ -168,7 +168,7 @@ export default function Link() {
           </div>
         </LinkInfo>
         <BreadcrumbHeader title="Listas" quantidade={lists.length} >
-          <RelateButton component={<LinkCreateLists add={() => { }} />} />
+          <RelateButton component={<LinkCreateLists id={id} add={() => { }} />} />
           <AddButton component={<ListCreate add={list => handleRelationLinkList(list)} />} />
         </BreadcrumbHeader>
         {lists <= 0 ? <NoItems /> :

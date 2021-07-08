@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { supabase } from '../../services/supabase'
 import { Loading } from '../../reusable'
-import { SearchComponent } from 'src/components'
+import { SearchComponent } from '../../components'
 
 import {
     CModalBody,
@@ -11,35 +11,57 @@ import {
     CCol
 } from '@coreui/react'
 
-export default function LinkCreateLists() {
+export default function LinkCreateLists({ id }) {
 
     const [loading, setLoading] = useState(true)
-    const [datas, setDatas] = useState([])
+    const [lists, setLists] = useState([])
+    const [relatedlists, setRelatedLists] = useState([])
 
-    const fetchDatas = useCallback(async () => {
+    const fetchLists = useCallback(async () => {
         const { data: lists, error } = await supabase
-            .from('lists')
+            .from("lists")
             .select("*")
             .order("created_at", { ascending: false });
         if (error) {
             console.log("error", error);
         }
         else {
-            console.log(lists)
-            setDatas(lists)
+            setLists(lists)
         }
-        setLoading(false)
     }, [])
+
+    const fetchRelatedLists = useCallback(async () => {
+        const { data: lists, errorLists } = await supabase
+            .from("list_links")
+            .select("list_id, lists(*)")
+            .eq('link_id', id)
+            .order("created_at", { ascending: false });
+        if (errorLists) {
+            console.log("errorLists", errorLists);
+        }
+        else {
+            const parsedLists = Object.entries(lists).map(([key, value]) => {
+                return value.lists
+            })
+            setRelatedLists(parsedLists)
+        }
+    }, [id])
 
     async function toogleSelect(e) {
         e.preventDefault();
     }
 
     useEffect(() => {
-        fetchDatas()
-    }, [fetchDatas])
+        fetchLists()
+        fetchRelatedLists()
+        setLoading(false)
+        return () => {
+            setLists([])
+            setRelatedLists([])
+        }
+    }, [fetchLists, fetchRelatedLists])
 
-    if (loading) return (<Loading />)
+    if (loading) return (<><Loading /></>)
 
     return (
         <>
@@ -50,7 +72,7 @@ export default function LinkCreateLists() {
                 <CFormGroup row>
                     <CCol md="12">
                         {
-                            datas.map(data => <SearchComponent data={data} toogleSelect={toogleSelect} />)
+                            lists.map(data => <SearchComponent data={data} toogleSelect={toogleSelect} />)
                         }
                     </CCol>
                 </CFormGroup>
