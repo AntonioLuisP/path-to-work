@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import {
     CInputCheckbox,
@@ -8,16 +8,11 @@ import {
 
 export default function SearchComponent({ data, toogleSelect }) {
 
-    const [selected, setSelected] = useState(false)
-
     return (
         <CFormGroup variant="checkbox" className='text-break text-justify'>
             <CInputCheckbox
-                checked={selected}
-                onChange={() => {
-                    setSelected(prev => !prev)
-                    toogleSelect()
-                }}
+                checked={data.selected}
+                onChange={e => toogleSelect(e, data)}
             />
             {data.name}
         </CFormGroup>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { supabase } from '../../services/supabase'
+import { useAuth } from '../../hooks/useAuth';
 import { Loading } from '../../reusable'
 import { SearchComponent } from '../../components'
 
@@ -11,14 +12,15 @@ import {
     CCol
 } from '@coreui/react'
 
-export default function LinkCreateLists({ id }) {
+export default function LinkCreateLists({ linkId, relations, retorno }) {
+
+    const { user } = useAuth()
 
     const [loading, setLoading] = useState(true)
     const [lists, setLists] = useState([])
-    const [relatedlists, setRelatedLists] = useState([])
 
     const fetchLists = useCallback(async () => {
-        const { data: lists, error } = await supabase
+        const { data: allLists, error } = await supabase
             .from("lists")
             .select("*")
             .order("created_at", { ascending: false });
@@ -26,40 +28,63 @@ export default function LinkCreateLists({ id }) {
             console.log("error", error);
         }
         else {
-            setLists(lists)
+            setLists(allLists.map(list => {
+                return relations.some(relation => relation.id === list.id) ?
+                    { ...list, 'selected': true } : { ...list, 'selected': false }
+            }))
         }
-    }, [])
+    }, [relations])
 
-    const fetchRelatedLists = useCallback(async () => {
-        const { data: lists, errorLists } = await supabase
-            .from("list_links")
-            .select("list_id, lists(*)")
-            .eq('link_id', id)
-            .order("created_at", { ascending: false });
-        if (errorLists) {
-            console.log("errorLists", errorLists);
-        }
-        else {
-            const parsedLists = Object.entries(lists).map(([key, value]) => {
-                return value.lists
-            })
-            setRelatedLists(parsedLists)
-        }
-    }, [id])
-
-    async function toogleSelect(e) {
+    async function toogleSelect(e, list) {
         e.preventDefault();
+        console.log('toogle')
+        if (list.selected) {
+            const { error } = await supabase
+                .from('list_links')
+                .delete()
+                .eq('link_id', linkId)
+                .eq('list_id', list.id)
+            if (error) {
+                console.log("error: ", error)
+            } else {
+                setLists(lists => {
+                    lists.map(item => {
+                        if (item.id === list.id) {
+                            return { ...list, 'selected': !list.selected }
+                        }
+                        return list
+                    })
+                })
+            }
+        } else {
+            const { error } = await supabase
+                .from("list_links")
+                .insert({
+                    link_id: linkId,
+                    list_id: list.id,
+                    user_id: user.id
+                })
+                .single();
+            if (error) {
+                alert("error", error)
+                return;
+            } else {
+                setLists(lists => {
+                    lists.map(item => {
+                        if (item.id === list.id) {
+                            return { ...list, 'selected': !list.selected }
+                        }
+                        return list
+                    })
+                })
+            }
+        }
     }
 
     useEffect(() => {
         fetchLists()
-        fetchRelatedLists()
         setLoading(false)
-        return () => {
-            setLists([])
-            setRelatedLists([])
-        }
-    }, [fetchLists, fetchRelatedLists])
+    }, [fetchLists])
 
     if (loading) return (<><Loading /></>)
 
@@ -72,7 +97,7 @@ export default function LinkCreateLists({ id }) {
                 <CFormGroup row>
                     <CCol md="12">
                         {
-                            lists.map(data => <SearchComponent data={data} toogleSelect={toogleSelect} />)
+                            lists.map(data => <SearchComponent key={data.id} data={data} toogleSelect={toogleSelect} />)
                         }
                     </CCol>
                 </CFormGroup>

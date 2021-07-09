@@ -1,13 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
 import { supabase } from '../../services/supabase'
-import { useAuth } from '../../hooks/useAuth';
 import LinkEdit from './LinkEdit'
 import NoteCreate from '../notes/NoteCreate'
-import ListCreate from '../lists/ListCreate'
-import LinkCreateLists from '../linkList/LinkCreateLists'
-import { Actions as ActionNotification } from '../../redux/notifications'
+import LinkListsIndex from '../linkList/LinkListsIndex';
 
 import {
   BreadcrumbHeader,
@@ -17,11 +13,9 @@ import {
   PrincipalButtons,
   CollapseDescription,
   AddButton,
-  RelateButton
 } from '../../reusable'
 
 import {
-  ListComponent,
   NoteComponent,
   LinkInfo
 } from "../../components/"
@@ -37,18 +31,15 @@ import {
 
 export default function Link() {
 
-  const dispatch = useDispatch()
   const history = useHistory()
 
   const { id } = useParams();
-  const { user } = useAuth()
 
   const [loading, setLoading] = useState(true)
   const [modal, setModal] = useState(false)
   const [collapsed, setCollapsed] = useState(false)
 
   const [link, setLink] = useState({})
-  const [lists, setLists] = useState([])
   const [notes, setNotes] = useState([])
 
   const toogleModal = () => {
@@ -73,23 +64,8 @@ export default function Link() {
         .order("created_at", { ascending: false });
       if (errorNotes) {
         console.log("errorNotes", errorNotes);
-      }
-      else {
+      } else {
         setNotes(notes)
-      }
-      const { data: lists, errorLists } = await supabase
-        .from("list_links")
-        .select("list_id, lists(*)")
-        .eq('link_id', id)
-        .order("created_at", { ascending: false });
-      if (errorLists) {
-        console.log("errorLists", errorLists);
-      }
-      else {
-        const parsedLists = Object.entries(lists).map(([key, value]) => {
-          return value.lists
-        })
-        setLists(parsedLists)
       }
     }
     setLoading(false)
@@ -108,29 +84,6 @@ export default function Link() {
       if (error) console.log("error", error);
       else history.push('/links');
     }
-  }
-
-  async function handleRelationLinkList(list) {
-    const { error } = await supabase
-      .from("list_links")
-      .insert({
-        link_id: id,
-        list_id: list.id,
-        user_id: user.id
-      })
-      .single();
-    if (error) {
-      alert("error", error)
-      return;
-    } else {
-      setLists([list, ...lists])
-      dispatch(ActionNotification.addOne({
-        header: 'Link adicionada a Lista:',
-        body: list.name,
-        id: list.id,
-      }))
-    }
-    return;
   }
 
   if (loading) return (<Loading />)
@@ -167,13 +120,7 @@ export default function Link() {
             <PrincipalButtons editAction={() => toogleModal()} deleteAction={() => handleDelete(link.id)} />
           </div>
         </LinkInfo>
-        <BreadcrumbHeader title="Listas" quantidade={lists.length} >
-          <RelateButton component={<LinkCreateLists id={id} add={() => { }} />} />
-          <AddButton component={<ListCreate add={list => handleRelationLinkList(list)} />} />
-        </BreadcrumbHeader>
-        {lists <= 0 ? <NoItems /> :
-          lists.map(list => (<ListComponent key={list.id} list={list} />))
-        }
+        <LinkListsIndex linkId={link.id} />
       </CCol>
     </CRow>
   )
