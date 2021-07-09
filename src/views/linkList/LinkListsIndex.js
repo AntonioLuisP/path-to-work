@@ -76,7 +76,14 @@ export default function LinkListsIndex({ linkId }) {
     return (
         <>
             <BreadcrumbHeader title="Listas" quantidade={lists.length} >
-                <RelateButton component={<LinkCreateLists linkId={linkId} relations={lists} add={list => setLists(lists => [list, ...lists])} retorno={lists => setLists(lists)} />} />
+                <RelateButton
+                    component={
+                        <LinkCreateLists linkId={linkId}
+                            add={item => setLists(lists => [item, ...lists])}
+                            remove={item => setLists(lists => lists.filter(list => list.id !== item.id))}
+                        />
+                    }
+                />
                 <AddButton component={<ListCreate add={list => handleCreateRelationListLink(list)} />} />
             </BreadcrumbHeader>
             {lists <= 0 ? <NoItems /> :

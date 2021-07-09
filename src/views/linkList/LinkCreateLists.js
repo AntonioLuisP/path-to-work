@@ -12,7 +12,7 @@ import {
     CCol
 } from '@coreui/react'
 
-export default function LinkCreateLists({ linkId, relations, retorno }) {
+export default function LinkCreateLists({ linkId, add, remove }) {
 
     const { user } = useAuth()
 
@@ -28,57 +28,76 @@ export default function LinkCreateLists({ linkId, relations, retorno }) {
             console.log("error", error);
         }
         else {
-            setLists(allLists.map(list => {
-                return relations.some(relation => relation.id === list.id) ?
-                    { ...list, 'selected': true } : { ...list, 'selected': false }
-            }))
+            const { data: allRelations, errorRelations } = await supabase
+                .from("list_links")
+                .select("list_id, lists(*)")
+                .eq('link_id', linkId)
+                .order("created_at", { ascending: false });
+            if (errorRelations) {
+                console.log("errorRelations", errorRelations);
+            } else {
+                const partsedRelations = Object.entries(allRelations).map(([key, value]) => {
+                    return value.lists
+                })
+                setLists(allLists.map(list => {
+                    if (partsedRelations.some(relation => relation.id === list.id)) {
+                        return { ...list, 'selected': true }
+                    }
+                    return list
+                }))
+            }
+            setLoading(false)
         }
-    }, [relations])
+    }, [linkId])
 
     async function toogleSelect(e, list) {
         e.preventDefault();
-        console.log('toogle')
         if (list.selected) {
-            const { error } = await supabase
-                .from('list_links')
-                .delete()
-                .eq('link_id', linkId)
-                .eq('list_id', list.id)
-            if (error) {
-                console.log("error: ", error)
-            } else {
-                setLists(lists => {
-                    lists.map(item => {
-                        if (item.id === list.id) {
-                            return { ...list, 'selected': !list.selected }
-                        }
-                        return list
-                    })
-                })
-            }
+            await removeRelation(list)
         } else {
-            const { error } = await supabase
-                .from("list_links")
-                .insert({
-                    link_id: linkId,
-                    list_id: list.id,
-                    user_id: user.id
-                })
-                .single();
-            if (error) {
-                alert("error", error)
-                return;
-            } else {
-                setLists(lists => {
-                    lists.map(item => {
-                        if (item.id === list.id) {
-                            return { ...list, 'selected': !list.selected }
-                        }
-                        return list
-                    })
-                })
-            }
+            await addRelation(list)
         }
+    }
+
+    async function removeRelation(list) {
+        const { error } = await supabase
+            .from('list_links')
+            .delete()
+            .eq('link_id', linkId)
+            .eq('list_id', list.id)
+        if (error) {
+            console.log("error: ", error)
+        } else {
+            remove(list)
+            redoLinks(list)
+        }
+    }
+
+    async function addRelation(list) {
+        const { error } = await supabase
+            .from("list_links")
+            .insert({
+                link_id: linkId,
+                list_id: list.id,
+                user_id: user.id
+            })
+            .single();
+        if (error) {
+            alert("error", error)
+            return;
+        } else {
+            add(list)
+            redoLinks(list)
+        }
+    }
+
+    function redoLinks(list) {
+        setLists(lists.map(item => {
+            if (item.id === list.id) {
+                return { ...list, 'selected': !list.selected }
+            }
+            return { ...item }
+        }))
     }
 
     useEffect(() => {
