@@ -17,7 +17,7 @@ import {
 
 } from '@coreui/react'
 
-export default function TodoCreate({ task, add }) {
+export default function TodoCreate({ taskId, add }) {
 
   const dispatch = useDispatch()
 
@@ -33,7 +33,7 @@ export default function TodoCreate({ task, add }) {
       .from("todos")
       .insert({
         name,
-        task_id: task.id,
+        task_id: taskId,
         user_id: user.id
       })
       .single();

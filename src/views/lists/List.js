@@ -1,19 +1,14 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { supabase } from '../../services/supabase'
-import LinkCreate from '../links/LinkCreate'
 import ListEdit from './ListEdit'
-import { LinkComponent, ListInfo } from "../../components/"
-import ListCreateLinks from '../linkList/ListCreateLinks'
+import { ListInfo } from "../../components/"
+import ListLinksIndex from '../linkList/ListLinksIndex';
 
 import {
-  BreadcrumbHeader,
   Loading,
   Modal,
-  NoItems,
   PrincipalButtons,
-  AddButton,
-  RelateButton
 } from '../../reusable'
 
 import {
@@ -25,14 +20,14 @@ import {
 
 export default function List() {
 
-  const { id } = useParams();
   const history = useHistory()
+
+  const { id } = useParams();
 
   const [loading, setLoading] = useState(true)
   const [modal, setModal] = useState(false)
 
   const [list, setList] = useState({})
-  const [links, setLinks] = useState([])
 
   const toogleModal = () => {
     setModal(old => !old)
@@ -49,7 +44,6 @@ export default function List() {
     }
     else {
       setList(list)
-      setLinks([])
     }
     setLoading(false)
   }, [id])
@@ -82,13 +76,8 @@ export default function List() {
             {list.name}
           </CCardHeader>
         </CCard>
-        <BreadcrumbHeader title='Links' quantidade={links.length}  >
-          <RelateButton component={<ListCreateLinks add={() => { }} />} />
-          <AddButton component={<LinkCreate add={() => { }} />} />
-        </BreadcrumbHeader>
-        {links <= 0 ? <NoItems /> :
-          links.map(link => (<LinkComponent key={link.id} link={link} />))
-        }
+        <ListLinksIndex listId={list.id} />
+
       </CCol>
       <CCol xs="12" sm="3" md="3">
         <ListInfo list={list}>

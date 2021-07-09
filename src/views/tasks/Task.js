@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { supabase } from '../../services/supabase'
 import LinkCreate from '../links/LinkCreate'
-import TodoCreate from '../todos/TodoCreate'
+import TodoIndex from '../todos/TodoIndex'
 import TaskEdit from './TaskEdit'
 
 import {
@@ -18,7 +18,6 @@ import {
 
 import {
   LinkComponent,
-  TodoComponent,
   TaskStatus,
   TaskInfo
 } from "../../components/"
@@ -43,7 +42,7 @@ export default function Task() {
 
   const [task, setTask] = useState({})
   const [links, setLinks] = useState([])
-  const [todos, setTodos] = useState([])
+  const [todosQtd, setTodosQtd] = useState([])
 
   const toogleModal = () => {
     setModal(old => !old)
@@ -60,17 +59,6 @@ export default function Task() {
     }
     else {
       setTask(task)
-      const { data: todos, error } = await supabase
-        .from("todos")
-        .select("*")
-        .eq('task_id', id)
-        .order("created_at", { ascending: false });
-      if (error) {
-        console.log("error", error);
-      }
-      else {
-        setTodos(todos)
-      }
       setLinks([])
     }
     setLoading(false)
@@ -111,12 +99,7 @@ export default function Task() {
         </CCard>
         <CRow>
           <CCol xs="12" sm="6" md="6">
-            <BreadcrumbHeader title='Afazeres' quantidade={todos.length} >
-              <AddButton component={<TodoCreate task={task} add={todo => setTodos([todo, ...todos])} />} />
-            </BreadcrumbHeader>
-            {todos <= 0 ? <NoItems /> :
-              todos.map(todo => (<TodoComponent key={todo.id} todo={todo} />))
-            }
+            <TodoIndex taskId={task.id} todosQtd={qtd => setTodosQtd(qtd)} />
           </CCol>
           <CCol xs="12" sm="6" md="6">
             <BreadcrumbHeader title='Links' quantidade={links.length} >
@@ -136,7 +119,7 @@ export default function Task() {
             <PrincipalButtons editAction={() => toogleModal()} deleteAction={() => handleDelete(task.id)} />
           </div>
         </TaskInfo>
-        <TaskStatus task={task} todos={todos.length} links={links.length} />
+        <TaskStatus task={task} todos={todosQtd} links={links.length} />
       </CCol>
     </CRow>
   )

@@ -2,21 +2,17 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { supabase } from '../../services/supabase'
 import LinkEdit from './LinkEdit'
-import NoteCreate from '../notes/NoteCreate'
+import NoteIndex from '../notes/NoteIndex'
 import LinkListsIndex from '../linkList/LinkListsIndex';
 
 import {
-  BreadcrumbHeader,
   Loading,
   Modal,
-  NoItems,
   PrincipalButtons,
   CollapseDescription,
-  AddButton,
 } from '../../reusable'
 
 import {
-  NoteComponent,
   LinkInfo
 } from "../../components/"
 
@@ -40,7 +36,6 @@ export default function Link() {
   const [collapsed, setCollapsed] = useState(false)
 
   const [link, setLink] = useState({})
-  const [notes, setNotes] = useState([])
 
   const toogleModal = () => {
     setModal(old => !old)
@@ -57,16 +52,6 @@ export default function Link() {
     }
     else {
       setLink(link)
-      const { data: notes, errorNotes } = await supabase
-        .from("notes")
-        .select("*")
-        .eq('link_id', id)
-        .order("created_at", { ascending: false });
-      if (errorNotes) {
-        console.log("errorNotes", errorNotes);
-      } else {
-        setNotes(notes)
-      }
     }
     setLoading(false)
   }, [id])
@@ -88,6 +73,8 @@ export default function Link() {
 
   if (loading) return (<Loading />)
 
+  if (link.id === undefined) return (<> Link não encontrado</>)
+
   return (
     <CRow>
       <Modal show={modal} onClose={toogleModal}>
@@ -104,14 +91,7 @@ export default function Link() {
             </CCardBody>
           </CCollapse>
         </CCard>
-        <BreadcrumbHeader title="Anotações" quantidade={notes.length}>
-          <AddButton
-            component={<NoteCreate link={link} add={note => setNotes([note, ...notes])} />}
-          />
-        </BreadcrumbHeader>
-        {notes <= 0 ? <NoItems /> :
-          notes.map(note => (<NoteComponent key={note.id} note={note} />))
-        }
+        <NoteIndex linkId={link.id} />
       </CCol>
       <CCol xs="12" sm="3" md="3">
         <LinkInfo link={link}>

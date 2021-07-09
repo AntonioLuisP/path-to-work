@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { supabase } from '../../services/supabase'
 import { useAuth } from '../../hooks/useAuth';
 import ListCreate from '../lists/ListCreate'
-import LinkCreateLists from '../linkList/LinkCreateLists'
+import LinkCreateLists from './LinkCreateLists'
 import { Actions as ActionNotification } from '../../redux/notifications'
 
 import {
@@ -16,7 +16,7 @@ import {
 
 import {
     ListComponent,
-} from "../../components/"
+} from "../../components"
 
 export default function LinkListsIndex({ linkId }) {
 

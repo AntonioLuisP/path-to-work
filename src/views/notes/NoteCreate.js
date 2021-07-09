@@ -14,10 +14,9 @@ import {
   CForm,
   CFormGroup,
   CInput,
-
 } from '@coreui/react'
 
-export default function NoteCreate({ link, add }) {
+export default function NoteCreate({ linkId, add }) {
 
   const dispatch = useDispatch()
 
@@ -33,7 +32,7 @@ export default function NoteCreate({ link, add }) {
       .from("notes")
       .insert({
         name,
-        link_id: link.id,
+        link_id: linkId,
         user_id: user.id
       })
       .single();
