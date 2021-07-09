@@ -65,6 +65,8 @@ export default function List() {
 
   if (loading) return (<Loading />)
 
+  if (list.id === undefined) return (<> Link não encontrado</>)
+
   return (
     <CRow>
       <Modal show={modal} onClose={toogleModal}>
@@ -77,7 +79,6 @@ export default function List() {
           </CCardHeader>
         </CCard>
         <ListLinksIndex listId={list.id} />
-
       </CCol>
       <CCol xs="12" sm="3" md="3">
         <ListInfo list={list}>

@@ -69,7 +69,7 @@ export default function LinkCreateLists({ linkId, add, remove }) {
             console.log("error: ", error)
         } else {
             remove(list)
-            redoLinks(list)
+            redoAfterToogle(list)
         }
     }
 
@@ -87,22 +87,21 @@ export default function LinkCreateLists({ linkId, add, remove }) {
             return;
         } else {
             add(list)
-            redoLinks(list)
+            redoAfterToogle(list)
         }
     }
 
-    function redoLinks(list) {
-        setLists(lists.map(item => {
-            if (item.id === list.id) {
-                return { ...list, 'selected': !list.selected }
+    function redoAfterToogle(data) {
+        setLists(lists.map(list => {
+            if (list.id === data.id) {
+                return { ...data, 'selected': !data.selected }
             }
-            return { ...item }
+            return { ...list }
         }))
     }
 
     useEffect(() => {
         fetchLists()
-        setLoading(false)
     }, [fetchLists])
 
     if (loading) return (<><Loading /></>)
@@ -116,7 +115,7 @@ export default function LinkCreateLists({ linkId, add, remove }) {
                 <CFormGroup row>
                     <CCol md="12">
                         {
-                            lists.map(data => <SearchComponent key={data.id} data={data} toogleSelect={toogleSelect} />)
+                            lists.map(list => <SearchComponent key={list.id} data={list} toogleSelect={toogleSelect} />)
                         }
                     </CCol>
                 </CFormGroup>

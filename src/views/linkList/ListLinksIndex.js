@@ -48,6 +48,15 @@ export default function ListLinksIndex({ listId }) {
         fetchLinks()
     }, [fetchLinks])
 
+
+    function addLink(link) {
+        setLinks(links => [link, ...links])
+    }
+
+    function removeLink(item) {
+        setLinks(links => links.filter(link => link.id !== item.id))
+    }
+
     async function handleCreateRelationListLink(link) {
         const { error } = await supabase
             .from("list_links")
@@ -61,7 +70,7 @@ export default function ListLinksIndex({ listId }) {
             alert("error", error)
             return;
         } else {
-            setLinks([link, ...links])
+            addLink(link)
             dispatch(ActionNotification.addOne({
                 header: 'Link adicionada a Lista:',
                 body: link.name,
@@ -76,7 +85,14 @@ export default function ListLinksIndex({ listId }) {
     return (
         <>
             <BreadcrumbHeader title='Links' quantidade={links.length}  >
-                <RelateButton component={<ListCreateLinks listId={listId} relations={links} add={link => setLinks(links => [link, ...links])} retorno={links => setLinks(links)} />} />
+                <RelateButton
+                    component={
+                        <ListCreateLinks listId={listId}
+                            add={link => addLink(link)}
+                            remove={link => removeLink(link)}
+                        />
+                    }
+                />
                 <AddButton component={<LinkCreate add={link => handleCreateRelationListLink(link)} />} />
             </BreadcrumbHeader>
             {links <= 0 ? <NoItems /> :

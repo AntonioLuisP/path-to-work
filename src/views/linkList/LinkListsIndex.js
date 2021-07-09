@@ -48,6 +48,14 @@ export default function LinkListsIndex({ linkId }) {
         fetchLists()
     }, [fetchLists])
 
+    function addList(list) {
+        setLists(lists => [list, ...lists])
+    }
+
+    function removeList(item) {
+        setLists(lists => lists.filter(list => list.id !== item.id))
+    }
+
     async function handleCreateRelationListLink(list) {
         const { error } = await supabase
             .from("list_links")
@@ -61,7 +69,7 @@ export default function LinkListsIndex({ linkId }) {
             alert("error", error)
             return;
         } else {
-            setLists([list, ...lists])
+            addList(list)
             dispatch(ActionNotification.addOne({
                 header: 'Link adicionada a Lista:',
                 body: list.name,
@@ -79,8 +87,8 @@ export default function LinkListsIndex({ linkId }) {
                 <RelateButton
                     component={
                         <LinkCreateLists linkId={linkId}
-                            add={item => setLists(lists => [item, ...lists])}
-                            remove={item => setLists(lists => lists.filter(list => list.id !== item.id))}
+                            add={list => addList(list)}
+                            remove={list => removeList(list)}
                         />
                     }
                 />
