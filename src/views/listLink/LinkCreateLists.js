@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react'
 import { supabase } from '../../services/supabase'
 import { useAuth } from '../../hooks/useAuth';
 import { Loading } from '../../reusable'
-import { SearchComponent } from '../../components'
+import { ToogleComponent } from '../../components'
 
 import {
     CModalBody,
@@ -40,10 +40,9 @@ export default function LinkCreateLists({ linkId, add, remove }) {
                     return value.lists
                 })
                 setLists(allLists.map(list => {
-                    if (partsedRelations.some(relation => relation.id === list.id)) {
-                        return { ...list, 'selected': true }
-                    }
-                    return list
+                    return partsedRelations.some(relation => relation.id === list.id) ?
+                    { ...list, 'selected': true } :
+                    { ...list, 'selected': false }
                 }))
             }
             setLoading(false)
@@ -115,7 +114,7 @@ export default function LinkCreateLists({ linkId, add, remove }) {
                 <CFormGroup row>
                     <CCol md="12">
                         {
-                            lists.map(list => <SearchComponent key={list.id} data={list} toogleSelect={toogleSelect} />)
+                            lists.map(list => <ToogleComponent key={list.id} data={list} toogleSelect={toogleSelect} />)
                         }
                     </CCol>
                 </CFormGroup>

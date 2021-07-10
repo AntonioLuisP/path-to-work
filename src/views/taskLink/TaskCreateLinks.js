@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react'
 import { supabase } from '../../services/supabase'
 import { useAuth } from '../../hooks/useAuth';
 import { Loading } from '../../reusable'
-import { SearchComponent } from 'src/components'
+import { ToogleComponent } from 'src/components'
 
 import {
     CModalBody,
@@ -40,10 +40,9 @@ export default function TaskCreateLinks({ taskId, add, remove }) {
                     return value.links
                 })
                 setLinks(allLinks.map(link => {
-                    if (partsedRelations.some(relation => relation.id === link.id)) {
-                        return { ...link, 'selected': true }
-                    }
-                    return link
+                    return partsedRelations.some(relation => relation.id === link.id) ?
+                        { ...link, 'selected': true } :
+                        { ...link, 'selected': false }
                 }))
             }
             setLoading(false)
@@ -115,7 +114,7 @@ export default function TaskCreateLinks({ taskId, add, remove }) {
                 <CFormGroup row>
                     <CCol md="12">
                         {
-                            links.map(link => <SearchComponent key={link.id} data={link} toogleSelect={toogleSelect} />)
+                            links.map(link => <ToogleComponent key={link.id} data={link} toogleSelect={toogleSelect} />)
                         }
                     </CCol>
                 </CFormGroup>

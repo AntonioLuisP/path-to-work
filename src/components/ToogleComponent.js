@@ -5,8 +5,7 @@ import {
     CFormGroup,
 } from '@coreui/react'
 
-
-export default function SearchComponent({ data, toogleSelect }) {
+export default function ToogleComponent({ data, toogleSelect }) {
 
     return (
         <CFormGroup variant="checkbox" className='text-break text-justify'>

@@ -14,7 +14,7 @@ import NoteComponent from './NoteComponent'
 
 import TodoComponent from './TodoComponent'
 
-import SearchComponent from './SearchComponent'
+import ToogleComponent from './ToogleComponent'
 
 export {
   TaskComponent,
@@ -33,5 +33,5 @@ export {
 
   TodoComponent,
 
-  SearchComponent
+  ToogleComponent
 }
