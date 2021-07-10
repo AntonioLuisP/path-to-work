@@ -11,7 +11,7 @@ import {
     Loading,
     NoItems,
     AddButton,
-    RelateButton
+    RelationButton
 } from '../../reusable'
 
 import {
@@ -84,7 +84,7 @@ export default function LinkListsIndex({ linkId }) {
     return (
         <>
             <BreadcrumbHeader title="Listas" quantidade={lists.length} >
-                <RelateButton
+                <RelationButton
                     component={
                         <LinkCreateLists linkId={linkId}
                             add={list => addList(list)}

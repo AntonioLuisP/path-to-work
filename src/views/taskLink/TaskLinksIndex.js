@@ -11,7 +11,7 @@ import {
     Loading,
     NoItems,
     AddButton,
-    RelateButton
+    RelationButton
 } from '../../reusable'
 
 import {
@@ -89,7 +89,7 @@ export default function TaskLinksIndex({ taskId, linksQtd }) {
     return (
         <>
             <BreadcrumbHeader title='Links da Tarefa' quantidade={links.length}  >
-                <RelateButton
+                <RelationButton
                     component={
                         <ListCreateLinks taskId={taskId}
                             add={link => addLink(link)}

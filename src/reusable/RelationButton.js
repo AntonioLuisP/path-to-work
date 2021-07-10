@@ -11,7 +11,7 @@ import {
 
 import CIcon from '@coreui/icons-react'
 
-const RelateButton = ({ component }) => {
+const RelationButton = ({ component }) => {
   return (
     <BreadcrumbBaseButton component={component} >
       <CTooltip
@@ -24,4 +24,4 @@ const RelateButton = ({ component }) => {
   )
 }
 
-export default React.memo(RelateButton)
+export default React.memo(RelationButton)

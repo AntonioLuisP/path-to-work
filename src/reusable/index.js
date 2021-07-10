@@ -1,29 +1,29 @@
-import GoTo from './GoTo'
-import Modal from './Modal'
-import Loading from './Loading'
-import ToasterNotification from './ToasterNotification'
-import TypeColorBadge from './TypeColorBadge'
-import BreadcrumbHeader from './BreadcrumbHeader'
-import Favorite from './Favorite'
 import AddButton from './AddButton'
-import RelateButton from './RelateButton'
+import Avisos from './Avisos'
+import BreadcrumbHeader from './BreadcrumbHeader'
+import CollapseDescription from './CollapseDescription'
+import Favorite from './Favorite'
+import GoTo from './GoTo'
+import Loading from './Loading'
+import Modal from './Modal'
 import NoItems from './NoItems'
 import PrincipalButtons from './PrincipalButtons'
-import CollapseDescription from './CollapseDescription'
-import Avisos from './Avisos'
+import RelationButton from './RelationButton'
+import ToasterNotification from './ToasterNotification'
+import TypeColorBadge from './TypeColorBadge'
 
 export {
+  AddButton,
+  Avisos,
+  BreadcrumbHeader,
+  CollapseDescription,
+  Favorite,
   GoTo,
   Loading,
   Modal,
-  ToasterNotification,
-  TypeColorBadge,
-  BreadcrumbHeader,
-  Favorite,
-  AddButton,
-  RelateButton,
   NoItems,
   PrincipalButtons,
-  CollapseDescription,
-  Avisos
+  RelationButton,
+  ToasterNotification,
+  TypeColorBadge,
 }
