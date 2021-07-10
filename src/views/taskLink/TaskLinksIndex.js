@@ -22,7 +22,7 @@ export default function TaskLinksIndex({ taskId, linksQtd }) {
 
     const dispatch = useDispatch()
 
-    const { user } = useAuth()
+    const { authUser } = useAuth()
 
     const [loading, setLoading] = useState(true)
     const [links, setLinks] = useState([])
@@ -67,7 +67,7 @@ export default function TaskLinksIndex({ taskId, linksQtd }) {
             .insert({
                 link_id: link.id,
                 task_id: taskId,
-                user_id: user.id
+                user_id: authUser.id
             })
             .single();
         if (error) {

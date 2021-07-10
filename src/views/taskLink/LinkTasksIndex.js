@@ -22,7 +22,7 @@ export default function LinkTasksIndex({ linkId }) {
 
     const dispatch = useDispatch()
 
-    const { user } = useAuth()
+    const { authUser } = useAuth()
 
     const [loading, setLoading] = useState(true)
     const [tasks, setTasks] = useState([])
@@ -62,7 +62,7 @@ export default function LinkTasksIndex({ linkId }) {
             .insert({
                 link_id: linkId,
                 task_id: task.id,
-                user_id: user.id
+                user_id: authUser.id
             })
             .single();
         if (error) {

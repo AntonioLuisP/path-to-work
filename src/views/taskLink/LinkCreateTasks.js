@@ -14,7 +14,7 @@ import {
 
 export default function LinkCreateTasks({ linkId, add, remove }) {
 
-    const { user } = useAuth()
+    const { authUser } = useAuth()
 
     const [loading, setLoading] = useState(true)
     const [tasks, setTasks] = useState([])
@@ -78,7 +78,7 @@ export default function LinkCreateTasks({ linkId, add, remove }) {
             .insert({
                 link_id: linkId,
                 task_id: task.id,
-                user_id: user.id
+                user_id: authUser.id
             })
             .single();
         if (error) {

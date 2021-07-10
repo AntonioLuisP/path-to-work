@@ -21,7 +21,7 @@ export default function TodoCreate({ taskId, add }) {
 
   const dispatch = useDispatch()
 
-  const { user } = useAuth()
+  const { authUser } = useAuth()
 
   const [load, setLoad] = useState(true)
   const [name, setName] = useState('')
@@ -34,7 +34,7 @@ export default function TodoCreate({ taskId, add }) {
       .insert({
         name,
         task_id: taskId,
-        user_id: user.id
+        user_id: authUser.id
       })
       .single();
     if (error) {

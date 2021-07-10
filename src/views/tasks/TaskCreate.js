@@ -22,7 +22,7 @@ export default function TaskCreate({ add }) {
 
   const dispatch = useDispatch()
 
-  const { user } = useAuth()
+  const { authUser } = useAuth()
 
   const [load, setLoad] = useState(true)
   const [name, setName] = useState('')
@@ -40,7 +40,7 @@ export default function TaskCreate({ add }) {
         description,
         limite_date: limite_date === '' ? null : limite_date,
         horario: horario === '' ? null : horario,
-        user_id: user.id
+        user_id: authUser.id
       })
       .single();
     if (error) {

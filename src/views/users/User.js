@@ -6,7 +6,7 @@ import { Loading } from '../../reusable/'
 
 const User = () => {
 
-  const { user } = useAuth()
+  const { authUser } = useAuth()
 
   const [loading, setLoading] = useState(true)
 
@@ -14,7 +14,7 @@ const User = () => {
     const { data: userSearch, error } = await supabase
       .from("users")
       .select("*")
-      .eq('user_id', user.id)
+      .eq('user_id', authUser.id)
       .single()
     if (error) {
       console.log("error", error);
@@ -22,7 +22,7 @@ const User = () => {
     else {
       console.log(userSearch)
     }
-  }, [user.id])
+  }, [authUser.id])
 
   useEffect(() => {
     fetchUser()
@@ -33,7 +33,7 @@ const User = () => {
 
   return (
     <div>
-      User scream: {user.id}
+      User scream: {authUser.id}
       <PasswordEdit />
     </div>
   )

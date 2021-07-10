@@ -20,7 +20,7 @@ export default function ListCreate({ add }) {
 
   const dispatch = useDispatch()
 
-  const { user } = useAuth()
+  const { authUser } = useAuth()
 
   const [load, setLoad] = useState(true)
   const [name, setName] = useState('')
@@ -32,7 +32,7 @@ export default function ListCreate({ add }) {
       .from("lists")
       .insert({
         name,
-        user_id: user.id
+        user_id: authUser.id
       })
       .single();
     if (error) {

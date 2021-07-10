@@ -14,7 +14,7 @@ import {
 
 export default function ListCreateLinks({ listId, add, remove }) {
 
-    const { user } = useAuth()
+    const { authUser } = useAuth()
 
     const [loading, setLoading] = useState(true)
     const [links, setLinks] = useState([])
@@ -78,7 +78,7 @@ export default function ListCreateLinks({ listId, add, remove }) {
             .insert({
                 list_id: listId,
                 link_id: link.id,
-                user_id: user.id
+                user_id: authUser.id
             })
             .single();
         if (error) {

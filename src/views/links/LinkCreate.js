@@ -23,7 +23,7 @@ export default function LinkCreate({ add }) {
 
   const dispatch = useDispatch()
 
-  const { user } = useAuth()
+  const { authUser } = useAuth()
 
   const [load, setLoad] = useState(true)
   const [name, setName] = useState('')
@@ -41,7 +41,7 @@ export default function LinkCreate({ add }) {
         url,
         is_favorite,
         description,
-        user_id: user.id
+        user_id: authUser.id
       })
       .single();
     if (error) {

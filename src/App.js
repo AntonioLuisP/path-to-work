@@ -21,17 +21,17 @@ const Home = React.lazy(() => import('./views/home/Home'));
 
 export default function App() {
 
-  const { user } = useAuth()
+  const { authUser } = useAuth()
 
   return (
     <HashRouter>
       <React.Suspense fallback={loading}>
         <Switch>
           <Route exact path="/login" name="Login"
-            render={props => user ? <Redirect to={{ pathname: '/dashboard', state: { from: props.location } }} /> : <Login {...props} />}
+            render={props => authUser ? <Redirect to={{ pathname: '/dashboard', state: { from: props.location } }} /> : <Login {...props} />}
           />
           <Route exact path="/register" name="Registro"
-            render={props => user ? <Redirect to={{ pathname: '/dashboard', state: { from: props.location } }} /> : <Register {...props} />}
+            render={props => authUser ? <Redirect to={{ pathname: '/dashboard', state: { from: props.location } }} /> : <Register {...props} />}
           />
           <Route exact path="/404" name="Page 404" render={props => <Error404 {...props} />} />
           <Route exact path="/500" name="Page 500" render={props => <Error500 {...props} />} />

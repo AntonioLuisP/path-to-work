@@ -19,7 +19,7 @@ const loading = (
 
 const Content = () => {
 
-  const { user } = useAuth()
+  const { authUser } = useAuth()
 
   return (
     <main className="c-main">
@@ -33,7 +33,7 @@ const Content = () => {
                   path={route.path}
                   exact={route.exact}
                   name={route.name}
-                  render={props => user ? (
+                  render={props => authUser ? (
                     <CFade>
                       <route.component {...props} />
                     </CFade>

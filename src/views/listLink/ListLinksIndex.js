@@ -22,7 +22,7 @@ export default function ListLinksIndex({ listId }) {
 
     const dispatch = useDispatch()
 
-    const { user } = useAuth()
+    const { authUser } = useAuth()
 
     const [loading, setLoading] = useState(true)
     const [links, setLinks] = useState([])
@@ -63,7 +63,7 @@ export default function ListLinksIndex({ listId }) {
             .insert({
                 link_id: link.id,
                 list_id: listId,
-                user_id: user.id
+                user_id: authUser.id
             })
             .single();
         if (error) {

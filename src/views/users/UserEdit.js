@@ -4,11 +4,11 @@ import PasswordEdit from './PasswordEdit'
 
 const UserEdit = () => {
 
-    const { user } = useAuth()
+    const { authUser } = useAuth()
 
     return (
         <div>
-            User scream: {user.id}
+            User scream: {authUser.id}
             <PasswordEdit />
         </div>
     )
