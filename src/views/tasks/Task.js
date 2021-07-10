@@ -1,23 +1,18 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { supabase } from '../../services/supabase'
-import LinkCreate from '../links/LinkCreate'
 import TodoIndex from '../todos/TodoIndex'
 import TaskEdit from './TaskEdit'
+import TaskLinksIndex from '../taskLink/TaskLinksIndex';
 
 import {
-  AddButton,
-  RelateButton,
-  BreadcrumbHeader,
   Loading,
   Modal,
-  NoItems,
   PrincipalButtons,
   CollapseDescription
 } from '../../reusable'
 
 import {
-  LinkComponent,
   TaskStatus,
   TaskInfo
 } from "../../components/"
@@ -41,8 +36,8 @@ export default function Task() {
   const [collapsed, setCollapsed] = useState(false)
 
   const [task, setTask] = useState({})
-  const [links, setLinks] = useState([])
-  const [todosQtd, setTodosQtd] = useState([])
+  const [todosQtd, setTodosQtd] = useState(0)
+  const [linksQtd, setLinksQtd] = useState(0)
 
   const toogleModal = () => {
     setModal(old => !old)
@@ -59,7 +54,6 @@ export default function Task() {
     }
     else {
       setTask(task)
-      setLinks([])
     }
     setLoading(false)
   }, [id])
@@ -102,13 +96,7 @@ export default function Task() {
             <TodoIndex taskId={task.id} todosQtd={qtd => setTodosQtd(qtd)} />
           </CCol>
           <CCol xs="12" sm="6" md="6">
-            <BreadcrumbHeader title='Links' quantidade={links.length} >
-              <RelateButton component={<LinkCreate />} />
-              <AddButton component={<LinkCreate />} />
-            </BreadcrumbHeader>
-            {links <= 0 ? <NoItems /> :
-              links.map(link => (<LinkComponent key={link.id} link={link} />))
-            }
+            <TaskLinksIndex taskId={task.id} linksQtd={qtd => setLinksQtd(qtd)} />
           </CCol>
         </CRow>
       </CCol>
@@ -119,7 +107,7 @@ export default function Task() {
             <PrincipalButtons editAction={() => toogleModal()} deleteAction={() => handleDelete(task.id)} />
           </div>
         </TaskInfo>
-        <TaskStatus task={task} todos={todosQtd} links={links.length} />
+        <TaskStatus task={task} todos={todosQtd} links={linksQtd} />
       </CCol>
     </CRow>
   )

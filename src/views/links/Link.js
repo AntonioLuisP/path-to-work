@@ -4,6 +4,7 @@ import { supabase } from '../../services/supabase'
 import LinkEdit from './LinkEdit'
 import NoteIndex from '../notes/NoteIndex'
 import LinkListsIndex from '../listLink/LinkListsIndex';
+import LinkTasksIndex from '../taskLink/LinkTasksIndex';
 
 import {
   Loading,
@@ -91,7 +92,14 @@ export default function Link() {
             </CCardBody>
           </CCollapse>
         </CCard>
-        <NoteIndex linkId={link.id} />
+        <CRow>
+          <CCol xs="12" sm="8" md="8">
+            <NoteIndex linkId={link.id} />
+          </CCol>
+          <CCol xs="12" sm="4" md="4">
+            <LinkTasksIndex linkId={link.id} />
+          </CCol>
+        </CRow>
       </CCol>
       <CCol xs="12" sm="3" md="3">
         <LinkInfo link={link}>

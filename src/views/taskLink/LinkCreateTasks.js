@@ -17,11 +17,11 @@ export default function LinkCreateTasks({ linkId, add, remove }) {
     const { user } = useAuth()
 
     const [loading, setLoading] = useState(true)
-    const [lists, setLists] = useState([])
+    const [tasks, setTasks] = useState([])
 
-    const fetchLists = useCallback(async () => {
-        const { data: allLists, error } = await supabase
-            .from("lists")
+    const fetchTasks = useCallback(async () => {
+        const { data: allTasks, error } = await supabase
+            .from("tasks")
             .select("*")
             .order("created_at", { ascending: false });
         if (error) {
@@ -30,55 +30,55 @@ export default function LinkCreateTasks({ linkId, add, remove }) {
         else {
             const { data: allRelations, errorRelations } = await supabase
                 .from("task_links")
-                .select("list_id, lists(*)")
+                .select("task_id, tasks(*)")
                 .eq('link_id', linkId)
                 .order("created_at", { ascending: false });
             if (errorRelations) {
                 console.log("errorRelations", errorRelations);
             } else {
                 const partsedRelations = Object.entries(allRelations).map(([key, value]) => {
-                    return value.lists
+                    return value.tasks
                 })
-                setLists(allLists.map(list => {
-                    if (partsedRelations.some(relation => relation.id === list.id)) {
-                        return { ...list, 'selected': true }
+                setTasks(allTasks.map(task => {
+                    if (partsedRelations.some(relation => relation.id === task.id)) {
+                        return { ...task, 'selected': true }
                     }
-                    return list
+                    return task
                 }))
             }
             setLoading(false)
         }
     }, [linkId])
 
-    async function toogleSelect(e, list) {
+    async function toogleSelect(e, task) {
         e.preventDefault();
-        if (list.selected) {
-            await removeRelation(list)
+        if (task.selected) {
+            await removeRelation(task)
         } else {
-            await addRelation(list)
+            await addRelation(task)
         }
     }
 
-    async function removeRelation(list) {
+    async function removeRelation(task) {
         const { error } = await supabase
             .from('task_links')
             .delete()
             .eq('link_id', linkId)
-            .eq('list_id', list.id)
+            .eq('task_id', task.id)
         if (error) {
             console.log("error: ", error)
         } else {
-            remove(list)
-            redoAfterToogle(list)
+            remove(task)
+            redoAfterToogle(task)
         }
     }
 
-    async function addRelation(list) {
+    async function addRelation(task) {
         const { error } = await supabase
             .from("task_links")
             .insert({
                 link_id: linkId,
-                list_id: list.id,
+                task_id: task.id,
                 user_id: user.id
             })
             .single();
@@ -86,23 +86,23 @@ export default function LinkCreateTasks({ linkId, add, remove }) {
             alert("error", error)
             return;
         } else {
-            add(list)
-            redoAfterToogle(list)
+            add(task)
+            redoAfterToogle(task)
         }
     }
 
     function redoAfterToogle(data) {
-        setLists(lists.map(list => {
-            if (list.id === data.id) {
+        setTasks(tasks.map(task => {
+            if (task.id === data.id) {
                 return { ...data, 'selected': !data.selected }
             }
-            return { ...list }
+            return { ...task }
         }))
     }
 
     useEffect(() => {
-        fetchLists()
-    }, [fetchLists])
+        fetchTasks()
+    }, [fetchTasks])
 
     if (loading) return (<><Loading /></>)
 
@@ -115,7 +115,7 @@ export default function LinkCreateTasks({ linkId, add, remove }) {
                 <CFormGroup row>
                     <CCol md="12">
                         {
-                            lists.map(list => <SearchComponent key={list.id} data={list} toogleSelect={toogleSelect} />)
+                            tasks.map(task => <SearchComponent key={task.id} data={task} toogleSelect={toogleSelect} />)
                         }
                     </CCol>
                 </CFormGroup>

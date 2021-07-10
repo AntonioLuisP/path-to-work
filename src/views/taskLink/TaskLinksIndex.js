@@ -18,7 +18,7 @@ import {
     LinkComponent,
 } from "../../components"
 
-export default function TaskLinksIndex({ listId }) {
+export default function TaskLinksIndex({ taskId, linksQtd }) {
 
     const dispatch = useDispatch()
 
@@ -27,11 +27,15 @@ export default function TaskLinksIndex({ listId }) {
     const [loading, setLoading] = useState(true)
     const [links, setLinks] = useState([])
 
+    useEffect(() => {
+        linksQtd(links.length)
+    }, [links, linksQtd])
+
     const fetchLinks = useCallback(async () => {
         const { data: links, errorLinks } = await supabase
             .from("task_links")
-            .select("list_id, links(*)")
-            .eq('list_id', listId)
+            .select("task_id, links(*)")
+            .eq('task_id', taskId)
             .order("created_at", { ascending: false });
         if (errorLinks) {
             console.log("errorLinks", errorLinks);
@@ -42,7 +46,7 @@ export default function TaskLinksIndex({ listId }) {
             setLinks(parsedLinks)
         }
         setLoading(false)
-    }, [listId])
+    }, [taskId])
 
     useEffect(() => {
         fetchLinks()
@@ -57,12 +61,12 @@ export default function TaskLinksIndex({ listId }) {
         setLinks(links => links.filter(link => link.id !== item.id))
     }
 
-    async function handleCreateRelationListLink(link) {
+    async function handleCreateRelationTaskLink(link) {
         const { error } = await supabase
             .from("task_links")
             .insert({
                 link_id: link.id,
-                list_id: listId,
+                task_id: taskId,
                 user_id: user.id
             })
             .single();
@@ -72,7 +76,7 @@ export default function TaskLinksIndex({ listId }) {
         } else {
             addLink(link)
             dispatch(ActionNotification.addOne({
-                header: 'Link adicionada a Lista:',
+                header: 'Link adicionada a Tarefa:',
                 body: link.name,
                 id: link.id,
             }))
@@ -84,16 +88,16 @@ export default function TaskLinksIndex({ listId }) {
 
     return (
         <>
-            <BreadcrumbHeader title='Links' quantidade={links.length}  >
+            <BreadcrumbHeader title='Links da Tarefa' quantidade={links.length}  >
                 <RelateButton
                     component={
-                        <ListCreateLinks listId={listId}
+                        <ListCreateLinks taskId={taskId}
                             add={link => addLink(link)}
                             remove={link => removeLink(link)}
                         />
                     }
                 />
-                <AddButton component={<LinkCreate add={link => handleCreateRelationListLink(link)} />} />
+                <AddButton component={<LinkCreate add={link => handleCreateRelationTaskLink(link)} />} />
             </BreadcrumbHeader>
             {links <= 0 ? <NoItems /> :
                 links.map(link => (<LinkComponent key={link.id} link={link} />))

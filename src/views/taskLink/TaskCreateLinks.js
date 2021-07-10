@@ -12,7 +12,7 @@ import {
     CCol
 } from '@coreui/react'
 
-export default function TaskCreateLinks({ listId, add, remove }) {
+export default function TaskCreateLinks({ taskId, add, remove }) {
 
     const { user } = useAuth()
 
@@ -30,8 +30,8 @@ export default function TaskCreateLinks({ listId, add, remove }) {
         else {
             const { data: allRelations, errorRelations } = await supabase
                 .from("task_links")
-                .select("list_id, links(*)")
-                .eq('list_id', listId)
+                .select("task_id, links(*)")
+                .eq('task_id', taskId)
                 .order("created_at", { ascending: false });
             if (errorRelations) {
                 console.log("errorRelations", errorRelations);
@@ -48,7 +48,7 @@ export default function TaskCreateLinks({ listId, add, remove }) {
             }
             setLoading(false)
         }
-    }, [listId])
+    }, [taskId])
 
     async function toogleSelect(e, link) {
         e.preventDefault();
@@ -63,7 +63,7 @@ export default function TaskCreateLinks({ listId, add, remove }) {
         const { error } = await supabase
             .from('task_links')
             .delete()
-            .eq('list_id', listId)
+            .eq('task_id', taskId)
             .eq('link_id', link.id)
         if (error) {
             console.log("error: ", error)
@@ -77,7 +77,7 @@ export default function TaskCreateLinks({ listId, add, remove }) {
         const { error } = await supabase
             .from("task_links")
             .insert({
-                list_id: listId,
+                task_id: taskId,
                 link_id: link.id,
                 user_id: user.id
             })

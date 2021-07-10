@@ -2,8 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import { supabase } from '../../services/supabase'
 import { useAuth } from '../../hooks/useAuth';
-import ListCreate from '../lists/ListCreate'
-import LinkCreateLists from './LinkCreateTasks'
+import TaskCreate from '../tasks/TaskCreate'
+import LinkCreateTasks from './LinkCreateTasks'
 import { Actions as ActionNotification } from '../../redux/notifications'
 
 import {
@@ -15,7 +15,7 @@ import {
 } from '../../reusable'
 
 import {
-    ListComponent,
+    TaskComponent,
 } from "../../components"
 
 export default function LinkTasksIndex({ linkId }) {
@@ -25,43 +25,43 @@ export default function LinkTasksIndex({ linkId }) {
     const { user } = useAuth()
 
     const [loading, setLoading] = useState(true)
-    const [lists, setLists] = useState([])
+    const [tasks, setTasks] = useState([])
 
-    const fetchLists = useCallback(async () => {
-        const { data: lists, errorLists } = await supabase
+    const fetchTasks = useCallback(async () => {
+        const { data: tasks, errorTasks } = await supabase
             .from("task_links")
-            .select("list_id, lists(*)")
+            .select("task_id, tasks(*)")
             .eq('link_id', linkId)
             .order("created_at", { ascending: false });
-        if (errorLists) {
-            console.log("errorLists", errorLists);
+        if (errorTasks) {
+            console.log("errorTasks", errorTasks);
         } else {
-            const parsedLists = Object.entries(lists).map(([key, value]) => {
-                return value.lists
+            const parsedTasks = Object.entries(tasks).map(([key, value]) => {
+                return value.tasks
             })
-            setLists(parsedLists)
+            setTasks(parsedTasks)
         }
         setLoading(false)
     }, [linkId])
 
     useEffect(() => {
-        fetchLists()
-    }, [fetchLists])
+        fetchTasks()
+    }, [fetchTasks])
 
-    function addList(list) {
-        setLists(lists => [list, ...lists])
+    function addTask(task) {
+        setTasks(tasks => [task, ...tasks])
     }
 
-    function removeList(item) {
-        setLists(lists => lists.filter(list => list.id !== item.id))
+    function removeTask(item) {
+        setTasks(tasks => tasks.filter(task => task.id !== item.id))
     }
 
-    async function handleCreateRelationListLink(list) {
+    async function handleCreateRelationTaskLink(task) {
         const { error } = await supabase
             .from("task_links")
             .insert({
                 link_id: linkId,
-                list_id: list.id,
+                task_id: task.id,
                 user_id: user.id
             })
             .single();
@@ -69,11 +69,11 @@ export default function LinkTasksIndex({ linkId }) {
             alert("error", error)
             return;
         } else {
-            addList(list)
+            addTask(task)
             dispatch(ActionNotification.addOne({
-                header: 'Link adicionada a Lista:',
-                body: list.name,
-                id: list.id,
+                header: 'Link adicionada a Tarefa:',
+                body: task.name,
+                id: task.id,
             }))
         }
         return;
@@ -83,19 +83,19 @@ export default function LinkTasksIndex({ linkId }) {
 
     return (
         <>
-            <BreadcrumbHeader title="Listas" quantidade={lists.length} >
+            <BreadcrumbHeader title="Tarefas do Link" quantidade={tasks.length} >
                 <RelateButton
                     component={
-                        <LinkCreateLists linkId={linkId}
-                            add={list => addList(list)}
-                            remove={list => removeList(list)}
+                        <LinkCreateTasks linkId={linkId}
+                            add={task => addTask(task)}
+                            remove={task => removeTask(task)}
                         />
                     }
                 />
-                <AddButton component={<ListCreate add={list => handleCreateRelationListLink(list)} />} />
+                <AddButton component={<TaskCreate add={task => handleCreateRelationTaskLink(task)} />} />
             </BreadcrumbHeader>
-            {lists <= 0 ? <NoItems /> :
-                lists.map(list => (<ListComponent key={list.id} list={list} />))
+            {tasks <= 0 ? <NoItems /> :
+                tasks.map(task => (<TaskComponent key={task.id} task={task} />))
             }
         </>
     )
