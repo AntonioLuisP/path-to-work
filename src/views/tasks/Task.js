@@ -64,12 +64,28 @@ export default function Task() {
 
   async function handleDelete() {
     if (window.confirm('Tem certeza que você deseja excluir?')) {
-      const { error } = await supabase
-        .from('tasks')
+      const { errorTaskLinks } = await supabase
+        .from('task_links')
         .delete()
-        .eq('id', id)
-      if (error) console.log("error", error);
-      else history.push('/tasks');
+        .eq('task_id', id)
+      if (errorTaskLinks) {
+        console.log("errorTaskLinks", errorTaskLinks)
+      } else {
+        const { errorTodos } = await supabase
+          .from('todos')
+          .delete()
+          .eq('task_id', id)
+        if (errorTodos) {
+          console.log("errorTodos", errorTodos)
+        } else {
+          const { error } = await supabase
+            .from('tasks')
+            .delete()
+            .eq('id', id)
+          if (error) console.log("error", error);
+          else history.push('/tasks');
+        }
+      }
     }
   }
 

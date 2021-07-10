@@ -54,12 +54,20 @@ export default function List() {
 
   async function handleDelete() {
     if (window.confirm('Tem certeza que você deseja excluir?')) {
-      const { error } = await supabase
-        .from('lists')
+      const { errorRelation } = await supabase
+        .from('list_links')
         .delete()
-        .eq('id', id)
-      if (error) console.log("error", error);
-      else history.push('/lists');
+        .eq('list_id', id)
+      if (errorRelation) {
+        console.log("errorRelation", errorRelation);
+      } else {
+        const { errorList } = await supabase
+          .from('lists')
+          .delete()
+          .eq('id', id)
+        if (errorList) console.log("errorList", errorList);
+        else history.push('/lists');
+      }
     }
   }
 

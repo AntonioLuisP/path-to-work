@@ -63,12 +63,36 @@ export default function Link() {
 
   async function handleDelete() {
     if (window.confirm('Tem certeza que você deseja excluir?')) {
-      const { error } = await supabase
-        .from('links')
+      const { errorListLinks } = await supabase
+        .from('list_links')
         .delete()
-        .eq('id', id)
-      if (error) console.log("error", error);
-      else history.push('/links');
+        .eq('link_id', id)
+      if (errorListLinks) {
+        console.log("errorListLinks", errorListLinks);
+      }
+      const { errorTaskLinks } = await supabase
+        .from('task_links')
+        .delete()
+        .eq('link_id', id)
+      if (errorTaskLinks) {
+        console.log("errorTaskLinks", errorTaskLinks)
+      }
+      if (!errorListLinks && !errorTaskLinks) {
+        const { errorNotes } = await supabase
+          .from('notes')
+          .delete()
+          .eq('link_id', id)
+        if (errorNotes) {
+          console.log("errorNotes", errorNotes)
+        } else {
+          const { error } = await supabase
+            .from('links')
+            .delete()
+            .eq('id', id)
+          if (error) console.log("error", error);
+          else history.push('/links');
+        }
+      }
     }
   }
 
