@@ -10,17 +10,17 @@ import {
   CRow,
 } from '@coreui/react'
 
-export default function List() {
+export default function Profile() {
 
   const { authUser } = useAuth()
 
   const [loading, setLoading] = useState(true)
 
-  const [list, setProfile] = useState({})
+  const [profile, setProfile] = useState({})
 
   const fetchProfile = useCallback(async () => {
-    const { data: list, error } = await supabase
-      .from("lists")
+    const { data: profile, error } = await supabase
+      .from("profiles")
       .select("*")
       .eq('user_id', authUser.id)
       .single()
@@ -28,7 +28,7 @@ export default function List() {
       console.log("error", error);
     }
     else {
-      setProfile(list)
+      setProfile(profile)
     }
     setLoading(false)
   }, [authUser.id])
@@ -39,7 +39,7 @@ export default function List() {
 
   if (loading) return (<Loading />)
 
-  if (list.id === undefined) return (<> Perfil não encontrado</>)
+  if (profile.id === undefined) return (<> Perfil não encontrado</>)
 
   return (
     <CRow>
