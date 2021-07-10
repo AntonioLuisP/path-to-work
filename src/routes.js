@@ -4,10 +4,7 @@ const User = React.lazy(() => import('./views/users/User'));
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'));
 
-const SocialIndex = React.lazy(() => import('./views/socials/SocialIndex'));
-const SocialCreate = React.lazy(() => import('./views/socials/SocialCreate'));
-const Social = React.lazy(() => import('./views/socials/Social'));
-const SocialEdit = React.lazy(() => import('./views/socials/SocialEdit'));
+const Profile = React.lazy(() => import('./views/profile/Profile'));
 
 const LinkIndex = React.lazy(() => import('./views/links/LinkIndex'));
 const Link = React.lazy(() => import('./views/links/Link'));
@@ -24,10 +21,7 @@ const routes = [
 
   { path: '/user', exact: true, name: 'Usuário', component: User },
 
-  { path: '/social', exact: true, name: 'Perfil Social', component: SocialIndex },
-  { path: '/social/create', exact: true, name: 'Criar', component: SocialCreate },
-  { path: '/social/:id', exact: true, name: 'Detalhes', component: Social },
-  { path: '/social/:id/edit', exact: true, name: 'Editar', component: SocialEdit },
+  { path: '/social', exact: true, name: 'Perfil Social', component: Profile },
 
   { path: '/links', exact: true, name: 'Links', component: LinkIndex },
   { path: '/links/:id', exact: true, name: 'Detalhes', component: Link },
