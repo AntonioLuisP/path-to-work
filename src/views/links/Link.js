@@ -3,7 +3,7 @@ import { useParams, useHistory } from 'react-router-dom'
 import { supabase } from '../../services/supabase'
 import LinkEdit from './LinkEdit'
 import NoteIndex from '../notes/NoteIndex'
-import LinkListsIndex from '../linkList/LinkListsIndex';
+import LinkListsIndex from '../listLink/LinkListsIndex';
 
 import {
   Loading,
