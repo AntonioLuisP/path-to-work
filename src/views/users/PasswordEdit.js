@@ -48,7 +48,7 @@ export default function PasswordEdit() {
                 </CCardHeader>
                 <CCardBody>
                     <CFormGroup>
-                        <CLabel >Digite a nova senha</CLabel>
+                        <CLabel >Digite uma nova senha</CLabel>
                         <CInput type="password" placeholder="Senha" value={password} onChange={e => setPassword(e.target.value)} autoComplete=" password" />
                     </CFormGroup>
                 </CCardBody>

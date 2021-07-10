@@ -1,42 +1,48 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import React from 'react'
 import { useAuth } from '../../hooks/useAuth'
+import NameEdit from './NameEdit'
 import PasswordEdit from './PasswordEdit'
-import { supabase } from '../../services/supabase'
-import { Loading } from '../../reusable/'
 
-const User = () => {
+import {
+  CCol,
+  CRow,
+  CCard,
+  CCardHeader,
+  CCardBody
+} from '@coreui/react'
+
+export default function User() {
 
   const { authUser } = useAuth()
 
-  const [loading, setLoading] = useState(true)
-
-  const fetchUser = useCallback(async () => {
-    const { data: userSearch, error } = await supabase
-      .from("users")
-      .select("*")
-      .eq('user_id', authUser.id)
-      .single()
-    if (error) {
-      console.log("error", error);
-    }
-    else {
-      console.log(userSearch)
-    }
-  }, [authUser.id])
-
-  useEffect(() => {
-    fetchUser()
-    setLoading(false)
-  }, [fetchUser])
-
-  if (loading) return (<Loading />)
-
   return (
     <div>
-      User scream: {authUser.id}
+      <CRow>
+        <CCol xs="12" sm="3" md="3">
+          <CCard className="content-center">
+            <CCardHeader className='border-0 text-break text-justify'>
+              <h3><strong>Usuário:</strong></h3>
+            </CCardHeader>
+            <CCardHeader className='border-0'>
+              <h3>
+                {
+                  authUser.user_metadata.full_name === undefined ?
+                    'Diga seu nome' :
+                    authUser.user_metadata.full_name
+                }
+              </h3>
+            </CCardHeader>
+          </CCard>
+        </CCol>
+        <CCol xs="12" sm="9" md="9">
+          <CCard>
+            <CCardBody>
+              <NameEdit />
+            </CCardBody>
+          </CCard>
+        </CCol>
+      </CRow>
       <PasswordEdit />
     </div>
   )
 }
-
-export default User
