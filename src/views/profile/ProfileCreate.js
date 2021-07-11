@@ -1,25 +1,22 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
 import { supabase } from 'src/services/supabase';
 import { useAuth } from '../../hooks/useAuth';
-import { Actions as ActionNotification } from '../../redux/notifications'
 
 import {
   CButton,
-  CCol,
-  CCardBody,
-  CCardFooter,
-  CCardHeader,
-  CCardTitle,
   CForm,
   CFormGroup,
+  CLabel,
   CInput,
-  CCard,
+  CInputGroup,
+  CInputGroupPrepend,
+  CInputGroupText,
+  CInputGroupAppend
 } from '@coreui/react'
 
-export default function ProfileCreate({ add }) {
+import CIcon from '@coreui/icons-react'
 
-  const dispatch = useDispatch()
+export default function ProfileCreate({ add }) {
 
   const { authUser } = useAuth()
 
@@ -41,42 +38,31 @@ export default function ProfileCreate({ add }) {
       return;
     } else {
       add(profile)
-      dispatch(ActionNotification.addOne({
-        header: 'Perfil Social Criado:',
-        body: profile.name,
-        id: profile.id,
-      }))
     }
     setLoad(true)
   }
 
   return (
-    <CCard>
-      <CCardHeader>
-        <CCardTitle>Crie seu Perfil</CCardTitle>
-      </CCardHeader >
-      <CForm onSubmit={handleCreate} className="form-horizontal">
-        <CCardBody>
-          <CFormGroup row>
-            <CCol xs="12" md="12">
-              <CInput
-                id="text-input"
-                name="text-input"
-                placeholder="Nome"
-                value={name}
-                onChange={e => setName(e.target.value)}
-              />
-            </CCol>
-          </CFormGroup>
-        </CCardBody>
-        <CCardFooter>
-          <CButton type="submit" color="success" disabled={!load}>
-            {
-              load ? 'Adicionar' : (<span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />)
-            }
-          </CButton>
-        </CCardFooter>
-      </CForm>
-    </CCard>
+    <CForm onSubmit={handleCreate} className="form-horizontal">
+      <CFormGroup>
+        <CLabel >Dê um nome a seu perfil</CLabel>
+        <CInputGroup>
+          <CInputGroupPrepend>
+            <CInputGroupText>
+              <CIcon name="cil-user" />
+            </CInputGroupText>
+          </CInputGroupPrepend>
+          <CInput type="text" placeholder="Nome Completo" value={name} onChange={e => setName(e.target.value)} autoComplete=" name" />
+          <CInputGroupAppend>
+            <CButton type="submit" color="success" disabled={!load}>
+              {
+                load ? 'Salvar' : (<span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />)
+              }
+            </CButton>
+          </CInputGroupAppend>
+        </CInputGroup>
+        <p className="help-block">Este nome será utilizado para compartilhar seus links sociais!</p>
+      </CFormGroup>
+    </CForm>
   )
 }

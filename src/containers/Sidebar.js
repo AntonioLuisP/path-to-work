@@ -51,8 +51,8 @@ const Sidebar = () => {
           icon={<CIcon content={cilCursor} customClasses="c-sidebar-nav-icon" />}
         />
         <CSidebarNavItem
-          name="Social"
-          to="/social"
+          name="Perfil Social"
+          to="/profile"
           icon={<CIcon content={cilContact} customClasses="c-sidebar-nav-icon" />}
         />
         <CSidebarNavItem

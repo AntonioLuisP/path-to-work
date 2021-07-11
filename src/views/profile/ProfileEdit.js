@@ -5,15 +5,20 @@ import { Actions as ActionNotification } from '../../redux/notifications'
 
 import {
   CButton,
-  CCol,
   CModalBody,
-  CModalFooter,
   CModalHeader,
   CModalTitle,
   CForm,
   CFormGroup,
   CInput,
+  CLabel,
+  CInputGroup,
+  CInputGroupPrepend,
+  CInputGroupText,
+  CInputGroupAppend,
 } from '@coreui/react'
+
+import CIcon from '@coreui/icons-react'
 
 export default function ProfileEdit(props) {
 
@@ -39,7 +44,7 @@ export default function ProfileEdit(props) {
     } else {
       props.edit(profile)
       dispatch(ActionNotification.addOne({
-        header: 'Perfil Social Editada:',
+        header: 'Perfil Social Editado:',
         body: profile.name,
         id: profile.id,
       }))
@@ -49,29 +54,30 @@ export default function ProfileEdit(props) {
 
   return (
     <CForm onSubmit={handleEdit} className="form-horizontal">
-      <CModalHeader>
+      <CModalHeader closeButton>
         <CModalTitle>Editar seu Perfil</CModalTitle>
       </CModalHeader>
       <CModalBody>
-        <CFormGroup row>
-          <CCol xs="12" md="12">
-            <CInput
-              id="text-input"
-              name="text-input"
-              placeholder="Nome"
-              value={name}
-              onChange={e => setName(e.target.value)}
-            />
-          </CCol>
+        <CFormGroup>
+          <CLabel >Editar seu nome de perfil</CLabel>
+          <CInputGroup>
+            <CInputGroupPrepend>
+              <CInputGroupText>
+                <CIcon name="cil-user" />
+              </CInputGroupText>
+            </CInputGroupPrepend>
+            <CInput type="text" placeholder="Nome Completo" value={name} onChange={e => setName(e.target.value)} autoComplete=" name" />
+            <CInputGroupAppend>
+              <CButton type="submit" color="success" disabled={!load}>
+                {
+                  load ? 'Salvar' : (<span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />)
+                }
+              </CButton>
+            </CInputGroupAppend>
+          </CInputGroup>
+          <p className="help-block">Ao atualizar, seu link compartilhavel será baseado no novo nome!!!</p>
         </CFormGroup>
       </CModalBody>
-      <CModalFooter>
-        <CButton type="submit" color="success" disabled={!load}>
-          {
-            load ? 'Salvar' : (<span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />)
-          }
-        </CButton>
-      </CModalFooter>
     </CForm>
   )
 }

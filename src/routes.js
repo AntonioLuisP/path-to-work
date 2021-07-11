@@ -21,7 +21,7 @@ const routes = [
 
   { path: '/user', exact: true, name: 'Usuário', component: User },
 
-  { path: '/social', exact: true, name: 'Perfil Social', component: Profile },
+  { path: '/profile', exact: true, name: 'Perfil Social', component: Profile },
 
   { path: '/links', exact: true, name: 'Links', component: LinkIndex },
   { path: '/links/:id', exact: true, name: 'Detalhes', component: Link },

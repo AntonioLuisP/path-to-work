@@ -18,6 +18,7 @@ const Register = React.lazy(() => import('./views/auth/Register'));
 const Error404 = React.lazy(() => import('./views/errors/Error404'));
 const Error500 = React.lazy(() => import('./views/errors/Error500'));
 const Home = React.lazy(() => import('./views/home/Home'));
+const Social = React.lazy(() => import('./views/social/Social'));
 
 export default function App() {
 
@@ -35,6 +36,7 @@ export default function App() {
           />
           <Route exact path="/404" name="Page 404" render={props => <Error404 {...props} />} />
           <Route exact path="/500" name="Page 500" render={props => <Error500 {...props} />} />
+          <Route exatc path="/social/:id" name="Social" render={props => <Social {...props} />} />
           <Route exatc path="/home" name="teste" render={props => <Home {...props} />} />
           <Route path="/" name="Home" render={props => <TheApp {...props} />} />
         </Switch>

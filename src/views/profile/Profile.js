@@ -1,22 +1,39 @@
 import React, { useState, useEffect, useCallback } from 'react'
+import { useHistory } from 'react-router-dom'
 import { supabase } from '../../services/supabase'
 import { useAuth } from '../../hooks/useAuth';
+import ProfileCreate from './ProfileCreate';
+import ProfileEdit from './ProfileEdit';
+import ProfileLinksIndex from '../profileLink/ProfileLinksIndex';
 
 import {
   Loading,
+  Modal,
+  GoTo,
+  EditDataButton,
+  ShareButton
 } from '../../reusable'
 
 import {
-  CRow,
-} from '@coreui/react'
+  cilContact,
+} from '@coreui/icons'
+
+import CIcon from '@coreui/icons-react'
 
 export default function Profile() {
+
+  const history = useHistory()
 
   const { authUser } = useAuth()
 
   const [loading, setLoading] = useState(true)
+  const [modal, setModal] = useState(false)
 
   const [profile, setProfile] = useState({})
+
+  const toogleModal = () => {
+    setModal(old => !old)
+  }
 
   const fetchProfile = useCallback(async () => {
     const { data: profile, error } = await supabase
@@ -39,13 +56,22 @@ export default function Profile() {
 
   if (loading) return (<Loading />)
 
-  if (profile.id === undefined) return (<> Perfil não encontrado</>)
+  if (profile.id === undefined) {
+    return (<ProfileCreate add={profile => setProfile(profile)} />)
+  }
 
   return (
-    <CRow>
-
-      oba
-
-    </CRow>
+    <>
+      <Modal show={modal} onClose={toogleModal}>
+        <ProfileEdit profile={profile} edit={profile => setProfile(profile)} />
+      </Modal>
+      <ProfileLinksIndex profileId={profile.id} profileName={profile.name} >
+        <GoTo action={() => history.push('/social/' + profile.name)}>
+          <CIcon content={cilContact} width={20} />
+        </GoTo>
+        <ShareButton name={profile.name} />
+        <EditDataButton action={() => toogleModal()} />
+      </ProfileLinksIndex>
+    </>
   )
 }
