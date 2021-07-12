@@ -13,7 +13,7 @@ export default function ListComponent({ list }) {
     return (
         <CCard>
             <CCardHeader className='text-break text-justify'>
-                {list.name}
+                {list.name.length >= 50 ? list.name.substring(0, 174) + ' ...' : list.name}
                 <div className="card-header-actions">
                     <GoTo go={'/lists/' + list.id}>
                         <CIcon name="cil-list" />

@@ -7,7 +7,7 @@ import {
 } from '../../containers'
 
 import {
-    LinkComponent,
+    SocialLinkComponent,
 } from "../../components"
 
 import {
@@ -16,11 +16,9 @@ import {
 } from '../../reusable'
 
 import {
+    CCol,
     CContainer,
-    CHeader,
-    CHeaderNav,
-    CHeaderNavItem,
-    CHeaderNavLink
+    CRow
 } from '@coreui/react'
 
 export default function Social() {
@@ -66,26 +64,18 @@ export default function Social() {
     if (loading) return (<Loading />)
 
     return (
-        <div className="c-app c-default-layout">
+        <div className="c-app c-default-layout align-items-center">
             <div className="c-wrapper">
-                <CHeader>
-                    <CHeaderNav className="d-md-down-none mr-auto">
-                        <CHeaderNavItem className="px-3" >
-                            <CHeaderNavLink to="/home">Link Work</CHeaderNavLink>
-                        </CHeaderNavItem>
-                    </CHeaderNav>
-                    <CHeaderNav className="px-3">
-                        <CHeaderNavItem >
-                            <CHeaderNavLink to="/login">Login</CHeaderNavLink>
-                        </CHeaderNavItem>
-                    </CHeaderNav>
-                </CHeader>
                 <div className="c-body">
                     <CContainer>
-                        {id}
-                        {links <= 0 ? <NoItems /> :
-                            links.map(link => (<LinkComponent key={link.id} link={link} />))
-                        }
+                        <CRow className="justify-content-center">
+                            <CCol md="6">
+                                <h1 className="pt-4">{id}</h1>
+                                {links <= 0 ? <NoItems /> :
+                                    links.map(link => (<SocialLinkComponent key={link.id} link={link} />))
+                                }
+                            </CCol>
+                        </CRow>
                     </CContainer>
                 </div>
                 <Footer />

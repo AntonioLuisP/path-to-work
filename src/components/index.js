@@ -12,6 +12,8 @@ import LinkInfo from './LinkInfo'
 
 import NoteComponent from './NoteComponent'
 
+import SocialLinkComponent from './SocialLinkComponent'
+
 import TodoComponent from './TodoComponent'
 
 import ToogleComponent from './ToogleComponent'
@@ -30,6 +32,8 @@ export {
   LinkInfo,
 
   NoteComponent,
+
+  SocialLinkComponent,
 
   TodoComponent,
 

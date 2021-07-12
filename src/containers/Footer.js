@@ -1,12 +1,17 @@
 import React from 'react'
 
-import { CFooter } from '@coreui/react'
+
+import { CLink, CFooter } from '@coreui/react'
 
 const Footer = () => {
   return (
     <CFooter fixed={false}>
       <div>
-        <a href="https://github.com/AntonioLuisP" target="_blank" rel="noopener noreferrer">Link Work</a>
+        <CLink
+           to='/dashboard'
+        >
+          Link Work
+        </CLink>
 
       </div>
       <div className="mfs-auto">

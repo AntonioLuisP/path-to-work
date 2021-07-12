@@ -37,7 +37,7 @@ export default function LinkComponent(props) {
                     target='_blank'
                     rel="noreferrer noopener"
                     href={link.url} >
-                    {link.name !== null ? link.name : link.url}
+                    {link.name.length >= 50 ? link.name.substring(0, 174) + ' ...' : link.name}
                 </a>
                 <div className="card-header-actions">
                     <Favorite favorito={link.is_favorite} action={handleFavorite} />
