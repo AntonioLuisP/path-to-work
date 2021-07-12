@@ -51,7 +51,7 @@ export default function Home() {
                                     <p className="text-justify">
                                         Dentre as possibilidades estão <b>listagem, anotações e criação de tarefas para esses links</b>. Aqui também você poderá criar um perfil compartilhável com todos os seus <b>links sociais</b> para as pessoas conseguirem te encontrar!
                                     </p>
-                                    <p className="lead">
+                                    <p className="lead text-center">
                                         <CLink
                                             to='/dashboard'
                                             size='lg'
