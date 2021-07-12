@@ -7,6 +7,7 @@ import Favorite from './Favorite'
 import GoTo from './GoTo'
 import Loading from './Loading'
 import Modal from './Modal'
+import NoData from './NoData'
 import NoItems from './NoItems'
 import PrincipalButtons from './PrincipalButtons'
 import RelationButton from './RelationButton'
@@ -24,6 +25,7 @@ export {
   GoTo,
   Loading,
   Modal,
+  NoData,
   NoItems,
   PrincipalButtons,
   RelationButton,

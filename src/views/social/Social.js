@@ -12,6 +12,7 @@ import {
 
 import {
     Loading,
+    NoData,
     NoItems,
 } from '../../reusable'
 
@@ -27,10 +28,11 @@ export default function Social() {
 
     const [loading, setLoading] = useState(true)
     const [links, setLinks] = useState([])
+    const [profile, setProfile] = useState({})
 
     const fetchProfile = useCallback(async () => {
         setLoading(true)
-        setLinks([])
+        setProfile({})
         const { data: profile, error } = await supabase
             .from("profiles")
             .select("*")
@@ -40,6 +42,7 @@ export default function Social() {
             console.log("error", error);
         }
         else {
+            setProfile(profile)
             const { data: links, errorLinks } = await supabase
                 .from("profile_links")
                 .select("profile_id, links(*)")
@@ -61,18 +64,21 @@ export default function Social() {
         fetchProfile()
     }, [fetchProfile])
 
-    if (loading) return (<Loading />)
-
     return (
-        <div className="c-app c-default-layout align-items-center">
+        <div className="c-app c-default-layout flex-row align-items-center">
             <div className="c-wrapper">
                 <div className="c-body">
                     <CContainer>
                         <CRow className="justify-content-center">
                             <CCol md="6">
-                                <h1 className="pt-4">{id}</h1>
-                                {links <= 0 ? <NoItems /> :
-                                    links.map(link => (<SocialLinkComponent key={link.id} link={link} />))
+                                {
+                                    loading ? <Loading /> :
+                                        profile.id === undefined ? <NoData /> :
+                                            <>
+                                                <h1 className="pt-4">{profile.name}</h1>
+                                                {links <= 0 ? <NoItems /> :
+                                                    links.map(link => (<SocialLinkComponent key={link.id} link={link} />))}
+                                            </>
                                 }
                             </CCol>
                         </CRow>

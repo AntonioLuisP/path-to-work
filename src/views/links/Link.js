@@ -9,6 +9,7 @@ import LinkTasksIndex from '../taskLink/LinkTasksIndex';
 import {
   Loading,
   Modal,
+  NoData,
   PrincipalButtons,
   CollapseDescription,
 } from '../../reusable'
@@ -43,6 +44,8 @@ export default function Link() {
   }
 
   const fetchLink = useCallback(async () => {
+    setLoading(true)
+    setLink({})
     const { data: link, error } = await supabase
       .from("links")
       .select("*")
@@ -98,7 +101,7 @@ export default function Link() {
 
   if (loading) return (<Loading />)
 
-  if (link.id === undefined) return (<> Link não encontrado</>)
+  if (link.id === undefined) return (<NoData />)
 
   return (
     <CRow>

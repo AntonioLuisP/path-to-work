@@ -23,7 +23,7 @@ export default function Home() {
     const { authUser } = useAuth()
 
     return (
-        <div className="c-app c-default-layout flex-row a align-items-center">
+        <div className="c-app c-default-layout flex-row aalign-items-center">
             <div className="c-wrapper">
                 <CHeader>
                     <CHeaderNav className="d-md-down-none mr-auto">

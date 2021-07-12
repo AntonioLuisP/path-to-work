@@ -8,6 +8,7 @@ import ListLinksIndex from '../listLink/ListLinksIndex';
 import {
   Loading,
   Modal,
+  NoData,
   PrincipalButtons,
 } from '../../reusable'
 
@@ -34,6 +35,8 @@ export default function List() {
   }
 
   const fetchList = useCallback(async () => {
+    setLoading(true)
+    setList({})
     const { data: list, error } = await supabase
       .from("lists")
       .select("*")
@@ -73,7 +76,7 @@ export default function List() {
 
   if (loading) return (<Loading />)
 
-  if (list.id === undefined) return (<> Link não encontrado</>)
+  if (list.id === undefined) return (<NoData />)
 
   return (
     <CRow>
