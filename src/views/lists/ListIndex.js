@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { supabase } from '../../services/supabase'
+import { useAuth } from '../../hooks/useAuth';
 import ListCreate from './ListCreate'
 import { ListComponent } from "../../components/"
 
@@ -12,6 +13,8 @@ import {
 
 export default function ListIndex() {
 
+    const { authUser } = useAuth()
+
     const [loading, setLoading] = useState(true)
     const [lists, setLists] = useState([])
 
@@ -19,6 +22,7 @@ export default function ListIndex() {
         const { data: lists, error } = await supabase
             .from("lists")
             .select("*")
+            .eq('user_id', authUser.id)
             .order("created_at", { ascending: false });
         if (error) {
             console.log("error", error);
@@ -27,7 +31,7 @@ export default function ListIndex() {
             setLists(lists)
         }
         setLoading(false)
-    }, [])
+    }, [authUser.id])
 
     useEffect(() => {
         fetchLists()

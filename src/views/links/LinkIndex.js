@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { supabase } from '../../services/supabase'
+import { useAuth } from '../../hooks/useAuth';
 import LinkCreate from './LinkCreate'
 import { LinkComponent } from '../../components/'
 
@@ -12,6 +13,8 @@ import {
 
 export default function LinkIndex() {
 
+  const { authUser } = useAuth()
+
   const [loading, setLoading] = useState(true)
   const [links, setLinks] = useState([])
 
@@ -19,6 +22,7 @@ export default function LinkIndex() {
     const { data: links, error } = await supabase
       .from("links")
       .select("*")
+      .eq('user_id', authUser.id)
       .order("created_at", { ascending: false });
     if (error) {
       console.log("error", error);
@@ -27,7 +31,7 @@ export default function LinkIndex() {
       setLinks(links)
     }
     setLoading(false)
-  }, [])
+  }, [authUser.id])
 
   useEffect(() => {
     fetchLinks()

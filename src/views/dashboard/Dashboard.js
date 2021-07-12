@@ -1,6 +1,12 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { Loading, BreadcrumbHeader, Avisos } from '../../reusable/'
 import { supabase } from '../../services/supabase'
+import { useAuth } from '../../hooks/useAuth';
+
+import {
+    Loading,
+    BreadcrumbHeader,
+    Avisos
+} from '../../reusable/'
 
 import {
     CCardFooter,
@@ -14,6 +20,8 @@ import CIcon from '@coreui/icons-react'
 
 export default function Dashboard() {
 
+    const { authUser } = useAuth()
+
     const [loading, setLoading] = useState(true)
     const [links, setLinks] = useState([])
     const [tasks, setTasks] = useState([])
@@ -23,37 +31,43 @@ export default function Dashboard() {
         const { data: linksSearch, error } = await supabase
             .from("links")
             .select("*")
+            .eq('user_id', authUser.id)
+            .order("created_at", { ascending: false });
         if (error) {
             console.log("error", error);
         }
         else {
             setLinks(linksSearch)
         }
-    }, [])
+    }, [authUser.id])
 
     const fetchTasks = useCallback(async () => {
         const { data: tasksSearch, error } = await supabase
             .from("tasks")
             .select("*")
+            .eq('user_id', authUser.id)
+            .order("created_at", { ascending: false });
         if (error) {
             console.log("error", error);
         }
         else {
             setTasks(tasksSearch)
         }
-    }, [])
+    }, [authUser.id])
 
     const fetchLists = useCallback(async () => {
         const { data: listsSearch, error } = await supabase
             .from("lists")
             .select("*")
+            .eq('user_id', authUser.id)
+            .order("created_at", { ascending: false });
         if (error) {
             console.log("error", error);
         }
         else {
             setLists(listsSearch)
         }
-    }, [])
+    }, [authUser.id])
 
     useEffect(() => {
         fetchLinks()

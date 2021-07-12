@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { supabase } from '../../services/supabase'
+import { useAuth } from '../../hooks/useAuth';
 import TaskCreate from './TaskCreate'
 import { TaskComponent } from '../../components/'
 
@@ -12,6 +13,8 @@ import {
 
 export default function TaskIndex() {
 
+  const { authUser } = useAuth()
+
   const [loading, setLoading] = useState(true)
   const [tasks, setTasks] = useState([])
 
@@ -19,6 +22,7 @@ export default function TaskIndex() {
     const { data: tasks, error } = await supabase
       .from("tasks")
       .select("*")
+      .eq('user_id', authUser.id)
       .order("created_at", { ascending: false });
     if (error) {
       console.log("error", error);
@@ -27,7 +31,7 @@ export default function TaskIndex() {
       setTasks(tasks)
     }
     setLoading(false)
-  }, [])
+  }, [authUser.id])
 
   useEffect(() => {
     fetchTasks()
