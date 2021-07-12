@@ -1,23 +1,18 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Actions as ActionSidebar } from '../redux/sidebar'
-import { useHistory } from 'react-router'
-import { supabase } from '../services/supabase'
+import { Logout } from '.'
 
 import {
   CHeader,
   CToggler,
   CHeaderBrand,
   CHeaderNav,
-  CHeaderNavItem,
-  CHeaderNavLink,
-  CTooltip,
   CBreadcrumbRouter,
 } from '@coreui/react'
 
 import {
   cilCursor,
-  cilAccountLogout
 } from '@coreui/icons'
 
 import CIcon from '@coreui/icons-react'
@@ -27,12 +22,6 @@ import routes from '../routes'
 const Header = () => {
 
   const dispatch = useDispatch()
-  const history = useHistory()
-
-  async function handleLogout() {
-    supabase.auth.signOut().catch(console.error)
-    history.push('/login')
-  };
 
   const sidebar = useSelector(state => state.sidebar)
 
@@ -73,19 +62,7 @@ const Header = () => {
           routes={routes}
         />
       </CHeaderNav>
-
-      <CHeaderNav className="px-3">
-        <CHeaderNavItem className="px-3">
-          <CTooltip
-            content='Logout'
-            placement='bottom'
-          >
-            <CHeaderNavLink onClick={() => handleLogout()}>
-              <CIcon content={cilAccountLogout} className="mfe-2" />
-            </CHeaderNavLink>
-          </CTooltip>
-        </CHeaderNavItem>
-      </CHeaderNav>
+      <Logout />
     </CHeader>
   )
 }
