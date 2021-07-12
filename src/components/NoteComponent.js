@@ -1,13 +1,11 @@
 import React, { useState } from 'react'
 import NoteEdit from '../views/notes/NoteEdit'
-import { Modal, GoTo } from '../reusable'
+import { Modal, EditButton } from '../reusable'
 
 import {
     CCardHeader,
     CCard,
 } from '@coreui/react'
-
-import CIcon from '@coreui/icons-react'
 
 export default function NoteComponent(props) {
 
@@ -26,9 +24,7 @@ export default function NoteComponent(props) {
             <CCardHeader className='text-break text-justify'>
                 {note.name}
                 <div className="card-header-actions">
-                    <GoTo action={() => toogleModal()}>
-                        <CIcon name="cil-pencil" />
-                    </GoTo>
+                    <EditButton action={() => toogleModal()} />
                 </div>
             </CCardHeader>
         </CCard>

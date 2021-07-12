@@ -5,11 +5,6 @@ import {
     CLink
 } from '@coreui/react'
 
-import {
-    cilPencil,
-} from '@coreui/icons'
-
-
 import CIcon from '@coreui/icons-react'
 
 const EditButton = ({ action }) => {
@@ -20,7 +15,7 @@ const EditButton = ({ action }) => {
                 content='Editar'
                 placement='top'
             >
-                <CIcon content={cilPencil} width={20} />
+                <CIcon name='cil-pencil' />
             </CTooltip>
         </CLink>
     )

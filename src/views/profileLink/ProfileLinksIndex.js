@@ -11,12 +11,20 @@ import {
     Loading,
     NoItems,
     AddButton,
+    GoTo,
+    ShareButton,
     RelationButton
 } from '../../reusable'
 
 import {
     LinkComponent,
 } from "../../components"
+
+import {
+    cilContact,
+} from '@coreui/icons'
+
+import CIcon from '@coreui/icons-react'
 
 export default function ProfileLinksIndex({ profileId, profileName, children }) {
 
@@ -86,6 +94,10 @@ export default function ProfileLinksIndex({ profileId, profileName, children }) 
         <>
             <BreadcrumbHeader title={(<strong>{profileName}</strong>)} >
                 {children}
+                <GoTo go={'/social/' + profileName}>
+                    <CIcon content={cilContact} width={20} />
+                </GoTo>
+                <ShareButton name={profileName} />
                 <RelationButton
                     component={
                         <ListCreateLinks profileId={profileId}

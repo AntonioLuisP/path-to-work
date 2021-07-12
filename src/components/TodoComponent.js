@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { supabase } from '../services/supabase'
 import TodoEdit from '../views/todos/TodoEdit'
-import { Modal, GoTo } from '../reusable'
+import { Modal, EditButton } from '../reusable'
 
 import {
     CCard,
@@ -9,8 +9,6 @@ import {
     CInputCheckbox,
     CFormGroup,
 } from '@coreui/react'
-
-import CIcon from '@coreui/icons-react'
 
 export default function TodoComponent(props) {
 
@@ -51,9 +49,7 @@ export default function TodoComponent(props) {
                     />
                     {todo.conclusion ? <s>{todo.name}</s> : todo.name}
                     <div className="card-header-actions">
-                        <GoTo action={() => toogleModal()}>
-                            <CIcon name="cil-pencil" />
-                        </GoTo>
+                        <EditButton action={() => toogleModal()} />
                     </div>
                 </CFormGroup>
             </CCardHeader>

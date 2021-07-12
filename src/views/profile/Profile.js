@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { useHistory } from 'react-router-dom'
 import { supabase } from '../../services/supabase'
 import { useAuth } from '../../hooks/useAuth';
 import ProfileCreate from './ProfileCreate';
@@ -8,32 +7,21 @@ import ProfileLinksIndex from '../profileLink/ProfileLinksIndex';
 
 import {
   Loading,
-  Modal,
-  GoTo,
-  EditButton,
-  ShareButton
+  CollapseDescription
 } from '../../reusable'
 
 import {
-  cilContact,
-} from '@coreui/icons'
-
-import CIcon from '@coreui/icons-react'
+  CCollapse
+} from '@coreui/react'
 
 export default function Profile() {
-
-  const history = useHistory()
 
   const { authUser } = useAuth()
 
   const [loading, setLoading] = useState(true)
-  const [modal, setModal] = useState(false)
+  const [collapsed, setCollapsed] = useState(false)
 
   const [profile, setProfile] = useState({})
-
-  const toogleModal = () => {
-    setModal(old => !old)
-  }
 
   const fetchProfile = useCallback(async () => {
     const { data: profile, error } = await supabase
@@ -62,15 +50,11 @@ export default function Profile() {
 
   return (
     <>
-      <Modal show={modal} onClose={toogleModal}>
+      <CCollapse show={collapsed}>
         <ProfileEdit profile={profile} edit={profile => setProfile(profile)} />
-      </Modal>
+      </CCollapse>
       <ProfileLinksIndex profileId={profile.id} profileName={profile.name} >
-        <GoTo action={() => history.push('/social/' + profile.name)}>
-          <CIcon content={cilContact} width={20} />
-        </GoTo>
-        <ShareButton name={profile.name} />
-        <EditButton action={() => toogleModal()} />
+        <CollapseDescription status={collapsed} action={() => setCollapsed(!collapsed)} />
       </ProfileLinksIndex>
     </>
   )

@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom'
 import { Favorite, GoTo } from '../reusable'
 import { supabase } from '../services/supabase'
 
@@ -11,8 +10,6 @@ import {
 import CIcon from '@coreui/icons-react'
 
 export default function LinkComponent(props) {
-
-    const history = useHistory()
 
     const [link, setLink] = useState(props.link)
 
@@ -44,7 +41,7 @@ export default function LinkComponent(props) {
                 </a>
                 <div className="card-header-actions">
                     <Favorite favorito={link.is_favorite} action={handleFavorite} />
-                    <GoTo action={() => history.push('/links/' + link.id)}>
+                    <GoTo go={'/links/' + link.id}>
                         <CIcon name="cil-cursor" />
                     </GoTo>
                 </div>

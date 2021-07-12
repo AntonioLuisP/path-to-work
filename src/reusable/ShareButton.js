@@ -1,26 +1,38 @@
 import React from 'react'
 
 import {
-  CLink
+  CLink,
+  CTooltip,
+  CPopover
 } from '@coreui/react'
-
-import {
-  cilShareAlt,
-} from '@coreui/icons'
 
 import CIcon from '@coreui/icons-react'
 
 const ShareButton = ({ name }) => {
 
+  const link = window.location.origin + '/#/social/' + name
+
   return (
-    <CLink
-      rel="noreferrer noopener"
-      className="card-header-action"
-      onClick={() => navigator.clipboard.writeText(name)
-      }
+    <CPopover
+      header="Link copiado"
+      placement={'top'}
+      interactive={true}
+      trigger="click"
     >
-      <CIcon width={22} content={cilShareAlt} />
-    </CLink>
+      <CLink
+        rel="noreferrer noopener"
+        className="card-header-action text-primary"
+        onClick={() => navigator.clipboard.writeText(link)
+        }
+      >
+        <CTooltip
+          content='Copiar seu link'
+          placement='top'
+        >
+          <CIcon name='cil-share'width={18} />
+        </CTooltip>
+      </CLink>
+    </CPopover>
 
   )
 }

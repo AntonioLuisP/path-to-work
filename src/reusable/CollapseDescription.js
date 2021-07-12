@@ -1,6 +1,10 @@
 import React from 'react'
 
 import {
+    CTooltip
+} from '@coreui/react'
+
+import {
     CLink
 } from '@coreui/react'
 
@@ -10,7 +14,12 @@ const CollapseDescription = ({ action, status }) => {
 
     return (
         <CLink className="card-header-action" onClick={action}>
-            <CIcon name={status ? 'cil-chevron-bottom' : 'cil-chevron-top'} />
+            <CTooltip
+                content={status ? 'Ver menos' : 'Ver mais'}
+                placement='top'
+            >
+                <CIcon name={status ? 'cil-chevron-top' : 'cil-chevron-bottom'} />
+            </CTooltip>
         </CLink>
     )
 }

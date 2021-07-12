@@ -1,17 +1,23 @@
 import React from 'react'
 
 import {
+  CTooltip,
   CLink
 } from '@coreui/react'
 
-const GoTo = ({ action, children }) => {
+const GoTo = ({ go, children }) => {
   return (
     <CLink
-      onClick={action}
       rel="noreferrer noopener"
       className="card-header-action text-primary"
+      to={go}
     >
-      {children}
+      <CTooltip
+        content='Ver'
+        placement='top'
+      >
+        {children}
+      </CTooltip>
     </CLink>
   )
 }
