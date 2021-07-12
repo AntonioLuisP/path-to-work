@@ -2,7 +2,7 @@ import AddButton from './AddButton'
 import Avisos from './Avisos'
 import BreadcrumbHeader from './BreadcrumbHeader'
 import CollapseDescription from './CollapseDescription'
-import EditDataButton from './EditDataButton'
+import EditButton from './EditButton'
 import Favorite from './Favorite'
 import GoTo from './GoTo'
 import Loading from './Loading'
@@ -19,7 +19,7 @@ export {
   Avisos,
   BreadcrumbHeader,
   CollapseDescription,
-  EditDataButton,
+  EditButton,
   Favorite,
   GoTo,
   Loading,

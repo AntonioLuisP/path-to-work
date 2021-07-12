@@ -12,7 +12,7 @@ import {
 
 import CIcon from '@coreui/icons-react'
 
-const EditDataButton = ({ action }) => {
+const EditButton = ({ action }) => {
 
     return (
         <CLink className="card-header-action" onClick={action}>
@@ -26,4 +26,4 @@ const EditDataButton = ({ action }) => {
     )
 }
 
-export default React.memo(EditDataButton)
+export default React.memo(EditButton)

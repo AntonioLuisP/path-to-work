@@ -1,12 +1,12 @@
 import React from 'react'
-import EditDataButton from './EditDataButton'
+import EditButton from './EditButton'
 import DeleteDataButton from './DeleteDataButton'
 
 const PrincipalButtons = ({ editAction, deleteAction }) => {
 
     return (
         <>
-            <EditDataButton action={editAction} />
+            <EditButton action={editAction} />
             <DeleteDataButton action={deleteAction} />
         </>
     )

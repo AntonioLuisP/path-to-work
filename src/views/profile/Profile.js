@@ -10,7 +10,7 @@ import {
   Loading,
   Modal,
   GoTo,
-  EditDataButton,
+  EditButton,
   ShareButton
 } from '../../reusable'
 
@@ -70,7 +70,7 @@ export default function Profile() {
           <CIcon content={cilContact} width={20} />
         </GoTo>
         <ShareButton name={profile.name} />
-        <EditDataButton action={() => toogleModal()} />
+        <EditButton action={() => toogleModal()} />
       </ProfileLinksIndex>
     </>
   )
