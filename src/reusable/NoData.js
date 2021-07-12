@@ -14,7 +14,7 @@ const NoData = () => {
 
     return (
         <CAlert color="danger">
-            <CIcon content={cilFaceDead} /> Dado não encontrado!
+            <CIcon content={cilFaceDead} width={20}/> INFORMAÇÃO NÃO ENCONTRADA!
         </CAlert>
     )
 }
