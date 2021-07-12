@@ -7,19 +7,20 @@ import {
     CListGroupItem,
 } from '@coreui/react'
 
-export default function ListInfo({ list, children }) {
+export default function DataInfo({ data, children, buttons }) {
 
     return (
         <CCard>
             <CCardHeader color="secondary">
-                Informações {children}
+                Informações {buttons}
             </CCardHeader>
             <CListGroup>
+                {children}
                 <CListGroupItem>
-                    Criado em: {list.created_at}
+                    Criado em: {data.created_at}
                 </CListGroupItem>
                 <CListGroupItem>
-                    Editado em: {list.updated_at === null ? 'Sem data' : list.updated_at}
+                    Editado em: {data.updated_at === null ? 'Sem data' : data.updated_at}
                 </CListGroupItem>
             </CListGroup>
         </CCard>

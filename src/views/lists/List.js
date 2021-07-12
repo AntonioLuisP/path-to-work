@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { supabase } from '../../services/supabase'
 import ListEdit from './ListEdit'
-import { ListInfo } from "../../components/"
+import { DataInfo } from "../../components/"
 import ListLinksIndex from '../listLink/ListLinksIndex';
 
 import {
@@ -89,11 +89,11 @@ export default function List() {
         <ListLinksIndex listId={list.id} />
       </CCol>
       <CCol xs="12" sm="3" md="3">
-        <ListInfo list={list}>
+        <DataInfo data={list} buttons={
           <div className="card-header-actions">
             <PrincipalButtons editAction={() => toogleModal()} deleteAction={() => handleDelete(list.id)} />
           </div>
-        </ListInfo>
+        } />
       </CCol>
     </CRow>
   )

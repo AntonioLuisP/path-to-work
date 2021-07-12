@@ -23,7 +23,7 @@ import {
   CCard,
   CCardHeader,
   CCardBody,
-  CCollapse
+  CCollapse,
 } from '@coreui/react'
 
 export default function Task() {
@@ -117,12 +117,12 @@ export default function Task() {
         </CRow>
       </CCol>
       <CCol xs="12" sm="3" md="3">
-        <TaskInfo task={task}>
+        <TaskInfo task={task} buttons={
           <div className="card-header-actions">
             <CollapseDescription status={collapsed} action={() => setCollapsed(!collapsed)} />
             <PrincipalButtons editAction={() => toogleModal()} deleteAction={() => handleDelete(task.id)} />
           </div>
-        </TaskInfo>
+        } />
         <TaskStatus task={task} todos={todosQtd} links={linksQtd} />
       </CCol>
     </CRow>

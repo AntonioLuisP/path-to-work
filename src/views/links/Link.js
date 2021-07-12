@@ -14,7 +14,7 @@ import {
 } from '../../reusable'
 
 import {
-  LinkInfo
+  DataInfo
 } from "../../components/"
 
 import {
@@ -126,12 +126,12 @@ export default function Link() {
         </CRow>
       </CCol>
       <CCol xs="12" sm="3" md="3">
-        <LinkInfo link={link}>
+        <DataInfo data={link} buttons={
           <div className="card-header-actions">
             <CollapseDescription status={collapsed} action={() => setCollapsed(!collapsed)} />
             <PrincipalButtons editAction={() => toogleModal()} deleteAction={() => handleDelete(link.id)} />
           </div>
-        </LinkInfo>
+        } />
         <LinkListsIndex linkId={link.id} />
       </CCol>
     </CRow>
