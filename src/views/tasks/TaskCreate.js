@@ -4,6 +4,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { supabase } from 'src/services/supabase';
 import { Actions as ActionNotification } from '../../redux/notifications'
 import { Error } from '../../reusable'
+import { makeDate } from '../../services/FormatDate'
 
 import {
   CButton,
@@ -30,8 +31,10 @@ export default function TaskCreate({ add }) {
 
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
-  const [limite_date, setLimite_date] = useState('')
-  const [horario, setHorario] = useState('')
+  const [day, setDay] = useState('')
+  console.log(day)
+  const [time, setTime] = useState('')
+  console.log(time)
 
   async function handleCreate(e) {
     e.preventDefault();
@@ -45,11 +48,11 @@ export default function TaskCreate({ add }) {
         .insert({
           name,
           description,
-          limite_date: limite_date === '' ? null : limite_date,
-          horario: horario === '' ? null : horario,
+          day_of: makeDate(day, time),
           user_id: authUser.id
         })
         .single();
+        console.log(makeDate(day, time))
       if (error) {
         setErrors(prev => [...prev, error.message])
       } else {
@@ -90,9 +93,10 @@ export default function TaskCreate({ add }) {
               <CInput
                 id="text-input"
                 name="text-input"
+                required={time.length > 0}
                 type="date"
-                value={limite_date}
-                onChange={e => setLimite_date(e.target.value)}
+                value={day}
+                onChange={e => setDay(e.target.value)}
               />
             </CCol>
             <CCol xs="6" md="6">
@@ -100,9 +104,10 @@ export default function TaskCreate({ add }) {
               <CInput
                 id="text-input"
                 name="text-input"
+                required={day.length > 0}
                 type="time"
-                value={horario}
-                onChange={e => setHorario(e.target.value)}
+                value={time}
+                onChange={e => setTime(e.target.value)}
               />
             </CCol>
           </CFormGroup>

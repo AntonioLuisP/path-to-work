@@ -1,4 +1,5 @@
 import React from 'react'
+import { formatDate } from '../services/FormatDate'
 
 import {
     CListGroup,
@@ -17,10 +18,10 @@ export default function DataInfo({ data, children, buttons }) {
             <CListGroup>
                 {children}
                 <CListGroupItem>
-                    Criado em: {data.created_at}
+                    Criado em: {formatDate(data.created_at)}
                 </CListGroupItem>
                 <CListGroupItem>
-                    Editado em: {data.updated_at === null ? 'Sem data' : data.updated_at}
+                    Editado em: {data.updated_at === null ? 'Sem data' : formatDate(data.updated_at)}
                 </CListGroupItem>
             </CListGroup>
         </CCard>

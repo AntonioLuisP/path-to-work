@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { supabase } from '../../services/supabase'
 import { Actions as ActionNotification } from '../../redux/notifications'
 import { Error } from '../../reusable'
+import { backDate, backTime, makeDate } from '../../services/FormatDate'
 
 import {
   CButton,
@@ -29,8 +30,8 @@ export default function TaskEdit(props) {
 
   const [name, setName] = useState(props.task.name)
   const [description, setDescription] = useState(props.task.description)
-  const [limite_date, setLimite_date] = useState(props.task.limite_date === null ? '' : props.task.limite_date)
-  const [horario, setHorario] = useState(props.task.horario === null ? '' : props.task.horario)
+  const [day, setDay] = useState(props.task.day_of === null ? '' : backDate(props.task.day_of))
+  const [time, setTime] = useState(props.task.day_of === null ? '' : backTime(props.task.day_of))
   const [conclusion, setConclusion] = useState(props.task.conclusion)
 
   async function handleEdit(e) {
@@ -45,8 +46,7 @@ export default function TaskEdit(props) {
         .update({
           name,
           description,
-          limite_date: limite_date === '' ? null : limite_date,
-          horario: horario === '' ? null : horario,
+          day_of: makeDate(day, time),
           conclusion
         })
         .eq('id', id)
@@ -68,7 +68,7 @@ export default function TaskEdit(props) {
   return (
     <>
       <CForm onSubmit={handleEdit} className="form-horizontal">
-        <CModalHeader>
+        <CModalHeader closeButton>
           <CCardTitle>Editar Tarefa</CCardTitle>
         </CModalHeader>
         <CModalBody>
@@ -90,9 +90,10 @@ export default function TaskEdit(props) {
               <CInput
                 id="text-input"
                 name="text-input"
+                required={time.length > 0}
                 type="date"
-                value={limite_date}
-                onChange={e => setLimite_date(e.target.value)}
+                value={day}
+                onChange={e => setDay(e.target.value)}
               />
             </CCol>
             <CCol xs="4" md="4">
@@ -100,9 +101,10 @@ export default function TaskEdit(props) {
               <CInput
                 id="text-input"
                 name="text-input"
+                required={day.length > 0}
                 type="time"
-                value={horario}
-                onChange={e => setHorario(e.target.value)}
+                value={time}
+                onChange={e => setTime(e.target.value)}
               />
             </CCol>
             <CCol xs="4" md="4">
