@@ -37,7 +37,6 @@ export default function ListCreate({ add }) {
       .single();
     if (error) {
       alert("error", error)
-      return;
     } else {
       add(list)
       dispatch(ActionNotification.addOne({

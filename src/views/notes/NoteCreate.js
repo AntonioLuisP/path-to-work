@@ -38,7 +38,6 @@ export default function NoteCreate({ linkId, add }) {
       .single();
     if (error) {
       alert("error", error)
-      return;
     } else {
       add(note)
       dispatch(ActionNotification.addOne({

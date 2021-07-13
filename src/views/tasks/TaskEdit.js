@@ -45,7 +45,6 @@ export default function TaskEdit(props) {
       .single()
     if (error) {
       alert("error", error)
-      return;
     } else {
       props.edit(task)
       dispatch(ActionNotification.addOne({

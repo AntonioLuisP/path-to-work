@@ -45,7 +45,6 @@ export default function TaskCreate({ add }) {
       .single();
     if (error) {
       alert("error", error)
-      return;
     } else {
       add(task)
       dispatch(ActionNotification.addOne({

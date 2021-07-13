@@ -39,7 +39,6 @@ export default function TodoCreate({ taskId, add }) {
       .single();
     if (error) {
       alert("error", error)
-      return;
     } else {
       add(todo)
       dispatch(ActionNotification.addOne({

@@ -34,7 +34,6 @@ export default function TodoEdit({ todo, edit }) {
       .single()
     if (error) {
       alert("error", error)
-      return;
     } else {
       edit(todo)
       dispatch(ActionNotification.addOne({

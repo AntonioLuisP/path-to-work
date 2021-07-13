@@ -35,7 +35,6 @@ export default function ProfileCreate({ add }) {
       .single();
     if (error) {
       alert("error", error)
-      return;
     } else {
       add(profile)
     }

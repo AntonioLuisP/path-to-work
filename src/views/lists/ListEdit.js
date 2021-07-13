@@ -35,7 +35,6 @@ export default function ListEdit(props) {
       .single()
     if (error) {
       alert("error", error)
-      return;
     } else {
       props.edit(list)
       dispatch(ActionNotification.addOne({

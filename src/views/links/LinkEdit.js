@@ -44,7 +44,6 @@ export default function LinkEdit(props) {
       .single()
     if (error) {
       alert("error", error)
-      return;
     } else {
       props.edit(link)
       dispatch(ActionNotification.addOne({

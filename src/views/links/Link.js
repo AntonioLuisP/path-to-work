@@ -80,6 +80,13 @@ export default function Link() {
       if (errorTaskLinks) {
         console.log("errorTaskLinks", errorTaskLinks)
       }
+      const { errorProfileLinks } = await supabase
+        .from('profile_links')
+        .delete()
+        .eq('link_id', id)
+      if (errorProfileLinks) {
+        console.log("errorProfileLinks", errorProfileLinks)
+      }
       if (!errorListLinks && !errorTaskLinks) {
         const { errorNotes } = await supabase
           .from('notes')

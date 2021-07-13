@@ -35,7 +35,6 @@ export default function NoteEdit({ note, edit }) {
       .single()
     if (error) {
       alert("error", error)
-      return;
     } else {
       edit(note)
       dispatch(ActionNotification.addOne({
