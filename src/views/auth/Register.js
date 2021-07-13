@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { supabase } from '../../services/supabase'
 import OAuth from './OAuth'
+import { Error } from '../../reusable'
 
 import {
   CButton,
@@ -22,24 +23,24 @@ import CIcon from '@coreui/icons-react'
 
 const Register = () => {
 
+  const [errors, setErrors] = useState([])
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
   async function handleRegister(e) {
     e.preventDefault()
-
-    if (email.trim() === '' || password.trim() === '') {
-      return;
-    }
-
-    const { user, error } = await supabase.auth.signUp({ email, password })
-
-    if (error) {
-      alert('erro: ' + error.message)
-      return;
-    } else if (user && !error) {
-      alert('An email has been sent to you for verification!')
-      return;
+    setErrors([])
+    if (password.length < 9 || password.trim() === '') {
+      setErrors(prev => [...prev, 'A senha deve ter no minimo 10 digitos'])
+    } else {
+      const { user, error } = await supabase.auth.signUp({ email, password })
+      if (error) {
+        setErrors(prev => [...prev, error.message])
+      } else if (user && !error) {
+        alert('An email has been sent to you for verification!')
+        return;
+      }
     }
   }
 
@@ -58,7 +59,13 @@ const Register = () => {
                     <CInputGroupPrepend>
                       <CInputGroupText>@</CInputGroupText>
                     </CInputGroupPrepend>
-                    <CInput type="text" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} autoComplete="email" />
+                    <CInput
+                      type="text"
+                      placeholder="Email"
+                      required
+                      value={email}
+                      onChange={e => setEmail(e.target.value)}
+                    />
                   </CInputGroup>
                   <CInputGroup className="mb-3">
                     <CInputGroupPrepend>
@@ -66,9 +73,18 @@ const Register = () => {
                         <CIcon name="cil-lock-locked" />
                       </CInputGroupText>
                     </CInputGroupPrepend>
-                    <CInput type="password" placeholder="Senha" value={password} onChange={e => setPassword(e.target.value)} autoComplete="new-password" />
+                    <CInput
+                      type="password"
+                      placeholder="Senha"
+                      required
+                      value={password}
+                      valid={password.length > 9 && password.trim() !== ''}
+                      onChange={e => setPassword(e.target.value)}
+                    />
                   </CInputGroup>
                   <CButton type="submit" color="success" block>Crie sua conta</CButton>
+                  <br />
+                  <Error errors={errors} />
                 </CForm>
               </CCardBody>
               <CCardFooter className='text-center'>

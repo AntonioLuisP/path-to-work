@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { supabase } from '../../services/supabase'
 import OAuth from './OAuth'
+import { Error } from '../../reusable'
 
 import {
   CButton,
@@ -21,21 +22,21 @@ import CIcon from '@coreui/icons-react'
 
 const Login = () => {
 
+  const [errors, setErrors] = useState([])
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
   async function handleLogin(e) {
     e.preventDefault()
-
-    if (email.trim() === '' || password.trim() === '') {
-      return;
-    }
-
-    const { error } = await supabase.auth.signIn({ email, password })
-
-    if (error) {
-      console.log('erro: ' + error.message)
-      return;
+    setErrors([])
+    if (password.length < 9 || password.trim() === '') {
+      setErrors(prev => [...prev, 'A senha deve ter no minimo 10 digitos'])
+    } else {
+      const { error } = await supabase.auth.signIn({ email, password })
+      if (error) {
+        setErrors(prev => [...prev, error.message])
+      }
     }
   }
 
@@ -63,8 +64,15 @@ const Login = () => {
                         <CIcon name="cil-lock-locked" />
                       </CInputGroupText>
                     </CInputGroupPrepend>
-                    <CInput type="password" placeholder="Senha" value={password} onChange={e => setPassword(e.target.value)} autoComplete=" password" />
+                    <CInput
+                      type="password"
+                      placeholder="Senha"
+                      value={password}
+                      valid={password.length > 9 && password.trim() !== ''}
+                      onChange={e => setPassword(e.target.value)}
+                    />
                   </CInputGroup>
+                  <Error errors={errors} />
                   <CRow>
                     <CCol xs="6">
                       <CButton type='submit' color="primary" className="px-4">Login</CButton>

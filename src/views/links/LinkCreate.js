@@ -4,6 +4,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { supabase } from '../../services/supabase';
 import { Favorite } from '../../reusable/';
 import { Actions as ActionNotification } from '../../redux/notifications'
+import { Error } from '../../reusable'
 
 import {
   CButton,
@@ -26,6 +27,8 @@ export default function LinkCreate({ add }) {
   const { authUser } = useAuth()
 
   const [load, setLoad] = useState(true)
+  const [errors, setErrors] = useState([])
+
   const [name, setName] = useState('')
   const [url, setUrl] = useState('')
   const [is_favorite, setIs_favorite] = useState(false)
@@ -34,26 +37,30 @@ export default function LinkCreate({ add }) {
   async function handleCreate(e) {
     e.preventDefault();
     setLoad(false)
-    const { data: link, error } = await supabase
-      .from("links")
-      .insert({
-        name,
-        url,
-        is_favorite,
-        description,
-        user_id: authUser.id
-      })
-      .single();
-    if (error) {
-      alert("error", error)
-      return;
+    setErrors([])
+    if (name.length < 3 || name.trim() === '') {
+      setErrors(prev => [...prev, 'O nome deve ter mais que 3 digitos'])
     } else {
-      add(link)
-      dispatch(ActionNotification.addOne({
-        header: 'Link adicionado:',
-        body: link.name,
-        id: link.id,
-      }))
+      const { data: link, error } = await supabase
+        .from("links")
+        .insert({
+          name,
+          url,
+          is_favorite,
+          description,
+          user_id: authUser.id
+        })
+        .single();
+      if (error) {
+        setErrors(prev => [...prev, error.message])
+      } else {
+        add(link)
+        dispatch(ActionNotification.addOne({
+          header: 'Link adicionado:',
+          body: link.name,
+          id: link.id,
+        }))
+      }
     }
     setLoad(true)
   }
@@ -73,6 +80,7 @@ export default function LinkCreate({ add }) {
                 placeholder="Nome"
                 required
                 value={name}
+                valid={name.length > 2 && name.trim() !== ''}
                 onChange={e => setName(e.target.value)}
               />
             </CCol>
@@ -93,6 +101,7 @@ export default function LinkCreate({ add }) {
                 type='url'
                 required
                 value={url}
+                valid={url.length > 0}
                 onChange={e => setUrl(e.target.value)}
               />
             </CCol>
@@ -110,6 +119,7 @@ export default function LinkCreate({ add }) {
               />
             </CCol>
           </CFormGroup>
+          <Error errors={errors} />
         </CModalBody>
         <CModalFooter>
           <CButton type="submit" color="success" disabled={!load}>

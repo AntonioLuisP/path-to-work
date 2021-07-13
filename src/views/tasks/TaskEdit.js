@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { supabase } from '../../services/supabase'
 import { Actions as ActionNotification } from '../../redux/notifications'
+import { Error } from '../../reusable'
 
 import {
   CButton,
@@ -22,7 +23,10 @@ export default function TaskEdit(props) {
   const dispatch = useDispatch()
 
   const id = props.task.id
+
   const [load, setLoad] = useState(true)
+  const [errors, setErrors] = useState([])
+
   const [name, setName] = useState(props.task.name)
   const [description, setDescription] = useState(props.task.description)
   const [limite_date, setLimite_date] = useState(props.task.limite_date === null ? '' : props.task.limite_date)
@@ -32,26 +36,31 @@ export default function TaskEdit(props) {
   async function handleEdit(e) {
     e.preventDefault();
     setLoad(false)
-    const { data: task, error } = await supabase
-      .from("tasks")
-      .update({
-        name,
-        description,
-        limite_date: limite_date === '' ? null : limite_date,
-        horario: horario === '' ? null : horario,
-        conclusion
-      })
-      .eq('id', id)
-      .single()
-    if (error) {
-      alert("error", error)
+    setErrors([])
+    if (name.length < 3 || name.trim() === '') {
+      setErrors(prev => [...prev, 'O nome deve ter mais que 3 digitos'])
     } else {
-      props.edit(task)
-      dispatch(ActionNotification.addOne({
-        header: 'Tarefa Editada:',
-        body: task.name,
-        id: task.id,
-      }))
+      const { data: task, error } = await supabase
+        .from("tasks")
+        .update({
+          name,
+          description,
+          limite_date: limite_date === '' ? null : limite_date,
+          horario: horario === '' ? null : horario,
+          conclusion
+        })
+        .eq('id', id)
+        .single()
+      if (error) {
+        setErrors(prev => [...prev, error.message])
+      } else {
+        props.edit(task)
+        dispatch(ActionNotification.addOne({
+          header: 'Tarefa Editada:',
+          body: task.name,
+          id: task.id,
+        }))
+      }
     }
     setLoad(true)
   }
@@ -69,7 +78,9 @@ export default function TaskEdit(props) {
                 id="text-input"
                 name="text-input"
                 placeholder="Nome"
+                required
                 value={name}
+                valid={name.length > 2 && name.trim() !== ''}
                 onChange={e => setName(e.target.value)} />
             </CCol>
           </CFormGroup>
@@ -118,9 +129,11 @@ export default function TaskEdit(props) {
                 maxLength='500'
                 placeholder="Descrição..."
                 value={description}
+                invalid={description.length > 500}
                 onChange={e => setDescription(e.target.value)} />
             </CCol>
           </CFormGroup>
+          <Error errors={errors} />
         </CModalBody>
         <CModalFooter>
           <CButton type="submit" color="success" disabled={!load}>

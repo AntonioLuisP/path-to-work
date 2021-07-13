@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { useAuth } from '../../hooks/useAuth';
 import { supabase } from 'src/services/supabase';
 import { Actions as ActionNotification } from '../../redux/notifications'
+import { Error } from '../../reusable'
 
 import {
   CButton,
@@ -25,6 +26,8 @@ export default function TaskCreate({ add }) {
   const { authUser } = useAuth()
 
   const [load, setLoad] = useState(true)
+  const [errors, setErrors] = useState([])
+
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [limite_date, setLimite_date] = useState('')
@@ -33,25 +36,30 @@ export default function TaskCreate({ add }) {
   async function handleCreate(e) {
     e.preventDefault();
     setLoad(false)
-    const { data: task, error } = await supabase
-      .from("tasks")
-      .insert({
-        name,
-        description,
-        limite_date: limite_date === '' ? null : limite_date,
-        horario: horario === '' ? null : horario,
-        user_id: authUser.id
-      })
-      .single();
-    if (error) {
-      alert("error", error)
+    setErrors([])
+    if (name.length < 3 || name.trim() === '') {
+      setErrors(prev => [...prev, 'O nome deve ter mais que 3 digitos'])
     } else {
-      add(task)
-      dispatch(ActionNotification.addOne({
-        header: 'Tarefa adicionada:',
-        body: task.name,
-        id: task.id,
-      }))
+      const { data: task, error } = await supabase
+        .from("tasks")
+        .insert({
+          name,
+          description,
+          limite_date: limite_date === '' ? null : limite_date,
+          horario: horario === '' ? null : horario,
+          user_id: authUser.id
+        })
+        .single();
+      if (error) {
+        setErrors(prev => [...prev, error.message])
+      } else {
+        add(task)
+        dispatch(ActionNotification.addOne({
+          header: 'Tarefa adicionada:',
+          body: task.name,
+          id: task.id,
+        }))
+      }
     }
     setLoad(true)
   }
@@ -69,7 +77,9 @@ export default function TaskCreate({ add }) {
                 id="text-input"
                 name="text-input"
                 placeholder="Nome"
+                required
                 value={name}
+                valid={name.length > 2 && name.trim() !== ''}
                 onChange={e => setName(e.target.value)}
               />
             </CCol>
@@ -105,10 +115,12 @@ export default function TaskCreate({ add }) {
                 maxLength='500'
                 placeholder="Descrição..."
                 value={description}
+                invalid={description.length > 500}
                 onChange={e => setDescription(e.target.value)}
               />
             </CCol>
           </CFormGroup>
+          <Error errors={errors} />
         </CModalBody>
         <CModalFooter>
           <CButton type="submit" color="success" disabled={!load}>

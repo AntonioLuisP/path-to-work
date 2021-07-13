@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { supabase } from '../../services/supabase'
 import { Actions as ActionNotification } from '../../redux/notifications'
+import { Error } from '../../reusable'
 
 import {
     CButton,
@@ -20,28 +21,33 @@ import CIcon from '@coreui/icons-react'
 export default function NameEdit() {
 
     const dispatch = useDispatch()
+
     const [load, setLoad] = useState(true)
+    const [errors, setErrors] = useState([])
+
     const [name, setName] = useState('')
 
     async function handleEdit(e) {
         e.preventDefault();
         setLoad(false)
-        if (name.trim() === '')
-            return; 
-        const { user, error } = await supabase.auth.update({
-            data: {
-                full_name: name
-            },
-        })
-        if (error) {
-            alert("error", error)
-            return;
+        setErrors([])
+        if (name.length < 3 || name.trim() === '') {
+            setErrors(prev => [...prev, 'O nome deve ter mais que 3 digitos'])
         } else {
-            dispatch(ActionNotification.addOne({
-                header: 'Nome Editado:',
-                body: '',
-                id: user.id,
-            }))
+            const { user, error } = await supabase.auth.update({
+                data: {
+                    full_name: name
+                },
+            })
+            if (error) {
+                setErrors(prev => [...prev, error.message])
+            } else {
+                dispatch(ActionNotification.addOne({
+                    header: 'Nome Editado:',
+                    body: name,
+                    id: user.id,
+                }))
+            }
         }
         setLoad(true)
     }
@@ -56,7 +62,13 @@ export default function NameEdit() {
                             <CIcon name="cil-user" />
                         </CInputGroupText>
                     </CInputGroupPrepend>
-                    <CInput type="text" placeholder="Nome Completo" value={name} onChange={e => setName(e.target.value)} autoComplete=" name" />
+                    <CInput
+                        type="text"
+                        placeholder="Nome Completo"
+                        value={name}
+                        valid={name.length > 2 && name.trim() !== ''}
+                        onChange={e => setName(e.target.value)}
+                    />
                     <CInputGroupAppend>
                         <CButton type="submit" color="success" disabled={!load}>
                             {
@@ -66,6 +78,7 @@ export default function NameEdit() {
                     </CInputGroupAppend>
                 </CInputGroup>
             </CFormGroup>
+            <Error errors={errors} />
         </CForm>
     )
 }

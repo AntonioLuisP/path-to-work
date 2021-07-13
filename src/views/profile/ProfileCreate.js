@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { supabase } from 'src/services/supabase';
 import { useAuth } from '../../hooks/useAuth';
+import { Error } from '../../reusable'
 
 import {
   CButton,
@@ -21,22 +22,29 @@ export default function ProfileCreate({ add }) {
   const { authUser } = useAuth()
 
   const [load, setLoad] = useState(true)
+  const [errors, setErrors] = useState([])
+
   const [name, setName] = useState('')
 
   async function handleCreate(e) {
     e.preventDefault();
     setLoad(false)
-    const { data: profile, error } = await supabase
-      .from("profiles")
-      .insert({
-        name,
-        user_id: authUser.id
-      })
-      .single();
-    if (error) {
-      alert("error", error)
+    setErrors([])
+    if (name.length < 3 || name.trim() === '') {
+      setErrors(prev => [...prev, 'O nome deve ter mais que 3 digitos'])
     } else {
-      add(profile)
+      const { data: profile, error } = await supabase
+        .from("profiles")
+        .insert({
+          name,
+          user_id: authUser.id
+        })
+        .single();
+      if (error) {
+        setErrors(prev => [...prev, error.message])
+      } else {
+        add(profile)
+      }
     }
     setLoad(true)
   }
@@ -51,7 +59,14 @@ export default function ProfileCreate({ add }) {
               <CIcon name="cil-user" />
             </CInputGroupText>
           </CInputGroupPrepend>
-          <CInput type="text" placeholder="Nome Completo" value={name} onChange={e => setName(e.target.value)} autoComplete=" name" />
+          <CInput
+            type="text"
+            placeholder="Nome Completo"
+            required
+            value={name}
+            valid={name.length > 2 && name.trim() !== ''}
+            onChange={e => setName(e.target.value)}
+          />
           <CInputGroupAppend>
             <CButton type="submit" color="success" disabled={!load}>
               {
@@ -62,6 +77,7 @@ export default function ProfileCreate({ add }) {
         </CInputGroup>
         <p className="help-block">Este nome será utilizado para compartilhar seus links sociais!</p>
       </CFormGroup>
+      <Error errors={errors} />
     </CForm>
   )
 }

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { supabase } from '../../services/supabase'
 import { Actions as ActionNotification } from '../../redux/notifications'
+import { Error } from '../../reusable'
 
 import {
   CButton,
@@ -20,28 +21,36 @@ export default function NoteEdit({ note, edit }) {
   const dispatch = useDispatch()
 
   const id = note.id
+
   const [load, setLoad] = useState(true)
+  const [errors, setErrors] = useState([])
+
   const [name, setName] = useState(note.name)
 
   async function handleEdit(e) {
     e.preventDefault();
     setLoad(false)
-    const { data: note, error } = await supabase
-      .from("notes")
-      .update({
-        name,
-      })
-      .eq('id', id)
-      .single()
-    if (error) {
-      alert("error", error)
+    setErrors([])
+    if (name.length < 3 || name.trim() === '') {
+      setErrors(prev => [...prev, 'O nome deve ter mais que 3 digitos'])
     } else {
-      edit(note)
-      dispatch(ActionNotification.addOne({
-        header: 'Anotação Editada:',
-        body: note.name,
-        id: note.id,
-      }))
+      const { data: note, error } = await supabase
+        .from("notes")
+        .update({
+          name,
+        })
+        .eq('id', id)
+        .single()
+      if (error) {
+        setErrors(prev => [...prev, error.message])
+      } else {
+        edit(note)
+        dispatch(ActionNotification.addOne({
+          header: 'Anotação Editada:',
+          body: note.name,
+          id: note.id,
+        }))
+      }
     }
     setLoad(true)
   }
@@ -58,11 +67,14 @@ export default function NoteEdit({ note, edit }) {
               id="text-input"
               name="text-input"
               placeholder="Nome"
+              required
               value={name}
+              valid={name.length > 2 && name.trim() !== ''}
               onChange={e => setName(e.target.value)}
             />
           </CCol>
         </CFormGroup>
+        <Error errors={errors} />
       </CModalBody>
       <CModalFooter>
         <CButton type="submit" color="success" disabled={!load}>

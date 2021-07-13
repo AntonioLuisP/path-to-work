@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { supabase } from '../../services/supabase'
 import { Favorite } from '../../reusable/';
 import { Actions as ActionNotification } from '../../redux/notifications'
+import { Error } from '../../reusable'
 
 import {
   CButton,
@@ -24,6 +25,8 @@ export default function LinkEdit(props) {
 
   const id = props.link.id
   const [load, setLoad] = useState(true)
+  const [errors, setErrors] = useState([])
+
   const [name, setName] = useState(props.link.name)
   const [url, setUrl] = useState(props.link.url)
   const [is_favorite, setIs_favorite] = useState(props.link.is_favorite)
@@ -32,25 +35,30 @@ export default function LinkEdit(props) {
   async function handleEdit(e) {
     e.preventDefault();
     setLoad(false)
-    const { data: link, error } = await supabase
-      .from("links")
-      .update({
-        name,
-        url,
-        is_favorite,
-        description,
-      })
-      .eq('id', id)
-      .single()
-    if (error) {
-      alert("error", error)
+    setErrors([])
+    if (name.length < 3 || name.trim() === '') {
+      setErrors(prev => [...prev, 'O nome deve ter mais que 3 digitos'])
     } else {
-      props.edit(link)
-      dispatch(ActionNotification.addOne({
-        header: 'Link Editado:',
-        body: link.name,
-        id: link.id,
-      }))
+      const { data: link, error } = await supabase
+        .from("links")
+        .update({
+          name,
+          url,
+          is_favorite,
+          description,
+        })
+        .eq('id', id)
+        .single()
+      if (error) {
+        setErrors(prev => [...prev, error.message])
+      } else {
+        props.edit(link)
+        dispatch(ActionNotification.addOne({
+          header: 'Link Editado:',
+          body: link.name,
+          id: link.id,
+        }))
+      }
     }
     setLoad(true)
   }
@@ -67,7 +75,9 @@ export default function LinkEdit(props) {
               id="text-input"
               name="text-input"
               placeholder="Nome"
+              required
               value={name}
+              valid={name.length > 2 && name.trim() !== ''}
               onChange={e => setName(e.target.value)}
             />
           </CCol>
@@ -85,7 +95,10 @@ export default function LinkEdit(props) {
               id="text-input"
               name="text-input"
               placeholder="Url"
+              type='url'
+              required
               value={url}
+              valid={url.length > 0}
               onChange={e => setUrl(e.target.value)}
             />
           </CCol>
@@ -103,6 +116,7 @@ export default function LinkEdit(props) {
             />
           </CCol>
         </CFormGroup>
+        <Error errors={errors} />
       </CModalBody>
       <CModalFooter>
         <CButton type="submit" color="success" disabled={!load}>

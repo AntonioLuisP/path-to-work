@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { supabase } from '../../services/supabase'
 import { Actions as ActionNotification } from '../../redux/notifications'
+import { Error } from '../../reusable'
 
 import {
   CButton,
@@ -22,32 +23,39 @@ export default function ProfileEdit(props) {
   const dispatch = useDispatch()
 
   const id = props.profile.id
+
   const [load, setLoad] = useState(true)
+  const [errors, setErrors] = useState([])
+
   const [name, setName] = useState(props.profile.name)
 
   async function handleEdit(e) {
     e.preventDefault();
-    if (window.confirm('Tem certeza que você deseja mudar seu nome?')) {
-      setLoad(false)
-      const { data: profile, error } = await supabase
-        .from("profiles")
-        .update({
-          name,
-        })
-        .eq('id', id)
-        .single()
-      if (error) {
-        alert("error", error)
-        return;
-      } else {
-        props.edit(profile)
-        dispatch(ActionNotification.addOne({
-          header: 'Perfil Social Editado:',
-          body: profile.name,
-          id: profile.id,
-        }))
+    setErrors([])
+    if (name.length < 3 || name.trim() === '') {
+      setErrors(prev => [...prev, 'O nome deve ter mais que 3 digitos'])
+    } else {
+      if (window.confirm('Tem certeza que você deseja mudar seu nome?')) {
+        setLoad(false)
+        const { data: profile, error } = await supabase
+          .from("profiles")
+          .update({
+            name,
+          })
+          .eq('id', id)
+          .single()
+        if (error) {
+          setErrors(prev => [...prev, error.message])
+        } else {
+          props.edit(profile)
+          dispatch(ActionNotification.addOne({
+            header: 'Perfil Social Editado:',
+            body: profile.name,
+            id: profile.id,
+          }))
+        }
+        setLoad(true)
       }
-      setLoad(true)
     }
   }
 
@@ -61,7 +69,14 @@ export default function ProfileEdit(props) {
               <CIcon name="cil-user" />
             </CInputGroupText>
           </CInputGroupPrepend>
-          <CInput type="text" placeholder="Nome Completo" value={name} onChange={e => setName(e.target.value)} autoComplete=" name" />
+          <CInput
+            type="text"
+            placeholder="Nome Completo"
+            required
+            value={name}
+            valid={name.length > 2 && name.trim() !== ''}
+            onChange={e => setName(e.target.value)}
+          />
           <CInputGroupAppend>
             <CButton type="submit" color="success" disabled={!load}>
               {
@@ -72,6 +87,7 @@ export default function ProfileEdit(props) {
         </CInputGroup>
         <p className="help-block">Ao atualizar, seu link compartilhavel será baseado no novo nome!!!</p>
       </CFormGroup>
+      <Error errors={errors} />
     </CForm>
   )
 }

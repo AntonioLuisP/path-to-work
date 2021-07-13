@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { useAuth } from '../../hooks/useAuth';
 import { supabase } from 'src/services/supabase';
 import { Actions as ActionNotification } from '../../redux/notifications'
+import { Error } from '../../reusable'
 
 import {
   CButton,
@@ -24,28 +25,35 @@ export default function TodoCreate({ taskId, add }) {
   const { authUser } = useAuth()
 
   const [load, setLoad] = useState(true)
+  const [errors, setErrors] = useState([])
+
   const [name, setName] = useState('')
 
   async function handleCreate(e) {
     e.preventDefault();
     setLoad(false)
-    const { data: todo, error } = await supabase
-      .from("todos")
-      .insert({
-        name,
-        task_id: taskId,
-        user_id: authUser.id
-      })
-      .single();
-    if (error) {
-      alert("error", error)
+    setErrors([])
+    if (name.length < 3 || name.trim() === '') {
+      setErrors(prev => [...prev, 'O nome deve ter mais que 3 digitos'])
     } else {
-      add(todo)
-      dispatch(ActionNotification.addOne({
-        header: 'Afazer adicionado: ',
-        body: todo.name,
-        id: todo.id,
-      }))
+      const { data: todo, error } = await supabase
+        .from("todos")
+        .insert({
+          name,
+          task_id: taskId,
+          user_id: authUser.id
+        })
+        .single();
+      if (error) {
+        alert("error", error)
+      } else {
+        add(todo)
+        dispatch(ActionNotification.addOne({
+          header: 'Afazer adicionado: ',
+          body: todo.name,
+          id: todo.id,
+        }))
+      }
     }
     setLoad(true)
   }
@@ -65,10 +73,12 @@ export default function TodoCreate({ taskId, add }) {
                 placeholder="Nome"
                 required
                 value={name}
+                valid={name.length > 2 && name.trim() !== ''}
                 onChange={e => setName(e.target.value)}
               />
             </CCol>
           </CFormGroup>
+          <Error errors={errors} />
         </CModalBody>
         <CModalFooter>
           <CButton type="submit" color="success" disabled={!load}>

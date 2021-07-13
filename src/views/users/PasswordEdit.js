@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { supabase } from '../../services/supabase'
 import { Actions as ActionNotification } from '../../redux/notifications'
+import { Error } from '../../reusable'
 
 import {
     CButton,
@@ -18,24 +19,31 @@ import {
 export default function PasswordEdit() {
 
     const dispatch = useDispatch()
+
     const [load, setLoad] = useState(true)
+    const [errors, setErrors] = useState([])
+
     const [password, setPassword] = useState('')
 
     async function handleEdit(e) {
         e.preventDefault();
         setLoad(false)
-        const { user, error } = await supabase.auth.update({
-            password: password,
-        })
-        if (error) {
-            alert("error", error)
-            return;
+        setErrors([])
+        if (password.length < 9 || password.trim() === '') {
+            setErrors(prev => [...prev, 'A senha deve ter no minimo 10 digitos'])
         } else {
-            dispatch(ActionNotification.addOne({
-                header: 'Senha Editada:',
-                body: '',
-                id: user.id,
-            }))
+            const { user, error } = await supabase.auth.update({
+                password: password,
+            })
+            if (error) {
+                setErrors(prev => [...prev, error.message])
+            } else {
+                dispatch(ActionNotification.addOne({
+                    header: 'Senha Editada:',
+                    body: '',
+                    id: user.id,
+                }))
+            }
         }
         setLoad(true)
     }
@@ -49,8 +57,16 @@ export default function PasswordEdit() {
                 <CCardBody>
                     <CFormGroup>
                         <CLabel >Digite uma nova senha</CLabel>
-                        <CInput type="password" placeholder="Senha" value={password} onChange={e => setPassword(e.target.value)} autoComplete=" password" />
+                        <CInput
+                            type="password"
+                            placeholder="Senha"
+                            required
+                            value={password}
+                            valid={password.length > 9 && password.trim() !== ''}
+                            onChange={e => setPassword(e.target.value)}
+                        />
                     </CFormGroup>
+                    <Error errors={errors} />
                 </CCardBody>
                 <CCardFooter>
                     <CButton type="submit" color="success" disabled={!load}>
