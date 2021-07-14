@@ -7,7 +7,6 @@ import { Actions as ActionNotification } from '../../redux/notifications'
 import { Error, LoadButton } from '../../reusable'
 
 import {
-  CButton,
   CCol,
   CModalBody,
   CModalFooter,

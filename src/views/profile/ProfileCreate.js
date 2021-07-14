@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import { supabase } from 'src/services/supabase';
 import { useAuth } from '../../hooks/useAuth';
-import { Error } from '../../reusable'
+import { Error, LoadButton } from '../../reusable'
 
 import {
-  CButton,
   CForm,
   CFormGroup,
   CLabel,
@@ -68,11 +67,7 @@ export default function ProfileCreate({ add }) {
             onChange={e => setName(e.target.value)}
           />
           <CInputGroupAppend>
-            <CButton type="submit" color="success" disabled={!load}>
-              {
-                load ? 'Salvar' : (<span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />)
-              }
-            </CButton>
+            <LoadButton load={load} />
           </CInputGroupAppend>
         </CInputGroup>
         <p className="help-block">Este nome será utilizado para compartilhar seus links sociais!</p>

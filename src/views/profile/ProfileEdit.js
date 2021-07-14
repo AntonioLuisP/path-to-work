@@ -2,10 +2,9 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { supabase } from '../../services/supabase'
 import { Actions as ActionNotification } from '../../redux/notifications'
-import { Error } from '../../reusable'
+import { Error, LoadButton } from '../../reusable'
 
 import {
-  CButton,
   CForm,
   CFormGroup,
   CInput,
@@ -78,11 +77,7 @@ export default function ProfileEdit(props) {
             onChange={e => setName(e.target.value)}
           />
           <CInputGroupAppend>
-            <CButton type="submit" color="success" disabled={!load}>
-              {
-                load ? 'Salvar' : (<span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />)
-              }
-            </CButton>
+            <LoadButton load={load} />
           </CInputGroupAppend>
         </CInputGroup>
         <p className="help-block">Ao atualizar, seu link compartilhavel será baseado no novo nome!!!</p>
