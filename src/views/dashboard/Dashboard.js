@@ -154,10 +154,10 @@ export default function Dashboard() {
             <CRow>
                 <CCol xs="12" sm="12" md="12">
                     <BreadcrumbHeader title='Avisos' />
-                    <Avisos text='aposta 2 no cavalo' tipo='info' />
-                    <Avisos text='aposta 2 no cavalo' tipo='danger' />
-                    <Avisos text='aposta 2 no cavalo' tipo='warning' />
-                    <Avisos text='aposta 2 no cavalo' tipo='success' />
+                    <Avisos text='Alerta Info' tipo='info' />
+                    <Avisos text='Alerta danger' tipo='danger' />
+                    <Avisos text='Alerta Info' tipo='warning' />
+                    <Avisos text='Alerta success' tipo='success' />
                 </CCol>
             </CRow>
         </>
