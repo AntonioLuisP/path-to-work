@@ -4,7 +4,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { supabase } from '../../services/supabase';
 import { Favorite } from '../../reusable/';
 import { Actions as ActionNotification } from '../../redux/notifications'
-import { Error } from '../../reusable'
+import { Error, LoadButton } from '../../reusable'
 
 import {
   CButton,
@@ -122,11 +122,7 @@ export default function LinkCreate({ add }) {
           <Error errors={errors} />
         </CModalBody>
         <CModalFooter>
-          <CButton type="submit" color="success" disabled={!load}>
-            {
-              load ? 'Adicionar' : (<span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />)
-            }
-          </CButton>
+          <LoadButton load={load} />
         </CModalFooter>
       </CForm>
     </>

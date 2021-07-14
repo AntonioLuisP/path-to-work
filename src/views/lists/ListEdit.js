@@ -74,7 +74,7 @@ export default function ListEdit(props) {
         <Error errors={errors} />
       </CModalBody>
       <CModalFooter>
-          < LoadButton load={load} />
+          <LoadButton load={load} />
       </CModalFooter>
     </CForm>
   )

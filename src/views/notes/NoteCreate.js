@@ -79,8 +79,8 @@ export default function NoteCreate({ linkId, add }) {
           <Error errors={errors} />
         </CModalBody>
         <CModalFooter>
-          < LoadButton load={load} />
-          < LoadButton load={load} />
+          <LoadButton load={load} />
+          <LoadButton load={load} />
         </CModalFooter>
       </CForm>
     </>
