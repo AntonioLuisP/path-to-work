@@ -1,5 +1,5 @@
 import React from 'react'
-import { DataInfo } from '.'
+import { DataInfo } from '../reusable/'
 import { formatDate, formatTime } from '../services/FormatDate'
 
 import {

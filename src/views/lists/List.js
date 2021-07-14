@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { supabase } from '../../services/supabase'
 import ListEdit from './ListEdit'
-import { DataInfo } from "../../components/"
 import ListLinksIndex from '../listLink/ListLinksIndex';
 
 import {
@@ -10,6 +9,7 @@ import {
   Modal,
   NoData,
   PrincipalButtons,
+  DataInfo
 } from '../../reusable'
 
 import {

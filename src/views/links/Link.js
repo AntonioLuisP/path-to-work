@@ -12,11 +12,8 @@ import {
   NoData,
   PrincipalButtons,
   CollapseDescription,
-} from '../../reusable'
-
-import {
   DataInfo
-} from "../../components/"
+} from '../../reusable'
 
 import {
   CCard,
