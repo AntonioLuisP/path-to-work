@@ -3,10 +3,9 @@ import { useDispatch } from 'react-redux'
 import { useAuth } from '../../hooks/useAuth';
 import { supabase } from 'src/services/supabase';
 import { Actions as ActionNotification } from '../../redux/notifications'
-import { Error } from '../../reusable'
+import { Error, LoadButton } from '../../reusable'
 
 import {
-  CButton,
   CCol,
   CModalBody,
   CModalFooter,
@@ -15,7 +14,6 @@ import {
   CForm,
   CFormGroup,
   CInput,
-
 } from '@coreui/react'
 
 export default function TodoCreate({ taskId, add }) {
@@ -81,11 +79,7 @@ export default function TodoCreate({ taskId, add }) {
           <Error errors={errors} />
         </CModalBody>
         <CModalFooter>
-          <CButton type="submit" color="success" disabled={!load}>
-            {
-              load ? 'Adicionar' : (<span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />)
-            }
-          </CButton>
+          < LoadButton load={load} />
         </CModalFooter>
       </CForm>
     </>

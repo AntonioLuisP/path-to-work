@@ -6,6 +6,7 @@ import EditButton from './EditButton'
 import Error from './Error'
 import Favorite from './Favorite'
 import GoTo from './GoTo'
+import LoadButton from './LoadButton'
 import Loading from './Loading'
 import Modal from './Modal'
 import NoData from './NoData'
@@ -25,6 +26,7 @@ export {
   Error,
   Favorite,
   GoTo,
+  LoadButton,
   Loading,
   Modal,
   NoData,

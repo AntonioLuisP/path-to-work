@@ -3,10 +3,9 @@ import { useDispatch } from 'react-redux'
 import { supabase } from 'src/services/supabase';
 import { useAuth } from '../../hooks/useAuth';
 import { Actions as ActionNotification } from '../../redux/notifications'
-import { Error } from '../../reusable'
+import { Error, LoadButton } from '../../reusable'
 
 import {
-  CButton,
   CCol,
   CModalBody,
   CModalFooter,
@@ -80,11 +79,8 @@ export default function NoteCreate({ linkId, add }) {
           <Error errors={errors} />
         </CModalBody>
         <CModalFooter>
-          <CButton type="submit" color="success" disabled={!load}>
-            {
-              load ? 'Adicionar' : (<span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />)
-            }
-          </CButton>
+          < LoadButton load={load} />
+          < LoadButton load={load} />
         </CModalFooter>
       </CForm>
     </>
