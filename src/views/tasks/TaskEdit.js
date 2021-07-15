@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { supabase } from '../../services/supabase'
 import { Actions as ActionNotification } from '../../redux/notifications'
 import { Error } from '../../reusable'
-import { backDate, backTime, makeDate } from '../../services/FormatDate'
+import { formatDate, formatTime, makeDate } from '../../services/FormatDate'
 
 import {
   CButton,
@@ -30,8 +30,8 @@ export default function TaskEdit(props) {
 
   const [name, setName] = useState(props.task.name)
   const [description, setDescription] = useState(props.task.description)
-  const [day, setDay] = useState(props.task.day_of === null ? '' : backDate(props.task.day_of))
-  const [time, setTime] = useState(props.task.day_of === null ? '' : backTime(props.task.day_of))
+  const [day, setDay] = useState(props.task.day_of === null ? '' : formatDate(props.task.day_of, true))
+  const [time, setTime] = useState(props.task.day_of === null ? '' : formatTime(props.task.day_of))
   const [conclusion, setConclusion] = useState(props.task.conclusion)
 
   async function handleEdit(e) {
