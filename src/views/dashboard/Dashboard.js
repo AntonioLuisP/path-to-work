@@ -84,7 +84,7 @@ export default function Dashboard() {
                 <CCol xs="12" sm="12" md="12">
                     <BreadcrumbHeader title='Informações' />
                 </CCol>
-                <CCol xs="12" sm="4" md="12">
+                <CCol xs="12" sm="6" lg="4">
                     <CWidgetIcon
                         text="Links"
                         header={'' + links.length}
@@ -106,7 +106,7 @@ export default function Dashboard() {
                         <CIcon width={24} name="cil-cursor" className="mx-5" />
                     </CWidgetIcon>
                 </CCol>
-                <CCol xs="12" sm="4" md="12">
+                <CCol xs="12" sm="6" lg="4">
                     <CWidgetIcon
                         text="Tarefas"
                         header={'' + tasks.length}
@@ -128,7 +128,7 @@ export default function Dashboard() {
                         <CIcon width={24} name="cil-task" className="mx-5" />
                     </CWidgetIcon>
                 </CCol>
-                <CCol xs="12" sm="4" md="12">
+                <CCol xs="12" sm="6" lg="4">
                     <CWidgetIcon
                         text="Listas"
                         header={'' + lists.length}
