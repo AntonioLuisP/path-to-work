@@ -7,6 +7,7 @@ import EditButton from './EditButton'
 import Error from './Error'
 import Favorite from './Favorite'
 import GoTo from './GoTo'
+import GoOutside from './GoOutside'
 import LoadButton from './LoadButton'
 import Loading from './Loading'
 import Modal from './Modal'
@@ -28,6 +29,7 @@ export {
   Error,
   Favorite,
   GoTo,
+  GoOutside,
   LoadButton,
   Loading,
   Modal,

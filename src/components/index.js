@@ -1,3 +1,4 @@
+import ItemComponent from './ItemComponent'
 import ListComponent from './ListComponent'
 import LinkComponent from './LinkComponent'
 import NoteComponent from './NoteComponent'
@@ -11,6 +12,7 @@ import TaskStatusHeader from './TaskStatusHeader'
 import TaskStatusFooter from './TaskStatusFooter'
 
 export {
+  ItemComponent,
   LinkComponent,
   ListComponent,
   NoteComponent,

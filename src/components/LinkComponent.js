@@ -1,14 +1,8 @@
 import React, { useState } from 'react'
-import { Favorite, GoTo } from '../reusable'
+import { Favorite, GoOutside } from '../reusable'
 import { supabase } from '../services/supabase'
-
-import {
-    CCard,
-    CCardHeader,
-} from '@coreui/react'
-
-import CIcon from '@coreui/icons-react'
-
+import ItemComponent from './ItemComponent'
+ 
 export default function LinkComponent(props) {
 
     const [link, setLink] = useState(props.link)
@@ -31,22 +25,10 @@ export default function LinkComponent(props) {
     }
 
     return (
-        <CCard>
-            <CCardHeader color='secondary' className='text-break text-justify'>
-                <a
-                    target='_blank'
-                    rel="noreferrer noopener"
-                    href={link.url} >
-                    {link.name.length >= 50 ? link.name.substring(0, 174) + ' ...' : link.name}
-                </a>
-                <div className="card-header-actions">
-                    <Favorite favorito={link.is_favorite} action={handleFavorite} />
-                    <GoTo go={'/links/' + link.id}>
-                        <CIcon name="cil-cursor" />
-                    </GoTo>
-                </div>
-            </CCardHeader>
-        </CCard>
+        <ItemComponent name={link.name} to={'/links/' + link.id}>
+            <GoOutside go={link.url} />
+            <Favorite favorito={link.is_favorite} action={handleFavorite} />
+        </ItemComponent>
     )
 }
 
