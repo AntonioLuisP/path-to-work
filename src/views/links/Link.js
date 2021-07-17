@@ -9,6 +9,7 @@ import LinkTasksIndex from '../taskLink/LinkTasksIndex';
 import {
   GoOutside,
   Loading,
+  Favorite,
   Modal,
   NoData,
   PrincipalButtons,
@@ -101,6 +102,23 @@ export default function Link() {
     }
   }
 
+  async function handleFavorite(e) {
+    e.preventDefault();
+    const { data: linkNew, error } = await supabase
+      .from("links")
+      .update({
+        is_favorite: !link.is_favorite,
+      })
+      .eq('id', link.id)
+      .single()
+    if (error) {
+      alert("error", error)
+      return;
+    } else {
+      setLink(linkNew)
+    }
+  }
+
   if (loading) return (<Loading />)
 
   if (link.id === undefined) return (<NoData />)
@@ -112,6 +130,7 @@ export default function Link() {
       </Modal>
       <CCol xs="12" sm="9" md="9">
         <Principal name={link.name} description={link.description} collapsed={collapsed} >
+          <Favorite favorito={link.is_favorite} action={handleFavorite} />
           <GoOutside go={link.url} />
         </Principal>
         <CRow>

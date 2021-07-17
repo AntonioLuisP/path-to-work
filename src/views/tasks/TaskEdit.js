@@ -32,7 +32,6 @@ export default function TaskEdit(props) {
   const [description, setDescription] = useState(props.task.description)
   const [day, setDay] = useState(props.task.day_of === null ? '' : formatDate(props.task.day_of, true))
   const [time, setTime] = useState(props.task.day_of === null ? '' : formatTime(props.task.day_of))
-  const [conclusion, setConclusion] = useState(props.task.conclusion)
 
   async function handleEdit(e) {
     e.preventDefault();
@@ -47,7 +46,6 @@ export default function TaskEdit(props) {
           name,
           description,
           day_of: makeDate(day, time),
-          conclusion
         })
         .eq('id', id)
         .single()
@@ -85,7 +83,7 @@ export default function TaskEdit(props) {
             </CCol>
           </CFormGroup>
           <CFormGroup row>
-            <CCol xs="4" md="4">
+            <CCol xs="6" md="6">
               <CLabel htmlFor="text-input">Data Limite</CLabel>
               <CInput
                 id="text-input"
@@ -96,7 +94,7 @@ export default function TaskEdit(props) {
                 onChange={e => setDay(e.target.value)}
               />
             </CCol>
-            <CCol xs="4" md="4">
+            <CCol xs="6" md="6">
               <CLabel htmlFor="text-input">Hora da tarefa</CLabel>
               <CInput
                 id="text-input"
@@ -106,20 +104,6 @@ export default function TaskEdit(props) {
                 value={time}
                 onChange={e => setTime(e.target.value)}
               />
-            </CCol>
-            <CCol xs="4" md="4">
-              <CFormGroup>
-                <CLabel htmlFor="text-input"> Status: {conclusion ? '' : 'Não '} Concluída</CLabel>
-                <CInput
-                  id="text-input"
-                  name="text-input"
-                  type="button"
-                  placeholder="Nome"
-                  className='btn btn-warning'
-                  value={conclusion ? 'Refazer' : 'Concluir'}
-                  onClick={() => setConclusion(prev => !prev)}
-                />
-              </CFormGroup>
             </CCol>
           </CFormGroup>
           <CFormGroup row>

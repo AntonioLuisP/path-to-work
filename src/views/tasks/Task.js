@@ -11,6 +11,7 @@ import {
   NoData,
   PrincipalButtons,
   Principal,
+  ConclusionSwitch,
   CollapseDescription
 } from '../../reusable'
 
@@ -89,6 +90,23 @@ export default function Task() {
     }
   }
 
+  async function handleConclusion(e) {
+    e.preventDefault();
+    const { data: taskNew, error } = await supabase
+      .from("tasks")
+      .update({
+        conclusion: !task.conclusion,
+      })
+      .eq('id', task.id)
+      .single()
+    if (error) {
+      alert("error", error)
+      return;
+    } else {
+      setTask(taskNew)
+    }
+  }
+
   if (loading) return (<Loading />)
 
   if (task.id === undefined) return (<NoData />)
@@ -99,7 +117,9 @@ export default function Task() {
         <TaskEdit task={task} edit={task => setTask(task)} />
       </Modal>
       <CCol xs="12" sm="9" md="9">
-        <Principal name={task.name} description={task.description} collapsed={collapsed} />
+        <Principal name={task.name} description={task.description} collapsed={collapsed}>
+          <ConclusionSwitch conclusion={task.conclusion} action={handleConclusion} />
+        </Principal>
         <CRow>
           <CCol xs="12" sm="6" md="6">
             <TodoIndex taskId={task.id} todosQtd={qtd => setTodosQtd(qtd)} />

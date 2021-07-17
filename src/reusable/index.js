@@ -2,6 +2,7 @@ import AddButton from './AddButton'
 import Avisos from './Avisos'
 import BreadcrumbHeader from './BreadcrumbHeader'
 import CollapseDescription from './CollapseDescription'
+import ConclusionSwitch from './ConclusionSwitch'
 import DataInfo from './DataInfo'
 import EditButton from './EditButton'
 import Error from './Error'
@@ -25,6 +26,7 @@ export {
   Avisos,
   BreadcrumbHeader,
   CollapseDescription,
+  ConclusionSwitch,
   DataInfo,
   EditButton,
   Error,
