@@ -13,6 +13,7 @@ import Loading from './Loading'
 import Modal from './Modal'
 import NoData from './NoData'
 import NoItems from './NoItems'
+import Principal from './Principal'
 import PrincipalButtons from './PrincipalButtons'
 import RelationButton from './RelationButton'
 import ShareButton from './ShareButton'
@@ -35,6 +36,7 @@ export {
   Modal,
   NoData,
   NoItems,
+  Principal,
   PrincipalButtons,
   RelationButton,
   ShareButton,

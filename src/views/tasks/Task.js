@@ -10,6 +10,7 @@ import {
   Modal,
   NoData,
   PrincipalButtons,
+  Principal,
   CollapseDescription
 } from '../../reusable'
 
@@ -21,10 +22,6 @@ import {
 import {
   CCol,
   CRow,
-  CCard,
-  CCardHeader,
-  CCardBody,
-  CCollapse,
 } from '@coreui/react'
 
 export default function Task() {
@@ -102,16 +99,7 @@ export default function Task() {
         <TaskEdit task={task} edit={task => setTask(task)} />
       </Modal>
       <CCol xs="12" sm="9" md="9">
-        <CCard className='text-break text-justify'>
-          <CCardHeader color="secondary">
-            {task.name}
-          </CCardHeader>
-          <CCollapse show={collapsed}>
-            <CCardBody>
-              {task.description === '' ? 'Sem Descrição' : task.description}
-            </CCardBody>
-          </CCollapse>
-        </CCard>
+        <Principal name={task.name} description={task.description} collapsed={collapsed} />
         <CRow>
           <CCol xs="12" sm="6" md="6">
             <TodoIndex taskId={task.id} todosQtd={qtd => setTodosQtd(qtd)} />

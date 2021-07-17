@@ -9,12 +9,11 @@ import {
   Modal,
   NoData,
   PrincipalButtons,
+  Principal,
   DataInfo
 } from '../../reusable'
 
 import {
-  CCard,
-  CCardHeader,
   CCol,
   CRow,
 } from '@coreui/react'
@@ -84,11 +83,7 @@ export default function List() {
         <ListEdit list={list} edit={list => setList(list)} />
       </Modal>
       <CCol xs="12" sm="9" md="9">
-        <CCard>
-          <CCardHeader color="secondary" className='text-break text-justify'>
-            {list.name}
-          </CCardHeader>
-        </CCard>
+        <Principal name={list.name} />
         <ListLinksIndex listId={list.id} />
       </CCol>
       <CCol xs="12" sm="3" md="3">

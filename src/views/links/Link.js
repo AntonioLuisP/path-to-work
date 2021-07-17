@@ -7,21 +7,19 @@ import LinkListsIndex from '../listLink/LinkListsIndex';
 import LinkTasksIndex from '../taskLink/LinkTasksIndex';
 
 import {
+  GoOutside,
   Loading,
   Modal,
   NoData,
   PrincipalButtons,
   CollapseDescription,
+  Principal,
   DataInfo
 } from '../../reusable'
 
 import {
-  CCard,
-  CCardHeader,
-  CCardBody,
   CCol,
   CRow,
-  CCollapse
 } from '@coreui/react'
 
 export default function Link() {
@@ -113,16 +111,9 @@ export default function Link() {
         <LinkEdit link={link} edit={link => setLink(link)} />
       </Modal>
       <CCol xs="12" sm="9" md="9">
-        <CCard className='text-break text-justify'>
-          <CCardHeader color="secondary">
-            {link.name}: {link.url}
-          </CCardHeader>
-          <CCollapse show={collapsed}>
-            <CCardBody>
-              {link.description === '' ? 'Sem Descrição' : link.description}
-            </CCardBody>
-          </CCollapse>
-        </CCard>
+        <Principal name={link.name} description={link.description} collapsed={collapsed} >
+          <GoOutside go={link.url} />
+        </Principal>
         <CRow>
           <CCol xs="12" sm="8" md="8">
             <NoteIndex linkId={link.id} />
