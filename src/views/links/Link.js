@@ -112,7 +112,7 @@ export default function Link() {
       .eq('id', link.id)
       .single()
     if (error) {
-      alert("error", error)
+      alert("Não foi possivel salvar a informação. Motivo: ", error.message)
       return;
     } else {
       setLink(linkNew)

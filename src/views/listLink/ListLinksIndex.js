@@ -67,7 +67,7 @@ export default function ListLinksIndex({ listId }) {
             })
             .single();
         if (error) {
-            alert("error", error)
+            alert("Não foi possivel salvar a informação. Motivo: ", error.message)
             return;
         } else {
             addLink(link)

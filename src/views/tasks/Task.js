@@ -100,7 +100,7 @@ export default function Task() {
       .eq('id', task.id)
       .single()
     if (error) {
-      alert("error", error)
+      alert("Não foi possivel salvar a informação. Motivo: ", error.message)
       return;
     } else {
       setTask(taskNew)

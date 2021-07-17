@@ -71,7 +71,7 @@ export default function TaskLinksIndex({ taskId, linksQtd }) {
             })
             .single();
         if (error) {
-            alert("error", error)
+            alert("Não foi possivel salvar a informação. Motivo: ", error.message)
             return;
         } else {
             addLink(link)

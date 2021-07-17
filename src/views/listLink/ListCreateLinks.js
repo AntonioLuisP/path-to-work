@@ -82,7 +82,7 @@ export default function ListCreateLinks({ listId, add, remove }) {
             })
             .single();
         if (error) {
-            alert("error", error)
+            alert("Não foi possivel salvar a informação. Motivo: ", error.message)
             return;
         } else {
             add(link)

@@ -43,7 +43,7 @@ export default function TodoCreate({ taskId, add }) {
         })
         .single();
       if (error) {
-        alert("error", error)
+        alert("Não foi possivel salvar a informação. Motivo: ", error.message)
       } else {
         add(todo)
         dispatch(ActionNotification.addOne({
