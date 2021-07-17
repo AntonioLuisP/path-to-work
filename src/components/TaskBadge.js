@@ -1,17 +1,17 @@
-import React, { useEffect, useState, useCallback } from 'react'
-import { bringDate, formatTime } from '../services/FormatDate'
+import React, { useEffect, useState } from 'react'
+import { bringDate, formatDate, formatTime } from '../services/FormatDate'
 
 import {
-    CCardHeader,
+    CBadge,
 } from '@coreui/react'
 
-export default function TaskStatusHeader({ conclusion, dayOf }) {
+export default function TaskBadge({ conclusion, dayOf }) {
 
-    const [header, setHeader] = useState(null)
+    const [badge, setBadge] = useState(null)
 
-    const makeHeader = useCallback(() => {
+    useEffect(() => {
         if (conclusion) {
-            setHeader({
+            setBadge({
                 'message': 'Concluída',
                 'color': 'success'
             })
@@ -21,31 +21,25 @@ export default function TaskStatusHeader({ conclusion, dayOf }) {
             const [ano, mes, dia] = bringDate(dayOf)
             const day_of = new Date(ano, mes, dia)
             if (today.getTime() === day_of.getTime()) {
-                setHeader({
+                setBadge({
                     'message': 'Hoje às ' + formatTime(dayOf),
                     'color': 'warning'
                 })
             } else if (today.getTime() > day_of.getTime()) {
-                setHeader({
-                    'message': 'Atrasado',
+                setBadge({
+                    'message': 'Atrasado: ' + formatDate(dayOf),
                     'color': 'danger'
                 })
             } else {
-                setHeader(null)
+                setBadge(null)
             }
         }
     }, [conclusion, dayOf])
 
-    useEffect(() => {
-        makeHeader()
-    }, [makeHeader])
-
     return (
         <>
-            {header ?
-                <CCardHeader className='content-center' color={header.color}>
-                    <p className="my-2">{header.message}</p>
-                </CCardHeader>
+            {badge ?
+                <CBadge color={badge.color} children={badge.message} />
                 : <></>
             }
         </>

@@ -1,7 +1,7 @@
 import React from 'react'
 
 import {
-    CCardFooter,
+    CCardHeader,
     CCol,
     CRow,
 } from '@coreui/react'
@@ -16,7 +16,7 @@ import CIcon from '@coreui/icons-react'
 export default function TaskStatusFooter({ links, todos }) {
 
     return (
-        <CCardFooter className='text-center'>
+        <CCardHeader className='text-center'>
             <CRow>
                 <CCol>
                     <div className="text-value-md">{todos}</div>
@@ -27,6 +27,6 @@ export default function TaskStatusFooter({ links, todos }) {
                     <CIcon content={cilCursor} />
                 </CCol>
             </CRow>
-        </CCardFooter>
+        </CCardHeader>
     )
 }
