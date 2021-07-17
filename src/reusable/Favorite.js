@@ -1,6 +1,7 @@
 import React from 'react'
 
 import {
+  CTooltip,
   CLink
 } from '@coreui/react'
 
@@ -19,8 +20,12 @@ const Favorite = ({ favorito, action }) => {
       rel="noreferrer noopener"
       className="card-header-action"
     >
-      <CIcon className={'text-decoration-none ' + color}
-        width={18} content={cilStar} />
+      <CTooltip
+        content={favorito ? 'Desfavoritar' : 'Favoritar'}
+        placement='top'
+      >
+        <CIcon width={18} content={cilStar} className={'text-decoration-none ' + color} />
+      </CTooltip>
     </CLink>
 
   )

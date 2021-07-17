@@ -27,3 +27,13 @@ export function makeDate(day, time) {
     }
     return day + "T" + time
 }
+
+export function bringDate(timestamp) {
+    const allDate = new Date(timestamp)
+    const dia = allDate.getDate()
+    const mes = allDate.getMonth()
+    const ano = allDate.getFullYear()
+    const hora = allDate.getHours()
+    const minuto = allDate.getMinutes()
+    return [ano, mes, dia, hora, minuto]
+}

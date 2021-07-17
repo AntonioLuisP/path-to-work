@@ -1,60 +1,57 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
+import { bringDate, formatTime } from '../services/FormatDate'
 
 import {
     CCardHeader,
 } from '@coreui/react'
 
-export default function TaskStatusHeader(props) {
+export default function TaskStatusHeader({ conclusion, dayOf }) {
 
-    const task = props.task
-    const [header, setHeader] = useState(
-        {
-            'show': false,
-            'atual': 0,
-            'layouts': [
-                {
-                    'message': 'Sem data',
-                    'color': 'dark'
-                },
-                {
-                    'message': 'Em dia',
-                    'color': 'info'
-                },
-                {
+    const [header, setHeader] = useState({
+        'message': '',
+        'color': ''
+    })
+
+    const makeHeader = useCallback(() => {
+        if (conclusion) {
+            setHeader({
+                'message': 'Concluída',
+                'color': 'success'
+            })
+        } else {
+            const today = new Date()
+            today.setHours(0, 0, 0, 0)
+            const [ano, mes, dia] = bringDate(dayOf)
+            const day_of = new Date(ano, mes, dia)
+            if (today.getTime() === day_of.getTime()) {
+                setHeader({
+                    'message': 'Hoje às ' + formatTime(dayOf),
+                    'color': 'warning'
+                })
+            } else if (today.getTime() > day_of.getTime()) {
+                setHeader({
                     'message': 'Atrasado',
                     'color': 'danger'
-                },
-                {
-                    'message': 'Vence Hoje',
-                    'color': 'warning'
-                },
-                {
-                    'message': 'Concluída',
-                    'color': 'success'
-                },
-            ]
+                })
+            } else {
+                setHeader({
+                    'message': 'Status',
+                    'color': 'secondary'
+                })
+            }
         }
-    )
-    // quando a data tiver bonita ajustar o header
+    }, [conclusion, dayOf])
 
     useEffect(() => {
-        if (task.conclusion) {
-            setHeader(header => ({ ...header, 'show': true, 'atual': 4 }))
-        } else {
-            setHeader(header => ({ ...header, 'show': false, 'atual': 4 }))
-        }
-    }, [task])
+        makeHeader()
+    }, [makeHeader])
 
     return (
         <>
             {
-                header.show ?
-                    (
-                        <CCardHeader className='content-center' color={header.layouts[header.atual].color}>
-                            <p className="text-white my-2">{header.layouts[header.atual].message}</p>
-                        </CCardHeader>
-                    )
-                    : ''
+                <CCardHeader className='content-center' color={header.color}>
+                    <p className="my-2">{header.message}</p>
+                </CCardHeader>
             }
         </>
     )

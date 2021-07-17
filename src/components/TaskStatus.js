@@ -10,7 +10,7 @@ export default function TaskStatus({ task, links, todos, comments }) {
 
     return (
         <CCard>
-            <TaskStatusHeader task={task} />
+            <TaskStatusHeader conclusion={task.conclusion} dayOf={task.day_of} />
             <TaskStatusFooter todos={todos} links={links} comments={comments} />
         </CCard>
     )
