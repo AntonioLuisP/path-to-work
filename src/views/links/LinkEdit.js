@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { supabase } from '../../services/supabase'
 import { Actions as ActionNotification } from '../../redux/notifications'
-import { Error, LoadButton, NosignalBadge } from '../../reusable'
+import { Error, LoadButton, NosignalBadge, Form } from '../../reusable'
 
 import {
   CCol,
@@ -10,7 +10,6 @@ import {
   CModalFooter,
   CModalHeader,
   CModalTitle,
-  CForm,
   CFormGroup,
   CInput,
   CTextarea,
@@ -30,8 +29,7 @@ export default function LinkEdit(props) {
   const [url, setUrl] = useState(props.link.url)
   const [description, setDescription] = useState(props.link.description)
 
-  async function handleEdit(e) {
-    e.preventDefault();
+  async function handleEdit() {
     setLoad(false)
     setErrors([])
     if (name.length < 3 || name.trim() === '') {
@@ -61,7 +59,7 @@ export default function LinkEdit(props) {
   }
 
   return (
-    <CForm onSubmit={handleEdit} className="form-horizontal">
+    <Form onSubmit={handleEdit} >
       <CModalHeader>
         <CModalTitle>Editar Link</CModalTitle>
       </CModalHeader>
@@ -111,6 +109,6 @@ export default function LinkEdit(props) {
       <CModalFooter>
         {!sinal ? (<NosignalBadge />) : <LoadButton load={load} />}
       </CModalFooter>
-    </CForm>
+    </Form>
   )
 }

@@ -4,7 +4,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { supabase } from '../../services/supabase';
 import { Favorite } from '../../reusable/';
 import { Actions as ActionNotification } from '../../redux/notifications'
-import { Error, LoadButton, NosignalBadge } from '../../reusable'
+import { Error, LoadButton, NosignalBadge, Form } from '../../reusable'
 
 import {
   CCol,
@@ -12,7 +12,6 @@ import {
   CModalFooter,
   CModalHeader,
   CModalTitle,
-  CForm,
   CFormGroup,
   CInput,
   CTextarea,
@@ -34,8 +33,7 @@ export default function LinkCreate({ add }) {
   const [is_favorite, setIs_favorite] = useState(false)
   const [description, setDescription] = useState('')
 
-  async function handleCreate(e) {
-    e.preventDefault();
+  async function handleCreate() {
     setLoad(false)
     setErrors([])
     if (name.length < 3 || name.trim() === '') {
@@ -70,7 +68,7 @@ export default function LinkCreate({ add }) {
       <CModalHeader closeButton>
         <CModalTitle>Novo Link</CModalTitle>
       </CModalHeader >
-      <CForm onSubmit={handleCreate} className="form-horizontal">
+      <Form onSubmit={handleCreate} >
         <CModalBody>
           <CFormGroup row>
             <CCol xs="10" md="10">
@@ -124,7 +122,7 @@ export default function LinkCreate({ add }) {
         <CModalFooter>
           {!sinal ? (<NosignalBadge />) : <LoadButton load={load} />}
         </CModalFooter>
-      </CForm>
+      </Form>
     </>
   )
 }

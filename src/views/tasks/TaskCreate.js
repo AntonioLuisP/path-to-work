@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { useAuth } from '../../hooks/useAuth';
 import { supabase } from 'src/services/supabase';
 import { Actions as ActionNotification } from '../../redux/notifications'
-import { Error, LoadButton, NosignalBadge } from '../../reusable'
+import { Error, LoadButton, NosignalBadge, Form } from '../../reusable'
 import { makeDate } from '../../services/FormatDate'
 
 import {
@@ -12,7 +12,6 @@ import {
   CModalFooter,
   CModalHeader,
   CModalTitle,
-  CForm,
   CFormGroup,
   CInput,
   CLabel,
@@ -32,12 +31,9 @@ export default function TaskCreate({ add }) {
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [day, setDay] = useState('')
-  console.log(day)
   const [time, setTime] = useState('')
-  console.log(time)
 
-  async function handleCreate(e) {
-    e.preventDefault();
+  async function handleCreate() {
     setLoad(false)
     setErrors([])
     if (name.length < 3 || name.trim() === '') {
@@ -72,7 +68,7 @@ export default function TaskCreate({ add }) {
       <CModalHeader>
         <CModalTitle>Nova Tarefa</CModalTitle>
       </CModalHeader>
-      <CForm onSubmit={handleCreate} className="form-horizontal">
+      <Form onSubmit={handleCreate} >
         <CModalBody>
           <CFormGroup row>
             <CCol xs="12" md="12">
@@ -130,7 +126,7 @@ export default function TaskCreate({ add }) {
         <CModalFooter>
           {!sinal ? (<NosignalBadge />) : <LoadButton load={load} />}
         </CModalFooter>
-      </CForm>
+      </Form>
     </>
   )
 }

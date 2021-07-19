@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { supabase } from '../../services/supabase'
 import OAuth from './OAuth'
-import { Error } from '../../reusable'
+import { Error, Form } from '../../reusable'
 
 import {
   CButton,
@@ -10,7 +10,6 @@ import {
   CCardBody,
   CCol,
   CContainer,
-  CForm,
   CInput,
   CInputGroup,
   CInputGroupPrepend,
@@ -27,8 +26,7 @@ const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  async function handleLogin(e) {
-    e.preventDefault()
+  async function handleLogin() {
     setErrors([])
     if (password.length < 9 || password.trim() === '') {
       setErrors(prev => [...prev, 'A senha deve ter no minimo 10 digitos'])
@@ -47,7 +45,7 @@ const Login = () => {
           <CCol md="6">
             <CCard className="p-4">
               <CCardBody>
-                <CForm onSubmit={handleLogin}>
+                <Form onSubmit={handleLogin}>
                   <h1>Login</h1>
                   <p className="text-muted">Entre com sua conta</p>
                   <CInputGroup className="mb-3">
@@ -88,7 +86,7 @@ const Login = () => {
                       </Link>
                     </CCol>
                   </CRow>
-                </CForm>
+                </Form>
               </CCardBody>
             </CCard>
           </CCol>

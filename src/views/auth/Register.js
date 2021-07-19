@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { supabase } from '../../services/supabase'
 import OAuth from './OAuth'
-import { Error } from '../../reusable'
+import { Error, Form } from '../../reusable'
 
 import {
   CButton,
@@ -11,7 +11,6 @@ import {
   CCardFooter,
   CCol,
   CContainer,
-  CForm,
   CInput,
   CInputGroup,
   CInputGroupPrepend,
@@ -28,8 +27,7 @@ const Register = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  async function handleRegister(e) {
-    e.preventDefault()
+  async function handleRegister() {
     setErrors([])
     if (password.length < 9 || password.trim() === '') {
       setErrors(prev => [...prev, 'A senha deve ter no minimo 10 digitos'])
@@ -52,7 +50,7 @@ const Register = () => {
           <CCol md="9" lg="7" xl="6">
             <CCard className="mx-4">
               <CCardBody className="p-4">
-                <CForm onSubmit={handleRegister}>
+                <Form onSubmit={handleRegister}>
                   <h1>Registre-se</h1>
                   <p className="text-muted">Crie sua conta</p>
                   <CInputGroup className="mb-3">
@@ -85,7 +83,7 @@ const Register = () => {
                   <CButton type="submit" color="success" block>Crie sua conta</CButton>
                   <br />
                   <Error errors={errors} />
-                </CForm>
+                </Form>
               </CCardBody>
               <CCardFooter className='text-center'>
                 <OAuth />

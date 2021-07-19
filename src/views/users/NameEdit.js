@@ -2,11 +2,10 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { supabase } from '../../services/supabase'
 import { Actions as ActionNotification } from '../../redux/notifications'
-import { Error } from '../../reusable'
+import { Error, Form } from '../../reusable'
 
 import {
     CButton,
-    CForm,
     CFormGroup,
     CLabel,
     CInput,
@@ -27,8 +26,7 @@ export default function NameEdit() {
 
     const [name, setName] = useState('')
 
-    async function handleEdit(e) {
-        e.preventDefault();
+    async function handleEdit() {
         setLoad(false)
         setErrors([])
         if (name.length < 3 || name.trim() === '') {
@@ -53,7 +51,7 @@ export default function NameEdit() {
     }
 
     return (
-        <CForm onSubmit={handleEdit} className="form-horizontal">
+        <Form onSubmit={handleEdit} >
             <CFormGroup>
                 <CLabel >Edite seu Nome</CLabel>
                 <CInputGroup>
@@ -79,6 +77,6 @@ export default function NameEdit() {
                 </CInputGroup>
             </CFormGroup>
             <Error errors={errors} />
-        </CForm>
+        </Form>
     )
 }

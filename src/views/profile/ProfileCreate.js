@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import { supabase } from 'src/services/supabase';
 import { useAuth } from '../../hooks/useAuth';
-import { Error, LoadButton, NosignalBadge } from '../../reusable'
+import { Error, LoadButton, NosignalBadge, Form } from '../../reusable'
 
 import {
-  CForm,
   CFormGroup,
   CLabel,
   CInput,
@@ -26,8 +25,7 @@ export default function ProfileCreate({ add }) {
 
   const [name, setName] = useState('')
 
-  async function handleCreate(e) {
-    e.preventDefault();
+  async function handleCreate() {
     setLoad(false)
     setErrors([])
     if (name.length < 3 || name.trim() === '') {
@@ -50,7 +48,7 @@ export default function ProfileCreate({ add }) {
   }
 
   return (
-    <CForm onSubmit={handleCreate} className="form-horizontal">
+    <Form onSubmit={handleCreate} >
       <CFormGroup>
         <CLabel >Dê um nome a seu perfil</CLabel>
         <CInputGroup>
@@ -74,6 +72,6 @@ export default function ProfileCreate({ add }) {
         <p className="help-block">Este nome será utilizado para compartilhar seus links sociais!</p>
       </CFormGroup>
       <Error errors={errors} />
-    </CForm>
+    </Form>
   )
 }

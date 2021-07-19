@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { supabase } from 'src/services/supabase';
 import { useAuth } from '../../hooks/useAuth';
 import { Actions as ActionNotification } from '../../redux/notifications'
-import { Error, LoadButton, NosignalBadge } from '../../reusable'
+import { Error, LoadButton, NosignalBadge, Form } from '../../reusable'
 
 import {
   CCol,
@@ -11,7 +11,6 @@ import {
   CModalFooter,
   CModalHeader,
   CModalTitle,
-  CForm,
   CFormGroup,
   CInput,
 } from '@coreui/react'
@@ -28,8 +27,7 @@ export default function NoteCreate({ linkId, add }) {
 
   const [name, setName] = useState('')
 
-  async function handleCreate(e) {
-    e.preventDefault();
+  async function handleCreate() {
     setLoad(false)
     setErrors([])
     if (name.length < 3 || name.trim() === '') {
@@ -62,7 +60,7 @@ export default function NoteCreate({ linkId, add }) {
       <CModalHeader closeButton>
         <CModalTitle>Nova Anotação</CModalTitle>
       </CModalHeader >
-      <CForm onSubmit={handleCreate} className="form-horizontal">
+      <Form onSubmit={handleCreate} >
         <CModalBody>
           <CFormGroup row>
             <CCol xs="12" md="12">
@@ -83,7 +81,7 @@ export default function NoteCreate({ linkId, add }) {
           {!sinal ? (<NosignalBadge />) : <LoadButton load={load} />}
           {!sinal ? (<NosignalBadge />) : <LoadButton load={load} />}
         </CModalFooter>
-      </CForm>
+      </Form>
     </>
   )
 }

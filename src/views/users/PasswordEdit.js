@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { supabase } from '../../services/supabase'
 import { Actions as ActionNotification } from '../../redux/notifications'
-import { Error } from '../../reusable'
+import { Error, Form } from '../../reusable'
 
 import {
     CButton,
@@ -10,7 +10,6 @@ import {
     CCardBody,
     CCardFooter,
     CCardHeader,
-    CForm,
     CFormGroup,
     CLabel,
     CInput,
@@ -25,8 +24,7 @@ export default function PasswordEdit() {
 
     const [password, setPassword] = useState('')
 
-    async function handleEdit(e) {
-        e.preventDefault();
+    async function handleEdit() {
         setLoad(false)
         setErrors([])
         if (password.length < 9 || password.trim() === '') {
@@ -49,7 +47,7 @@ export default function PasswordEdit() {
     }
 
     return (
-        <CForm onSubmit={handleEdit} className="form-horizontal">
+        <Form onSubmit={handleEdit} >
             <CCard>
                 <CCardHeader>
                     Editar Senha
@@ -76,6 +74,6 @@ export default function PasswordEdit() {
                     </CButton>
                 </CCardFooter>
             </CCard>
-        </CForm>
+        </Form>
     )
 }

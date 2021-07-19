@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { supabase } from '../../services/supabase'
 import { Actions as ActionNotification } from '../../redux/notifications'
-import { Error, LoadButton, NosignalBadge } from '../../reusable'
+import { Error, LoadButton, NosignalBadge, Form } from '../../reusable'
 import { formatDate, formatTime, makeDate } from '../../services/FormatDate'
 
 import {
@@ -11,7 +11,6 @@ import {
   CModalFooter,
   CModalHeader,
   CCardTitle,
-  CForm,
   CFormGroup,
   CInput,
   CLabel,
@@ -33,8 +32,7 @@ export default function TaskEdit(props) {
   const [day, setDay] = useState(props.task.day_of === null ? '' : formatDate(props.task.day_of, true))
   const [time, setTime] = useState(props.task.day_of === null ? '' : formatTime(props.task.day_of))
 
-  async function handleEdit(e) {
-    e.preventDefault();
+  async function handleEdit() {
     setLoad(false)
     setErrors([])
     if (name.length < 3 || name.trim() === '') {
@@ -65,7 +63,7 @@ export default function TaskEdit(props) {
 
   return (
     <>
-      <CForm onSubmit={handleEdit} className="form-horizontal">
+      <Form onSubmit={handleEdit} >
         <CModalHeader closeButton>
           <CCardTitle>Editar Tarefa</CCardTitle>
         </CModalHeader>
@@ -124,7 +122,7 @@ export default function TaskEdit(props) {
         <CModalFooter>
           {!sinal ? (<NosignalBadge />) : <LoadButton load={load} />}
         </CModalFooter>
-      </CForm>
+      </Form>
     </>
   )
 }

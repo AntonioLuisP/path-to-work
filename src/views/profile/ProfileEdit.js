@@ -2,10 +2,9 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { supabase } from '../../services/supabase'
 import { Actions as ActionNotification } from '../../redux/notifications'
-import { Error, LoadButton, NosignalBadge } from '../../reusable'
+import { Error, LoadButton, NosignalBadge, Form } from '../../reusable'
 
 import {
-  CForm,
   CFormGroup,
   CInput,
   CLabel,
@@ -29,8 +28,7 @@ export default function ProfileEdit(props) {
 
   const [name, setName] = useState(props.profile.name)
 
-  async function handleEdit(e) {
-    e.preventDefault();
+  async function handleEdit() {
     setErrors([])
     if (name.length < 3 || name.trim() === '') {
       setErrors(prev => [...prev, 'O nome deve ter mais que 3 digitos'])
@@ -60,7 +58,7 @@ export default function ProfileEdit(props) {
   }
 
   return (
-    <CForm onSubmit={handleEdit} className="form-horizontal">
+    <Form onSubmit={handleEdit} >
       <CFormGroup>
         <CLabel >Editar seu nome de perfil</CLabel>
         <CInputGroup>
@@ -84,6 +82,6 @@ export default function ProfileEdit(props) {
         <p className="help-block">Ao atualizar, seu link compartilhavel será baseado no novo nome!!!</p>
       </CFormGroup>
       <Error errors={errors} />
-    </CForm>
+    </Form>
   )
 }

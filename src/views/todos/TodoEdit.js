@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { supabase } from '../../services/supabase'
 import { Actions as ActionNotification } from '../../redux/notifications'
-import { Error, LoadButton, NosignalBadge } from '../../reusable'
+import { Error, LoadButton, NosignalBadge, Form } from '../../reusable'
 
 import {
   CCol,
@@ -10,7 +10,6 @@ import {
   CModalFooter,
   CModalHeader,
   CModalTitle,
-  CForm,
   CFormGroup,
   CInput,
 } from '@coreui/react'
@@ -27,8 +26,7 @@ export default function TodoEdit({ todo, edit }) {
 
   const [name, setName] = useState(todo.name)
 
-  async function handleEdit(e) {
-    e.preventDefault();
+  async function handleEdit() {
     setLoad(false)
     setErrors([])
     if (name.length < 3 || name.trim() === '') {
@@ -56,7 +54,7 @@ export default function TodoEdit({ todo, edit }) {
   }
 
   return (
-    <CForm onSubmit={handleEdit} className="form-horizontal">
+    <Form onSubmit={handleEdit} >
       <CModalHeader>
         <CModalTitle>Editar Anotação</CModalTitle>
       </CModalHeader>
@@ -79,6 +77,6 @@ export default function TodoEdit({ todo, edit }) {
       <CModalFooter>
         {!sinal ? (<NosignalBadge />) : <LoadButton load={load} />}
       </CModalFooter>
-    </CForm>
+    </Form>
   )
 }
