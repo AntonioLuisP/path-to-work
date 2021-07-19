@@ -42,7 +42,10 @@ export default function Dashboard() {
             .select("*")
             .eq('user_id', authUser.id)
             .order("created_at", { ascending: false });
-        if (!error) {
+        if (error) {
+            console.log("error", error);
+        }
+        else {
             setLinks(linksSearch)
         }
     }, [authUser.id])
@@ -53,7 +56,10 @@ export default function Dashboard() {
             .select("*")
             .eq('user_id', authUser.id)
             .order("created_at", { ascending: false });
-        if (!error) {
+        if (error) {
+            console.log("error", error);
+        }
+        else {
             setTasks(tasksSearch)
         }
     }, [authUser.id])
@@ -64,7 +70,10 @@ export default function Dashboard() {
             .select("*")
             .eq('user_id', authUser.id)
             .order("created_at", { ascending: false });
-        if (!error) {
+        if (error) {
+            console.log("error", error);
+        }
+        else {
             setLists(listsSearch)
         }
     }, [authUser.id])
@@ -75,7 +84,10 @@ export default function Dashboard() {
             .select("*")
             .eq('user_id', authUser.id)
             .single()
-        if (!error) {
+        if (error) {
+            console.log("error", error);
+        }
+        else {
             setProfile(profile)
         }
         setLoading(false)

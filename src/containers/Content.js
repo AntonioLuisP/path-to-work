@@ -7,7 +7,12 @@ import {
   Switch
 } from 'react-router-dom'
 
+
 import { CContainer, CFade } from '@coreui/react'
+
+import {
+  NosignalAlert,
+} from '../reusable/'
 
 import routes from '../routes'
 
@@ -19,6 +24,7 @@ const loading = (
 
 const Content = () => {
 
+  const sinal = navigator.onLine
   const { authUser } = useAuth()
 
   return (
@@ -35,7 +41,9 @@ const Content = () => {
                   name={route.name}
                   render={props => authUser ? (
                     <CFade>
-                      <route.component {...props} />
+                      {!sinal ? (<NosignalAlert />) :
+                        <route.component {...props} />
+                      }
                     </CFade>
                   ) : <Redirect to={{ pathname: '/login', state: { from: props.location } }} />} />
               )
