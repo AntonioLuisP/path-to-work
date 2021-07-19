@@ -70,7 +70,7 @@ const Login = () => {
                       onChange={e => setPassword(e.target.value)}
                     />
                   </CInputGroup>
-                  <Error errors={errors} />
+                  {errors.length > 0 ? <Error errors={errors} /> : <></>}
                   <CRow>
                     <CCol xs="6">
                       <CButton type='submit' color="primary" className="px-4">Login</CButton>

@@ -14,14 +14,11 @@ const Error = ({ errors }) => {
 
     return (
         <>
-            {
-                errors <= 0 ? <></> :
-                    errors.map(error => (
-                        <CAlert key={error} color="danger">
-                            <CIcon content={cilSad} width={20} /> {error}
-                        </CAlert>
-                    ))
-            }
+            {errors.map(error => (
+                <CAlert key={error} color="danger">
+                    <CIcon content={cilSad} width={20} /> {error}
+                </CAlert>
+            ))}
         </>
 
     )

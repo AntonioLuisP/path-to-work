@@ -82,7 +82,7 @@ const Register = () => {
                   </CInputGroup>
                   <CButton type="submit" color="success" block>Crie sua conta</CButton>
                   <br />
-                  <Error errors={errors} />
+                  {errors.length > 0 ? <Error errors={errors} /> : <></>}
                 </Form>
               </CCardBody>
               <CCardFooter className='text-center'>

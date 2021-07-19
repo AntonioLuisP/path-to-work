@@ -81,7 +81,7 @@ export default function ProfileEdit(props) {
         </CInputGroup>
         <p className="help-block">Ao atualizar, seu link compartilhavel será baseado no novo nome!!!</p>
       </CFormGroup>
-      <Error errors={errors} />
+      {errors.length > 0 ? <Error errors={errors} /> : <></>}
     </Form>
   )
 }

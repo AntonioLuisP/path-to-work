@@ -76,7 +76,7 @@ export default function NameEdit() {
                     </CInputGroupAppend>
                 </CInputGroup>
             </CFormGroup>
-            <Error errors={errors} />
+            {errors.length > 0 ? <Error errors={errors} /> : <></>}
         </Form>
     )
 }

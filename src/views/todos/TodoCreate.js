@@ -75,7 +75,7 @@ export default function TodoCreate({ taskId, add }) {
               />
             </CCol>
           </CFormGroup>
-          <Error errors={errors} />
+          {errors.length > 0 ? <Error errors={errors} /> : <></>}
         </CModalBody>
         <CModalFooter>
           {!sinal ? (<NosignalBadge />) : <LoadButton load={load} />}

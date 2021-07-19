@@ -64,7 +64,7 @@ export default function PasswordEdit() {
                             onChange={e => setPassword(e.target.value)}
                         />
                     </CFormGroup>
-                    <Error errors={errors} />
+                    {errors.length > 0 ? <Error errors={errors} /> : <></>}
                 </CCardBody>
                 <CCardFooter>
                     <CButton type="submit" color="success" disabled={!load}>

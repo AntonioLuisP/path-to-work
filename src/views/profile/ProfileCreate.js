@@ -71,7 +71,7 @@ export default function ProfileCreate({ add }) {
         </CInputGroup>
         <p className="help-block">Este nome será utilizado para compartilhar seus links sociais!</p>
       </CFormGroup>
-      <Error errors={errors} />
+      {errors.length > 0 ? <Error errors={errors} /> : <></>}
     </Form>
   )
 }
