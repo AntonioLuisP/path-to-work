@@ -10,14 +10,12 @@ import {
 
 import CIcon from '@coreui/icons-react'
 
-const Nosignal = (sinal) => {
-
-    if (sinal) return (<></>)
+const NosignalAlert = () => {
 
     return (
         <CAlert color='danger' >
             <CIcon content={cilWifiSignalOff} width={22} /> Sem Sinal
         </CAlert>
-    )    
+    )
 }
-export default React.memo(Nosignal)
+export default React.memo(NosignalAlert)

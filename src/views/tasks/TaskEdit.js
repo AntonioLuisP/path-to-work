@@ -2,11 +2,10 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { supabase } from '../../services/supabase'
 import { Actions as ActionNotification } from '../../redux/notifications'
-import { Error } from '../../reusable'
+import { Error, LoadButton, NosignalBadge } from '../../reusable'
 import { formatDate, formatTime, makeDate } from '../../services/FormatDate'
 
 import {
-  CButton,
   CCol,
   CModalBody,
   CModalFooter,
@@ -24,6 +23,7 @@ export default function TaskEdit(props) {
   const dispatch = useDispatch()
 
   const id = props.task.id
+  const sinal = navigator.onLine
 
   const [load, setLoad] = useState(true)
   const [errors, setErrors] = useState([])
@@ -122,11 +122,7 @@ export default function TaskEdit(props) {
           <Error errors={errors} />
         </CModalBody>
         <CModalFooter>
-          <CButton type="submit" color="success" disabled={!load}>
-            {
-              load ? 'Salvar' : (<span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />)
-            }
-          </CButton>
+          {!sinal ? (<NosignalBadge />) : <LoadButton load={load} />}
         </CModalFooter>
       </CForm>
     </>

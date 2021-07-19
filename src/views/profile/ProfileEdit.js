@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { supabase } from '../../services/supabase'
 import { Actions as ActionNotification } from '../../redux/notifications'
-import { Error, LoadButton } from '../../reusable'
+import { Error, LoadButton, NosignalBadge } from '../../reusable'
 
 import {
   CForm,
@@ -22,6 +22,7 @@ export default function ProfileEdit(props) {
   const dispatch = useDispatch()
 
   const id = props.profile.id
+  const sinal = navigator.onLine
 
   const [load, setLoad] = useState(true)
   const [errors, setErrors] = useState([])
@@ -77,7 +78,7 @@ export default function ProfileEdit(props) {
             onChange={e => setName(e.target.value)}
           />
           <CInputGroupAppend>
-            <LoadButton load={load} />
+            {!sinal ? (<NosignalBadge />) : <LoadButton load={load} />}
           </CInputGroupAppend>
         </CInputGroup>
         <p className="help-block">Ao atualizar, seu link compartilhavel será baseado no novo nome!!!</p>

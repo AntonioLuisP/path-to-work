@@ -6,7 +6,7 @@ import { bringDate } from '../../services/FormatDate'
 import {
     Loading,
     BreadcrumbHeader,
-    Nosignal,
+    NosignalAlert,
     Avisos
 } from '../../reusable/'
 
@@ -24,6 +24,7 @@ export default function Dashboard() {
 
     const { authUser } = useAuth()
 
+    const sinal = navigator.onLine
     const [loading, setLoading] = useState(true)
 
     const [links, setLinks] = useState([])
@@ -82,12 +83,14 @@ export default function Dashboard() {
 
 
     useEffect(() => {
-        fetchLinks()
-        fetchTasks()
-        fetchLists()
-        fetchProfile()
+        if (sinal) {
+            fetchLinks()
+            fetchTasks()
+            fetchLists()
+            fetchProfile()
+        }
         setLoading(false)
-    }, [fetchLinks, fetchTasks, fetchLists, fetchProfile])
+    }, [sinal, fetchLinks, fetchTasks, fetchLists, fetchProfile])
 
     useEffect(() => {
         tasks.forEach(task => {
@@ -188,21 +191,25 @@ export default function Dashboard() {
                     </CWidgetIcon>
                 </CCol>
             </CRow>
-            <Nosignal />
+
             <CRow>
                 <CCol xs="12" sm="12" md="12">
                     <BreadcrumbHeader title='Avisos' />
-                    {tasksHoje === 0 ?
-                        <Avisos text={'Você possui não possui tarefas hoje!'} tipo='info' /> :
-                        <Avisos text={'Você possui ' + tasksHoje + ' tarefa(s) hoje'} tipo='warning' />
-                    }
-                    {tasksAtrasadas === 0 ?
-                        <Avisos text={'Você possui ' + tasksAtrasadas + ' tarefa(s) atrasadas'} tipo='success' /> :
-                        <Avisos text={'Você possui ' + tasksAtrasadas + ' tarefa(s) atrasadas'} tipo='danger' />
-                    }
-                    <Avisos text={'Você possui ' + tasksConcluidas + ' tarefa(s) concluídas'} tipo='success' />
-                    {tasksOk > 0 ? <Avisos text={'Você possui ' + tasksOk + ' tarefa(s) com tempo'} tipo='info' /> : <></>}
-                    {profile.id === undefined ? <Avisos text={'Você ainda não criou seu perfil !'} tipo='warning' /> : <></>}
+                    {!sinal ? (<NosignalAlert />) : <>
+                        {tasksHoje === 0 ?
+                            <Avisos text={'Você possui não possui tarefas hoje!'} tipo='info' /> :
+                            <Avisos text={'Você possui ' + tasksHoje + ' tarefa(s) hoje'} tipo='warning' />
+                        }
+                        {tasksAtrasadas === 0 ?
+                            <Avisos text={'Você possui ' + tasksAtrasadas + ' tarefa(s) atrasadas'} tipo='success' /> :
+                            <Avisos text={'Você possui ' + tasksAtrasadas + ' tarefa(s) atrasadas'} tipo='danger' />
+                        }
+                        <Avisos text={'Você possui ' + tasksConcluidas + ' tarefa(s) concluídas'} tipo='success' />
+                        {tasksOk > 0 ? <Avisos text={'Você possui ' + tasksOk + ' tarefa(s) com tempo'} tipo='info' /> : <></>}
+                        {profile.id === undefined ? <Avisos text={'Você ainda não criou seu perfil !'} tipo='warning' /> : <></>}
+
+                    </>}
+
                 </CCol>
             </CRow>
         </>

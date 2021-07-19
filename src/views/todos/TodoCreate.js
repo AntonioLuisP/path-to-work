@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { useAuth } from '../../hooks/useAuth';
 import { supabase } from 'src/services/supabase';
 import { Actions as ActionNotification } from '../../redux/notifications'
-import { Error, LoadButton } from '../../reusable'
+import { Error, LoadButton, NosignalBadge } from '../../reusable'
 
 import {
   CCol,
@@ -22,6 +22,7 @@ export default function TodoCreate({ taskId, add }) {
 
   const { authUser } = useAuth()
 
+  const sinal = navigator.onLine
   const [load, setLoad] = useState(true)
   const [errors, setErrors] = useState([])
 
@@ -79,7 +80,7 @@ export default function TodoCreate({ taskId, add }) {
           <Error errors={errors} />
         </CModalBody>
         <CModalFooter>
-          <LoadButton load={load} />
+          {!sinal ? (<NosignalBadge />) : <LoadButton load={load} />}
         </CModalFooter>
       </CForm>
     </>

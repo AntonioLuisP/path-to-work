@@ -14,7 +14,8 @@ import Loading from './Loading'
 import Modal from './Modal'
 import NoData from './NoData'
 import NoItems from './NoItems'
-import Nosignal from './Nosignal'
+import NosignalAlert from './NosignalAlert'
+import NosignalBadge from './NosignalBadge'
 import Principal from './Principal'
 import PrincipalButtons from './PrincipalButtons'
 import RelationButton from './RelationButton'
@@ -39,7 +40,8 @@ export {
   Modal,
   NoData,
   NoItems,
-  Nosignal,
+  NosignalAlert,
+  NosignalBadge,
   Principal,
   PrincipalButtons,
   RelationButton,

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { supabase } from 'src/services/supabase';
 import { useAuth } from '../../hooks/useAuth';
-import { Error, LoadButton } from '../../reusable'
+import { Error, LoadButton, NosignalBadge } from '../../reusable'
 
 import {
   CForm,
@@ -20,6 +20,7 @@ export default function ProfileCreate({ add }) {
 
   const { authUser } = useAuth()
 
+  const sinal = navigator.onLine
   const [load, setLoad] = useState(true)
   const [errors, setErrors] = useState([])
 
@@ -67,7 +68,7 @@ export default function ProfileCreate({ add }) {
             onChange={e => setName(e.target.value)}
           />
           <CInputGroupAppend>
-            <LoadButton load={load} />
+            {!sinal ? (<NosignalBadge />) : <LoadButton load={load} />}
           </CInputGroupAppend>
         </CInputGroup>
         <p className="help-block">Este nome será utilizado para compartilhar seus links sociais!</p>
