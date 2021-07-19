@@ -19,7 +19,7 @@ const GoOutside = ({ go }) => {
       href={go}
     >
       <CTooltip
-        content='Ir'
+        content={go}
         placement='top'
       >
         <CIcon content={cilExternalLink} />

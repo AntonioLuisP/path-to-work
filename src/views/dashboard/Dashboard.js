@@ -204,7 +204,7 @@ export default function Dashboard() {
                 <CCol xs="12" sm="12" md="12">
                     <BreadcrumbHeader title='Avisos' />
                     {tasksHoje === 0 ?
-                        <Avisos text={'Você possui ' + tasksHoje + ' tarefa(s) hoje'} tipo='success' /> :
+                        <Avisos text={'Você possui não possui tarefas hoje!'} tipo='info' /> :
                         <Avisos text={'Você possui ' + tasksHoje + ' tarefa(s) hoje'} tipo='warning' />
                     }
                     {tasksAtrasadas === 0 ?
