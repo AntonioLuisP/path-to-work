@@ -33,22 +33,26 @@ export default function ListCreate({ add }) {
     if (name.length < 3 || name.trim() === '') {
       setErrors(prev => [...prev, 'O nome deve ter mais que 3 digitos'])
     } else {
-      const { data: list, error } = await supabase
-        .from("lists")
-        .insert({
-          name,
-          user_id: authUser.id
-        })
-        .single();
-      if (error) {
+      try {
+        const { data: list, error } = await supabase
+          .from("lists")
+          .insert({
+            name,
+            user_id: authUser.id
+          })
+          .single();
+        if (error) {
+          setErrors(prev => [...prev, error.message])
+        } else {
+          add(list)
+          dispatch(ActionNotification.addOne({
+            header: 'Lista adicionada:',
+            body: list.name,
+            id: list.id,
+          }))
+        }
+      } catch (error) {
         setErrors(prev => [...prev, error.message])
-      } else {
-        add(list)
-        dispatch(ActionNotification.addOne({
-          header: 'Lista adicionada:',
-          body: list.name,
-          id: list.id,
-        }))
       }
     }
     setLoad(true)

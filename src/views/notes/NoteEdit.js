@@ -32,22 +32,26 @@ export default function NoteEdit({ note, edit }) {
     if (name.length < 3 || name.trim() === '') {
       setErrors(prev => [...prev, 'O nome deve ter mais que 3 digitos'])
     } else {
-      const { data: note, error } = await supabase
-        .from("notes")
-        .update({
-          name,
-        })
-        .eq('id', id)
-        .single()
-      if (error) {
+      try {
+        const { data: note, error } = await supabase
+          .from("notes")
+          .update({
+            name,
+          })
+          .eq('id', id)
+          .single()
+        if (error) {
+          setErrors(prev => [...prev, error.message])
+        } else {
+          edit(note)
+          dispatch(ActionNotification.addOne({
+            header: 'Anotação Editada:',
+            body: note.name,
+            id: note.id,
+          }))
+        }
+      } catch (error) {
         setErrors(prev => [...prev, error.message])
-      } else {
-        edit(note)
-        dispatch(ActionNotification.addOne({
-          header: 'Anotação Editada:',
-          body: note.name,
-          id: note.id,
-        }))
       }
     }
     setLoad(true)

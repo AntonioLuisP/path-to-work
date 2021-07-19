@@ -33,23 +33,27 @@ export default function TodoCreate({ taskId, add }) {
     if (name.length < 3 || name.trim() === '') {
       setErrors(prev => [...prev, 'O nome deve ter mais que 3 digitos'])
     } else {
-      const { data: todo, error } = await supabase
-        .from("todos")
-        .insert({
-          name,
-          task_id: taskId,
-          user_id: authUser.id
-        })
-        .single();
-      if (error) {
-        alert("Não foi possivel salvar a informação. Motivo: ", error.message)
-      } else {
-        add(todo)
-        dispatch(ActionNotification.addOne({
-          header: 'Afazer adicionado: ',
-          body: todo.name,
-          id: todo.id,
-        }))
+      try {
+        const { data: todo, error } = await supabase
+          .from("todos")
+          .insert({
+            name,
+            task_id: taskId,
+            user_id: authUser.id
+          })
+          .single();
+        if (error) {
+          alert("Não foi possivel salvar a informação. Motivo: ", error.message)
+        } else {
+          add(todo)
+          dispatch(ActionNotification.addOne({
+            header: 'Afazer adicionado: ',
+            body: todo.name,
+            id: todo.id,
+          }))
+        }
+      } catch (error) {
+        setErrors(prev => [...prev, error.message])
       }
     }
     setLoad(true)

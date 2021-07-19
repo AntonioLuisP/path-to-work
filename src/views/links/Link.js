@@ -9,9 +9,9 @@ import LinkTasksIndex from '../taskLink/LinkTasksIndex';
 import {
   GoOutside,
   Loading,
+  Error,
   Favorite,
   Modal,
-  NoData,
   PrincipalButtons,
   CollapseDescription,
   Principal,
@@ -30,6 +30,7 @@ export default function Link() {
   const { id } = useParams();
 
   const [loading, setLoading] = useState(true)
+  const [errors, setErrors] = useState([])
   const [modal, setModal] = useState(false)
   const [collapsed, setCollapsed] = useState(false)
 
@@ -42,16 +43,20 @@ export default function Link() {
   const fetchLink = useCallback(async () => {
     setLoading(true)
     setLink({})
-    const { data: link, error } = await supabase
-      .from("links")
-      .select("*")
-      .eq('id', id)
-      .single()
-    if (error) {
-      console.log("error", error);
-    }
-    else {
-      setLink(link)
+    try {
+      const { data: link, error } = await supabase
+        .from("links")
+        .select("*")
+        .eq('id', id)
+        .single()
+      if (error) {
+        setErrors(prev => [...prev, error.message])
+      }
+      else {
+        setLink(link)
+      }
+    } catch (error) {
+      setErrors(prev => [...prev, error.message])
     }
     setLoading(false)
   }, [id])
@@ -121,7 +126,7 @@ export default function Link() {
 
   if (loading) return (<Loading />)
 
-  if (link.id === undefined) return (<NoData />)
+  if (errors.length > 0) return (<Error errors={errors} />)
 
   return (
     <CRow>

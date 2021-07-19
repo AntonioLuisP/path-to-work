@@ -31,17 +31,21 @@ export default function ProfileCreate({ add }) {
     if (name.length < 3 || name.trim() === '') {
       setErrors(prev => [...prev, 'O nome deve ter mais que 3 digitos'])
     } else {
-      const { data: profile, error } = await supabase
-        .from("profiles")
-        .insert({
-          name,
-          user_id: authUser.id
-        })
-        .single();
-      if (error) {
+      try {
+        const { data: profile, error } = await supabase
+          .from("profiles")
+          .insert({
+            name,
+            user_id: authUser.id
+          })
+          .single();
+        if (error) {
+          setErrors(prev => [...prev, error.message])
+        } else {
+          add(profile)
+        }
+      } catch (error) {
         setErrors(prev => [...prev, error.message])
-      } else {
-        add(profile)
       }
     }
     setLoad(true)

@@ -7,6 +7,7 @@ import {
     Loading,
     BreadcrumbHeader,
     NosignalAlert,
+    Error,
     Avisos
 } from '../../reusable/'
 
@@ -26,6 +27,7 @@ export default function Dashboard() {
 
     const sinal = navigator.onLine
     const [loading, setLoading] = useState(true)
+    const [errors, setErrors] = useState([])
 
     const [links, setLinks] = useState([])
     const [tasks, setTasks] = useState([])
@@ -37,60 +39,75 @@ export default function Dashboard() {
     const [profile, setProfile] = useState({})
 
     const fetchLinks = useCallback(async () => {
-        const { data: linksSearch, error } = await supabase
-            .from("links")
-            .select("*")
-            .eq('user_id', authUser.id)
-            .order("created_at", { ascending: false });
-        if (error) {
-            console.log("error", error);
-        }
-        else {
-            setLinks(linksSearch)
+        try {
+            const { data: linksSearch, error } = await supabase
+                .from("links")
+                .select("*")
+                .eq('user_id', authUser.id)
+                .order("created_at", { ascending: false });
+            if (error) {
+                setErrors(prev => [...prev, error.message])
+            }
+            else {
+                setLinks(linksSearch)
+            }
+        } catch (error) {
+            setErrors(prev => [...prev, error.message])
         }
     }, [authUser.id])
 
     const fetchTasks = useCallback(async () => {
-        const { data: tasksSearch, error } = await supabase
-            .from("tasks")
-            .select("*")
-            .eq('user_id', authUser.id)
-            .order("created_at", { ascending: false });
-        if (error) {
-            console.log("error", error);
-        }
-        else {
-            setTasks(tasksSearch)
+        try {
+            const { data: tasksSearch, error } = await supabase
+                .from("tasks")
+                .select("*")
+                .eq('user_id', authUser.id)
+                .order("created_at", { ascending: false });
+            if (error) {
+                setErrors(prev => [...prev, error.message])
+            }
+            else {
+                setTasks(tasksSearch)
+            }
+        } catch (error) {
+            setErrors(prev => [...prev, error.message])
         }
     }, [authUser.id])
 
     const fetchLists = useCallback(async () => {
-        const { data: listsSearch, error } = await supabase
-            .from("lists")
-            .select("*")
-            .eq('user_id', authUser.id)
-            .order("created_at", { ascending: false });
-        if (error) {
-            console.log("error", error);
-        }
-        else {
-            setLists(listsSearch)
+        try {
+            const { data: listsSearch, error } = await supabase
+                .from("lists")
+                .select("*")
+                .eq('user_id', authUser.id)
+                .order("created_at", { ascending: false });
+            if (error) {
+                setErrors(prev => [...prev, error.message])
+            }
+            else {
+                setLists(listsSearch)
+            }
+        } catch (error) {
+            setErrors(prev => [...prev, error.message])
         }
     }, [authUser.id])
 
     const fetchProfile = useCallback(async () => {
-        const { data: profile, error } = await supabase
-            .from("profiles")
-            .select("*")
-            .eq('user_id', authUser.id)
-            .single()
-        if (error) {
-            console.log("error", error);
+        try {
+            const { data: profile, error } = await supabase
+                .from("profiles")
+                .select("*")
+                .eq('user_id', authUser.id)
+                .single()
+            if (error) {
+                setErrors(prev => [...prev, error.message])
+            }
+            else {
+                setProfile(profile)
+            }
+        } catch (error) {
+            setErrors(prev => [...prev, error.message])
         }
-        else {
-            setProfile(profile)
-        }
-        setLoading(false)
     }, [authUser.id])
 
 
@@ -129,6 +146,8 @@ export default function Dashboard() {
     }, [tasks])
 
     if (loading) return (<Loading />)
+
+    if (errors.length > 0) return (<Error errors={errors} />)
 
     return (
         <>

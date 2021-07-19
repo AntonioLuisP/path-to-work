@@ -7,7 +7,7 @@ import ListLinksIndex from '../listLink/ListLinksIndex';
 import {
   Loading,
   Modal,
-  NoData,
+  Error,
   PrincipalButtons,
   Principal,
   DataInfo
@@ -25,6 +25,7 @@ export default function List() {
   const { id } = useParams();
 
   const [loading, setLoading] = useState(true)
+  const [errors, setErrors] = useState([])
   const [modal, setModal] = useState(false)
 
   const [list, setList] = useState({})
@@ -36,16 +37,20 @@ export default function List() {
   const fetchList = useCallback(async () => {
     setLoading(true)
     setList({})
-    const { data: list, error } = await supabase
-      .from("lists")
-      .select("*")
-      .eq('id', id)
-      .single()
-    if (error) {
-      console.log("error", error);
-    }
-    else {
-      setList(list)
+    try {
+      const { data: list, error } = await supabase
+        .from("lists")
+        .select("*")
+        .eq('id', id)
+        .single()
+      if (error) {
+        setErrors(prev => [...prev, error.message])
+      }
+      else {
+        setList(list)
+      }
+    } catch (error) {
+      setErrors(prev => [...prev, error.message])
     }
     setLoading(false)
   }, [id])
@@ -75,7 +80,7 @@ export default function List() {
 
   if (loading) return (<Loading />)
 
-  if (list.id === undefined) return (<NoData />)
+  if (errors.length > 0) return (<Error errors={errors} />)
 
   return (
     <CRow>

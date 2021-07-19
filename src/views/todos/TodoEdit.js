@@ -32,22 +32,26 @@ export default function TodoEdit({ todo, edit }) {
     if (name.length < 3 || name.trim() === '') {
       setErrors(prev => [...prev, 'O nome deve ter mais que 3 digitos'])
     } else {
-      const { data: todo, error } = await supabase
-        .from("todos")
-        .update({
-          name
-        })
-        .eq('id', id)
-        .single()
-      if (error) {
+      try {
+        const { data: todo, error } = await supabase
+          .from("todos")
+          .update({
+            name
+          })
+          .eq('id', id)
+          .single()
+        if (error) {
+          setErrors(prev => [...prev, error.message])
+        } else {
+          edit(todo)
+          dispatch(ActionNotification.addOne({
+            header: 'Afazer Editado:',
+            body: todo.name,
+            id: todo.id,
+          }))
+        }
+      } catch (error) {
         setErrors(prev => [...prev, error.message])
-      } else {
-        edit(todo)
-        dispatch(ActionNotification.addOne({
-          header: 'Afazer Editado:',
-          body: todo.name,
-          id: todo.id,
-        }))
       }
     }
     setLoad(true)

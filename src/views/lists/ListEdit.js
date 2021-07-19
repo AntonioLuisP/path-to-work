@@ -31,22 +31,26 @@ export default function ListEdit(props) {
     if (name.length < 3 || name.trim() === '') {
       setErrors(prev => [...prev, 'O nome deve ter mais que 3 digitos'])
     } else {
-      const { data: list, error } = await supabase
-        .from("lists")
-        .update({
-          name,
-        })
-        .eq('id', id)
-        .single()
-      if (error) {
+      try {
+        const { data: list, error } = await supabase
+          .from("lists")
+          .update({
+            name,
+          })
+          .eq('id', id)
+          .single()
+        if (error) {
+          setErrors(prev => [...prev, error.message])
+        } else {
+          props.edit(list)
+          dispatch(ActionNotification.addOne({
+            header: 'Lista Editada:',
+            body: list.name,
+            id: list.id,
+          }))
+        }
+      } catch (error) {
         setErrors(prev => [...prev, error.message])
-      } else {
-        props.edit(list)
-        dispatch(ActionNotification.addOne({
-          header: 'Lista Editada:',
-          body: list.name,
-          id: list.id,
-        }))
       }
     }
     setLoad(true)

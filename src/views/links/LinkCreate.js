@@ -39,25 +39,29 @@ export default function LinkCreate({ add }) {
     if (name.length < 3 || name.trim() === '') {
       setErrors(prev => [...prev, 'O nome deve ter mais que 3 digitos'])
     } else {
-      const { data: link, error } = await supabase
-        .from("links")
-        .insert({
-          name,
-          url,
-          is_favorite,
-          description,
-          user_id: authUser.id
-        })
-        .single();
-      if (error) {
+      try {
+        const { data: link, error } = await supabase
+          .from("links")
+          .insert({
+            name,
+            url,
+            is_favorite,
+            description,
+            user_id: authUser.id
+          })
+          .single();
+        if (error) {
+          setErrors(prev => [...prev, error.message])
+        } else {
+          add(link)
+          dispatch(ActionNotification.addOne({
+            header: 'Link adicionado:',
+            body: link.name,
+            id: link.id,
+          }))
+        }
+      } catch (error) {
         setErrors(prev => [...prev, error.message])
-      } else {
-        add(link)
-        dispatch(ActionNotification.addOne({
-          header: 'Link adicionado:',
-          body: link.name,
-          id: link.id,
-        }))
       }
     }
     setLoad(true)

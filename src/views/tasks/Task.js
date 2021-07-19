@@ -8,7 +8,7 @@ import TaskLinksIndex from '../taskLink/TaskLinksIndex';
 import {
   Loading,
   Modal,
-  NoData,
+  Error,
   PrincipalButtons,
   Principal,
   ConclusionSwitch,
@@ -31,6 +31,7 @@ export default function Task() {
   const history = useHistory()
 
   const [loading, setLoading] = useState(true)
+  const [errors, setErrors] = useState([])
   const [modal, setModal] = useState(false)
   const [collapsed, setCollapsed] = useState(false)
 
@@ -45,16 +46,20 @@ export default function Task() {
   const fetchTask = useCallback(async () => {
     setLoading(true)
     setTask({})
-    const { data: task, error } = await supabase
-      .from("tasks")
-      .select("*")
-      .eq('id', id)
-      .single()
-    if (error) {
-      console.log("error", error);
-    }
-    else {
-      setTask(task)
+    try {
+      const { data: task, error } = await supabase
+        .from("tasks")
+        .select("*")
+        .eq('id', id)
+        .single()
+      if (error) {
+        console.log("error", error);
+      }
+      else {
+        setTask(task)
+      }
+    } catch (error) {
+      setErrors(prev => [...prev, error.message])
     }
     setLoading(false)
   }, [id])
@@ -109,7 +114,7 @@ export default function Task() {
 
   if (loading) return (<Loading />)
 
-  if (task.id === undefined) return (<NoData />)
+  if (errors.length > 0) return (<Error errors={errors} />)
 
   return (
     <CRow>

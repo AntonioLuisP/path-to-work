@@ -38,24 +38,28 @@ export default function TaskEdit(props) {
     if (name.length < 3 || name.trim() === '') {
       setErrors(prev => [...prev, 'O nome deve ter mais que 3 digitos'])
     } else {
-      const { data: task, error } = await supabase
-        .from("tasks")
-        .update({
-          name,
-          description,
-          day_of: makeDate(day, time),
-        })
-        .eq('id', id)
-        .single()
-      if (error) {
+      try {
+        const { data: task, error } = await supabase
+          .from("tasks")
+          .update({
+            name,
+            description,
+            day_of: makeDate(day, time),
+          })
+          .eq('id', id)
+          .single()
+        if (error) {
+          setErrors(prev => [...prev, error.message])
+        } else {
+          props.edit(task)
+          dispatch(ActionNotification.addOne({
+            header: 'Tarefa Editada:',
+            body: task.name,
+            id: task.id,
+          }))
+        }
+      } catch (error) {
         setErrors(prev => [...prev, error.message])
-      } else {
-        props.edit(task)
-        dispatch(ActionNotification.addOne({
-          header: 'Tarefa Editada:',
-          body: task.name,
-          id: task.id,
-        }))
       }
     }
     setLoad(true)

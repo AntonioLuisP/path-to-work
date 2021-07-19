@@ -35,22 +35,26 @@ export default function ProfileEdit(props) {
     } else {
       if (window.confirm('Tem certeza que você deseja mudar seu nome?')) {
         setLoad(false)
-        const { data: profile, error } = await supabase
-          .from("profiles")
-          .update({
-            name,
-          })
-          .eq('id', id)
-          .single()
-        if (error) {
+        try {
+          const { data: profile, error } = await supabase
+            .from("profiles")
+            .update({
+              name,
+            })
+            .eq('id', id)
+            .single()
+          if (error) {
+            setErrors(prev => [...prev, error.message])
+          } else {
+            props.edit(profile)
+            dispatch(ActionNotification.addOne({
+              header: 'Perfil Social Editado:',
+              body: profile.name,
+              id: profile.id,
+            }))
+          }
+        } catch (error) {
           setErrors(prev => [...prev, error.message])
-        } else {
-          props.edit(profile)
-          dispatch(ActionNotification.addOne({
-            header: 'Perfil Social Editado:',
-            body: profile.name,
-            id: profile.id,
-          }))
         }
         setLoad(true)
       }

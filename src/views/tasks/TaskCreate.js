@@ -39,25 +39,29 @@ export default function TaskCreate({ add }) {
     if (name.length < 3 || name.trim() === '') {
       setErrors(prev => [...prev, 'O nome deve ter mais que 3 digitos'])
     } else {
-      const { data: task, error } = await supabase
-        .from("tasks")
-        .insert({
-          name,
-          description,
-          day_of: makeDate(day, time),
-          user_id: authUser.id
-        })
-        .single();
+      try {
+        const { data: task, error } = await supabase
+          .from("tasks")
+          .insert({
+            name,
+            description,
+            day_of: makeDate(day, time),
+            user_id: authUser.id
+          })
+          .single();
         console.log(makeDate(day, time))
-      if (error) {
+        if (error) {
+          setErrors(prev => [...prev, error.message])
+        } else {
+          add(task)
+          dispatch(ActionNotification.addOne({
+            header: 'Tarefa adicionada:',
+            body: task.name,
+            id: task.id,
+          }))
+        }
+      } catch (error) {
         setErrors(prev => [...prev, error.message])
-      } else {
-        add(task)
-        dispatch(ActionNotification.addOne({
-          header: 'Tarefa adicionada:',
-          body: task.name,
-          id: task.id,
-        }))
       }
     }
     setLoad(true)

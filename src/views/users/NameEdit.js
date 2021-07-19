@@ -32,19 +32,23 @@ export default function NameEdit() {
         if (name.length < 3 || name.trim() === '') {
             setErrors(prev => [...prev, 'O nome deve ter mais que 3 digitos'])
         } else {
-            const { user, error } = await supabase.auth.update({
-                data: {
-                    full_name: name
-                },
-            })
-            if (error) {
+            try {
+                const { user, error } = await supabase.auth.update({
+                    data: {
+                        full_name: name
+                    },
+                })
+                if (error) {
+                    setErrors(prev => [...prev, error.message])
+                } else {
+                    dispatch(ActionNotification.addOne({
+                        header: 'Nome Editado:',
+                        body: name,
+                        id: user.id,
+                    }))
+                }
+            } catch (error) {
                 setErrors(prev => [...prev, error.message])
-            } else {
-                dispatch(ActionNotification.addOne({
-                    header: 'Nome Editado:',
-                    body: name,
-                    id: user.id,
-                }))
             }
         }
         setLoad(true)

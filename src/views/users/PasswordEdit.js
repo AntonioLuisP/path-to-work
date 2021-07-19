@@ -30,17 +30,21 @@ export default function PasswordEdit() {
         if (password.length < 9 || password.trim() === '') {
             setErrors(prev => [...prev, 'A senha deve ter no minimo 10 digitos'])
         } else {
-            const { user, error } = await supabase.auth.update({
-                password: password,
-            })
-            if (error) {
+            try {
+                const { user, error } = await supabase.auth.update({
+                    password: password,
+                })
+                if (error) {
+                    setErrors(prev => [...prev, error.message])
+                } else {
+                    dispatch(ActionNotification.addOne({
+                        header: 'Senha Editada:',
+                        body: '',
+                        id: user.id,
+                    }))
+                }
+            } catch (error) {
                 setErrors(prev => [...prev, error.message])
-            } else {
-                dispatch(ActionNotification.addOne({
-                    header: 'Senha Editada:',
-                    body: '',
-                    id: user.id,
-                }))
             }
         }
         setLoad(true)
