@@ -13,8 +13,8 @@ import CIcon from '@coreui/icons-react'
 const NosignalBadge = () => {
 
     return (
-        <CBadge color='danger' >
-            <CIcon content={cilWifiSignalOff} /> Sem Sinal
+        <CBadge color='danger' className='content-center'>
+            <CIcon content={cilWifiSignalOff} width={15} />Sem Sinal
         </CBadge>
     )
 }

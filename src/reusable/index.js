@@ -7,6 +7,7 @@ import DataInfo from './DataInfo'
 import EditButton from './EditButton'
 import Error from './Error'
 import Favorite from './Favorite'
+import Form from './Form'
 import GoTo from './GoTo'
 import GoOutside from './GoOutside'
 import LoadButton from './LoadButton'
@@ -33,6 +34,7 @@ export {
   EditButton,
   Error,
   Favorite,
+  Form,
   GoTo,
   GoOutside,
   LoadButton,

@@ -10,7 +10,17 @@ import CIcon from '@coreui/icons-react'
 const DeleteDataButton = ({ action }) => {
 
     return (
-        <CLink className="card-header-action" onClick={action}>
+        <CLink
+            className="card-header-action"
+            onClick={() => {
+                const sinal = navigator.onLine
+                if (!sinal){
+                    alert('Você está sem internet')
+                    return;
+                }
+                action()
+            }}
+        >
             <CTooltip
                 content='Deletar'
                 placement='top'
