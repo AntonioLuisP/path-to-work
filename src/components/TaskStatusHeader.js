@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useCallback } from 'react'
-import { bringDate, formatTime } from '../services/FormatDate'
+import React from 'react'
+import useTaskStatus from '../hooks/useTaskStatus'
 
 import {
     CCardHeader,
@@ -7,44 +7,13 @@ import {
 
 export default function TaskStatusHeader({ conclusion, dayOf }) {
 
-    const [header, setHeader] = useState(null)
-
-    const makeHeader = useCallback(() => {
-        if (conclusion) {
-            setHeader({
-                'message': 'Concluída',
-                'color': 'success'
-            })
-        } else {
-            const today = new Date()
-            today.setHours(0, 0, 0, 0)
-            const [ano, mes, dia] = bringDate(dayOf)
-            const day_of = new Date(ano, mes, dia)
-            if (today.getTime() === day_of.getTime()) {
-                setHeader({
-                    'message': 'Hoje às ' + formatTime(dayOf),
-                    'color': 'warning'
-                })
-            } else if (today.getTime() > day_of.getTime()) {
-                setHeader({
-                    'message': 'Atrasado',
-                    'color': 'danger'
-                })
-            } else {
-                setHeader(null)
-            }
-        }
-    }, [conclusion, dayOf])
-
-    useEffect(() => {
-        makeHeader()
-    }, [makeHeader])
+    const { taskInfo } = useTaskStatus(conclusion, dayOf)
 
     return (
         <>
-            {header ?
-                <CCardHeader className='content-center' color={header.color}>
-                    <p className="my-2">{header.message}</p>
+            {taskInfo ?
+                <CCardHeader className='content-center' color={taskInfo.color}>
+                    <p className="my-2">{taskInfo.message}</p>
                 </CCardHeader>
                 : <></>
             }
