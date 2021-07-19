@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { supabase } from '../../services/supabase'
 import { useAuth } from '../../hooks/useAuth';
+import { bringDate } from '../../services/FormatDate'
 
 import {
     Loading,
@@ -23,9 +24,15 @@ export default function Dashboard() {
     const { authUser } = useAuth()
 
     const [loading, setLoading] = useState(true)
+
     const [links, setLinks] = useState([])
     const [tasks, setTasks] = useState([])
     const [lists, setLists] = useState([])
+    const [tasksConcluidas, setTasksConcluidas] = useState(0)
+    const [tasksAtrasadas, setTasksAtrasadas] = useState(0)
+    const [tasksHoje, setTasksHoje] = useState(0)
+    const [tasksOk, setTasksOk] = useState(0)
+    const [profile, setProfile] = useState({})
 
     const fetchLinks = useCallback(async () => {
         const { data: linksSearch, error } = await supabase
@@ -69,12 +76,54 @@ export default function Dashboard() {
         }
     }, [authUser.id])
 
+    const fetchProfile = useCallback(async () => {
+        const { data: profile, error } = await supabase
+            .from("profiles")
+            .select("*")
+            .eq('user_id', authUser.id)
+            .single()
+        if (error) {
+            console.log("error", error);
+        }
+        else {
+            setProfile(profile)
+        }
+        setLoading(false)
+    }, [authUser.id])
+
+
     useEffect(() => {
         fetchLinks()
         fetchTasks()
         fetchLists()
+        fetchProfile()
         setLoading(false)
-    }, [fetchLinks, fetchTasks, fetchLists])
+    }, [fetchLinks, fetchTasks, fetchLists, fetchProfile])
+
+    useEffect(() => {
+        tasks.forEach(task => {
+            console.log(task)
+            if (task.conclusion) {
+                setTasksConcluidas(prev => prev + 1)
+            } else {
+                if (task.day_of) {
+                    const today = new Date()
+                    today.setHours(0, 0, 0, 0)
+                    const [ano, mes, dia] = bringDate(task.day_of)
+                    const day_of = new Date(ano, mes, dia)
+                    if (today.getTime() === day_of.getTime()) {
+                        setTasksHoje(prev => prev + 1)
+                    } else if (today.getTime() > day_of.getTime()) {
+                        setTasksAtrasadas(prev => prev + 1)
+                    } else {
+                        setTasksOk(prev => prev + 1)
+                    }
+                } else {
+                    setTasksOk(prev => prev + 1)
+                }
+            }
+        })
+    }, [tasks])
 
     if (loading) return (<Loading />)
 
@@ -154,10 +203,17 @@ export default function Dashboard() {
             <CRow>
                 <CCol xs="12" sm="12" md="12">
                     <BreadcrumbHeader title='Avisos' />
-                    <Avisos text='Alerta Info' tipo='info' />
-                    <Avisos text='Alerta danger' tipo='danger' />
-                    <Avisos text='Alerta Info' tipo='warning' />
-                    <Avisos text='Alerta success' tipo='success' />
+                    {tasksHoje === 0 ?
+                        <Avisos text={'Você possui ' + tasksHoje + ' tarefa(s) hoje'} tipo='success' /> :
+                        <Avisos text={'Você possui ' + tasksHoje + ' tarefa(s) hoje'} tipo='warning' />
+                    }
+                    {tasksAtrasadas === 0 ?
+                        <Avisos text={'Você possui ' + tasksAtrasadas + ' tarefa(s) atrasadas'} tipo='success' /> :
+                        <Avisos text={'Você possui ' + tasksAtrasadas + ' tarefa(s) atrasadas'} tipo='danger' />
+                    }
+                    <Avisos text={'Você possui ' + tasksConcluidas + ' tarefa(s) concluídas'} tipo='success' />
+                    {tasksOk > 0 ? <Avisos text={'Você possui ' + tasksOk + ' tarefa(s) com tempo'} tipo='info' /> : <></>}
+                    {profile.id === undefined ? <Avisos text={'Você ainda não criou seu perfil !'} tipo='warning' /> : <></>}
                 </CCol>
             </CRow>
         </>
