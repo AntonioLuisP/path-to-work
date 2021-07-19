@@ -6,6 +6,7 @@ import { bringDate } from '../../services/FormatDate'
 import {
     Loading,
     BreadcrumbHeader,
+    Nosignal,
     Avisos
 } from '../../reusable/'
 
@@ -40,10 +41,7 @@ export default function Dashboard() {
             .select("*")
             .eq('user_id', authUser.id)
             .order("created_at", { ascending: false });
-        if (error) {
-            console.log("error", error);
-        }
-        else {
+        if (!error) {
             setLinks(linksSearch)
         }
     }, [authUser.id])
@@ -54,10 +52,7 @@ export default function Dashboard() {
             .select("*")
             .eq('user_id', authUser.id)
             .order("created_at", { ascending: false });
-        if (error) {
-            console.log("error", error);
-        }
-        else {
+        if (!error) {
             setTasks(tasksSearch)
         }
     }, [authUser.id])
@@ -68,10 +63,7 @@ export default function Dashboard() {
             .select("*")
             .eq('user_id', authUser.id)
             .order("created_at", { ascending: false });
-        if (error) {
-            console.log("error", error);
-        }
-        else {
+        if (!error) {
             setLists(listsSearch)
         }
     }, [authUser.id])
@@ -82,10 +74,7 @@ export default function Dashboard() {
             .select("*")
             .eq('user_id', authUser.id)
             .single()
-        if (error) {
-            console.log("error", error);
-        }
-        else {
+        if (!error) {
             setProfile(profile)
         }
         setLoading(false)
@@ -102,7 +91,6 @@ export default function Dashboard() {
 
     useEffect(() => {
         tasks.forEach(task => {
-            console.log(task)
             if (task.conclusion) {
                 setTasksConcluidas(prev => prev + 1)
             } else {
@@ -200,6 +188,7 @@ export default function Dashboard() {
                     </CWidgetIcon>
                 </CCol>
             </CRow>
+            <Nosignal />
             <CRow>
                 <CCol xs="12" sm="12" md="12">
                     <BreadcrumbHeader title='Avisos' />
