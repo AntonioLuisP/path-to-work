@@ -8,6 +8,7 @@ import {
   BreadcrumbHeader,
   Loading,
   NoItems,
+  Error,
   AddButton
 } from '../../reusable/'
 
@@ -16,19 +17,25 @@ export default function LinkIndex() {
   const { authUser } = useAuth()
 
   const [loading, setLoading] = useState(true)
+  const [errors, setErrors] = useState([])
+
   const [links, setLinks] = useState([])
 
   const fetchLinks = useCallback(async () => {
-    const { data: links, error } = await supabase
-      .from("links")
-      .select("*")
-      .eq('user_id', authUser.id)
-      .order("created_at", { ascending: false });
-    if (error) {
-      console.log("error", error);
-    }
-    else {
-      setLinks(links)
+    try {
+      const { data: links, error } = await supabase
+        .from("links")
+        .select("*")
+        .eq('user_id', authUser.id)
+        .order("created_at", { ascending: false });
+      if (error) {
+        setErrors(prev => [...prev, error.message])
+      }
+      else {
+        setLinks(links)
+      }
+    } catch (error) {
+      setErrors(prev => [...prev, error.message])
     }
     setLoading(false)
   }, [authUser.id])
@@ -38,6 +45,8 @@ export default function LinkIndex() {
   }, [fetchLinks])
 
   if (loading) return (<Loading />)
+
+  if (errors.length > 0) return (<Error errors={errors} />)
 
   return (
     <>

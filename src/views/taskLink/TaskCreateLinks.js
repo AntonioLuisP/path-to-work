@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { supabase } from '../../services/supabase'
 import { useAuth } from '../../hooks/useAuth';
-import { Loading } from '../../reusable'
+import { Loading, Error } from '../../reusable'
 import { ToogleComponent } from 'src/components'
 
 import {
@@ -17,36 +17,42 @@ export default function TaskCreateLinks({ taskId, add, remove }) {
     const { authUser } = useAuth()
 
     const [loading, setLoading] = useState(true)
+    const [errors, setErrors] = useState([])
+
     const [links, setLinks] = useState([])
 
     const fetchLinks = useCallback(async () => {
-        const { data: allLinks, error } = await supabase
-            .from("links")
-            .select("*")
-            .order("created_at", { ascending: false });
-        if (error) {
-            console.log("error", error);
-        }
-        else {
-            const { data: allRelations, errorRelations } = await supabase
-                .from("task_links")
-                .select("task_id, links(*)")
-                .eq('task_id', taskId)
+        try {
+            const { data: allLinks, error } = await supabase
+                .from("links")
+                .select("*")
                 .order("created_at", { ascending: false });
-            if (errorRelations) {
-                console.log("errorRelations", errorRelations);
-            } else {
-                const partsedRelations = Object.entries(allRelations).map(([key, value]) => {
-                    return value.links
-                })
-                setLinks(allLinks.map(link => {
-                    return partsedRelations.some(relation => relation.id === link.id) ?
-                        { ...link, 'selected': true } :
-                        { ...link, 'selected': false }
-                }))
+            if (error) {
+                console.log("error", error);
             }
-            setLoading(false)
+            else {
+                const { data: allRelations, errorRelations } = await supabase
+                    .from("task_links")
+                    .select("task_id, links(*)")
+                    .eq('task_id', taskId)
+                    .order("created_at", { ascending: false });
+                if (errorRelations) {
+                    setErrors(prev => [...prev, errorRelations.message])
+                } else {
+                    const partsedRelations = Object.entries(allRelations).map(([key, value]) => {
+                        return value.links
+                    })
+                    setLinks(allLinks.map(link => {
+                        return partsedRelations.some(relation => relation.id === link.id) ?
+                            { ...link, 'selected': true } :
+                            { ...link, 'selected': false }
+                    }))
+                }
+            }
+        } catch (error) {
+            setErrors(prev => [...prev, error.message])
         }
+        setLoading(false)
     }, [taskId])
 
     async function toogleSelect(e, link) {
@@ -59,34 +65,41 @@ export default function TaskCreateLinks({ taskId, add, remove }) {
     }
 
     async function removeRelation(link) {
-        const { error } = await supabase
-            .from('task_links')
-            .delete()
-            .eq('task_id', taskId)
-            .eq('link_id', link.id)
-        if (error) {
-            console.log("error: ", error)
-        } else {
-            remove(link)
-            redoAfterToogle(link)
+        try {
+            const { error } = await supabase
+                .from('task_links')
+                .delete()
+                .eq('task_id', taskId)
+                .eq('link_id', link.id)
+            if (error) {
+                console.log("error: ", error)
+            } else {
+                remove(link)
+                redoAfterToogle(link)
+            }
+        } catch (error) {
+            setErrors(prev => [...prev, error.message])
         }
     }
 
     async function addRelation(link) {
-        const { error } = await supabase
-            .from("task_links")
-            .insert({
-                task_id: taskId,
-                link_id: link.id,
-                user_id: authUser.id
-            })
-            .single();
-        if (error) {
-            alert("Não foi possivel salvar a informação. Motivo: ", error.message)
-            return;
-        } else {
-            add(link)
-            redoAfterToogle(link)
+        try {
+            const { error } = await supabase
+                .from("task_links")
+                .insert({
+                    task_id: taskId,
+                    link_id: link.id,
+                    user_id: authUser.id
+                })
+                .single();
+            if (error) {
+                setErrors(prev => [...prev, error.message])
+            } else {
+                add(link)
+                redoAfterToogle(link)
+            }
+        } catch (error) {
+            setErrors(prev => [...prev, error.message])
         }
     }
 
@@ -104,6 +117,8 @@ export default function TaskCreateLinks({ taskId, add, remove }) {
     }, [fetchLinks])
 
     if (loading) return (<Loading />)
+
+    if (errors.length > 0) return (<Error errors={errors} />)
 
     return (
         <>

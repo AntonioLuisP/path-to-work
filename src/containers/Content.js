@@ -7,7 +7,6 @@ import {
   Switch
 } from 'react-router-dom'
 
-
 import { CContainer, CFade } from '@coreui/react'
 
 import {

@@ -8,6 +8,7 @@ import {
   AddButton,
   BreadcrumbHeader,
   Loading,
+  Error,
   NoItems
 } from '../../reusable'
 
@@ -16,19 +17,25 @@ export default function TaskIndex() {
   const { authUser } = useAuth()
 
   const [loading, setLoading] = useState(true)
+  const [errors, setErrors] = useState([])
+
   const [tasks, setTasks] = useState([])
 
   const fetchTasks = useCallback(async () => {
-    const { data: tasks, error } = await supabase
-      .from("tasks")
-      .select("*")
-      .eq('user_id', authUser.id)
-      .order("created_at", { ascending: false });
-    if (error) {
-      console.log("error", error);
-    }
-    else {
-      setTasks(tasks)
+    try {
+      const { data: tasks, error } = await supabase
+        .from("tasks")
+        .select("*")
+        .eq('user_id', authUser.id)
+        .order("created_at", { ascending: false });
+      if (error) {
+        console.log("error", error);
+      }
+      else {
+        setTasks(tasks)
+      }
+    } catch (error) {
+      setErrors(prev => [...prev, error.message])
     }
     setLoading(false)
   }, [authUser.id])
@@ -38,6 +45,8 @@ export default function TaskIndex() {
   }, [fetchTasks])
 
   if (loading) return (<Loading />)
+
+  if (errors.length > 0) return (<Error errors={errors} />)
 
   return (
     <>

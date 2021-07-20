@@ -6,6 +6,7 @@ import {
     AddButton,
     BreadcrumbHeader,
     Loading,
+    Error,
     NoItems,
 } from '../../reusable'
 
@@ -16,6 +17,8 @@ import {
 export default function TodoIndex({ taskId, todosQtd }) {
 
     const [loading, setLoading] = useState(true)
+    const [errors, setErrors] = useState([])
+
     const [todos, setTodos] = useState([])
 
     useEffect(() => {
@@ -23,15 +26,19 @@ export default function TodoIndex({ taskId, todosQtd }) {
     }, [todos, todosQtd])
 
     const fetchTodos = useCallback(async () => {
-        const { data: todos, error } = await supabase
-            .from("todos")
-            .select("*")
-            .eq('task_id', taskId)
-            .order("created_at", { ascending: false });
-        if (error) {
-            console.log("error", error);
-        } else {
-            setTodos(todos)
+        try {
+            const { data: todos, error } = await supabase
+                .from("todos")
+                .select("*")
+                .eq('task_id', taskId)
+                .order("created_at", { ascending: false });
+            if (error) {
+                console.log("error", error);
+            } else {
+                setTodos(todos)
+            }
+        } catch (error) {
+            setErrors(prev => [...prev, error.message])
         }
         setLoading(false)
     }, [taskId])
@@ -41,6 +48,8 @@ export default function TodoIndex({ taskId, todosQtd }) {
     }, [fetchTodos])
 
     if (loading) return (<Loading />)
+
+    if (errors.length > 0) return (<Error errors={errors} />)
 
     return (
         <>

@@ -16,7 +16,7 @@ const Error = ({ errors }) => {
         <>
             {errors.map(error => (
                 <CAlert key={error} color="danger">
-                    <CIcon content={cilSad} width={20} /> {error}
+                    <CIcon content={cilSad} width={20} /> Erro: {error}
                 </CAlert>
             ))}
         </>

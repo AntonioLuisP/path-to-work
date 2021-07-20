@@ -2,10 +2,9 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { supabase } from '../../services/supabase'
 import { Actions as ActionNotification } from '../../redux/notifications'
-import { Error, Form } from '../../reusable'
+import { Error, LoadButton, NosignalBadge, Form } from '../../reusable'
 
 import {
-    CButton,
     CFormGroup,
     CLabel,
     CInput,
@@ -21,6 +20,7 @@ export default function NameEdit() {
 
     const dispatch = useDispatch()
 
+    const sinal = navigator.onLine
     const [load, setLoad] = useState(true)
     const [errors, setErrors] = useState([])
 
@@ -72,11 +72,7 @@ export default function NameEdit() {
                         onChange={e => setName(e.target.value)}
                     />
                     <CInputGroupAppend>
-                        <CButton type="submit" color="success" disabled={!load}>
-                            {
-                                load ? 'Salvar' : (<span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />)
-                            }
-                        </CButton>
+                        {!sinal ? (<NosignalBadge />) : <LoadButton load={load} />}
                     </CInputGroupAppend>
                 </CInputGroup>
             </CFormGroup>

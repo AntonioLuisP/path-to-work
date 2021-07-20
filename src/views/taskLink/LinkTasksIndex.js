@@ -9,6 +9,7 @@ import { Actions as ActionNotification } from '../../redux/notifications'
 import {
     BreadcrumbHeader,
     Loading,
+    Error,
     NoItems,
     AddButton,
     RelationButton
@@ -25,21 +26,27 @@ export default function LinkTasksIndex({ linkId }) {
     const { authUser } = useAuth()
 
     const [loading, setLoading] = useState(true)
+    const [errors, setErrors] = useState([])
+
     const [tasks, setTasks] = useState([])
 
     const fetchTasks = useCallback(async () => {
-        const { data: tasks, errorTasks } = await supabase
-            .from("task_links")
-            .select("task_id, tasks(*)")
-            .eq('link_id', linkId)
-            .order("created_at", { ascending: false });
-        if (errorTasks) {
-            console.log("errorTasks", errorTasks);
-        } else {
-            const parsedTasks = Object.entries(tasks).map(([key, value]) => {
-                return value.tasks
-            })
-            setTasks(parsedTasks)
+        try {
+            const { data: tasks, errorTasks } = await supabase
+                .from("task_links")
+                .select("task_id, tasks(*)")
+                .eq('link_id', linkId)
+                .order("created_at", { ascending: false });
+            if (errorTasks) {
+                setErrors(prev => [...prev, errorTasks.message])
+            } else {
+                const parsedTasks = Object.entries(tasks).map(([key, value]) => {
+                    return value.tasks
+                })
+                setTasks(parsedTasks)
+            }
+        } catch (error) {
+            setErrors(prev => [...prev, error.message])
         }
         setLoading(false)
     }, [linkId])
@@ -57,29 +64,35 @@ export default function LinkTasksIndex({ linkId }) {
     }
 
     async function handleCreateRelationTaskLink(task) {
-        const { error } = await supabase
-            .from("task_links")
-            .insert({
-                link_id: linkId,
-                task_id: task.id,
-                user_id: authUser.id
-            })
-            .single();
-        if (error) {
+        try {
+            const { error } = await supabase
+                .from("task_links")
+                .insert({
+                    link_id: linkId,
+                    task_id: task.id,
+                    user_id: authUser.id
+                })
+                .single();
+            if (error) {
+                alert("Não foi possivel salvar a informação. Motivo: ", error.message)
+                return;
+            } else {
+                addTask(task)
+                dispatch(ActionNotification.addOne({
+                    header: 'Link adicionada a Tarefa:',
+                    body: task.name,
+                    id: task.id,
+                }))
+            }
+        } catch (error) {
             alert("Não foi possivel salvar a informação. Motivo: ", error.message)
             return;
-        } else {
-            addTask(task)
-            dispatch(ActionNotification.addOne({
-                header: 'Link adicionada a Tarefa:',
-                body: task.name,
-                id: task.id,
-            }))
         }
-        return;
     }
 
     if (loading) return (<Loading />)
+
+    if (errors.length > 0) return (<Error errors={errors} />)
 
     return (
         <>

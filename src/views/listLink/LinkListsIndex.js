@@ -9,6 +9,7 @@ import { Actions as ActionNotification } from '../../redux/notifications'
 import {
     BreadcrumbHeader,
     Loading,
+    Error,
     NoItems,
     AddButton,
     RelationButton
@@ -25,21 +26,27 @@ export default function LinkListsIndex({ linkId }) {
     const { authUser } = useAuth()
 
     const [loading, setLoading] = useState(true)
+    const [errors, setErrors] = useState([])
+
     const [lists, setLists] = useState([])
 
     const fetchLists = useCallback(async () => {
-        const { data: lists, errorLists } = await supabase
-            .from("list_links")
-            .select("list_id, lists(*)")
-            .eq('link_id', linkId)
-            .order("created_at", { ascending: false });
-        if (errorLists) {
-            console.log("errorLists", errorLists);
-        } else {
-            const parsedLists = Object.entries(lists).map(([key, value]) => {
-                return value.lists
-            })
-            setLists(parsedLists)
+        try {
+            const { data: lists, errorLists } = await supabase
+                .from("list_links")
+                .select("list_id, lists(*)")
+                .eq('link_id', linkId)
+                .order("created_at", { ascending: false });
+            if (errorLists) {
+                setErrors(prev => [...prev, errorLists.message])
+            } else {
+                const parsedLists = Object.entries(lists).map(([key, value]) => {
+                    return value.lists
+                })
+                setLists(parsedLists)
+            }
+        } catch (error) {
+            setErrors(prev => [...prev, error.message])
         }
         setLoading(false)
     }, [linkId])
@@ -57,29 +64,35 @@ export default function LinkListsIndex({ linkId }) {
     }
 
     async function handleCreateRelationListLink(list) {
-        const { error } = await supabase
-            .from("list_links")
-            .insert({
-                link_id: linkId,
-                list_id: list.id,
-                user_id: authUser.id
-            })
-            .single();
-        if (error) {
+        try {
+            const { error } = await supabase
+                .from("list_links")
+                .insert({
+                    link_id: linkId,
+                    list_id: list.id,
+                    user_id: authUser.id
+                })
+                .single();
+            if (error) {
+                alert("Não foi possivel salvar a informação. Motivo: ", error.message)
+                return;
+            } else {
+                addList(list)
+                dispatch(ActionNotification.addOne({
+                    header: 'Link adicionada a Lista:',
+                    body: list.name,
+                    id: list.id,
+                }))
+            }
+        } catch (error) {
             alert("Não foi possivel salvar a informação. Motivo: ", error.message)
             return;
-        } else {
-            addList(list)
-            dispatch(ActionNotification.addOne({
-                header: 'Link adicionada a Lista:',
-                body: list.name,
-                id: list.id,
-            }))
         }
-        return;
     }
 
     if (loading) return (<Loading />)
+
+    if (errors.length > 0) return (<Error errors={errors} />)
 
     return (
         <>

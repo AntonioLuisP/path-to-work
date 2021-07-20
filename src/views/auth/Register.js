@@ -32,12 +32,16 @@ const Register = () => {
     if (password.length < 9 || password.trim() === '') {
       setErrors(prev => [...prev, 'A senha deve ter no minimo 10 digitos'])
     } else {
-      const { user, error } = await supabase.auth.signUp({ email, password })
-      if (error) {
+      try {
+        const { user, error } = await supabase.auth.signUp({ email, password })
+        if (error) {
+          setErrors(prev => [...prev, error.message])
+        } else if (user && !error) {
+          alert('An email has been sent to you for verification!')
+          return;
+        }
+      } catch (error) {
         setErrors(prev => [...prev, error.message])
-      } else if (user && !error) {
-        alert('An email has been sent to you for verification!')
-        return;
       }
     }
   }

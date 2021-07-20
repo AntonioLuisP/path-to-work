@@ -9,6 +9,7 @@ import { Actions as ActionNotification } from '../../redux/notifications'
 import {
     BreadcrumbHeader,
     Loading,
+    Error,
     NoItems,
     AddButton,
     RelationButton
@@ -25,25 +26,27 @@ export default function TaskLinksIndex({ taskId, linksQtd }) {
     const { authUser } = useAuth()
 
     const [loading, setLoading] = useState(true)
+    const [errors, setErrors] = useState([])
+
     const [links, setLinks] = useState([])
 
-    useEffect(() => {
-        linksQtd(links.length)
-    }, [links, linksQtd])
-
     const fetchLinks = useCallback(async () => {
-        const { data: links, errorLinks } = await supabase
-            .from("task_links")
-            .select("task_id, links(*)")
-            .eq('task_id', taskId)
-            .order("created_at", { ascending: false });
-        if (errorLinks) {
-            console.log("errorLinks", errorLinks);
-        } else {
-            const parsedLinks = Object.entries(links).map(([key, value]) => {
-                return value.links
-            })
-            setLinks(parsedLinks)
+        try {
+            const { data: links, errorLinks } = await supabase
+                .from("task_links")
+                .select("task_id, links(*)")
+                .eq('task_id', taskId)
+                .order("created_at", { ascending: false });
+            if (errorLinks) {
+                setErrors(prev => [...prev, errorLinks.message])
+            } else {
+                const parsedLinks = Object.entries(links).map(([key, value]) => {
+                    return value.links
+                })
+                setLinks(parsedLinks)
+            }
+        } catch (error) {
+            setErrors(prev => [...prev, error.message])
         }
         setLoading(false)
     }, [taskId])
@@ -52,6 +55,9 @@ export default function TaskLinksIndex({ taskId, linksQtd }) {
         fetchLinks()
     }, [fetchLinks])
 
+    useEffect(() => {
+        linksQtd(links.length)
+    }, [links, linksQtd])
 
     function addLink(link) {
         setLinks(links => [link, ...links])
@@ -62,29 +68,35 @@ export default function TaskLinksIndex({ taskId, linksQtd }) {
     }
 
     async function handleCreateRelationTaskLink(link) {
-        const { error } = await supabase
-            .from("task_links")
-            .insert({
-                link_id: link.id,
-                task_id: taskId,
-                user_id: authUser.id
-            })
-            .single();
-        if (error) {
+        try {
+            const { error } = await supabase
+                .from("task_links")
+                .insert({
+                    link_id: link.id,
+                    task_id: taskId,
+                    user_id: authUser.id
+                })
+                .single();
+            if (error) {
+                alert("Não foi possivel salvar a informação. Motivo: ", error.message)
+                return;
+            } else {
+                addLink(link)
+                dispatch(ActionNotification.addOne({
+                    header: 'Link adicionada a Tarefa:',
+                    body: link.name,
+                    id: link.id,
+                }))
+            }
+        } catch (error) {
             alert("Não foi possivel salvar a informação. Motivo: ", error.message)
             return;
-        } else {
-            addLink(link)
-            dispatch(ActionNotification.addOne({
-                header: 'Link adicionada a Tarefa:',
-                body: link.name,
-                id: link.id,
-            }))
         }
-        return;
     }
 
     if (loading) return (<Loading />)
+
+    if (errors.length > 0) return (<Error errors={errors} />)
 
     return (
         <>

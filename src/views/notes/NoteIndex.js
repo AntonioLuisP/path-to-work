@@ -6,6 +6,7 @@ import {
     AddButton,
     BreadcrumbHeader,
     Loading,
+    Error,
     NoItems,
 } from '../../reusable'
 
@@ -16,18 +17,24 @@ import {
 export default function NoteIndex({ linkId }) {
 
     const [loading, setLoading] = useState(true)
+    const [errors, setErrors] = useState([])
+
     const [notes, setNotes] = useState([])
 
     const fetchNotes = useCallback(async () => {
-        const { data: notes, errorNotes } = await supabase
-            .from("notes")
-            .select("*")
-            .eq('link_id', linkId)
-            .order("created_at", { ascending: false });
-        if (errorNotes) {
-            console.log("errorNotes", errorNotes);
-        } else {
-            setNotes(notes)
+        try {
+            const { data: notes, errorNotes } = await supabase
+                .from("notes")
+                .select("*")
+                .eq('link_id', linkId)
+                .order("created_at", { ascending: false });
+            if (errorNotes) {
+                setErrors(prev => [...prev, errorNotes.message])
+            } else {
+                setNotes(notes)
+            }
+        } catch (error) {
+            setErrors(prev => [...prev, error.message])
         }
         setLoading(false)
     }, [linkId])
@@ -37,6 +44,8 @@ export default function NoteIndex({ linkId }) {
     }, [fetchNotes])
 
     if (loading) return (<Loading />)
+
+    if (errors.length > 0) return (<Error errors={errors} />)
 
     return (
         <>

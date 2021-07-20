@@ -14,13 +14,16 @@ import CIcon from '@coreui/icons-react'
 const OAuth = () => {
 
     async function handleOAuthLogin(provider) {
-        const { error } = await supabase.auth.signIn({ provider: provider });
-
-        if (error) {
-            console.log("Error: ", error.message)
+        try {
+            const { error } = await supabase.auth.signIn({ provider: provider });
+            if (error) {
+                alert("Erro: ", error.message)
+                return;
+            }
+        } catch (error) {
+            alert("Erro: ", error.message)
             return;
         }
-        return;
     }
 
     return (

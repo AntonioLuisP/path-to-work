@@ -7,6 +7,7 @@ import ProfileLinksIndex from '../profileLink/ProfileLinksIndex';
 
 import {
   Loading,
+  Error,
   CollapseDescription
 } from '../../reusable'
 
@@ -19,21 +20,23 @@ export default function Profile() {
   const { authUser } = useAuth()
 
   const [loading, setLoading] = useState(true)
+  const [errors, setErrors] = useState([])
   const [collapsed, setCollapsed] = useState(false)
 
   const [profile, setProfile] = useState({})
 
   const fetchProfile = useCallback(async () => {
-    const { data: profile, error } = await supabase
-      .from("profiles")
-      .select("*")
-      .eq('user_id', authUser.id)
-      .single()
-    if (error) {
-      console.log("error", error);
-    }
-    else {
-      setProfile(profile)
+    try {
+      const { data: profile, error } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq('user_id', authUser.id)
+        .single()
+      if (!error) {
+        setProfile(profile)
+      }
+    } catch (error) {
+      setErrors(prev => [...prev, error.message])
     }
     setLoading(false)
   }, [authUser.id])
@@ -43,6 +46,8 @@ export default function Profile() {
   }, [fetchProfile])
 
   if (loading) return (<Loading />)
+
+  if (errors.length > 0) return (<Error errors={errors} />)
 
   if (profile.id === undefined) {
     return (<ProfileCreate add={profile => setProfile(profile)} />)
