@@ -95,20 +95,24 @@ export default function Task() {
     }
   }
 
-  async function handleConclusion(e) {
-    e.preventDefault();
-    const { data: taskNew, error } = await supabase
-      .from("tasks")
-      .update({
-        conclusion: !task.conclusion,
-      })
-      .eq('id', task.id)
-      .single()
-    if (error) {
+  async function handleConclusion() {
+    try {
+      const { data: taskNew, error } = await supabase
+        .from("tasks")
+        .update({
+          conclusion: !task.conclusion,
+        })
+        .eq('id', task.id)
+        .single()
+      if (error) {
+        alert("Não foi possivel salvar a informação. Motivo: ", error.message)
+        return;
+      } else {
+        setTask(taskNew)
+      }
+    } catch (error) {
       alert("Não foi possivel salvar a informação. Motivo: ", error.message)
       return;
-    } else {
-      setTask(taskNew)
     }
   }
 

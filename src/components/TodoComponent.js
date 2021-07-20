@@ -19,20 +19,24 @@ export default function TodoComponent(props) {
         setModal(old => !old)
     }
 
-    async function handleConclusion(e) {
-        e.preventDefault();
-        const { data: todoNew, error } = await supabase
-            .from("todos")
-            .update({
-                conclusion: !todo.conclusion,
-            })
-            .eq('id', todo.id)
-            .single()
-        if (error) {
+    async function handleConclusion() {
+        try {
+            const { data: todoNew, error } = await supabase
+                .from("todos")
+                .update({
+                    conclusion: !todo.conclusion,
+                })
+                .eq('id', todo.id)
+                .single()
+            if (error) {
+                alert("Não foi possivel salvar a informação. Motivo: ", error.message)
+                return;
+            } else {
+                setTodo(todoNew)
+            }
+        } catch (error) {
             alert("Não foi possivel salvar a informação. Motivo: ", error.message)
             return;
-        } else {
-            setTodo(todoNew)
         }
     }
 

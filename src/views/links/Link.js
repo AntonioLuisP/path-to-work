@@ -107,20 +107,24 @@ export default function Link() {
     }
   }
 
-  async function handleFavorite(e) {
-    e.preventDefault();
-    const { data: linkNew, error } = await supabase
-      .from("links")
-      .update({
-        is_favorite: !link.is_favorite,
-      })
-      .eq('id', link.id)
-      .single()
-    if (error) {
+  async function handleFavorite() {
+    try {
+      const { data: linkNew, error } = await supabase
+        .from("links")
+        .update({
+          is_favorite: !link.is_favorite,
+        })
+        .eq('id', link.id)
+        .single()
+      if (error) {
+        alert("Não foi possivel salvar a informação. Motivo: ", error.message)
+        return;
+      } else {
+        setLink(linkNew)
+      }
+    } catch (error) {
       alert("Não foi possivel salvar a informação. Motivo: ", error.message)
       return;
-    } else {
-      setLink(linkNew)
     }
   }
 
