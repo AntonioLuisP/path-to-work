@@ -69,7 +69,7 @@ export default function TaskCreate({ add }) {
 
   return (
     <>
-      <CModalHeader>
+      <CModalHeader closeButton>
         <CModalTitle>Nova Tarefa</CModalTitle>
       </CModalHeader>
       <Form onSubmit={handleCreate} >

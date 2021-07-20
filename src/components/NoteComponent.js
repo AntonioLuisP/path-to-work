@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
+import { supabase } from '../services/supabase'
 import NoteEdit from '../views/notes/NoteEdit'
-import { Modal, EditButton } from '../reusable'
+import { Modal, EditButton, DeleteDataButton } from '../reusable'
 
 import {
     CCardHeader,
@@ -16,6 +17,22 @@ export default function NoteComponent(props) {
         setModal(old => !old)
     }
 
+    async function handleDelete() {
+        try {
+            const { errorNotes } = await supabase
+                .from('notes')
+                .delete()
+                .eq('id', note.id)
+            if (errorNotes) {
+                alert("Não foi possivel apagar a informação. Motivo: ", errorNotes.message)
+                return;
+            }
+            props.remove(note)
+        } catch (error) {
+            alert("Não foi possivel apagar a informação. Motivo: ", error.message)
+            return;
+        }
+    }
     return (
         <CCard>
             <Modal show={modal} onClose={toogleModal}>
@@ -25,6 +42,7 @@ export default function NoteComponent(props) {
                 {note.name}
                 <div className="card-header-actions">
                     <EditButton action={() => toogleModal()} />
+                    <DeleteDataButton action={() => handleDelete()} />
                 </div>
             </CCardHeader>
         </CCard>

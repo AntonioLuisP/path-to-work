@@ -59,7 +59,7 @@ export default function NoteEdit({ note, edit }) {
 
   return (
     <Form onSubmit={handleEdit} >
-      <CModalHeader>
+      <CModalHeader closeButton>
         <CModalTitle>Editar Anotação</CModalTitle>
       </CModalHeader>
       <CModalBody>

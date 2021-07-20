@@ -59,7 +59,7 @@ export default function TodoEdit({ todo, edit }) {
 
   return (
     <Form onSubmit={handleEdit} >
-      <CModalHeader>
+      <CModalHeader closeButton>
         <CModalTitle>Editar Anotação</CModalTitle>
       </CModalHeader>
       <CModalBody>

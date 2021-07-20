@@ -43,6 +43,10 @@ export default function NoteIndex({ linkId }) {
         fetchNotes()
     }, [fetchNotes])
 
+    function removeNote(item) {
+        setNotes(notes => notes.filter(note => note.id !== item.id))
+    }
+
     if (loading) return (<Loading />)
 
     if (errors.length > 0) return (<Error errors={errors} />)
@@ -55,7 +59,13 @@ export default function NoteIndex({ linkId }) {
                 />
             </BreadcrumbHeader>
             {notes <= 0 ? <NoItems /> :
-                notes.map(note => (<NoteComponent key={note.id} note={note} />))
+                notes.map(note => (
+                    <NoteComponent
+                        key={note.id}
+                        note={note}
+                        remove={note => removeNote(note)}
+                    />
+                ))
             }
         </>
     )

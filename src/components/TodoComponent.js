@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { supabase } from '../services/supabase'
 import TodoEdit from '../views/todos/TodoEdit'
-import { Modal, EditButton } from '../reusable'
+import { Modal, EditButton, DeleteDataButton } from '../reusable'
 
 import {
     CCard,
@@ -29,13 +29,30 @@ export default function TodoComponent(props) {
                 .eq('id', todo.id)
                 .single()
             if (error) {
-                alert("Não foi possivel salvar a informação. Motivo: ", error.message)
+                alert("Não foi possivel alterar essa informação. Motivo: ", error.message)
                 return;
             } else {
                 setTodo(todoNew)
             }
         } catch (error) {
-            alert("Não foi possivel salvar a informação. Motivo: ", error.message)
+            alert("Não foi possivel alterar essa informação. Motivo: ", error.message)
+            return;
+        }
+    }
+
+    async function handleDelete() {
+        try {
+            const { errorTodos } = await supabase
+                .from('todos')
+                .delete()
+                .eq('id', todo.id)
+            if (errorTodos) {
+                alert("Não foi possivel apagar a informação. Motivo: ", errorTodos.message)
+                return;
+            }
+            props.remove(todo)
+        } catch (error) {
+            alert("Não foi possivel apagar a informação. Motivo: ", error.message)
             return;
         }
     }
@@ -54,6 +71,7 @@ export default function TodoComponent(props) {
                     {todo.conclusion ? <s>{todo.name}</s> : todo.name}
                     <div className="card-header-actions">
                         <EditButton action={() => toogleModal()} />
+                        <DeleteDataButton action={() => handleDelete()} />
                     </div>
                 </CFormGroup>
             </CCardHeader>

@@ -47,6 +47,10 @@ export default function TodoIndex({ taskId, todosQtd }) {
         fetchTodos()
     }, [fetchTodos])
 
+    function removeTodo(item) {
+        setTodos(todos => todos.filter(todo => todo.id !== item.id))
+    }
+
     if (loading) return (<Loading />)
 
     if (errors.length > 0) return (<Error errors={errors} />)
@@ -57,7 +61,13 @@ export default function TodoIndex({ taskId, todosQtd }) {
                 <AddButton component={<TodoCreate taskId={taskId} add={todo => setTodos([todo, ...todos])} />} />
             </BreadcrumbHeader>
             {todos <= 0 ? <NoItems /> :
-                todos.map(todo => (<TodoComponent key={todo.id} todo={todo} />))
+                todos.map(todo => (
+                    <TodoComponent
+                        key={todo.id}
+                        todo={todo}
+                        remove={todo => removeTodo(todo)}
+                    />
+                ))
             }
         </>
     )

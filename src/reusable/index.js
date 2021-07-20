@@ -4,6 +4,7 @@ import BreadcrumbHeader from './BreadcrumbHeader'
 import CollapseDescription from './CollapseDescription'
 import ConclusionSwitch from './ConclusionSwitch'
 import DataInfo from './DataInfo'
+import DeleteDataButton from './DeleteDataButton'
 import EditButton from './EditButton'
 import Error from './Error'
 import Favorite from './Favorite'
@@ -31,6 +32,7 @@ export {
   CollapseDescription,
   ConclusionSwitch,
   DataInfo,
+  DeleteDataButton,
   EditButton,
   Error,
   Favorite,

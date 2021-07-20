@@ -53,7 +53,7 @@ export default function Task() {
         .eq('id', id)
         .single()
       if (error) {
-        console.log("error", error);
+        setErrors(prev => [...prev, error.message])
       }
       else {
         setTask(task)
@@ -69,29 +69,34 @@ export default function Task() {
   }, [fetchTask])
 
   async function handleDelete() {
-    if (window.confirm('Tem certeza que você deseja excluir?')) {
-      const { errorTaskLinks } = await supabase
+    try {
+      const { errorRelation } = await supabase
         .from('task_links')
         .delete()
         .eq('task_id', id)
-      if (errorTaskLinks) {
-        console.log("errorTaskLinks", errorTaskLinks)
-      } else {
-        const { errorTodos } = await supabase
-          .from('todos')
-          .delete()
-          .eq('task_id', id)
-        if (errorTodos) {
-          console.log("errorTodos", errorTodos)
-        } else {
-          const { error } = await supabase
-            .from('tasks')
-            .delete()
-            .eq('id', id)
-          if (error) console.log("error", error);
-          else history.push('/tasks');
-        }
+      if (errorRelation) {
+        alert("Não foi possivel apagar a informação. Motivo: ", errorRelation.message)
+        return;
       }
+      const { errorTodos } = await supabase
+        .from('todos')
+        .delete()
+        .eq('task_id', id)
+      if (errorTodos) {
+        alert("Não foi possivel apagar a informação. Motivo: ", errorTodos.message)
+        return;
+      }
+      const { error } = await supabase
+        .from('tasks')
+        .delete()
+        .eq('id', id)
+      if (error) {
+        alert("Não foi possivel apagar a informação. Motivo: ", error.message)
+      }
+      else history.push('/tasks');
+    } catch (error) {
+      alert("Não foi possivel apagar a informação. Motivo: ", error.message)
+      return;
     }
   }
 

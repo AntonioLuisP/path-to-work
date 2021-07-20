@@ -60,21 +60,26 @@ export default function List() {
   }, [fetchList])
 
   async function handleDelete() {
-    if (window.confirm('Tem certeza que você deseja excluir?')) {
+    try {
       const { errorRelation } = await supabase
         .from('list_links')
         .delete()
         .eq('list_id', id)
       if (errorRelation) {
-        console.log("errorRelation", errorRelation);
-      } else {
-        const { errorList } = await supabase
-          .from('lists')
-          .delete()
-          .eq('id', id)
-        if (errorList) console.log("errorList", errorList);
-        else history.push('/lists');
+        alert("Não foi possivel apagar a informação. Motivo: ", errorRelation.message)
+        return;
       }
+      const { error } = await supabase
+        .from('lists')
+        .delete()
+        .eq('id', id)
+      if (error) {
+        alert("Não foi possivel apagar a informação. Motivo: ", error.message)
+      }
+      else history.push('/lists');
+    } catch (error) {
+      alert("Não foi possivel apagar a informação. Motivo: ", error.message)
+      return;
     }
   }
 

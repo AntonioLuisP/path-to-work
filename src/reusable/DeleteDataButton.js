@@ -14,11 +14,13 @@ const DeleteDataButton = ({ action }) => {
             className="card-header-action"
             onClick={() => {
                 const sinal = navigator.onLine
-                if (!sinal){
+                if (!sinal) {
                     alert('Você está sem internet')
                     return;
                 }
-                action()
+                if (window.confirm('Tem certeza que deseja excluir essa informação???')) {
+                    action()
+                }
             }}
         >
             <CTooltip

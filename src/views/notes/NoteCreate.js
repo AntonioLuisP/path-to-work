@@ -83,7 +83,6 @@ export default function NoteCreate({ linkId, add }) {
         </CModalBody>
         <CModalFooter>
           {!sinal ? (<NosignalBadge />) : <LoadButton load={load} />}
-          {!sinal ? (<NosignalBadge />) : <LoadButton load={load} />}
         </CModalFooter>
       </Form>
     </>

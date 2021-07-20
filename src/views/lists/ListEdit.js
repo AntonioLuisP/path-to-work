@@ -58,7 +58,7 @@ export default function ListEdit(props) {
 
   return (
     <Form onSubmit={handleEdit} >
-      <CModalHeader>
+      <CModalHeader closeButton>
         <CModalTitle>Editar Lista</CModalTitle>
       </CModalHeader>
       <CModalBody>

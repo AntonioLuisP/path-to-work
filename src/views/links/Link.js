@@ -66,44 +66,50 @@ export default function Link() {
   }, [fetchLink])
 
   async function handleDelete() {
-    if (window.confirm('Tem certeza que você deseja excluir?')) {
+    try {
       const { errorListLinks } = await supabase
         .from('list_links')
         .delete()
         .eq('link_id', id)
       if (errorListLinks) {
-        console.log("errorListLinks", errorListLinks);
+        alert("Não foi possivel apagar a informação. Motivo: ", errorListLinks.message)
+        return;
       }
       const { errorTaskLinks } = await supabase
         .from('task_links')
         .delete()
         .eq('link_id', id)
       if (errorTaskLinks) {
-        console.log("errorTaskLinks", errorTaskLinks)
+        alert("Não foi possivel apagar a informação. Motivo: ", errorTaskLinks.message)
+        return;
       }
       const { errorProfileLinks } = await supabase
         .from('profile_links')
         .delete()
         .eq('link_id', id)
       if (errorProfileLinks) {
-        console.log("errorProfileLinks", errorProfileLinks)
+        alert("Não foi possivel apagar a informação. Motivo: ", errorProfileLinks.message)
+        return;
       }
-      if (!errorListLinks && !errorTaskLinks) {
-        const { errorNotes } = await supabase
-          .from('notes')
-          .delete()
-          .eq('link_id', id)
-        if (errorNotes) {
-          console.log("errorNotes", errorNotes)
-        } else {
-          const { error } = await supabase
-            .from('links')
-            .delete()
-            .eq('id', id)
-          if (error) console.log("error", error);
-          else history.push('/links');
-        }
+      const { errorNotes } = await supabase
+        .from('notes')
+        .delete()
+        .eq('link_id', id)
+      if (errorNotes) {
+        alert("Não foi possivel apagar a informação. Motivo: ", errorNotes.message)
+        return;
       }
+      const { error } = await supabase
+        .from('links')
+        .delete()
+        .eq('id', id)
+      if (error) {
+        alert("Não foi possivel apagar a informação. Motivo: ", error.message)
+      }
+      else history.push('/links');
+    } catch (error) {
+      alert("Não foi possivel apagar a informação. Motivo: ", error.message)
+      return;
     }
   }
 
